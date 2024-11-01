@@ -21,3 +21,7 @@ of(42).subscribe(() => console.log(value));
 ## Options
 
 This rule has no options.
+
+## Further reading
+
+- [Why does this rule exist?](https://stackoverflow.com/q/71559135)
