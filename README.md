@@ -1,5 +1,8 @@
 # eslint-plugin-rxjs-x
 
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/master/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/eslint-plugin-rxjs-x.svg)](https://www.npmjs.com/package/eslint-plugin-rxjs-x)
+
 This package contains a bunch of ESLint v9+ rules for RxJS.
 It is a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
 initially started to support the new ESLint flat config format.
