@@ -1144,7 +1144,6 @@ __metadata:
     eslint: "npm:^8.0.0"
     lint-staged: "npm:^13.0.0"
     mocha: "npm:^9.0.0"
-    requireindex: "npm:~1.2.0"
     rimraf: "npm:^3.0.0"
     rxjs: "npm:^7.0.0"
     ts-node: "npm:^10.0.0"
@@ -2833,13 +2832,6 @@ __metadata:
   version: 2.1.1
   resolution: "require-directory@npm:2.1.1"
   checksum: 10c0/83aa76a7bc1531f68d92c75a2ca2f54f1b01463cb566cf3fbc787d0de8be30c9dbc211d1d46be3497dac5785fe296f2dd11d531945ac29730643357978966e99
-  languageName: node
-  linkType: hard
-
-"requireindex@npm:~1.2.0":
-  version: 1.2.0
-  resolution: "requireindex@npm:1.2.0"
-  checksum: 10c0/7fb42aed73bf8de9acc4d6716cf07acc7fbe180e58729433bafcf702e76e7bb10e54f8266c06bfec62d752e0ac14d50e8758833de539e6f4e2cd642077866153
   languageName: node
   linkType: hard
 
