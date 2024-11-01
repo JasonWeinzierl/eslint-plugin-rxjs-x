@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
 import rule = require("../../src/rules/no-explicit-generics");
+import { fromFixture } from "../etc";
 import { ruleTester } from "../utils";
 
 ruleTester({ types: false }).run("no-explicit-generics", rule, {

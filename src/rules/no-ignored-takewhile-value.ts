@@ -4,7 +4,7 @@ import {
   isIdentifier,
   isImport,
   isObjectPattern,
-} from "eslint-etc";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({

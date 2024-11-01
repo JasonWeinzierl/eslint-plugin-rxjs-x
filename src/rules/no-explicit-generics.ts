@@ -1,5 +1,5 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, isArrayExpression, isObjectExpression } from "eslint-etc";
+import { getParent, isArrayExpression, isObjectExpression } from "../etc";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({

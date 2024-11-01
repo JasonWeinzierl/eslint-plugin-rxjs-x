@@ -10,7 +10,7 @@ import {
   isIdentifier,
   isMemberExpression,
   isProgram,
-} from "eslint-etc";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({

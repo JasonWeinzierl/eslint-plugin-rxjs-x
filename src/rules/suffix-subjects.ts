@@ -5,7 +5,7 @@ import {
   getParent,
   getParserServices,
   getTypeServices,
-} from "eslint-etc";
+} from "../etc";
 import { escapeRegExp, ruleCreator } from "../utils";
 
 const defaultOptions: readonly {

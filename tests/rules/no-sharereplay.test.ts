@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
 import rule = require("../../src/rules/no-sharereplay");
+import { fromFixture } from "../etc";
 import { ruleTester } from "../utils";
 
 ruleTester({ types: false }).run("no-sharereplay", rule, {

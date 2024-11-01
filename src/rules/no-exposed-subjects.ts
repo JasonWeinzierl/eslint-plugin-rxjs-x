@@ -1,5 +1,5 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getTypeServices, isIdentifier } from "eslint-etc";
+import { getTypeServices, isIdentifier } from "../etc";
 import { ruleCreator } from "../utils";
 
 const defaultAllowedTypesRegExp = /^EventEmitter$/;

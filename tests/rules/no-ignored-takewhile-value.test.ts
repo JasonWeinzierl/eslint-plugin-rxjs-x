@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
 import rule = require("../../src/rules/no-ignored-takewhile-value");
+import { fromFixture } from "../etc";
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {

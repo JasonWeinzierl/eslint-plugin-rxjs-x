@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
 import rule = require("../../src/rules/ban-operators");
+import { fromFixture } from "../etc";
 import { ruleTester } from "../utils";
 
 ruleTester({ types: false }).run("ban-operators", rule, {

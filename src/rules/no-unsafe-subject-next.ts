@@ -1,12 +1,12 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
+import * as tsutils from "tsutils";
+import { couldBeType, isReferenceType, isUnionType } from "tsutils-etc";
+import * as ts from "typescript";
 import {
   getParserServices,
   getTypeServices,
   isMemberExpression,
-} from "eslint-etc";
-import * as tsutils from "tsutils";
-import { couldBeType, isReferenceType, isUnionType } from "tsutils-etc";
-import * as ts from "typescript";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({

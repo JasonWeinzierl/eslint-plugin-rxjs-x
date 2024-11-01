@@ -1,7 +1,7 @@
 import { TSESLint as eslint } from "@typescript-eslint/experimental-utils";
 import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
 import rule = require("../../src/rules/no-unbound-methods");
+import { fromFixture } from "../etc";
 import { ruleTester } from "../utils";
 
 interface Tests {

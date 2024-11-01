@@ -1,13 +1,13 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { stripIndent } from "common-tags";
+import { defaultObservable } from "../constants";
 import {
   getTypeServices,
   isArrowFunctionExpression,
   isCallExpression,
   isFunctionDeclaration,
   isIdentifier,
-} from "eslint-etc";
-import { defaultObservable } from "../constants";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 const defaultOptions: readonly {

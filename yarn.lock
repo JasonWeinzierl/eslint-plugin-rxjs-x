@@ -1083,20 +1083,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-etc@npm:^5.1.0":
-  version: 5.2.0
-  resolution: "eslint-etc@npm:5.2.0"
-  dependencies:
-    "@typescript-eslint/experimental-utils": "npm:^5.0.0"
-    tsutils: "npm:^3.17.1"
-    tsutils-etc: "npm:^1.4.1"
-  peerDependencies:
-    eslint: ^8.0.0
-    typescript: ^4.0.0
-  checksum: 10c0/950924f61ee7d17b46006475e2e847ac6b0a4854a66753a851f2ee9d7501076d5db930638982d478755a002b9dd6f4bb55d11a32c4c387c8644b595a2120699c
-  languageName: node
-  linkType: hard
-
 "eslint-import-resolver-node@npm:^0.3.6":
   version: 0.3.6
   resolution: "eslint-import-resolver-node@npm:0.3.6"
@@ -1156,7 +1142,6 @@ __metadata:
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.0"
     eslint: "npm:^8.0.0"
-    eslint-etc: "npm:^5.1.0"
     lint-staged: "npm:^13.0.0"
     mocha: "npm:^9.0.0"
     requireindex: "npm:~1.2.0"
@@ -3350,7 +3335,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsutils@npm:^3.0.0, tsutils@npm:^3.17.1, tsutils@npm:^3.21.0":
+"tsutils@npm:^3.0.0, tsutils@npm:^3.21.0":
   version: 3.21.0
   resolution: "tsutils@npm:3.21.0"
   dependencies:

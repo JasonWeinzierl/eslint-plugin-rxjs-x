@@ -1,5 +1,5 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent } from "eslint-etc";
+import { getParent } from "../etc";
 import { ruleCreator } from "../utils";
 
 const rule = ruleCreator({

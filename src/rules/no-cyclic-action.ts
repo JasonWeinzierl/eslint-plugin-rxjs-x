@@ -1,8 +1,8 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { stripIndent } from "common-tags";
-import { getTypeServices, isCallExpression, isIdentifier } from "eslint-etc";
 import ts from "typescript";
 import { defaultObservable } from "../constants";
+import { getTypeServices, isCallExpression, isIdentifier } from "../etc";
 import { ruleCreator } from "../utils";
 
 function isTypeReference(type: ts.Type): type is ts.TypeReference {

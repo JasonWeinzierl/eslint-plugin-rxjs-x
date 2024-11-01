@@ -6,7 +6,7 @@ import {
   isCallExpression,
   isIdentifier,
   isMemberExpression,
-} from "eslint-etc";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 const defaultOptions: readonly {

@@ -1,14 +1,14 @@
 import { TSESTree as es } from "@typescript-eslint/experimental-utils";
 import { stripIndent } from "common-tags";
 import decamelize from "decamelize";
+import { defaultObservable } from "../constants";
 import {
   getTypeServices,
   isCallExpression,
   isIdentifier,
   isLiteral,
   isMemberExpression,
-} from "eslint-etc";
-import { defaultObservable } from "../constants";
+} from "../etc";
 import { createRegExpForWords, ruleCreator } from "../utils";
 
 const defaultOptions: readonly {

@@ -12,7 +12,7 @@ import {
   isMemberExpression,
   isObjectExpression,
   isProperty,
-} from "eslint-etc";
+} from "../etc";
 import { ruleCreator } from "../utils";
 
 function isParenthesised(

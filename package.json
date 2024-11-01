@@ -39,7 +39,6 @@
     "@typescript-eslint/experimental-utils": "^5.0.0",
     "common-tags": "^1.8.0",
     "decamelize": "^5.0.0",
-    "eslint-etc": "^5.1.0",
     "requireindex": "~1.2.0",
     "tslib": "^2.0.0",
     "tsutils": "^3.0.0",
