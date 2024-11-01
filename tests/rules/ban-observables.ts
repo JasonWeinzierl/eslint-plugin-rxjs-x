@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/ban-observables");
+import rule = require("../../src/rules/ban-observables");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: false }).run("ban-observables", rule, {

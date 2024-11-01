@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-finnish");
+import rule = require("../../src/rules/no-finnish");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-finnish", rule, {

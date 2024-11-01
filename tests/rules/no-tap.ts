@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-tap");
+import rule = require("../../src/rules/no-tap");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: false }).run("no-tap", rule, {

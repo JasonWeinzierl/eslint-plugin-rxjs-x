@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-subscribe-handlers");
+import rule = require("../../src/rules/no-subscribe-handlers");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-subscribe-handlers", rule, {

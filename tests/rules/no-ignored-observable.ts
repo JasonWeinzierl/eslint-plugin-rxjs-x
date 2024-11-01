@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-ignored-observable");
+import rule = require("../../src/rules/no-ignored-observable");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-ignored-observable", rule, {

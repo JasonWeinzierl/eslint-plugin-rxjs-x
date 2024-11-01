@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/just");
+import rule = require("../../src/rules/just");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("just", rule, {

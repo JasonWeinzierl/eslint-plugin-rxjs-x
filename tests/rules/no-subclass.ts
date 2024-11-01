@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-subclass");
+import rule = require("../../src/rules/no-subclass");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-subclass", rule, {

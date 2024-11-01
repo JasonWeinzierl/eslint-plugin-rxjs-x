@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-subject-value");
+import rule = require("../../src/rules/no-subject-value");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-subject-value", rule, {

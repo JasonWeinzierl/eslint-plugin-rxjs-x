@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import decamelize from "decamelize";
-import { createRegExpForWords } from "../source/utils";
+import { createRegExpForWords } from "../src/utils";
 
 describe("utils", () => {
   describe("createRegExpForWords", () => {

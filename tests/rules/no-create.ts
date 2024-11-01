@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-create");
+import rule = require("../../src/rules/no-create");
 import { ruleTester } from "../utils";
 
 ruleTester({ types: true }).run("no-create", rule, {

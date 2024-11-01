@@ -1,6 +1,6 @@
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-unsafe-catch");
+import rule = require("../../src/rules/no-unsafe-catch");
 import { ruleTester } from "../utils";
 
 const setup = stripIndent`
