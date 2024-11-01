@@ -46,6 +46,6 @@ jobs:
       - name: Report Coverage
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
-          coverage-files: coverage/lcov.*.info
+          coverage-files: coverage/lcov.info
           github-token: ${{ secrets.GITHUB_TOKEN }}
           update-comment: true
