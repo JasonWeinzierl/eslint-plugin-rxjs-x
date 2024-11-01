@@ -3,8 +3,7 @@ import { TSESTree } from "@typescript-eslint/experimental-utils";
 export function hasTypeAnnotation<T extends TSESTree.Node>(
   node: T
 ): node is T & { typeAnnotation: TSESTree.TSTypeAnnotation } {
-  // TODO: fix cartant/eslint-etc#12
-  return node.hasOwnProperty("typeAnnotation");
+  return 'typeAnnotation' in node && !!node.typeAnnotation;
 }
 
 export function isArrayExpression(node: TSESTree.Node): node is TSESTree.ArrayExpression {
