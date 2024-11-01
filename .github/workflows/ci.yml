@@ -32,5 +32,18 @@ jobs:
       - name: Install Packages
         run: yarn install
 
-      - name: Test
-        run: yarn test
+      - name: Type Check
+        run: yarn typecheck
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Test Coverage
+        run: yarn coverage
+
+      - name: Report Coverage
+        uses: zgosalvez/github-actions-report-lcov@v4
+        with:
+          coverage-files: coverage/lcov.*.info
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
