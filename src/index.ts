@@ -91,11 +91,11 @@ const plugin = {
   },
 } satisfies TSESLint.FlatConfig.Plugin;
 
-const configs = {
-  recommended: createRecommendedConfig(plugin),
-} satisfies TSESLint.FlatConfig.SharedConfigs;
-
-export default {
+const rxjsX = {
   ...plugin,
-  configs,
-};
+  configs: {
+    recommended: createRecommendedConfig(plugin),
+  },
+} satisfies TSESLint.FlatConfig.Plugin;
+
+export default rxjsX;
