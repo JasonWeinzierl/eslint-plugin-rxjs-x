@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-connectable");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noConnectableRule } from '../../src/rules/no-connectable';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-connectable", rule, {
+ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
   valid: [
     {
       code: stripIndent`
@@ -62,7 +62,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           publish()
           ~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -73,7 +73,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           publishBehavior(1)
           ~~~~~~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -84,7 +84,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           publishLast()
           ~~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -95,7 +95,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           publishReplay(1)
           ~~~~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -106,7 +106,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           multicast(new Subject<number>())
           ~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -117,7 +117,7 @@ ruleTester({ types: true }).run("no-connectable", rule, {
           multicast(() => new Subject<number>())
           ~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
   ],
 });

@@ -1,34 +1,34 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
 import {
   isArrayPattern,
   isIdentifier,
   isImport,
   isObjectPattern,
-} from "../etc";
-import { ruleCreator } from "../utils";
+} from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIgnoredTakewhileValueRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids ignoring the value within `takeWhile`.",
-      recommended: "error",
+      description: 'Forbids ignoring the value within `takeWhile`.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Ignoring the value within takeWhile is forbidden.",
+      forbidden: 'Ignoring the value within takeWhile is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-ignored-takewhile-value",
+  name: 'no-ignored-takewhile-value',
   create: (context) => {
     function checkNode(
-      expression: es.ArrowFunctionExpression | es.FunctionExpression
+      expression: es.ArrowFunctionExpression | es.FunctionExpression,
     ) {
-      const scope = context.getScope();
-      if (!isImport(scope, "takeWhile", /^rxjs\/?/)) {
+      const scope = context.sourceCode.getScope(expression);
+      if (!isImport(scope, 'takeWhile', /^rxjs\/?/)) {
         return;
       }
       let ignored = true;
@@ -36,7 +36,7 @@ const rule = ruleCreator({
       if (param) {
         if (isIdentifier(param)) {
           const variable = scope.variables.find(
-            ({ name }) => name === param.name
+            ({ name }) => name === param.name,
           );
           if (variable && variable.references.length > 0) {
             ignored = false;
@@ -49,21 +49,19 @@ const rule = ruleCreator({
       }
       if (ignored) {
         context.report({
-          messageId: "forbidden",
+          messageId: 'forbidden',
           node: expression,
         });
       }
     }
 
     return {
-      "CallExpression[callee.name='takeWhile'] > ArrowFunctionExpression": (
-        node: es.ArrowFunctionExpression
-      ) => checkNode(node),
-      "CallExpression[callee.name='takeWhile'] > FunctionExpression": (
-        node: es.FunctionExpression
-      ) => checkNode(node),
+      'CallExpression[callee.name=\'takeWhile\'] > ArrowFunctionExpression': (
+        node: es.ArrowFunctionExpression,
+      ) => { checkNode(node); },
+      'CallExpression[callee.name=\'takeWhile\'] > FunctionExpression': (
+        node: es.FunctionExpression,
+      ) => { checkNode(node); },
     };
   },
 });
-
-export = rule;

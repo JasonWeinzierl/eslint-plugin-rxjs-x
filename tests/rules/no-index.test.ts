@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-index");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIndexRule } from '../../src/rules/no-index';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("no-index", rule, {
+ruleTester({ types: false }).run('no-index', noIndexRule, {
   valid: [
     stripIndent`
       // no index double quote
@@ -32,7 +32,7 @@ ruleTester({ types: false }).run("no-index", rule, {
                                       ~~~~~~~~~~~~~~~~~~~~ [forbidden]
         import { WebSocketSubject } from "rxjs/webSocket/index";
                                          ~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -45,7 +45,7 @@ ruleTester({ types: false }).run("no-index", rule, {
                                       ~~~~~~~~~~~~~~~~~~~~ [forbidden]
         import { WebSocketSubject } from 'rxjs/webSocket/index';
                                          ~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

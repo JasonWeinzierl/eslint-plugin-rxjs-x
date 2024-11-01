@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/suffix-subjects");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { suffixSubjectsRule } from '../../src/rules/suffix-subjects';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("suffix-subjects", rule, {
+ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
   valid: [
     {
       code: stripIndent`
@@ -147,7 +147,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
         (someSub: Subject<any>): void;
       }
     `,
-      options: [{ suffix: "Sub" }],
+      options: [{ suffix: 'Sub' }],
     },
     {
       code: stripIndent`
@@ -196,7 +196,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
 
       }
     `,
-      options: [{ suffix: "Sub" }],
+      options: [{ suffix: 'Sub' }],
     },
     {
       code: stripIndent`
@@ -219,7 +219,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
       options: [
         {
           types: {
-            "^Thing$": false,
+            '^Thing$': false,
           },
         },
       ],
@@ -326,7 +326,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           (some: Subject<any>): void;
            ~~~~ [forbidden { "suffix": "Subject" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -363,7 +363,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           (some: Subject<any>): void;
         }
       `,
-      { options: [{ parameters: false }] }
+      { options: [{ parameters: false }] },
     ),
     fromFixture(
       stripIndent`
@@ -408,7 +408,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
            ~~~~ [forbidden { "suffix": "Sub" }]
         }
       `,
-      { options: [{ suffix: "Sub" }] }
+      { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
       stripIndent`
@@ -445,7 +445,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           some: Subject<any>;
           ~~~~ [forbidden { "suffix": "Subject" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -475,7 +475,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           some: Subject<any>;
         }
       `,
-      { options: [{ properties: false }] }
+      { options: [{ properties: false }] },
     ),
     fromFixture(
       stripIndent`
@@ -513,7 +513,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           ~~~~ [forbidden { "suffix": "Sub" }]
         }
       `,
-      { options: [{ suffix: "Sub" }] }
+      { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
       stripIndent`
@@ -524,7 +524,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
               ~~~ [forbidden { "suffix": "Subject" }]
         const some = new Subject<any>();
               ~~~~ [forbidden { "suffix": "Subject" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -536,7 +536,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
         const some = new Subject<any>();
               ~~~~ [forbidden { "suffix": "Sub" }]
       `,
-      { options: [{ suffix: "Sub" }] }
+      { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
       stripIndent`
@@ -550,7 +550,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           someMethod([someParam]: Subject<any>[]): void {}
                       ~~~~~~~~~ [forbidden { "suffix": "Subject" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -564,7 +564,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           someMethod({ source }: Record<string, Subject<any>>): void {}
                        ~~~~~~ [forbidden { "suffix": "Subject" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -575,7 +575,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
           constructor(public some: Subject<any>) {}
                              ~~~~ [forbidden { "suffix": "Subject" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -584,7 +584,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
 
         const source = new BehaviorSubject<number>(42);
               ~~~~~~ [forbidden { "suffix": "Subject" }]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -597,7 +597,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
         const someSubject$ = new BehaviorSubject<number>(54);
               ~~~~~~~~~~~~ [forbidden { "suffix": "$$" }]
       `,
-      { options: [{ suffix: "$$" }] }
+      { options: [{ suffix: '$$' }] },
     ),
     fromFixture(
       stripIndent`
@@ -610,7 +610,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
                  ~~~~~~~~~~~~~ [forbidden { "suffix": "$$" }]
         }
       `,
-      { options: [{ suffix: "$$" }] }
+      { options: [{ suffix: '$$' }] },
     ),
     fromFixture(
       stripIndent`
@@ -620,7 +620,7 @@ ruleTester({ types: true }).run("suffix-subjects", rule, {
 
         const source = new MySubject<number>();
               ~~~~~~ [forbidden { "suffix": "Subject" }]
-      `
+      `,
     ),
   ],
 });

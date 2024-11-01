@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/ban-observables");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { banObservablesRule } from '../../src/rules/ban-observables';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("ban-observables", rule, {
+ruleTester({ types: false }).run('ban-observables', banObservablesRule, {
   valid: [
     {
       code: `import { of, Observable } from "rxjs";`,
@@ -20,11 +20,11 @@ ruleTester({ types: false }).run("ban-observables", rule, {
         options: [
           {
             of: true,
-            Observable: "because I say so",
+            Observable: 'because I say so',
             Subject: false,
           },
         ],
-      }
+      },
     ),
   ],
 });

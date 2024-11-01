@@ -1,31 +1,29 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
 import {
-  getParent,
   getTypeServices,
   isCallExpression,
-  isMemberExpression,
-} from "../etc";
-import { ruleCreator } from "../utils";
+  isMemberExpression } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noUnboundMethodsRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the passing of unbound methods.",
-      recommended: "error",
+      description: 'Forbids the passing of unbound methods.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Unbound methods are forbidden.",
+      forbidden: 'Unbound methods are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-unbound-methods",
+  name: 'no-unbound-methods',
   create: (context) => {
-    const { couldBeObservable, couldBeSubscription, getType } =
-      getTypeServices(context);
+    const { couldBeObservable, couldBeSubscription, getType }
+      = getTypeServices(context);
     const nodeMap = new WeakMap<es.Node, void>();
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
@@ -39,49 +37,47 @@ const rule = ruleCreator({
 
     function isObservableOrSubscription(
       node: es.CallExpression,
-      action: (node: es.CallExpression) => void
+      action: (node: es.CallExpression) => void,
     ) {
       if (!isMemberExpression(node.callee)) {
         return;
       }
 
       if (
-        couldBeObservable(node.callee.object) ||
-        couldBeSubscription(node.callee.object)
+        couldBeObservable(node.callee.object)
+        || couldBeSubscription(node.callee.object)
       ) {
         action(node);
       }
     }
 
     return {
-      "CallExpression[callee.property.name='pipe']": (
-        node: es.CallExpression
+      'CallExpression[callee.property.name=\'pipe\']': (
+        node: es.CallExpression,
       ) => {
         isObservableOrSubscription(node, ({ arguments: args }) => {
           args.filter(isCallExpression).forEach(mapArguments);
         });
       },
-      "CallExpression[callee.property.name=/^(add|subscribe)$/]": (
-        node: es.CallExpression
+      'CallExpression[callee.property.name=/^(add|subscribe)$/]': (
+        node: es.CallExpression,
       ) => {
         isObservableOrSubscription(node, mapArguments);
       },
-      "NewExpression[callee.name='Subscription']": mapArguments,
-      ThisExpression: (node: es.ThisExpression) => {
-        let parent = getParent(node);
+      'NewExpression[callee.name=\'Subscription\']': mapArguments,
+      'ThisExpression': (node: es.ThisExpression) => {
+        let parent = node.parent as es.Node | undefined;
         while (parent) {
           if (nodeMap.has(parent)) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: parent,
             });
             return;
           }
-          parent = getParent(parent);
+          parent = parent.parent;
         }
       },
     };
   },
 });
-
-export = rule;

@@ -1,15 +1,14 @@
-import { TSESLint, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
 import * as tsutils from 'tsutils-etc';
 import * as ts from 'typescript';
-import { getParserServices } from "./get-parser-services";
-import { isArrowFunctionExpression, isFunctionDeclaration } from "./is";
+import { isArrowFunctionExpression, isFunctionDeclaration } from './is';
 
 export function getTypeServices<
   TMessageIds extends string,
   TOptions extends readonly unknown[],
 >(context: TSESLint.RuleContext<TMessageIds, Readonly<TOptions>>) {
-  const services = getParserServices(context);
-  const { esTreeNodeToTSNodeMap, program } = services;
+  const services = ESLintUtils.getParserServices(context);
+  const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = services;
   const typeChecker = program.getTypeChecker();
 
   const couldBeType = (
@@ -56,15 +55,13 @@ export function getTypeServices<
   };
 
   const getType = (node: TSESTree.Node): ts.Type => {
-    // TODO: typescript-eslint v6 has a shortcut `getTypeAtLocation` returned from `getParserServices()`.
-    const tsNode = esTreeNodeToTSNodeMap.get(node);
-    return tsNode && typeChecker.getTypeAtLocation(tsNode);
+    return getTypeAtLocation(node);
   };
 
   return {
     couldBeBehaviorSubject: (node: TSESTree.Node) =>
       couldBeType(node, 'BehaviorSubject'),
-    couldBeError: (node: TSESTree.Node) => couldBeType(node, "Error"),
+    couldBeError: (node: TSESTree.Node) => couldBeType(node, 'Error'),
     couldBeFunction: (node: TSESTree.Node) => {
       if (isArrowFunctionExpression(node) || isFunctionDeclaration(node)) {
         return true;

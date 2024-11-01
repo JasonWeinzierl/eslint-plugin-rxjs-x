@@ -1,5 +1,5 @@
-import { AST_NODE_TYPES, TSESLint } from "@typescript-eslint/experimental-utils";
-import { DefinitionType } from "@typescript-eslint/scope-manager";
+import { DefinitionType } from '@typescript-eslint/scope-manager';
+import { AST_NODE_TYPES, TSESLint } from '@typescript-eslint/utils';
 
 export function isImport(
   scope: TSESLint.Scope.Scope,
@@ -19,4 +19,3 @@ export function isImport(
   }
   return scope.upper ? isImport(scope.upper, name, source) : false;
 }
-

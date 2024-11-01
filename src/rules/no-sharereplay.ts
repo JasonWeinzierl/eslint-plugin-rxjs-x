@@ -1,51 +1,51 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   allowConfig?: boolean;
 }[] = [];
 
-const rule = ruleCreator({
+export const noSharereplayRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: "Forbids using the `shareReplay` operator.",
-      recommended: "error",
+      description: 'Forbids using the `shareReplay` operator.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "shareReplay is forbidden.",
+      forbidden: 'shareReplay is forbidden.',
       forbiddenWithoutConfig:
-        "shareReplay is forbidden unless a config argument is passed.",
+        'shareReplay is forbidden unless a config argument is passed.',
     },
     schema: [
       {
         properties: {
-          allowConfig: { type: "boolean" },
+          allowConfig: { type: 'boolean' },
         },
-        type: "object",
+        type: 'object',
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-sharereplay",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'no-sharereplay',
+  create: (context) => {
     const [config = {}] = context.options;
     const { allowConfig = true } = config;
     return {
-      "CallExpression[callee.name='shareReplay']": (
-        node: es.CallExpression
+      'CallExpression[callee.name=\'shareReplay\']': (
+        node: es.CallExpression,
       ) => {
         let report = true;
         if (allowConfig) {
-          report =
-            node.arguments.length !== 1 ||
-            node.arguments[0].type !== "ObjectExpression";
+          report
+            = node.arguments.length !== 1
+            || node.arguments[0].type !== AST_NODE_TYPES.ObjectExpression;
         }
         if (report) {
           context.report({
-            messageId: allowConfig ? "forbiddenWithoutConfig" : "forbidden",
+            messageId: allowConfig ? 'forbiddenWithoutConfig' : 'forbidden',
             node: node.callee,
           });
         }
@@ -53,5 +53,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

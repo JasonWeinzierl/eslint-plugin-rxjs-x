@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-explicit-generics");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noExplicitGenericsRule } from '../../src/rules/no-explicit-generics';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("no-explicit-generics", rule, {
+ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule, {
   valid: [
     {
       code: stripIndent`
@@ -48,31 +48,31 @@ ruleTester({ types: false }).run("no-explicit-generics", rule, {
           scan<number, string>((acc, value) => acc + value, "")
           ~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         const b = new BehaviorSubject<number>(42);
                       ~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
         const f = from<number>([42, 54]);
                   ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
       const o = of<number>(42, 54);
                 ~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
       const n = new Notification<number>("N", 42);
                     ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

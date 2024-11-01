@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-internal");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noInternalRule } from '../../src/rules/no-internal';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("no-internal", rule, {
+ruleTester({ types: false }).run('no-internal', noInternalRule, {
   valid: [
     stripIndent`
       // no internal double quote
@@ -33,7 +33,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal double quote
               import { concat } from "rxjs";
@@ -41,7 +41,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
             `,
           },
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal double quote
               import { concat } from "rxjs/internal/observable/concat";
@@ -49,7 +49,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -67,7 +67,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal single quote
               import { concat } from 'rxjs';
@@ -75,7 +75,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
             `,
           },
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal single quote
               import { concat } from 'rxjs/internal/observable/concat';
@@ -83,7 +83,7 @@ ruleTester({ types: false }).run("no-internal", rule, {
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -98,14 +98,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal ajax
               import { ajax } from "rxjs";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -120,14 +120,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal fetch
               import { fromFetch } from "rxjs/fetch";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -142,14 +142,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal webSocket
               import { webSocket } from "rxjs/webSocket";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -164,14 +164,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal observable
               import { concat } from "rxjs";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -186,14 +186,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal operator
               import { map } from "rxjs/operators";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -208,14 +208,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal scheduled
               import { scheduled } from "rxjs";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -230,14 +230,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal scheduler
               import { asap } from "rxjs";
             `,
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -252,14 +252,14 @@ ruleTester({ types: false }).run("no-internal", rule, {
         `,
         suggestions: [
           {
-            messageId: "suggest",
+            messageId: 'suggest',
             output: stripIndent`
               // internal testing
               import { TestScheduler } from "rxjs/testing";
             `,
           },
         ],
-      }
+      },
     ),
   ],
 });

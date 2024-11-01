@@ -1,46 +1,45 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { stripIndent } from "common-tags";
-import { defaultObservable } from "../constants";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { stripIndent } from 'common-tags';
+import { defaultObservable } from '../constants';
 import {
   getTypeServices,
   isArrowFunctionExpression,
   isCallExpression,
   isFunctionDeclaration,
-  isIdentifier,
-} from "../etc";
-import { ruleCreator } from "../utils";
+  isIdentifier } from '../etc';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   observable?: string;
 }[] = [];
 
-const rule = ruleCreator({
+export const noUnsafeCatchRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: "Forbids unsafe `catchError` usage in effects and epics.",
+      description: 'Forbids unsafe `catchError` usage in effects and epics.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Unsafe catchError usage in effects and epics are forbidden.",
+      forbidden: 'Unsafe catchError usage in effects and epics are forbidden.',
     },
     schema: [
       {
         properties: {
-          observable: { type: "string" },
+          observable: { type: 'string' },
         },
-        type: "object",
+        type: 'object',
         description: stripIndent`
           An optional object with an optional \`observable\` property.
           The property can be specified as a regular expression string and is used to identify the action observables from which effects and epics are composed.`,
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-unsafe-catch",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'no-unsafe-catch',
+  create: (context) => {
     const invalidOperatorsRegExp = /^(catchError)$/;
 
     const [config = {}] = context.options;
@@ -51,8 +50,8 @@ const rule = ruleCreator({
 
     function isUnsafe([arg]: es.Node[]) {
       if (
-        arg &&
-        (isFunctionDeclaration(arg) || isArrowFunctionExpression(arg))
+        arg
+        && (isFunctionDeclaration(arg) || isArrowFunctionExpression(arg))
       ) {
         // It's only unsafe if it receives a single function argument. If the
         // source argument is received, assume that it's used to effect a
@@ -71,11 +70,11 @@ const rule = ruleCreator({
       node.arguments.forEach((arg) => {
         if (isCallExpression(arg) && isIdentifier(arg.callee)) {
           if (
-            invalidOperatorsRegExp.test(arg.callee.name) &&
-            isUnsafe(arg.arguments)
+            invalidOperatorsRegExp.test(arg.callee.name)
+            && isUnsafe(arg.arguments)
           ) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: arg.callee,
             });
           }
@@ -91,5 +90,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

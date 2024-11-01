@@ -1,15 +1,13 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { stripIndent } from "common-tags";
-import decamelize from "decamelize";
-import { defaultObservable } from "../constants";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { stripIndent } from 'common-tags';
+import decamelize from 'decamelize';
+import { defaultObservable } from '../constants';
 import {
   getTypeServices,
   isCallExpression,
   isIdentifier,
-  isLiteral,
-  isMemberExpression,
-} from "../etc";
-import { createRegExpForWords, ruleCreator } from "../utils";
+  isLiteral, isMemberExpression } from '../etc';
+import { createRegExpForWords, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   allow?: string | string[];
@@ -17,41 +15,41 @@ const defaultOptions: readonly {
   observable?: string;
 }[] = [];
 
-const rule = ruleCreator({
+export const noUnsafeSwitchmapRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: "Forbids unsafe `switchMap` usage in effects and epics.",
+      description: 'Forbids unsafe `switchMap` usage in effects and epics.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Unsafe switchMap usage in effects and epics is forbidden.",
+      forbidden: 'Unsafe switchMap usage in effects and epics is forbidden.',
     },
     schema: [
       {
         properties: {
           allow: {
             oneOf: [
-              { type: "string" },
-              { type: "array", items: { type: "string" } },
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
             ],
           },
           disallow: {
             oneOf: [
-              { type: "string" },
-              { type: "array", items: { type: "string" } },
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
             ],
           },
           observable: {
             oneOf: [
-              { type: "string" },
-              { type: "array", items: { type: "string" } },
+              { type: 'string' },
+              { type: 'array', items: { type: 'string' } },
             ],
           },
         },
-        type: "object",
+        type: 'object',
         description: stripIndent`
           An optional object with optional \`allow\`, \`disallow\` and \`observable\` properties.
           The properties can be specified as regular expression strings or as arrays of words.
@@ -61,19 +59,19 @@ const rule = ruleCreator({
         `,
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-unsafe-switchmap",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'no-unsafe-switchmap',
+  create: (context) => {
     const defaultDisallow = [
-      "add",
-      "create",
-      "delete",
-      "post",
-      "put",
-      "remove",
-      "set",
-      "update",
+      'add',
+      'create',
+      'delete',
+      'post',
+      'put',
+      'remove',
+      'set',
+      'update',
     ];
 
     let allowRegExp: RegExp | undefined;
@@ -96,7 +94,7 @@ const rule = ruleCreator({
     function shouldDisallow(args: es.Node[]): boolean {
       const names = args
         .map((arg) => {
-          if (isLiteral(arg) && typeof arg.value === "string") {
+          if (isLiteral(arg) && typeof arg.value === 'string') {
             return arg.value;
           }
           if (isIdentifier(arg)) {
@@ -106,7 +104,7 @@ const rule = ruleCreator({
             return arg.property.name;
           }
 
-          return "";
+          return '';
         })
         .map((name) => decamelize(name));
 
@@ -127,9 +125,9 @@ const rule = ruleCreator({
 
       const hasUnsafeOfType = node.arguments.some((arg) => {
         if (
-          isCallExpression(arg) &&
-          isIdentifier(arg.callee) &&
-          arg.callee.name === "ofType"
+          isCallExpression(arg)
+          && isIdentifier(arg.callee)
+          && arg.callee.name === 'ofType'
         ) {
           return shouldDisallow(arg.arguments);
         }
@@ -141,12 +139,12 @@ const rule = ruleCreator({
 
       node.arguments.forEach((arg) => {
         if (
-          isCallExpression(arg) &&
-          isIdentifier(arg.callee) &&
-          arg.callee.name === "switchMap"
+          isCallExpression(arg)
+          && isIdentifier(arg.callee)
+          && arg.callee.name === 'switchMap'
         ) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: arg.callee,
           });
         }
@@ -161,5 +159,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

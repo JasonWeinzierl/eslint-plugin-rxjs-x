@@ -1,34 +1,34 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { stripIndent } from "common-tags";
-import { ruleCreator } from "../utils";
+import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { stripIndent } from 'common-tags';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly Record<string, boolean | string>[] = [];
 
-const rule = ruleCreator({
+export const banOperatorsRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: "Forbids the use of banned operators.",
+      description: 'Forbids the use of banned operators.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "RxJS operator is banned: {{name}}{{explanation}}.",
+      forbidden: 'RxJS operator is banned: {{name}}{{explanation}}.',
     },
     schema: [
       {
-        type: "object",
+        type: 'object',
         description: stripIndent`
           An object containing keys that are names of operators
           and values that are either booleans or strings containing the explanation for the ban.`,
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "ban-operators",
-  create: (context, unused: typeof defaultOptions) => {
-    let bans: { explanation: string; regExp: RegExp }[] = [];
+  name: 'ban-operators',
+  create: (context) => {
+    const bans: { explanation: string; regExp: RegExp }[] = [];
 
     const [config] = context.options;
     if (!config) {
@@ -38,7 +38,7 @@ const rule = ruleCreator({
     Object.entries(config).forEach(([key, value]) => {
       if (value !== false) {
         bans.push({
-          explanation: typeof value === "string" ? value : "",
+          explanation: typeof value === 'string' ? value : '',
           regExp: new RegExp(`^${key}$`),
         });
       }
@@ -48,9 +48,9 @@ const rule = ruleCreator({
       for (let b = 0, length = bans.length; b < length; ++b) {
         const ban = bans[b];
         if (ban.regExp.test(name)) {
-          const explanation = ban.explanation ? `: ${ban.explanation}` : "";
+          const explanation = ban.explanation ? `: ${ban.explanation}` : '';
           return {
-            messageId: "forbidden",
+            messageId: 'forbidden',
             data: { name, explanation },
           } as const;
         }
@@ -62,7 +62,8 @@ const rule = ruleCreator({
       [String.raw`ImportDeclaration[source.value=/^rxjs\u002foperators$/] > ImportSpecifier`]:
         (node: es.ImportSpecifier) => {
           const identifier = node.imported;
-          const failure = getFailure(identifier.name);
+          const name = identifier.type === AST_NODE_TYPES.Identifier ? identifier.name : identifier.value;
+          const failure = getFailure(name);
           if (failure) {
             context.report({
               ...failure,
@@ -73,5 +74,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

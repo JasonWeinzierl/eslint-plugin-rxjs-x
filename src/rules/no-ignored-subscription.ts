@@ -1,39 +1,39 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIgnoredSubscriptionRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids ignoring the subscription returned by `subscribe`.",
+      description: 'Forbids ignoring the subscription returned by `subscribe`.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Ignoring returned subscriptions is forbidden.",
+      forbidden: 'Ignoring returned subscriptions is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-ignored-subscription",
+  name: 'no-ignored-subscription',
   create: (context) => {
     const { couldBeObservable, couldBeType } = getTypeServices(context);
 
     return {
-      "ExpressionStatement > CallExpression > MemberExpression[property.name='subscribe']":
+      'ExpressionStatement > CallExpression > MemberExpression[property.name=\'subscribe\']':
         (node: es.MemberExpression) => {
           if (couldBeObservable(node.object)) {
-            const callExpression = getParent(node) as es.CallExpression;
+            const callExpression = node.parent as es.CallExpression;
             if (
-              callExpression.arguments.length === 1 &&
-              couldBeType(callExpression.arguments[0], "Subscriber")
+              callExpression.arguments.length === 1
+              && couldBeType(callExpression.arguments[0], 'Subscriber')
             ) {
               return;
             }
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: node.property,
             });
           }
@@ -41,5 +41,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

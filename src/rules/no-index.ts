@@ -1,33 +1,31 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIndexRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the importation from index modules.",
-      recommended: "error",
+      description: 'Forbids the importation from index modules.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "RxJS imports from index modules are forbidden.",
+      forbidden: 'RxJS imports from index modules are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-index",
+  name: 'no-index',
   create: (context) => {
     return {
       [String.raw`ImportDeclaration Literal[value=/^rxjs(?:\u002f\w+)?\u002findex/]`]:
         (node: es.Literal) => {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
           });
         },
     };
   },
 });
-
-export = rule;

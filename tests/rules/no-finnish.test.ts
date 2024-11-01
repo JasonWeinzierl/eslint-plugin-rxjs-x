@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-finnish");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noFinnishRule } from '../../src/rules/no-finnish';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-finnish", rule, {
+ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
   valid: [
     stripIndent`
       // without $
@@ -58,7 +58,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
                           ~~~~~~~~~~~~~~~~~~ [forbidden]
         const [{ someKey$: yetAnotherObservable$ }] = [someObject];
                            ~~~~~~~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -73,7 +73,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
                 ~~~~~~~~ [forbidden]
         const { someKey$: someRenamedKey$ } = someObject;
                           ~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -88,7 +88,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
                                     ~~~~~~~~ [forbidden]
         someArray.forEach((element$: Observable<any>) => {});
                            ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -100,7 +100,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
         const someArrowFunction$ = (someParam$: Observable<any>): Observable<any> => someParam$;
               ~~~~~~~~~~~~~~~~~~ [forbidden]
                                     ~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -120,7 +120,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           ~~~~~~~~~~~ [forbidden]
                       ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -137,7 +137,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           (someParam$: Observable<any>): void;
            ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -158,7 +158,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           (someParam$: Observable<any>): void;
            ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -178,7 +178,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           ~~~~~~~~~~~ [forbidden]
           (someValue: any): Observable<any>;
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -192,7 +192,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           someMethod([someParam$]: Observable<any>[]): void {}
                       ~~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -205,7 +205,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           someMethod({ source$ }: Record<string, Observable<any>>): void {}
                        ~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -216,7 +216,7 @@ ruleTester({ types: true }).run("no-finnish", rule, {
           constructor(public someProp$: Observable<any>) {}
                              ~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
   ],
 });

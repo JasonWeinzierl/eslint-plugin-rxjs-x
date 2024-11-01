@@ -1,45 +1,45 @@
 import {
   TSESTree as es,
   TSESLint as eslint,
-} from "@typescript-eslint/experimental-utils";
+} from '@typescript-eslint/utils';
 import {
   getTypeServices,
   isArrowFunctionExpression,
   isFunctionExpression,
   isMemberExpression,
-} from "../etc";
-import { ruleCreator } from "../utils";
+} from '../etc';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   allowNext?: boolean;
 }[] = [];
 
-const rule = ruleCreator({
+export const preferObserverRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
       description:
-        "Forbids the passing separate handlers to `subscribe` and `tap`.",
+        'Forbids the passing separate handlers to `subscribe` and `tap`.',
       recommended: false,
     },
-    fixable: "code",
+    fixable: 'code',
     hasSuggestions: true,
     messages: {
       forbidden:
-        "Passing separate handlers is forbidden; pass an observer instead.",
+        'Passing separate handlers is forbidden; pass an observer instead.',
     },
     schema: [
       {
         properties: {
-          allowNext: { type: "boolean" },
+          allowNext: { type: 'boolean' },
         },
-        type: "object",
+        type: 'object',
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "prefer-observer",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'prefer-observer',
+  create: (context) => {
     const { couldBeFunction, couldBeObservable } = getTypeServices(context);
     const [config = {}] = context.options;
     const { allowNext = true } = config;
@@ -51,59 +51,59 @@ const rule = ruleCreator({
       }
 
       function* fix(fixer: eslint.RuleFixer) {
-        const sourceCode = context.getSourceCode();
+        const sourceCode = context.sourceCode;
         const [nextArg, errorArg, completeArg] = args;
-        const nextArgText = nextArg ? sourceCode.getText(nextArg) : "";
-        const errorArgText = errorArg ? sourceCode.getText(errorArg) : "";
+        const nextArgText = nextArg ? sourceCode.getText(nextArg) : '';
+        const errorArgText = errorArg ? sourceCode.getText(errorArg) : '';
         const completeArgText = completeArg
           ? sourceCode.getText(completeArg)
-          : "";
-        let observer = "{";
+          : '';
+        let observer = '{';
         if (
-          nextArgText &&
-          nextArgText !== "undefined" &&
-          nextArgText !== "null"
+          nextArgText
+          && nextArgText !== 'undefined'
+          && nextArgText !== 'null'
         ) {
           observer += ` next: ${nextArgText}${
             isValidArgText(errorArgText) || isValidArgText(completeArgText)
-              ? ","
-              : ""
+              ? ','
+              : ''
           }`;
         }
         if (
-          errorArgText &&
-          errorArgText !== "undefined" &&
-          errorArgText !== "null"
+          errorArgText
+          && errorArgText !== 'undefined'
+          && errorArgText !== 'null'
         ) {
           observer += ` error: ${errorArgText}${
-            isValidArgText(completeArgText) ? "," : ""
+            isValidArgText(completeArgText) ? ',' : ''
           }`;
         }
         if (
-          completeArgText &&
-          completeArgText !== "undefined" &&
-          completeArgText !== "null"
+          completeArgText
+          && completeArgText !== 'undefined'
+          && completeArgText !== 'null'
         ) {
           observer += ` complete: ${completeArgText}`;
         }
-        observer += " }";
+        observer += ' }';
 
         yield fixer.replaceText(callExpression.arguments[0], observer);
 
         const [, start] = callExpression.arguments[0].range;
-        const [, end] =
-          callExpression.arguments[callExpression.arguments.length - 1].range;
+        const [, end]
+          = callExpression.arguments[callExpression.arguments.length - 1].range;
         yield fixer.removeRange([start, end]);
       }
 
       if (args.length > 1) {
         context.report({
-          messageId: "forbidden",
+          messageId: 'forbidden',
           node: reportNode,
           fix,
           suggest: [
             {
-              messageId: "forbidden",
+              messageId: 'forbidden',
               fix,
             },
           ],
@@ -111,17 +111,17 @@ const rule = ruleCreator({
       } else if (args.length === 1 && !allowNext) {
         const [arg] = args;
         if (
-          isArrowFunctionExpression(arg) ||
-          isFunctionExpression(arg) ||
-          couldBeFunction(arg)
+          isArrowFunctionExpression(arg)
+          || isFunctionExpression(arg)
+          || couldBeFunction(arg)
         ) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: reportNode,
             fix,
             suggest: [
               {
-                messageId: "forbidden",
+                messageId: 'forbidden',
                 fix,
               },
             ],
@@ -131,17 +131,15 @@ const rule = ruleCreator({
     }
 
     return {
-      "CallExpression[callee.property.name='pipe'] > CallExpression[callee.name='tap']":
-        (node: es.CallExpression) => checkArgs(node, node.callee),
-      "CallExpression[callee.property.name='subscribe']": (
-        node: es.CallExpression
-      ) => checkArgs(node, (node.callee as es.MemberExpression).property),
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name=\'tap\']':
+        (node: es.CallExpression) => { checkArgs(node, node.callee); },
+      'CallExpression[callee.property.name=\'subscribe\']': (
+        node: es.CallExpression,
+      ) => { checkArgs(node, (node.callee as es.MemberExpression).property); },
     };
   },
 });
 
-export = rule;
-
 function isValidArgText(argText: string) {
-  return argText && argText !== "undefined" && argText !== "null";
+  return argText && argText !== 'undefined' && argText !== 'null';
 }

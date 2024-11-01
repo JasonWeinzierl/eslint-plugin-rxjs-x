@@ -1,43 +1,43 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getTypeServices, isIdentifier } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices, isIdentifier } from '../etc';
+import { ruleCreator } from '../utils';
 
 const defaultAllowedTypesRegExp = /^EventEmitter$/;
 const defaultOptions: readonly {
   allowProtected?: boolean;
 }[] = [];
 
-const rule = ruleCreator({
+export const noExposedSubjectsRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: "Forbids exposed (i.e. non-private) subjects.",
+      description: 'Forbids exposed (i.e. non-private) subjects.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Subject '{{subject}}' must be private.",
+      forbidden: 'Subject \'{{subject}}\' must be private.',
       forbiddenAllowProtected:
-        "Subject '{{subject}}' must be private or protected.",
+        'Subject \'{{subject}}\' must be private or protected.',
     },
     schema: [
       {
         properties: {
-          allowProtected: { type: "boolean" },
+          allowProtected: { type: 'boolean' },
         },
-        type: "object",
+        type: 'object',
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-exposed-subjects",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'no-exposed-subjects',
+  create: (context) => {
     const [config = {}] = context.options;
     const { allowProtected = false } = config;
     const { couldBeSubject, couldBeType } = getTypeServices(context);
 
-    const messageId = allowProtected ? "forbiddenAllowProtected" : "forbidden";
+    const messageId = allowProtected ? 'forbiddenAllowProtected' : 'forbidden';
     const accessibilityRexExp = allowProtected
       ? /^(private|protected)$/
       : /^private$/;
@@ -50,7 +50,7 @@ const rule = ruleCreator({
 
     return {
       [`PropertyDefinition[accessibility!=${accessibilityRexExp}]`]: (
-        node: es.PropertyDefinition
+        node: es.PropertyDefinition,
       ) => {
         if (isSubject(node)) {
           const { key } = node;
@@ -99,7 +99,7 @@ const rule = ruleCreator({
         },
       [`MethodDefinition[accessibility!=${accessibilityRexExp}][kind='method']`]:
         (node: es.MethodDefinition) => {
-          const functionExpression = node.value as any;
+          const functionExpression = node.value;
           const returnType = functionExpression.returnType;
           if (!returnType) {
             return;
@@ -124,5 +124,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

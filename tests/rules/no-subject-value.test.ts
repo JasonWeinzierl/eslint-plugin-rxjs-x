@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-subject-value");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSubjectValueRule } from '../../src/rules/no-subject-value';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-subject-value", rule, {
+ruleTester({ types: true }).run('no-subject-value', noSubjectValueRule, {
   valid: [
     stripIndent`
       // no value
@@ -19,7 +19,7 @@ ruleTester({ types: true }).run("no-subject-value", rule, {
         const subject = new BehaviorSubject<number>(1);
         console.log(subject.value);
                             ~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -28,7 +28,7 @@ ruleTester({ types: true }).run("no-subject-value", rule, {
         const subject = new BehaviorSubject<number>(1);
         console.log(subject.getValue());
                             ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

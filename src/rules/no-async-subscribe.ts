@@ -1,30 +1,30 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noAsyncSubscribeRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids passing `async` functions to `subscribe`.",
-      recommended: "error",
+      description: 'Forbids passing `async` functions to `subscribe`.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Passing async functions to subscribe is forbidden.",
+      forbidden: 'Passing async functions to subscribe is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-async-subscribe",
+  name: 'no-async-subscribe',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
 
     function checkNode(
-      node: es.FunctionExpression | es.ArrowFunctionExpression
+      node: es.FunctionExpression | es.ArrowFunctionExpression,
     ) {
-      const parentNode = getParent(node) as es.CallExpression;
+      const parentNode = node.parent as es.CallExpression;
       const callee = parentNode.callee as es.MemberExpression;
 
       if (couldBeObservable(callee.object)) {
@@ -39,18 +39,16 @@ const rule = ruleCreator({
         };
 
         context.report({
-          messageId: "forbidden",
+          messageId: 'forbidden',
           loc: asyncLoc,
         });
       }
     }
     return {
-      "CallExpression[callee.property.name='subscribe'] > FunctionExpression[async=true]":
+      'CallExpression[callee.property.name=\'subscribe\'] > FunctionExpression[async=true]':
         checkNode,
-      "CallExpression[callee.property.name='subscribe'] > ArrowFunctionExpression[async=true]":
+      'CallExpression[callee.property.name=\'subscribe\'] > ArrowFunctionExpression[async=true]':
         checkNode,
     };
   },
 });
-
-export = rule;

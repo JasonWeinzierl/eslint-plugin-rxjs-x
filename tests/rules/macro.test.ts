@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/macro");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { macroRule } from '../../src/rules/macro';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("macro", rule, {
+ruleTester({ types: true }).run('macro', macroRule, {
   valid: [
     stripIndent`
       // no macro; no RxJS
@@ -40,7 +40,7 @@ ruleTester({ types: true }).run("macro", rule, {
           import "babel-plugin-rxjs-tools/macro";
           import { of } from "rxjs";
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -56,7 +56,7 @@ ruleTester({ types: true }).run("macro", rule, {
           import { foo, goo } from "bar";
           const hoo = foo.pipe(goo());
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -72,7 +72,7 @@ ruleTester({ types: true }).run("macro", rule, {
           import { foo } from "bar";
           foo.subscribe();
         `,
-      }
+      },
     ),
   ],
 });

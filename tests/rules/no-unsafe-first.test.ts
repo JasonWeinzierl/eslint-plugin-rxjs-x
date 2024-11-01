@@ -1,7 +1,7 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-unsafe-first");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noUnsafeFirstRule } from '../../src/rules/no-unsafe-first';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
 const setup = stripIndent`
   import { EMPTY, Observable, of } from "rxjs";
@@ -15,9 +15,9 @@ const setup = stripIndent`
   const actions = of({});
   const actions$ = of({});
   const that = { actions };
-`.replace(/\n/g, "");
+`.replace(/\n/g, '');
 
-ruleTester({ types: true }).run("no-unsafe-first", rule, {
+ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
   valid: [
     {
       code: stripIndent`
@@ -95,7 +95,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           first()
         );
       `,
-      options: [{ observable: "foo" }],
+      options: [{ observable: 'foo' }],
     },
     {
       code: stripIndent`
@@ -107,7 +107,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           first()
         );
       `,
-      options: [{ observable: "foo" }],
+      options: [{ observable: 'foo' }],
     },
     {
       code: stripIndent`
@@ -151,7 +151,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           first()
           ~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -164,7 +164,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           take(1)
           ~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -177,7 +177,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           first()
           ~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -190,7 +190,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           take(1)
           ~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -203,7 +203,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           first()
           ~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -216,7 +216,7 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
           take(1)
           ~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -233,10 +233,10 @@ ruleTester({ types: true }).run("no-unsafe-first", rule, {
       {
         options: [
           {
-            observable: "foo",
+            observable: 'foo',
           },
         ],
-      }
+      },
     ),
   ],
 });

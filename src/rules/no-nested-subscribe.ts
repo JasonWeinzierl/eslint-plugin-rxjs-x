@@ -1,48 +1,48 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noNestedSubscribeRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids the calling of `subscribe` within a `subscribe` callback.",
-      recommended: "error",
+        'Forbids the calling of `subscribe` within a `subscribe` callback.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Nested subscribe calls are forbidden.",
+      forbidden: 'Nested subscribe calls are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-nested-subscribe",
+  name: 'no-nested-subscribe',
   create: (context) => {
     const { couldBeObservable, couldBeType } = getTypeServices(context);
     const argumentsMap = new WeakMap<es.Node, void>();
     return {
       [`CallExpression > MemberExpression[property.name='subscribe']`]: (
-        node: es.MemberExpression
+        node: es.MemberExpression,
       ) => {
         if (
-          !couldBeObservable(node.object) &&
-          !couldBeType(node.object, "Subscribable")
+          !couldBeObservable(node.object)
+          && !couldBeType(node.object, 'Subscribable')
         ) {
           return;
         }
-        const callExpression = getParent(node) as es.CallExpression;
-        let parent = getParent(callExpression);
+        const callExpression = node.parent as es.CallExpression;
+        let parent = callExpression.parent as es.Node | undefined;
         while (parent) {
           if (argumentsMap.has(parent)) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: node.property,
             });
             return;
           }
-          parent = getParent(parent);
+          parent = parent.parent;
         }
         for (const arg of callExpression.arguments) {
           argumentsMap.set(arg);
@@ -51,5 +51,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

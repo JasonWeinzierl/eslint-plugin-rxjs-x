@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/throw-error");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { throwErrorRule } from '../../src/rules/throw-error';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("throw-error", rule, {
+ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   valid: [
     stripIndent`
       // throw Error
@@ -119,7 +119,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
         // throw string
         const a = () => { throw "error"; };
                                 ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -130,7 +130,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
         function errorMessage() {
           return "error";
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -139,7 +139,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
 
         const a = () => { throw errorMessage; };
                                 ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -148,7 +148,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
 
         const ob1 = throwError("Boom!");
                                ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -161,7 +161,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
         function errorMessage() {
           return "Boom!";
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -175,7 +175,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
             { code: "NOT_FOUND" }
           );
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -184,7 +184,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
 
         const ob1 = throwError(() => "Boom!");
                                ~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -197,7 +197,7 @@ ruleTester({ types: true }).run("throw-error", rule, {
         function errorMessage() {
           return "Boom!";
         }
-      `
+      `,
     ),
   ],
 });

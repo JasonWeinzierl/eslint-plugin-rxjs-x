@@ -1,7 +1,7 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-unsafe-catch");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noUnsafeCatchRule } from '../../src/rules/no-unsafe-catch';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
 const setup = stripIndent`
   import { EMPTY, Observable, of } from "rxjs";
@@ -14,9 +14,9 @@ const setup = stripIndent`
   type Actions = Observable<any>;
   const actions = of({});
   const that = { actions };
-`.replace(/\n/g, "");
+`.replace(/\n/g, '');
 
-ruleTester({ types: true }).run("no-unsafe-catch", rule, {
+ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
   valid: [
     {
       code: stripIndent`
@@ -97,7 +97,7 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
           catchError(() => EMPTY)
         );
       `,
-      options: [{ observable: "foo" }],
+      options: [{ observable: 'foo' }],
     },
   ],
   invalid: [
@@ -112,7 +112,7 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
           catchError(() => EMPTY)
           ~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -125,7 +125,7 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
           catchError(() => EMPTY)
           ~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -138,7 +138,7 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
           catchError(() => EMPTY)
           ~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -155,10 +155,10 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
       {
         options: [
           {
-            observable: "foo",
+            observable: 'foo',
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -183,7 +183,7 @@ ruleTester({ types: true }).run("no-unsafe-catch", rule, {
             ~~~~~~~~~~ [forbidden]
           );
         }
-      `
+      `,
     ),
   ],
 });

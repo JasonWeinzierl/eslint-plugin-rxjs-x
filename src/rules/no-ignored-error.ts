@@ -1,42 +1,40 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIgnoredErrorRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids the calling of `subscribe` without specifying an error handler.",
+        'Forbids the calling of `subscribe` without specifying an error handler.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Calling subscribe without an error handler is forbidden.",
+      forbidden: 'Calling subscribe without an error handler is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-ignored-error",
+  name: 'no-ignored-error',
   create: (context) => {
     const { couldBeObservable, couldBeFunction } = getTypeServices(context);
 
     return {
-      "CallExpression[arguments.length > 0] > MemberExpression > Identifier[name='subscribe']":
+      'CallExpression[arguments.length > 0] > MemberExpression > Identifier[name=\'subscribe\']':
         (node: es.Identifier) => {
-          const memberExpression = getParent(node) as es.MemberExpression;
-          const callExpression = getParent(
-            memberExpression
-          ) as es.CallExpression;
+          const memberExpression = node.parent as es.MemberExpression;
+          const callExpression = memberExpression.parent as es.CallExpression;
 
           if (
-            callExpression.arguments.length < 2 &&
-            couldBeObservable(memberExpression.object) &&
-            couldBeFunction(callExpression.arguments[0])
+            callExpression.arguments.length < 2
+            && couldBeObservable(memberExpression.object)
+            && couldBeFunction(callExpression.arguments[0])
           ) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node,
             });
           }
@@ -44,5 +42,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

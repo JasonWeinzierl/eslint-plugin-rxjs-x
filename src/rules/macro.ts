@@ -1,25 +1,25 @@
 import {
-  TSESLint as eslint,
   TSESTree as es,
-} from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+  TSESLint as eslint,
+} from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const macroRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Enforces the use of the RxJS Tools Babel macro.",
+      description: 'Enforces the use of the RxJS Tools Babel macro.',
       recommended: false,
     },
-    fixable: "code",
+    fixable: 'code',
     hasSuggestions: false,
     messages: {
-      macro: "Use the RxJS Tools Babel macro.",
+      macro: 'Use the RxJS Tools Babel macro.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "macro",
+  name: 'macro',
   create: (context) => {
     let hasFailure = false;
     let hasMacroImport = false;
@@ -29,13 +29,13 @@ const rule = ruleCreator({
       return fixer.insertTextBefore(
         /* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
         program!,
-        `import "babel-plugin-rxjs-tools/macro";\n`
+        `import "babel-plugin-rxjs-tools/macro";\n`,
       );
     }
 
     return {
-      "CallExpression[callee.property.name=/^(pipe|subscribe)$/]": (
-        node: es.CallExpression
+      'CallExpression[callee.property.name=/^(pipe|subscribe)$/]': (
+        node: es.CallExpression,
       ) => {
         if (hasFailure || hasMacroImport) {
           return;
@@ -43,17 +43,17 @@ const rule = ruleCreator({
         hasFailure = true;
         context.report({
           fix,
-          messageId: "macro",
+          messageId: 'macro',
           node: node.callee,
         });
       },
-      "ImportDeclaration[source.value='babel-plugin-rxjs-tools/macro']": (
-        node: es.ImportDeclaration
+      'ImportDeclaration[source.value=\'babel-plugin-rxjs-tools/macro\']': (
+        _node: es.ImportDeclaration,
       ) => {
         hasMacroImport = true;
       },
       [String.raw`ImportDeclaration[source.value=/^rxjs(\u002f|$)/]`]: (
-        node: es.ImportDeclaration
+        node: es.ImportDeclaration,
       ) => {
         if (hasFailure || hasMacroImport) {
           return;
@@ -61,15 +61,13 @@ const rule = ruleCreator({
         hasFailure = true;
         context.report({
           fix,
-          messageId: "macro",
+          messageId: 'macro',
           node,
         });
       },
-      Program: (node: es.Program) => {
+      'Program': (node: es.Program) => {
         program = node;
       },
     };
   },
 });
-
-export = rule;

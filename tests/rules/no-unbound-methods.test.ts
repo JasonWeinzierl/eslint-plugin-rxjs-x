@@ -1,12 +1,12 @@
-import { TSESLint as eslint } from "@typescript-eslint/experimental-utils";
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-unbound-methods");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import { stripIndent } from 'common-tags';
+import { noUnboundMethodsRule } from '../../src/rules/no-unbound-methods';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
 interface Tests {
-  valid: (string | eslint.ValidTestCase<any>)[];
-  invalid: eslint.InvalidTestCase<any, any>[];
+  valid: (string | ValidTestCase<never>)[];
+  invalid: InvalidTestCase<keyof typeof noUnboundMethodsRule['meta']['messages'], never>[];
 }
 
 const arrowTests: Tests = {
@@ -122,7 +122,7 @@ const deepTests: Tests = {
             );
           }
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -141,7 +141,7 @@ const deepTests: Tests = {
                              ~~~~~~~~~~~~~~~~~~ [forbidden]
           }
         }
-      `
+      `,
     ),
   ],
 };
@@ -223,7 +223,7 @@ const unboundTests: Tests = {
           map<T>(t: T): T { return t; }
           catchError(error: any): Observable<never> { return throwError(error); }
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -245,7 +245,7 @@ const unboundTests: Tests = {
           error(error: any): void {}
           complete(): void {}
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -261,12 +261,12 @@ const unboundTests: Tests = {
           }
           tearDown(): void {}
         }
-      `
+      `,
     ),
   ],
 };
 
-ruleTester({ types: true }).run("no-unbound-methods", rule, {
+ruleTester({ types: true }).run('no-unbound-methods', noUnboundMethodsRule, {
   valid: [
     ...arrowTests.valid,
     ...boundTests.valid,

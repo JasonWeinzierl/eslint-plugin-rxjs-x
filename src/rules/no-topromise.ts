@@ -1,32 +1,32 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noTopromiseRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the use of the `toPromise` method.",
+      description: 'Forbids the use of the `toPromise` method.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "The toPromise method is forbidden.",
+      forbidden: 'The toPromise method is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-topromise",
+  name: 'no-topromise',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
     return {
       [`MemberExpression[property.name="toPromise"]`]: (
-        node: es.MemberExpression
+        node: es.MemberExpression,
       ) => {
         if (couldBeObservable(node.object)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: node.property,
           });
         }
@@ -34,5 +34,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

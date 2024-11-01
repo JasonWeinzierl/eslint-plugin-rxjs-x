@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/just");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { justRule } from '../../src/rules/just';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("just", rule, {
+ruleTester({ types: true }).run('just', justRule, {
   valid: [
     stripIndent`
       // non-RxJS of
@@ -54,7 +54,7 @@ ruleTester({ types: true }).run("just", rule, {
           const a = just("a");
           const b = just("b");
         `,
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -95,7 +95,7 @@ ruleTester({ types: true }).run("just", rule, {
             of();
           }
         `,
-      }
+      },
     ),
   ],
 });

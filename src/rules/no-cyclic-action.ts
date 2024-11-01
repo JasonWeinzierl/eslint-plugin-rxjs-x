@@ -1,11 +1,12 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { stripIndent } from "common-tags";
-import ts from "typescript";
-import { defaultObservable } from "../constants";
-import { getTypeServices, isCallExpression, isIdentifier } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { stripIndent } from 'common-tags';
+import * as ts from 'typescript';
+import { defaultObservable } from '../constants';
+import { getTypeServices, isCallExpression, isIdentifier } from '../etc';
+import { ruleCreator } from '../utils';
 
 function isTypeReference(type: ts.Type): type is ts.TypeReference {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
   return Boolean((type as any).target);
 }
 
@@ -13,34 +14,34 @@ const defaultOptions: readonly {
   observable?: string;
 }[] = [];
 
-const rule = ruleCreator({
-  defaultOptions: [],
+export const noCyclicActionRule = ruleCreator({
+  defaultOptions,
   meta: {
     docs: {
-      description: "Forbids effects and epics that re-emit filtered actions.",
+      description: 'Forbids effects and epics that re-emit filtered actions.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
       forbidden:
-        "Effects and epics that re-emit filtered actions are forbidden.",
+        'Effects and epics that re-emit filtered actions are forbidden.',
     },
     schema: [
       {
         properties: {
-          observable: { type: "string" },
+          observable: { type: 'string' },
         },
-        type: "object",
+        type: 'object',
         description: stripIndent`
           An optional object with an optional \`observable\` property.
           The property can be specified as a regular expression string and is used to identify the action observables from which effects and epics are composed.`,
       },
     ],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-cyclic-action",
-  create: (context, unused: typeof defaultOptions) => {
+  name: 'no-cyclic-action',
+  create: (context) => {
     const [config = {}] = context.options;
     const { observable = defaultObservable } = config;
     const observableRegExp = new RegExp(observable);
@@ -50,9 +51,9 @@ const rule = ruleCreator({
     function checkNode(pipeCallExpression: es.CallExpression) {
       const operatorCallExpression = pipeCallExpression.arguments.find(
         (arg) =>
-          isCallExpression(arg) &&
-          isIdentifier(arg.callee) &&
-          arg.callee.name === "ofType"
+          isCallExpression(arg)
+          && isIdentifier(arg.callee)
+          && arg.callee.name === 'ofType',
       );
       if (!operatorCallExpression) {
         return;
@@ -60,18 +61,18 @@ const rule = ruleCreator({
       const operatorType = getType(operatorCallExpression);
       const [signature] = typeChecker.getSignaturesOfType(
         operatorType,
-        ts.SignatureKind.Call
+        ts.SignatureKind.Call,
       );
       if (!signature) {
         return;
       }
-      const operatorReturnType =
-        typeChecker.getReturnTypeOfSignature(signature);
+      const operatorReturnType
+        = typeChecker.getReturnTypeOfSignature(signature);
       if (!isTypeReference(operatorReturnType)) {
         return;
       }
-      const [operatorElementType] =
-        typeChecker.getTypeArguments(operatorReturnType);
+      const [operatorElementType]
+        = typeChecker.getTypeArguments(operatorReturnType);
       if (!operatorElementType) {
         return;
       }
@@ -90,7 +91,7 @@ const rule = ruleCreator({
       for (const actionType of operatorActionTypes) {
         if (pipeActionTypes.includes(actionType)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: pipeCallExpression.callee,
           });
           return;
@@ -106,13 +107,13 @@ const rule = ruleCreator({
         }
         return memberActionTypes;
       }
-      const symbol = typeChecker.getPropertyOfType(type, "type");
-      if (!symbol || !symbol.valueDeclaration) {
+      const symbol = typeChecker.getPropertyOfType(type, 'type');
+      if (!symbol?.valueDeclaration) {
         return [];
       }
       const actionType = typeChecker.getTypeOfSymbolAtLocation(
         symbol,
-        symbol.valueDeclaration
+        symbol.valueDeclaration,
       );
       return [typeChecker.typeToString(actionType)];
     }
@@ -125,5 +126,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

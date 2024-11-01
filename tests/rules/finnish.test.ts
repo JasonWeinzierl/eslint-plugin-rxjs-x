@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/finnish");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { finnishRule } from '../../src/rules/finnish';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("finnish", rule, {
+ruleTester({ types: true }).run('finnish', finnishRule, {
   valid: [
     {
       code: stripIndent`
@@ -101,7 +101,7 @@ ruleTester({ types: true }).run("finnish", rule, {
       options: [
         {
           types: {
-            "^EventEmitter$": false,
+            '^EventEmitter$': false,
           },
         },
       ],
@@ -118,7 +118,7 @@ ruleTester({ types: true }).run("finnish", rule, {
         {
           strict: true,
           types: {
-            "^EventEmitter$": false,
+            '^EventEmitter$': false,
           },
         },
       ],
@@ -205,7 +205,7 @@ ruleTester({ types: true }).run("finnish", rule, {
 
         const someOptionalObservable: Observable<any> | undefined = of();
               ~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -226,16 +226,16 @@ ruleTester({ types: true }).run("finnish", rule, {
         options: [
           {
             names: {
-              "^finnish$": true,
-              "^foreign$": false,
+              '^finnish$': true,
+              '^foreign$': false,
             },
             types: {
-              "^EventEmitter$": false,
-              "^SomeSubject$": true,
+              '^EventEmitter$': false,
+              '^SomeSubject$': true,
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -253,12 +253,12 @@ ruleTester({ types: true }).run("finnish", rule, {
         options: [
           {
             types: {
-              "^EventEmitter$": false,
-              "^SomeSubject$": true,
+              '^EventEmitter$': false,
+              '^SomeSubject$': true,
             },
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -269,7 +269,7 @@ ruleTester({ types: true }).run("finnish", rule, {
         const someArray = [someObservable$];
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
                  ~~~~~~~~~~~~ [shouldBeFinnish]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -285,7 +285,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           someMethod(someParam$: Observable<any>): Observable<any>;
           ~~~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -319,7 +319,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           (someParam: Observable<any>): void;
            ~~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -344,7 +344,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           someProperty: Observable<any>;
           ~~~~~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -363,7 +363,7 @@ ruleTester({ types: true }).run("finnish", rule, {
         const someArray = [someObservable];
         const [someElement] = someArray;
                ~~~~~~~~~~~ [shouldBeFinnish]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -379,7 +379,7 @@ ruleTester({ types: true }).run("finnish", rule, {
         const someArray = [someObservable];
         const [someElement] = someArray;
       `,
-      { options: [{ variables: false }] }
+      { options: [{ variables: false }] },
     ),
     fromFixture(
       stripIndent`
@@ -400,7 +400,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           (someParam: Observable<any>): void;
            ~~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -420,7 +420,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           ~~~~~~~~~~ [shouldBeFinnish]
           (someValue: any): Observable<any>;
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -434,7 +434,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           someMethod([someParam]: Observable<any>[]): void {}
                       ~~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -448,7 +448,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           someMethod({ source }: Record<string, Observable<any>>): void {}
                        ~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -459,7 +459,7 @@ ruleTester({ types: true }).run("finnish", rule, {
           constructor(public someProp: Observable<any>) {}
                              ~~~~~~~~ [shouldBeFinnish]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -467,7 +467,7 @@ ruleTester({ types: true }).run("finnish", rule, {
         const answer$ = 42;
               ~~~~~~~ [shouldNotBeFinnish]
       `,
-      { options: [{ strict: true }] }
+      { options: [{ strict: true }] },
     ),
   ],
 });

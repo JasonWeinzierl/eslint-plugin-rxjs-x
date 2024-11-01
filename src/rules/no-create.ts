@@ -1,33 +1,33 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noCreateRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the calling of `Observable.create`.",
-      recommended: "error",
+      description: 'Forbids the calling of `Observable.create`.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Observable.create is forbidden; use new Observable.",
+      forbidden: 'Observable.create is forbidden; use new Observable.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-create",
+  name: 'no-create',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
 
     return {
-      "CallExpression > MemberExpression[object.name='Observable'] > Identifier[name='create']":
+      'CallExpression > MemberExpression[object.name=\'Observable\'] > Identifier[name=\'create\']':
         (node: es.Identifier) => {
-          const memberExpression = getParent(node) as es.MemberExpression;
+          const memberExpression = node.parent as es.MemberExpression;
           if (couldBeObservable(memberExpression.object)) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node,
             });
           }
@@ -35,5 +35,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

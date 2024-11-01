@@ -1,31 +1,31 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIgnoredObservableRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the ignoring of observables returned by functions.",
+      description: 'Forbids the ignoring of observables returned by functions.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Ignoring a returned Observable is forbidden.",
+      forbidden: 'Ignoring a returned Observable is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-ignored-observable",
+  name: 'no-ignored-observable',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
 
     return {
-      "ExpressionStatement > CallExpression": (node: es.CallExpression) => {
+      'ExpressionStatement > CallExpression': (node: es.CallExpression) => {
         if (couldBeObservable(node)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
           });
         }
@@ -33,5 +33,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

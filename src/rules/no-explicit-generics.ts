@@ -1,33 +1,33 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, isArrayExpression, isObjectExpression } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { isArrayExpression, isObjectExpression } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noExplicitGenericsRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids explicit generic type arguments.",
+      description: 'Forbids explicit generic type arguments.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Explicit generic type arguments are forbidden.",
+      forbidden: 'Explicit generic type arguments are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-explicit-generics",
+  name: 'no-explicit-generics',
   create: (context) => {
     function report(node: es.Node) {
       context.report({
-        messageId: "forbidden",
+        messageId: 'forbidden',
         node,
       });
     }
 
     function checkBehaviorSubjects(node: es.Node) {
-      const parent = getParent(node) as es.NewExpression;
+      const parent = node.parent as es.NewExpression;
       const {
         arguments: [value],
       } = parent;
@@ -38,7 +38,7 @@ const rule = ruleCreator({
     }
 
     function checkNotifications(node: es.Node) {
-      const parent = getParent(node) as es.NewExpression;
+      const parent = node.parent as es.NewExpression;
       const {
         arguments: [, value],
       } = parent;
@@ -49,16 +49,14 @@ const rule = ruleCreator({
     }
 
     return {
-      "CallExpression[callee.property.name='pipe'] > CallExpression[typeParameters.params.length > 0] > Identifier":
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[typeArguments.params.length > 0] > Identifier':
         report,
-      "NewExpression[typeParameters.params.length > 0] > Identifier[name='BehaviorSubject']":
+      'NewExpression[typeArguments.params.length > 0] > Identifier[name=\'BehaviorSubject\']':
         checkBehaviorSubjects,
-      "CallExpression[typeParameters.params.length > 0] > Identifier[name=/^(from|of)$/]":
+      'CallExpression[typeArguments.params.length > 0] > Identifier[name=/^(from|of)$/]':
         report,
-      "NewExpression[typeParameters.params.length > 0][arguments.0.value='N'] > Identifier[name='Notification']":
+      'NewExpression[typeArguments.params.length > 0][arguments.0.value=\'N\'] > Identifier[name=\'Notification\']':
         checkNotifications,
     };
   },
 });
-
-export = rule;

@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-subject-unsubscribe");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSubjectUnsubscribeRule } from '../../src/rules/no-subject-unsubscribe';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-subject-unsubscribe", rule, {
+ruleTester({ types: true }).run('no-subject-unsubscribe', noSubjectUnsubscribeRule, {
   valid: [
     stripIndent`
       // unsubscribe Subject subscription
@@ -28,7 +28,7 @@ ruleTester({ types: true }).run("no-subject-unsubscribe", rule, {
         const b = new Subject<number>();
         b.unsubscribe();
           ~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -37,7 +37,7 @@ ruleTester({ types: true }).run("no-subject-unsubscribe", rule, {
         const b = new AsyncSubject<number>();
         b.unsubscribe();
           ~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -47,7 +47,7 @@ ruleTester({ types: true }).run("no-subject-unsubscribe", rule, {
         const c = new Subject<number>();
         csub.add(c);
                  ~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -57,7 +57,7 @@ ruleTester({ types: true }).run("no-subject-unsubscribe", rule, {
         const c = new AsyncSubject<number>();
         csub.add(c);
                  ~ [forbidden]
-      `
+      `,
     ),
   ],
 });

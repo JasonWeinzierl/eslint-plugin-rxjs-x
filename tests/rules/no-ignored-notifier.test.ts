@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-notifier");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredNotifierRule } from '../../src/rules/no-ignored-notifier';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-notifier", rule, {
+ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
   valid: [
     stripIndent`
       // repeatWhen not ignored
@@ -57,7 +57,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
           repeatWhen(notifications => range(0, 3))
           ~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -71,7 +71,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
           repeatWhen(() => range(0, 3))
           ~~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -89,7 +89,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
             }
           )
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -107,7 +107,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
             }
           )
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -121,7 +121,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
           retryWhen(errors => range(0, 3))
           ~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -135,7 +135,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
           retryWhen(() => range(0, 3))
           ~~~~~~~~~ [forbidden]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -153,7 +153,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
             }
           )
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -171,7 +171,7 @@ ruleTester({ types: true }).run("no-ignored-notifier", rule, {
             }
           )
         );
-      `
+      `,
     ),
   ],
 });

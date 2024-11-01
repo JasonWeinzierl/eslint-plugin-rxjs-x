@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-takewhile-value");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredTakewhileValueRule } from '../../src/rules/no-ignored-takewhile-value';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
+ruleTester({ types: true }).run('no-ignored-takewhile-value', noIgnoredTakewhileValueRule, {
   valid: [
     stripIndent`
       // function
@@ -99,7 +99,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -115,7 +115,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -131,7 +131,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -147,7 +147,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -163,7 +163,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -179,7 +179,7 @@ ruleTester({ types: true }).run("no-ignored-takewhile-value", rule, {
             ).subscribe();
           }
         };
-      `
+      `,
     ),
   ],
 });

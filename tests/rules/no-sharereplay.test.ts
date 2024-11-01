@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-sharereplay");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSharereplayRule } from '../../src/rules/no-sharereplay';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("no-sharereplay", rule, {
+ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
   valid: [
     {
       code: stripIndent`
@@ -29,7 +29,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           ~~~~~~~~~~~ [forbidden]
         );
       `,
-      { options: [{ allowConfig: false }] }
+      { options: [{ allowConfig: false }] },
     ),
     fromFixture(
       stripIndent`
@@ -39,7 +39,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
         );
       `,
-      { options: [{ allowConfig: true }] }
+      { options: [{ allowConfig: true }] },
     ),
     fromFixture(
       stripIndent`
@@ -48,7 +48,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           shareReplay(1)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -57,7 +57,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           shareReplay(1, 100)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -66,7 +66,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           shareReplay(1, 100, asapScheduler)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -76,7 +76,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           ~~~~~~~~~~~ [forbidden]
         );
       `,
-      { options: [{ allowConfig: false }] }
+      { options: [{ allowConfig: false }] },
     ),
     fromFixture(
       stripIndent`
@@ -86,7 +86,7 @@ ruleTester({ types: false }).run("no-sharereplay", rule, {
           ~~~~~~~~~~~ [forbidden]
         );
       `,
-      { options: [{ allowConfig: false }] }
+      { options: [{ allowConfig: false }] },
     ),
   ],
 });

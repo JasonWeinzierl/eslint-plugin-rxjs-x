@@ -1,53 +1,51 @@
-const { name, version } = require('../package.json');
-const recommendedConfig = require('./configs/recommended');
+import { TSESLint } from '@typescript-eslint/utils';
+import { name, version } from '../package.json' assert { type: 'json' };
+import { createRecommendedConfig } from './configs/recommended';
 
-const banObservablesRule = require('./rules/ban-observables');
-const banOperatorsRule = require('./rules/ban-operators');
-const finnishRule = require('./rules/finnish');
-const justRule = require('./rules/just');
-const macroRule = require('./rules/macro');
-const noAsyncSubscribeRule = require('./rules/no-async-subscribe');
-const noCompatRule = require('./rules/no-compat');
-const noConnectableRule = require('./rules/no-connectable');
-const noCreateRule = require('./rules/no-create');
-const noCyclicActionRule = require('./rules/no-cyclic-action');
-const noExplicitGenericsRule = require('./rules/no-explicit-generics');
-const noExposedSubjectsRule = require('./rules/no-exposed-subjects');
-const noFinnishRule = require('./rules/no-finnish');
-const noIgnoredErrorRule = require('./rules/no-ignored-error');
-const noIgnoredNotifierRule = require('./rules/no-ignored-notifier');
-const noIgnoredObservableRule = require('./rules/no-ignored-observable');
-const noIgnoredReplayBufferRule = require('./rules/no-ignored-replay-buffer');
-const noIgnoredSubscribeRule = require('./rules/no-ignored-subscribe');
-const noIgnoredSubscriptionRule = require('./rules/no-ignored-subscription');
-const noIgnoredTakewhileValueRule = require('./rules/no-ignored-takewhile-value');
-const noImplicitAnyCatchRule = require('./rules/no-implicit-any-catch');
-const noIndexRule = require('./rules/no-index');
-const noInternalRule = require('./rules/no-internal');
-const noNestedSubscribeRule = require('./rules/no-nested-subscribe');
-const noRedundantNotifyRule = require('./rules/no-redundant-notify');
-const noSharereplayRule = require('./rules/no-sharereplay');
-const noSubclassRule = require('./rules/no-subclass');
-const noSubjectUnsubscribeRule = require('./rules/no-subject-unsubscribe');
-const noSubjectValueRule = require('./rules/no-subject-value');
-const noSubscribeHandlersRule = require('./rules/no-subscribe-handlers');
-const noTapRule = require('./rules/no-tap');
-const noTopromiseRule = require('./rules/no-topromise');
-const noUnboundMethodsRule = require('./rules/no-unbound-methods');
-const noUnsafeCatchRule = require('./rules/no-unsafe-catch');
-const noUnsafeFirstRule = require('./rules/no-unsafe-first');
-const noUnsafeSubjectNext = require('./rules/no-unsafe-subject-next');
-const noUnsafeSwitchmapRule = require('./rules/no-unsafe-switchmap');
-const noUnsafeTakeuntilRule = require('./rules/no-unsafe-takeuntil');
-const preferObserverRule = require('./rules/prefer-observer');
-const suffixSubjectsRule = require('./rules/suffix-subjects');
-const throwErrorRule = require('./rules/throw-error');
+import { banObservablesRule } from './rules/ban-observables';
+import { banOperatorsRule } from './rules/ban-operators';
+import { finnishRule } from './rules/finnish';
+import { justRule } from './rules/just';
+import { macroRule } from './rules/macro';
+import { noAsyncSubscribeRule } from './rules/no-async-subscribe';
+import { noCompatRule } from './rules/no-compat';
+import { noConnectableRule } from './rules/no-connectable';
+import { noCreateRule } from './rules/no-create';
+import { noCyclicActionRule } from './rules/no-cyclic-action';
+import { noExplicitGenericsRule } from './rules/no-explicit-generics';
+import { noExposedSubjectsRule } from './rules/no-exposed-subjects';
+import { noFinnishRule } from './rules/no-finnish';
+import { noIgnoredErrorRule } from './rules/no-ignored-error';
+import { noIgnoredNotifierRule } from './rules/no-ignored-notifier';
+import { noIgnoredObservableRule } from './rules/no-ignored-observable';
+import { noIgnoredReplayBufferRule } from './rules/no-ignored-replay-buffer';
+import { noIgnoredSubscribeRule } from './rules/no-ignored-subscribe';
+import { noIgnoredSubscriptionRule } from './rules/no-ignored-subscription';
+import { noIgnoredTakewhileValueRule } from './rules/no-ignored-takewhile-value';
+import { noImplicitAnyCatchRule } from './rules/no-implicit-any-catch';
+import { noIndexRule } from './rules/no-index';
+import { noInternalRule } from './rules/no-internal';
+import { noNestedSubscribeRule } from './rules/no-nested-subscribe';
+import { noRedundantNotifyRule } from './rules/no-redundant-notify';
+import { noSharereplayRule } from './rules/no-sharereplay';
+import { noSubclassRule } from './rules/no-subclass';
+import { noSubjectUnsubscribeRule } from './rules/no-subject-unsubscribe';
+import { noSubjectValueRule } from './rules/no-subject-value';
+import { noSubscribeHandlersRule } from './rules/no-subscribe-handlers';
+import { noTapRule } from './rules/no-tap';
+import { noTopromiseRule } from './rules/no-topromise';
+import { noUnboundMethodsRule } from './rules/no-unbound-methods';
+import { noUnsafeCatchRule } from './rules/no-unsafe-catch';
+import { noUnsafeFirstRule } from './rules/no-unsafe-first';
+import { noUnsafeSubjectNext } from './rules/no-unsafe-subject-next';
+import { noUnsafeSwitchmapRule } from './rules/no-unsafe-switchmap';
+import { noUnsafeTakeuntilRule } from './rules/no-unsafe-takeuntil';
+import { preferObserverRule } from './rules/prefer-observer';
+import { suffixSubjectsRule } from './rules/suffix-subjects';
+import { throwErrorRule } from './rules/throw-error';
 
-module.exports = {
+const plugin = {
   meta: { name, version },
-  configs: {
-    recommended: recommendedConfig,
-  },
   rules: {
     'ban-observables': banObservablesRule,
     'ban-operators': banOperatorsRule,
@@ -91,4 +89,13 @@ module.exports = {
     'suffix-subjects': suffixSubjectsRule,
     'throw-error': throwErrorRule,
   },
+} satisfies TSESLint.FlatConfig.Plugin;
+
+const configs = {
+  recommended: createRecommendedConfig(plugin),
+} satisfies TSESLint.FlatConfig.SharedConfigs;
+
+export default {
+  ...plugin,
+  configs,
 };

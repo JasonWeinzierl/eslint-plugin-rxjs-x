@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-subscribe-handlers");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSubscribeHandlersRule } from '../../src/rules/no-subscribe-handlers';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
+ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule, {
   valid: [
     {
       code: stripIndent`
@@ -56,7 +56,7 @@ ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
         const observable = of([1, 2]);
         observable.subscribe(value => console.log(value));
                    ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -66,7 +66,7 @@ ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
         const subject = new Subject<any>();
         subject.subscribe(value => console.log(value));
                 ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -80,7 +80,7 @@ ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
         const observable = of([1, 2]);
         observable.subscribe(log);
                    ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -88,7 +88,7 @@ ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
         declare const subscribable: Subscribable<unknown>;
         subscribable.subscribe((value) => console.log(value));
                      ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -98,7 +98,7 @@ ruleTester({ types: true }).run("no-subscribe-handlers", rule, {
                      ~~~~~~~~~ [forbidden]
           next: (value) => console.log(value)
         });
-      `
+      `,
     ),
   ],
 });

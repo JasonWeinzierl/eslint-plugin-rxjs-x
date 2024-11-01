@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-unsafe-takeuntil");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noUnsafeTakeuntilRule } from '../../src/rules/no-unsafe-takeuntil';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
+ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
   valid: [
     {
       code: stripIndent`
@@ -115,7 +115,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       `,
       options: [
         {
-          allow: ["tap"],
+          allow: ['tap'],
         },
       ],
     },
@@ -135,7 +135,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       `,
       options: [
         {
-          alias: ["untilDestroyed"],
+          alias: ['untilDestroyed'],
         },
       ],
     },
@@ -159,7 +159,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       `,
       options: [
         {
-          alias: ["untilDestroyed"],
+          alias: ['untilDestroyed'],
         },
       ],
     },
@@ -194,7 +194,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
 
         const d = a.pipe(takeUntil(c), switchMap(_ => b)).subscribe();
                          ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -209,7 +209,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
 
         const e = a.pipe(takeUntil(d), s => combineLatest(s, b, c)).subscribe();
                          ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -227,10 +227,10 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       {
         options: [
           {
-            allow: ["tap"],
+            allow: ['tap'],
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -258,7 +258,7 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
             return output;
           }
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -278,10 +278,10 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       {
         options: [
           {
-            alias: ["untilDestroyed"],
+            alias: ['untilDestroyed'],
           },
         ],
-      }
+      },
     ),
     fromFixture(
       stripIndent`
@@ -301,10 +301,10 @@ ruleTester({ types: true }).run("no-unsafe-takeuntil", rule, {
       {
         options: [
           {
-            alias: ["untilDestroyed"],
+            alias: ['untilDestroyed'],
           },
         ],
-      }
+      },
     ),
   ],
 });

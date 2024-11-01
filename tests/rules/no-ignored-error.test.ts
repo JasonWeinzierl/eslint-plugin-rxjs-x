@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-error");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredErrorRule } from '../../src/rules/no-ignored-error';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-error", rule, {
+ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
   valid: [
     stripIndent`
       // noop
@@ -37,7 +37,7 @@ ruleTester({ types: true }).run("no-ignored-error", rule, {
         const observable = of([1, 2]);
         observable.subscribe(() => {});
                    ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -47,7 +47,7 @@ ruleTester({ types: true }).run("no-ignored-error", rule, {
         const next = () => {};
         observable.subscribe(next);
                    ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -56,7 +56,7 @@ ruleTester({ types: true }).run("no-ignored-error", rule, {
         const subject = new Subject<any>();
         subject.subscribe(() => {});
                 ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -66,7 +66,7 @@ ruleTester({ types: true }).run("no-ignored-error", rule, {
         const subject = new Subject<any>();
         subject.subscribe(next);
                 ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -83,7 +83,7 @@ ruleTester({ types: true }).run("no-ignored-error", rule, {
           return obs.subscribe((v: T) => {})
                      ~~~~~~~~~ [forbidden]
         }
-      `
+      `,
     ),
   ],
 });

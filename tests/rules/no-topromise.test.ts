@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-topromise");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noTopromiseRule } from '../../src/rules/no-topromise';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-topromise", rule, {
+ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
   valid: [
     stripIndent`
       // no toPromise
@@ -29,7 +29,7 @@ ruleTester({ types: true }).run("no-topromise", rule, {
         const a = of("a");
         a.toPromise().then(value => console.log(value));
           ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -38,7 +38,7 @@ ruleTester({ types: true }).run("no-topromise", rule, {
         const a = new Subject<string>();
         a.toPromise().then(value => console.log(value));
           ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

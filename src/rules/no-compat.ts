@@ -1,34 +1,32 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noCompatRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids importation from locations that depend upon `rxjs-compat`.",
+        'Forbids importation from locations that depend upon `rxjs-compat`.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "'rxjs-compat'-dependent import locations are forbidden.",
+      forbidden: '\'rxjs-compat\'-dependent import locations are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-compat",
+  name: 'no-compat',
   create: (context) => {
     return {
       [String.raw`ImportDeclaration Literal[value=/^rxjs\u002f/]:not(Literal[value=/^rxjs\u002f(ajax|fetch|operators|testing|webSocket)/])`]:
         (node: es.Literal) => {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
           });
         },
     };
   },
 });
-
-export = rule;

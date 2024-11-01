@@ -1,29 +1,29 @@
 import {
   TSESTree as es,
   TSESLint as eslint,
-} from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+} from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noInternalRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids the importation of internals.",
-      recommended: "error",
+      description: 'Forbids the importation of internals.',
+      recommended: true,
     },
-    fixable: "code",
+    fixable: 'code',
     hasSuggestions: true,
     messages: {
-      forbidden: "RxJS imports from internal are forbidden.",
-      suggest: "Import from a non-internal location.",
+      forbidden: 'RxJS imports from internal are forbidden.',
+      suggest: 'Import from a non-internal location.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-internal",
+  name: 'no-internal',
   create: (context) => {
     function getReplacement(location: string) {
-      const match = location.match(/^\s*('|")/);
+      const match = /^\s*('|")/.exec(location);
       if (!match) {
         return undefined;
       }
@@ -57,22 +57,23 @@ const rule = ruleCreator({
 
     return {
       [String.raw`ImportDeclaration Literal[value=/^rxjs\u002finternal/]`]: (
-        node: es.Literal
+        node: es.Literal,
       ) => {
         const replacement = getReplacement(node.raw);
         if (replacement) {
           function fix(fixer: eslint.RuleFixer) {
-            return fixer.replaceText(node, replacement as string);
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return fixer.replaceText(node, replacement!);
           }
           context.report({
             fix,
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
-            suggest: [{ fix, messageId: "suggest" }],
+            suggest: [{ fix, messageId: 'suggest' }],
           });
         } else {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
           });
         }
@@ -80,5 +81,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

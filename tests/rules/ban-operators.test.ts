@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/ban-operators");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { banOperatorsRule } from '../../src/rules/ban-operators';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("ban-operators", rule, {
+ruleTester({ types: false }).run('ban-operators', banOperatorsRule, {
   valid: [
     {
       code: `import { concat, merge as m, mergeMap as mm } from "rxjs/operators";`,
@@ -19,7 +19,7 @@ ruleTester({ types: false }).run("ban-operators", rule, {
       options: [
         {
           concat: true,
-          merge: "because I say so",
+          merge: 'because I say so',
           mergeMap: false,
         },
       ],
@@ -36,11 +36,11 @@ ruleTester({ types: false }).run("ban-operators", rule, {
         options: [
           {
             concat: true,
-            merge: "because I say so",
+            merge: 'because I say so',
             mergeMap: false,
           },
         ],
-      }
+      },
     ),
   ],
 });

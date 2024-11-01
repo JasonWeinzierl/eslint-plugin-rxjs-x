@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-tap");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noTapRule } from '../../src/rules/no-tap';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run("no-tap", rule, {
+ruleTester({ types: false }).run('no-tap', noTapRule, {
   valid: [
     stripIndent`
       // no tap
@@ -32,7 +32,7 @@ ruleTester({ types: false }).run("no-tap", rule, {
           map(x => x * 2),
           tap(value => console.log(value))
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -43,7 +43,7 @@ ruleTester({ types: false }).run("no-tap", rule, {
           map(x => x * 2),
           tap(value => console.log(value))
         );
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -55,7 +55,7 @@ ruleTester({ types: false }).run("no-tap", rule, {
           map(x => x * 2),
           tapAlias(value => console.log(value))
         );
-      `
+      `,
     ),
   ],
 });

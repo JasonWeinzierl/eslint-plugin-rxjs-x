@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-observable");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredObservableRule } from '../../src/rules/no-ignored-observable';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-observable", rule, {
+ruleTester({ types: true }).run('no-ignored-observable', noIgnoredObservableRule, {
   valid: [
     stripIndent`
       // not ignored
@@ -44,7 +44,7 @@ ruleTester({ types: true }).run("no-ignored-observable", rule, {
 
         functionSource();
         ~~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -55,7 +55,7 @@ ruleTester({ types: true }).run("no-ignored-observable", rule, {
 
         arrowSource();
         ~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

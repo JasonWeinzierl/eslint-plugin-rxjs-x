@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-exposed-subjects");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noExposedSubjectsRule } from '../../src/rules/no-exposed-subjects';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-exposed-subjects", rule, {
+ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
   valid: [
     stripIndent`
       // variable
@@ -93,7 +93,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
           readonly e = new Subject<void>();
                    ~ [forbidden { "subject": "e" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -108,7 +108,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
                       ~ [forbidden { "subject": "b" }]
           ) {}
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -126,7 +126,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
             this._submitSubject$ = set$;
           }
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -144,7 +144,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
             return new Subject<any>();
           }
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -176,7 +176,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
           }
         }
       `,
-      { options: [{ allowProtected: true }] }
+      { options: [{ allowProtected: true }] },
     ),
     fromFixture(
       stripIndent`
@@ -193,7 +193,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
           protected d: Subject<any>;
                     ~ [forbidden { "subject": "d" }]
         }
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -210,7 +210,7 @@ ruleTester({ types: true }).run("no-exposed-subjects", rule, {
             return this.foo$;
           }
         }
-      `
+      `,
     ),
   ],
 });

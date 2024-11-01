@@ -1,10 +1,5 @@
-import { TSESLint } from "@typescript-eslint/experimental-utils";
-
-// TODO: typescript-eslint v6 introduces rule-tester as a separate package.
-// import { InvalidTestCase, RuleTester, SuggestionOutput, TestCaseError } from '@typescript-eslint/rule-tester';
-type InvalidTestCase<TMessageIds extends string, TOptions extends readonly unknown[]> = TSESLint.InvalidTestCase<TMessageIds, TOptions>;
-type SuggestionOutput<TMessageIds extends string> = TSESLint.SuggestionOutput<TMessageIds>;
-type TestCaseError<TMessageIds extends string> = TSESLint.TestCaseError<TMessageIds>;
+import { InvalidTestCase, SuggestionOutput, TestCaseError } from '@typescript-eslint/rule-tester';
+import { TSESLint } from '@typescript-eslint/utils';
 
 export function fromFixture<
   TMessageIds extends string,
@@ -84,7 +79,7 @@ function parseFixture<TMessageIds extends string>(
       const { length } = lines;
       errors.push({
         column,
-        data: JSON.parse(match.groups.data || '{}'), // as TSESLint.ReportDescriptorMessageData, // TODO: later typescript-eslint
+        data: JSON.parse(match.groups.data || '{}') as TSESLint.ReportDescriptorMessageData,
         endColumn,
         endLine: length,
         line: length,

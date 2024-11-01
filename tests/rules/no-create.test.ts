@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-create");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noCreateRule } from '../../src/rules/no-create';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-create", rule, {
+ruleTester({ types: true }).run('no-create', noCreateRule, {
   valid: [],
   invalid: [
     fromFixture(
@@ -17,7 +17,7 @@ ruleTester({ types: true }).run("no-create", rule, {
             observer.complete();
             return () => {};
         });
-      `
+      `,
     ),
   ],
 });

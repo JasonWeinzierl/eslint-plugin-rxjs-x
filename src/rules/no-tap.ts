@@ -1,31 +1,31 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noTapRule = ruleCreator({
   defaultOptions: [],
   meta: {
     deprecated: true,
     docs: {
-      description: "Forbids the use of the `tap` operator.",
+      description: 'Forbids the use of the `tap` operator.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "The tap operator is forbidden.",
+      forbidden: 'The tap operator is forbidden.',
     },
-    replacedBy: ["ban-operators"],
+    replacedBy: ['ban-operators'],
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-tap",
+  name: 'no-tap',
   create: (context) => {
     return {
       [String.raw`ImportDeclaration[source.value=/^rxjs(\u002foperators)?$/] > ImportSpecifier[imported.name='tap']`]:
         (node: es.ImportSpecifier) => {
           const { loc } = node;
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             loc: {
               ...loc,
               end: {
@@ -38,5 +38,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-subclass");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSubclassRule } from '../../src/rules/no-subclass';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-subclass", rule, {
+ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
   valid: [
     stripIndent`
       // non-RxJS Observable
@@ -20,7 +20,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                            ~~~~~~~~~~ [forbidden]
         class StringObservable extends Observable<string> {}
                                        ~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -30,7 +30,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                         ~~~~~~~ [forbidden]
         class StringSubject extends Subject<string> {}
                                     ~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -40,7 +40,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                            ~~~~~~~~~~ [forbidden]
         class StringSubscriber extends Subscriber<string> {}
                                        ~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -50,7 +50,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                              ~~~~~~~~~~~~ [forbidden]
         class StringAsyncSubject extends AsyncSubject<string> {}
                                          ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -60,7 +60,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                                 ~~~~~~~~~~~~~~~ [forbidden]
         class StringBehaviorSubject extends BehaviorSubject<string> {}
                                             ~~~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -70,7 +70,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
                                               ~~~~~~~~~~~~~ [forbidden]
         class StringReplaySubject extends ReplaySubject<string> {}
                                           ~~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -78,7 +78,7 @@ ruleTester({ types: true }).run("no-subclass", rule, {
         import { Scheduler } from "rxjs/internal/Scheduler";
         class AnotherScheduler extends Scheduler {}
                                        ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

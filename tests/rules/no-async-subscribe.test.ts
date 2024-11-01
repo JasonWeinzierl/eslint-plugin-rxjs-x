@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-async-subscribe");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noAsyncSubscribeRule } from '../../src/rules/no-async-subscribe';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-async-subscribe", rule, {
+ruleTester({ types: true, jsx: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
   valid: [
     stripIndent`
       // sync arrow function
@@ -41,7 +41,7 @@ ruleTester({ types: true }).run("no-async-subscribe", rule, {
                           ~~~~~ [forbidden]
           return await "a";
         });
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -52,7 +52,7 @@ ruleTester({ types: true }).run("no-async-subscribe", rule, {
                           ~~~~~ [forbidden]
           return await "a";
         });
-      `
+      `,
     ),
   ],
 });

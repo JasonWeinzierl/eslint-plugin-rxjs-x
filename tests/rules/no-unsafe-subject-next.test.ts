@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-unsafe-subject-next");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noUnsafeSubjectNext } from '../../src/rules/no-unsafe-subject-next';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-unsafe-subject-next", rule, {
+ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
   valid: [
     {
       code: stripIndent`
@@ -73,7 +73,7 @@ ruleTester({ types: true }).run("no-unsafe-subject-next", rule, {
         const s = new Subject<number>();
         s.next();
           ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -82,7 +82,7 @@ ruleTester({ types: true }).run("no-unsafe-subject-next", rule, {
         const s = new ReplaySubject<number>();
         s.next();
           ~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

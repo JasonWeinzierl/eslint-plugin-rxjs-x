@@ -1,42 +1,41 @@
 import {
-  TSESLint as eslint,
   TSESTree as es,
-} from "@typescript-eslint/experimental-utils";
+  TSESLint as eslint,
+} from '@typescript-eslint/utils';
 import {
-  getParent,
   getTypeServices,
   isBlockStatement,
   isCallExpression,
   isIdentifier,
   isMemberExpression,
   isProgram,
-} from "../etc";
-import { ruleCreator } from "../utils";
+} from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noRedundantNotifyRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids redundant notifications from completed or errored observables.",
-      recommended: "error",
+        'Forbids redundant notifications from completed or errored observables.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Redundant notifications are forbidden.",
+      forbidden: 'Redundant notifications are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-redundant-notify",
+  name: 'no-redundant-notify',
   create: (context) => {
-    const sourceCode = context.getSourceCode();
+    const sourceCode = context.sourceCode;
     const { couldBeType } = getTypeServices(context);
     return {
-      "ExpressionStatement[expression.callee.property.name=/^(complete|error)$/] + ExpressionStatement[expression.callee.property.name=/^(next|complete|error)$/]":
+      'ExpressionStatement[expression.callee.property.name=/^(complete|error)$/] + ExpressionStatement[expression.callee.property.name=/^(next|complete|error)$/]':
         (node: es.ExpressionStatement) => {
-          const parent = getParent(node);
+          const parent = node.parent;
           if (!parent) {
             return;
           }
@@ -47,14 +46,14 @@ const rule = ruleCreator({
           const index = body.indexOf(node);
           const sibling = body[index - 1] as es.ExpressionStatement;
           if (
-            getExpressionText(sibling, sourceCode) !==
-            getExpressionText(node, sourceCode)
+            getExpressionText(sibling, sourceCode)
+            !== getExpressionText(node, sourceCode)
           ) {
             return;
           }
           if (
-            !isExpressionObserver(sibling, couldBeType) ||
-            !isExpressionObserver(node, couldBeType)
+            !isExpressionObserver(sibling, couldBeType)
+            || !isExpressionObserver(node, couldBeType)
           ) {
             return;
           }
@@ -65,7 +64,7 @@ const rule = ruleCreator({
               const { property } = callee;
               if (isIdentifier(property)) {
                 context.report({
-                  messageId: "forbidden",
+                  messageId: 'forbidden',
                   node: property,
                 });
               }
@@ -78,7 +77,7 @@ const rule = ruleCreator({
 
 function getExpressionText(
   expressionStatement: es.ExpressionStatement,
-  sourceCode: eslint.SourceCode
+  sourceCode: eslint.SourceCode,
 ): string | undefined {
   if (!isCallExpression(expressionStatement.expression)) {
     return undefined;
@@ -97,7 +96,7 @@ function isExpressionObserver(
     node: es.Node,
     name: string | RegExp,
     qualified?: { name: RegExp }
-  ) => boolean
+  ) => boolean,
 ): boolean {
   if (!isCallExpression(expressionStatement.expression)) {
     return false;
@@ -109,5 +108,3 @@ function isExpressionObserver(
   const { object } = callExpression.callee;
   return couldBeType(object, /^(Subject|Subscriber)$/);
 }
-
-export = rule;

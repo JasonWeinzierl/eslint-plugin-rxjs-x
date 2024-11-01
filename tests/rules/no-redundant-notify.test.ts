@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-redundant-notify");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noRedundantNotifyRule } from '../../src/rules/no-redundant-notify';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-redundant-notify", rule, {
+ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
   valid: [
     stripIndent`
       // observable next + complete
@@ -82,7 +82,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.next(42);
                    ~~~~ [forbidden]
         })
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -93,7 +93,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.complete();
                    ~~~~~~~~ [forbidden]
         })
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -104,7 +104,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.error(new Error("Kaboom!"));
                    ~~~~~ [forbidden]
         })
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -115,7 +115,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.next(42);
                    ~~~~ [forbidden]
         })
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -126,7 +126,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.complete();
                    ~~~~~~~~ [forbidden]
         })
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -137,7 +137,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
           observer.error(new Error("Kaboom!"));
                    ~~~~~ [forbidden]
         });
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -147,7 +147,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.complete();
         subject.next(42);
                 ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -157,7 +157,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.complete();
         subject.complete();
                 ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -167,7 +167,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.complete();
         subject.error(new Error("Kaboom!"));
                 ~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -177,7 +177,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.error(new Error("Kaboom!"));
         subject.next(42);
                 ~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -187,7 +187,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.error(new Error("Kaboom!"));
         subject.complete();
                 ~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -197,7 +197,7 @@ ruleTester({ types: true }).run("no-redundant-notify", rule, {
         subject.error(new Error("Kaboom!"));
         subject.error(new Error("Kaboom!"));
                 ~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

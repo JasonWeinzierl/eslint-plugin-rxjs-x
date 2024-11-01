@@ -1,42 +1,37 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import * as tsutils from "tsutils";
-import { couldBeType, isReferenceType, isUnionType } from "tsutils-etc";
-import * as ts from "typescript";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import * as tsutils from 'tsutils';
+import { couldBeType, isReferenceType, isUnionType } from 'tsutils-etc';
+import * as ts from 'typescript';
 import {
-  getParserServices,
   getTypeServices,
-  isMemberExpression,
-} from "../etc";
-import { ruleCreator } from "../utils";
+  isMemberExpression } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noUnsafeSubjectNext = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: "Forbids unsafe optional `next` calls.",
-      recommended: "error",
+      description: 'Forbids unsafe optional `next` calls.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Unsafe optional next calls are forbidden.",
+      forbidden: 'Unsafe optional next calls are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-unsafe-subject-next",
+  name: 'no-unsafe-subject-next',
   create: (context) => {
-    const { esTreeNodeToTSNodeMap } = getParserServices(context);
-    const { typeChecker } = getTypeServices(context);
+    const { getType, typeChecker } = getTypeServices(context);
     return {
       [`CallExpression[callee.property.name='next']`]: (
-        node: es.CallExpression
+        node: es.CallExpression,
       ) => {
         if (node.arguments.length === 0 && isMemberExpression(node.callee)) {
-          const type = typeChecker.getTypeAtLocation(
-            esTreeNodeToTSNodeMap.get(node.callee.object)
-          );
-          if (isReferenceType(type) && couldBeType(type, "Subject")) {
+          const type = getType(node.callee.object);
+          if (isReferenceType(type) && couldBeType(type, 'Subject')) {
             const [typeArg] = typeChecker.getTypeArguments(type);
             if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
               return;
@@ -48,15 +43,15 @@ const rule = ruleCreator({
               return;
             }
             if (
-              isUnionType(typeArg) &&
-              typeArg.types.some((t) =>
-                tsutils.isTypeFlagSet(t, ts.TypeFlags.Void)
+              isUnionType(typeArg)
+              && typeArg.types.some((t) =>
+                tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
               )
             ) {
               return;
             }
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: node.callee.property,
             });
           }
@@ -65,5 +60,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

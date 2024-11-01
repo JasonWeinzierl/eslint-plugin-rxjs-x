@@ -1,47 +1,47 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noSubjectUnsubscribeRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids calling the `unsubscribe` method of a subject instance.",
-      recommended: "error",
+        'Forbids calling the `unsubscribe` method of a subject instance.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Calling unsubscribe on a subject is forbidden.",
+      forbidden: 'Calling unsubscribe on a subject is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-subject-unsubscribe",
+  name: 'no-subject-unsubscribe',
   create: (context) => {
     const { couldBeSubject, couldBeSubscription } = getTypeServices(context);
 
     return {
-      "MemberExpression[property.name='unsubscribe']": (
-        node: es.MemberExpression
+      'MemberExpression[property.name=\'unsubscribe\']': (
+        node: es.MemberExpression,
       ) => {
         if (couldBeSubject(node.object)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: node.property,
           });
         }
       },
-      "CallExpression[callee.property.name='add'][arguments.length > 0]": (
-        node: es.CallExpression
+      'CallExpression[callee.property.name=\'add\'][arguments.length > 0]': (
+        node: es.CallExpression,
       ) => {
         const memberExpression = node.callee as es.MemberExpression;
         if (couldBeSubscription(memberExpression.object)) {
           const [arg] = node.arguments;
           if (couldBeSubject(arg)) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: arg,
             });
           }
@@ -50,5 +50,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

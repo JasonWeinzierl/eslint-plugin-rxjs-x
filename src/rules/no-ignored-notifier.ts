@@ -1,36 +1,36 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
 import {
   getTypeServices,
   isArrowFunctionExpression,
   isFunctionExpression,
-} from "../etc";
-import { ruleCreator } from "../utils";
+} from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noIgnoredNotifierRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids observables not composed from the `repeatWhen` or `retryWhen` notifier.",
-      recommended: "error",
+        'Forbids observables not composed from the `repeatWhen` or `retryWhen` notifier.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Ignoring the notifier is forbidden.",
+      forbidden: 'Ignoring the notifier is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-ignored-notifier",
+  name: 'no-ignored-notifier',
   create: (context) => {
     const { couldBeMonoTypeOperatorFunction } = getTypeServices(context);
 
-    type Entry = {
+    interface Entry {
       node: es.Node;
       param: es.Identifier;
       sightings: number;
-    };
+    }
     const entries: Entry[] = [];
 
     function getEntry() {
@@ -39,8 +39,8 @@ const rule = ruleCreator({
     }
 
     return {
-      "CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]": (
-        node: es.CallExpression
+      'CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]': (
+        node: es.CallExpression,
       ) => {
         if (couldBeMonoTypeOperatorFunction(node)) {
           const [arg] = node.arguments;
@@ -54,15 +54,15 @@ const rule = ruleCreator({
               });
             } else {
               context.report({
-                messageId: "forbidden",
+                messageId: 'forbidden',
                 node: node.callee,
               });
             }
           }
         }
       },
-      "CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]:exit": (
-        node: es.CallExpression
+      'CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]:exit': (
+        node: es.CallExpression,
       ) => {
         const entry = getEntry();
         if (!entry) {
@@ -71,14 +71,14 @@ const rule = ruleCreator({
         if (entry.node === node) {
           if (entry.sightings < 2) {
             context.report({
-              messageId: "forbidden",
+              messageId: 'forbidden',
               node: node.callee,
             });
           }
           entries.pop();
         }
       },
-      Identifier: (node: es.Identifier) => {
+      'Identifier': (node: es.Identifier) => {
         const entry = getEntry();
         if (!entry) {
           return;
@@ -90,5 +90,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-subscribe");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredSubscribeRule } from '../../src/rules/no-ignored-subscribe';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-subscribe", rule, {
+ruleTester({ types: true }).run('no-ignored-subscribe', noIgnoredSubscribeRule, {
   valid: [
     {
       code: stripIndent`
@@ -63,7 +63,7 @@ ruleTester({ types: true }).run("no-ignored-subscribe", rule, {
         const observable = of([1, 2]);
         observable.subscribe();
                    ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -73,7 +73,7 @@ ruleTester({ types: true }).run("no-ignored-subscribe", rule, {
         const subject = new Subject<any>();
         subject.subscribe();
                 ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -82,7 +82,7 @@ ruleTester({ types: true }).run("no-ignored-subscribe", rule, {
         declare const subscribable: Subscribable<unknown>;
         subscribable.subscribe();
                      ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

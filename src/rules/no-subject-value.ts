@@ -1,39 +1,39 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const noSubjectValueRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids accessing the `value` property of a `BehaviorSubject` instance.",
-      recommended: "error",
+        'Forbids accessing the `value` property of a `BehaviorSubject` instance.',
+      recommended: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
       forbidden:
-        "Accessing the value property of a BehaviorSubject is forbidden.",
+        'Accessing the value property of a BehaviorSubject is forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-subject-value",
+  name: 'no-subject-value',
   create: (context) => {
     const { couldBeBehaviorSubject } = getTypeServices(context);
 
     return {
-      "Identifier[name=/^(value|getValue)$/]": (node: es.Identifier) => {
-        const parent = getParent(node);
+      'Identifier[name=/^(value|getValue)$/]': (node: es.Identifier) => {
+        const parent = node.parent;
 
-        if (!parent || !("object" in parent)) {
+        if (!parent || !('object' in parent)) {
           return;
         }
 
         if (couldBeBehaviorSubject(parent.object)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node,
           });
         }
@@ -41,5 +41,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

@@ -1,7 +1,7 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-cyclic-action");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noCyclicActionRule } from '../../src/rules/no-cyclic-action';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
 const setup = stripIndent`
   import { Observable, of } from "rxjs";
@@ -19,9 +19,9 @@ const setup = stripIndent`
 
   const SOMETHING = "SOMETHING";
   const SOMETHING_ELSE = "SOMETHING_ELSE";
-`.replace(/\n/g, "");
+`.replace(/\n/g, '');
 
-ruleTester({ types: true }).run("no-cyclic-action", rule, {
+ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
   valid: [
     {
       code: stripIndent`
@@ -64,7 +64,7 @@ ruleTester({ types: true }).run("no-cyclic-action", rule, {
                   ~~~~~~~~~~~~ [forbidden]
         const d = actions.pipe(ofType(SOMETHING), mapTo({ type: SOMETHING } as const));
                   ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -78,7 +78,7 @@ ruleTester({ types: true }).run("no-cyclic-action", rule, {
                                         ~~~~~~~~~~~~ [forbidden]
         const d = (action$: Actions) => action$.pipe(ofType(SOMETHING), mapTo({ type: SOMETHING } as const));
                                         ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -92,7 +92,7 @@ ruleTester({ types: true }).run("no-cyclic-action", rule, {
                   ~~~~~~~~~~~~ [forbidden]
         const d = actions.pipe(ofType(SOMETHING, SOMETHING_ELSE), mapTo({ type: SOMETHING } as const));
                   ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -106,7 +106,7 @@ ruleTester({ types: true }).run("no-cyclic-action", rule, {
                                         ~~~~~~~~~~~~ [forbidden]
         const d = (action$: Actions) => action$.pipe(ofType(SOMETHING, SOMETHING_ELSE), mapTo({ type: SOMETHING } as const));
                                         ~~~~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

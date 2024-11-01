@@ -1,28 +1,28 @@
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { couldBeFunction, couldBeType, isAny, isUnknown } from "tsutils-etc";
-import * as ts from "typescript";
-import { getParserServices, getTypeServices } from "../etc";
-import { ruleCreator } from "../utils";
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { couldBeFunction, couldBeType, isAny, isUnknown } from 'tsutils-etc';
+import * as ts from 'typescript';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-const rule = ruleCreator({
+export const throwErrorRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Enforces the passing of `Error` values to error notifications.",
+        'Enforces the passing of `Error` values to error notifications.',
       recommended: false,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Passing non-Error values are forbidden.",
+      forbidden: 'Passing non-Error values are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "throw-error",
+  name: 'throw-error',
   create: (context) => {
-    const { esTreeNodeToTSNodeMap, program } = getParserServices(context);
+    const { esTreeNodeToTSNodeMap, program } = ESLintUtils.getParserServices(context);
     const { couldBeObservable, getType } = getTypeServices(context);
 
     function checkNode(node: es.Node) {
@@ -34,20 +34,20 @@ const rule = ruleCreator({
         type = program.getTypeChecker().getTypeAtLocation(annotation ?? body);
       }
       if (
-        !isAny(type) &&
-        !isUnknown(type) &&
-        !couldBeType(type, /^(Error|DOMException)$/)
+        !isAny(type)
+        && !isUnknown(type)
+        && !couldBeType(type, /^(Error|DOMException)$/)
       ) {
         context.report({
-          messageId: "forbidden",
+          messageId: 'forbidden',
           node,
         });
       }
     }
 
     return {
-      "ThrowStatement > *": checkNode,
-      "CallExpression[callee.name='throwError']": (node: es.CallExpression) => {
+      'ThrowStatement > *': checkNode,
+      'CallExpression[callee.name=\'throwError\']': (node: es.CallExpression) => {
         if (couldBeObservable(node)) {
           const [arg] = node.arguments;
           if (arg) {
@@ -58,5 +58,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

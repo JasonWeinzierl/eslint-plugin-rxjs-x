@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import rule = require("../../src/rules/no-ignored-subscription");
-import { fromFixture } from "../etc";
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noIgnoredSubscriptionRule } from '../../src/rules/no-ignored-subscription';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-ignored-subscription", rule, {
+ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscriptionRule, {
   valid: [
     stripIndent`
       // const and add
@@ -48,7 +48,7 @@ ruleTester({ types: true }).run("no-ignored-subscription", rule, {
         import { of } from "rxjs";
         of(42).subscribe();
                ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -57,7 +57,7 @@ ruleTester({ types: true }).run("no-ignored-subscription", rule, {
         const s = new Subject<any>()
         s.subscribe();
           ~~~~~~~~~ [forbidden]
-      `
+      `,
     ),
   ],
 });

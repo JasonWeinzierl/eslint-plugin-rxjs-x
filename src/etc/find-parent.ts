@@ -1,5 +1,4 @@
-import { TSESTree } from "@typescript-eslint/experimental-utils";
-import { getParent } from "./get-parent";
+import { TSESTree } from '@typescript-eslint/utils';
 
 type Predicate = (type: string) => 'break' | 'continue' | 'return';
 
@@ -7,11 +6,11 @@ export function findParent(node: TSESTree.Node, ...types: string[]): TSESTree.No
 export function findParent(node: TSESTree.Node, predicate: Predicate): TSESTree.Node | undefined;
 export function findParent(node: TSESTree.Node, ...args: (string | Predicate)[]): TSESTree.Node | undefined {
   const [arg] = args;
-  const predicate: Predicate =
-    typeof arg === 'function'
+  const predicate: Predicate
+    = typeof arg === 'function'
       ? arg
-      : (type: string) => (args.indexOf(type) === -1 ? 'continue' : 'return');
-  let parent = getParent(node);
+      : (type: string) => (!args.includes(type) ? 'continue' : 'return');
+  let parent = node.parent as TSESTree.Node | undefined;
   while (parent) {
     switch (predicate(parent.type)) {
       case 'break':
@@ -21,7 +20,7 @@ export function findParent(node: TSESTree.Node, ...args: (string | Predicate)[])
       default:
         break;
     }
-    parent = getParent(parent);
+    parent = parent.parent;
   }
   return undefined;
 }

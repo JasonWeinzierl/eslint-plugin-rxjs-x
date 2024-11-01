@@ -1,26 +1,32 @@
-import { ESLintUtils } from "@typescript-eslint/experimental-utils";
+import { ESLintUtils } from '@typescript-eslint/utils';
 
 export function createRegExpForWords(
-  config: string | string[]
+  config: string | string[],
 ): RegExp | undefined {
-  if (!config || !config.length) {
+  if (!config?.length) {
     return undefined;
   }
-  const flags = "i";
-  if (typeof config === "string") {
+  const flags = 'i';
+  if (typeof config === 'string') {
     return new RegExp(config, flags);
   }
   const words = config;
-  const joined = words.map((word) => String.raw`(\b|_)${word}(\b|_)`).join("|");
+  const joined = words.map((word) => String.raw`(\b|_)${word}(\b|_)`).join('|');
   return new RegExp(`(${joined})`, flags);
 }
 
 export function escapeRegExp(text: string): string {
   // https://stackoverflow.com/a/3561711/6680611
-  return text.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  return text.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
-export const ruleCreator = ESLintUtils.RuleCreator(
+export interface RxjsXRuleDocs {
+  description: string;
+  recommended?: boolean;
+  suggestion?: boolean;
+}
+
+export const ruleCreator = ESLintUtils.RuleCreator<RxjsXRuleDocs>(
   (name) =>
-    `https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/docs/rules/${name}.md`
+    `https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/docs/rules/${name}.md`,
 );
