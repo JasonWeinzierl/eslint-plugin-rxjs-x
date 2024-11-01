@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+concurrency:
+  group: '${{ github.workflow }} - ${{ github.head_ref || github.ref }}'
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+
+  build:
+    strategy:
+      matrix:
+        node-version: [18, 20]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Enable Yarn
+        run: corepack enable
+
+      - name: Install Packages
+        run: yarn install
+
+      - name: Test
+        run: yarn test

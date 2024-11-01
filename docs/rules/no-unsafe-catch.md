@@ -42,7 +42,7 @@ This rule accepts a single option which is an object with an `observable` proper
 
 ```json
 {
-  "rxjs/no-unsafe-catch": [
+  "rxjs-x/no-unsafe-catch": [
     "error",
     { "observable": "[Aa]ction(s|s\\$|\\$)$" }
   ]

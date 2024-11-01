@@ -1,8 +1,3 @@
-/**
- * @license Use of this source code is governed by an MIT-style license that
- * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-rxjs
- */
-
 import { stripIndent } from "common-tags";
 import { fromFixture } from "eslint-etc";
 import rule = require("../../source/rules/prefer-observer");
@@ -552,7 +547,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).subscribe({ next: fn, error: fn, complete: fn });
               `,
           },
@@ -571,7 +566,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of } from "rxjs";
           const fn = () => {};
-          
+
           of(42).subscribe({ next: fn, complete: fn });
         `,
         suggestions: [
@@ -580,7 +575,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).subscribe({ next: fn, complete: fn });
               `,
           },
@@ -599,7 +594,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of } from "rxjs";
           const fn = () => {};
-          
+
           of(42).subscribe({ complete: fn });
         `,
         suggestions: [
@@ -608,7 +603,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).subscribe({ complete: fn });
               `,
           },
@@ -627,7 +622,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of } from "rxjs";
           const fn = () => {};
-          
+
           of(42).subscribe({ error: fn });
         `,
         suggestions: [
@@ -636,7 +631,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).subscribe({ error: fn });
               `,
           },
@@ -655,7 +650,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of } from "rxjs";
           const fn = () => {};
-          
+
           of(42).subscribe({ error: fn });
         `,
         suggestions: [
@@ -664,7 +659,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).subscribe({ error: fn });
               `,
           },
@@ -684,7 +679,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of } from "rxjs";
           const fn = () => {};
-          
+
           // super wrong
           of(42).subscribe({ error: fn, complete: fn });
         `,
@@ -694,7 +689,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
-                
+
                 // super wrong
                 of(42).subscribe({ error: fn, complete: fn });
               `,
@@ -716,7 +711,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           of(42).pipe(tap({ next: fn, error: fn, complete: fn }));
         `,
         suggestions: [
@@ -725,7 +720,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).pipe(tap({ next: fn, error: fn, complete: fn }));
               `,
           },
@@ -744,7 +739,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           of(42).pipe(tap({ next: fn, complete: fn }));
         `,
         suggestions: [
@@ -753,7 +748,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).pipe(tap({ next: fn, complete: fn }));
               `,
           },
@@ -772,7 +767,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           of(42).pipe(tap({ complete: fn }));
         `,
         suggestions: [
@@ -781,7 +776,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).pipe(tap({ complete: fn }));
               `,
           },
@@ -800,7 +795,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           of(42).pipe(tap({ error: fn }));
         `,
         suggestions: [
@@ -809,7 +804,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).pipe(tap({ error: fn }));
               `,
           },
@@ -828,7 +823,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           of(42).pipe(tap({ error: fn }));
         `,
         suggestions: [
@@ -837,7 +832,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 of(42).pipe(tap({ error: fn }));
               `,
           },
@@ -857,7 +852,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
         output: stripIndent`
           import { of, tap } from "rxjs";
           const fn = () => {};
-          
+
           // super wrong
           of(42).pipe(tap({ error: fn, complete: fn }));
         `,
@@ -867,7 +862,7 @@ ruleTester({ types: true }).run("prefer-observer", rule, {
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
-                
+
                 // super wrong
                 of(42).pipe(tap({ error: fn, complete: fn }));
               `,

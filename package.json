@@ -1,7 +1,41 @@
 {
-  "author": "Nicholas Jamieson <nicholas@cartant.com>",
+  "name": "eslint-plugin-rxjs-x",
+  "type": "commonjs",
+  "version": "0.0.0",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "description": "ESLint v9+ plugin for RxJS",
+  "author": "Jason Weinzierl <weinzierljason@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
+  },
   "bugs": {
-    "url": "https://github.com/cartant/eslint-plugin-rxjs/issues"
+    "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues"
+  },
+  "keywords": [
+    "lint",
+    "rules",
+    "eslint",
+    "rxjs"
+  ],
+  "main": "./dist/index.js",
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "scripts": {
+    "dist": "yarn run lint && yarn run dist:build",
+    "dist:build": "yarn run dist:clean && tsc -p tsconfig-dist.json",
+    "dist:clean": "rimraf dist",
+    "lint": "eslint source/**/*.ts tests/**/*.ts",
+    "prepublishOnly": "yarn run test && yarn run dist",
+    "test": "yarn run test:rules && yarn run test:specs",
+    "test:debug": "mocha -r ts-node/register -t 5000 tests/rules/no-redundant-notify.ts",
+    "test:rules": "mocha -r ts-node/register -t 5000 tests/rules/*.ts",
+    "test:specs": "mocha -r ts-node/register tests/*-spec.ts"
   },
   "dependencies": {
     "@typescript-eslint/experimental-utils": "^5.0.0",
@@ -9,12 +43,14 @@
     "decamelize": "^5.0.0",
     "eslint-etc": "^5.1.0",
     "requireindex": "~1.2.0",
-    "rxjs-report-usage": "^1.0.4",
     "tslib": "^2.0.0",
     "tsutils": "^3.0.0",
     "tsutils-etc": "^1.4.1"
   },
-  "description": "ESLint rules for RxJS",
+  "peerDependencies": {
+    "eslint": "^8.0.0",
+    "typescript": ">=4.0.0"
+  },
   "devDependencies": {
     "@cartant/eslint-config": "^3.0.0",
     "@types/chai": "^4.2.0",
@@ -25,58 +61,11 @@
     "@typescript-eslint/parser": "^5.0.0",
     "chai": "^4.2.0",
     "eslint": "^8.0.0",
-    "husky": "^8.0.0",
     "lint-staged": "^13.0.0",
     "mocha": "^9.0.0",
-    "prettier": "^2.0.0",
     "rimraf": "^3.0.0",
     "rxjs": "^7.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~4.7.4"
-  },
-  "files": [
-    "dist",
-    "docs"
-  ],
-  "homepage": "https://github.com/cartant/eslint-plugin-rxjs",
-  "keywords": [
-    "lint",
-    "rules",
-    "eslint",
-    "rxjs"
-  ],
-  "license": "MIT",
-  "lint-staged": {
-    "*.{js,ts}": "prettier --write"
-  },
-  "main": "./dist/index.js",
-  "name": "eslint-plugin-rxjs",
-  "optionalDependencies": {},
-  "peerDependencies": {
-    "eslint": "^8.0.0",
-    "typescript": ">=4.0.0"
-  },
-  "private": false,
-  "publishConfig": {
-    "tag": "latest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cartant/eslint-plugin-rxjs.git"
-  },
-  "scripts": {
-    "dist": "yarn run lint && yarn run dist:build",
-    "dist:build": "yarn run dist:clean && tsc -p tsconfig-dist.json",
-    "dist:clean": "rimraf dist",
-    "lint": "eslint source/**/*.ts tests/**/*.ts",
-    "prepare": "husky install",
-    "prepublishOnly": "yarn run test && yarn run dist",
-    "prettier": "prettier --write \"./{src,tests}/**/*.{js,json,ts,tsx}\"",
-    "prettier:ci": "prettier --check \"./{src,tests}/**/*.{js,json,ts,tsx}\"",
-    "test": "yarn run test:rules && yarn run test:specs",
-    "test:debug": "mocha -r ts-node/register -t 5000 tests/rules/no-redundant-notify.ts",
-    "test:rules": "mocha -r ts-node/register -t 5000 tests/rules/*.ts",
-    "test:specs": "mocha -r ts-node/register tests/*-spec.ts"
-  },
-  "version": "5.0.3"
+  }
 }

@@ -31,7 +31,7 @@ This rule accepts a single option which is an object with an `allowProtected` pr
 
 ```json
 {
-  "rxjs/no-exposed-subjects": [
+  "rxjs-x/no-exposed-subjects": [
     "error",
     { "allowProtected": true }
   ]

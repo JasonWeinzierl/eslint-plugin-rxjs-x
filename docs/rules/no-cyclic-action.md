@@ -54,7 +54,7 @@ This rule accepts a single option which is an object with an `observable` proper
 
 ```json
 {
-  "rxjs/no-cyclic-action": [
+  "rxjs-x/no-cyclic-action": [
     "error",
     { "observable": "[Aa]ction(s|s\\$|\\$)$" }
   ]

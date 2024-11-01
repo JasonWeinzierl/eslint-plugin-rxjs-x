@@ -10,7 +10,7 @@ This rule accepts a single option which is an object with an `allowConfig` prope
 
 ```json
 {
-  "rxjs/no-sharereplay": [
+  "rxjs-x/no-sharereplay": [
     "error",
     { "allowConfig": true }
   ]

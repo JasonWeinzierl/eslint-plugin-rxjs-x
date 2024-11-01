@@ -12,7 +12,7 @@ The `allow` or `disallow` properties are mutually exclusive. Whether or not `swi
 
 ```json
 {
-  "rxjs/no-unsafe-switchmap": [
+  "rxjs-x/no-unsafe-switchmap": [
     "error",
     {
       "disallow": [

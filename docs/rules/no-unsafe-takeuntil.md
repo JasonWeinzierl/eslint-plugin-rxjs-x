@@ -30,7 +30,7 @@ By default, the `allow` property contains all of the built-in operators that are
 
 ```json
 {
-    "rxjs/no-unsafe-takeuntil": [
+    "rxjs-x/no-unsafe-takeuntil": [
         "error",
         {
             "alias": ["untilDestroyed"]
@@ -43,4 +43,4 @@ The properties in the options object are themselves optional; they do not all ha
 
 ## Further reading
 
--   [Avoiding takeUntil leaks](https://ncjamieson.com/avoiding-takeuntil-leaks/)
+- [Avoiding takeUntil leaks](https://ncjamieson.com/avoiding-takeuntil-leaks/)

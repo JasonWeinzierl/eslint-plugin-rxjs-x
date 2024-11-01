@@ -24,7 +24,7 @@ The default (Angular-friendly) configuration looks like this:
 
 ```json
 {
-  "rxjs/suffix-subjects": [
+  "rxjs-x/suffix-subjects": [
     "error",
     {
       "parameters": true,

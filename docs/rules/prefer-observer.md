@@ -26,7 +26,7 @@ This rule accepts a single option which is an object with an `allowNext` propert
 
 ```json
 {
-  "rxjs/prefer-observer": [
+  "rxjs-x/prefer-observer": [
     "error",
     { "allowNext": false }
   ]

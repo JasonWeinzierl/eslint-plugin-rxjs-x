@@ -66,7 +66,7 @@ This rule accepts a single option which is an object with an `allowExplicitAny` 
 
 ```json
 {
-  "rxjs/no-implicit-any-catch": [
+  "rxjs-x/no-implicit-any-catch": [
     "error",
     { "allowExplicitAny": true }
   ]

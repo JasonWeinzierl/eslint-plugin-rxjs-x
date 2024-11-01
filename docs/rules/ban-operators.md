@@ -10,7 +10,7 @@ The following configuration bans `partition` and `onErrorResumeNext`:
 
 ```json
 {
-  "rxjs/ban-operators": [
+  "rxjs-x/ban-operators": [
     "error",
     {
       "partition": true,

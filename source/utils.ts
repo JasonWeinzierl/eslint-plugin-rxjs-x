@@ -1,8 +1,3 @@
-/**
- * @license Use of this source code is governed by an MIT-style license that
- * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-rxjs
- */
-
 import { ESLintUtils } from "@typescript-eslint/experimental-utils";
 
 export function createRegExpForWords(
@@ -27,5 +22,5 @@ export function escapeRegExp(text: string): string {
 
 export const ruleCreator = ESLintUtils.RuleCreator(
   (name) =>
-    `https://github.com/cartant/eslint-plugin-rxjs/tree/main/docs/rules/${name}.md`
+    `https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/docs/rules/${name}.md`
 );
