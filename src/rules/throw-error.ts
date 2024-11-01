@@ -10,10 +10,8 @@ export const throwErrorRule = ruleCreator({
     docs: {
       description:
         'Enforces the passing of `Error` values to error notifications.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Passing non-Error values are forbidden.',
     },

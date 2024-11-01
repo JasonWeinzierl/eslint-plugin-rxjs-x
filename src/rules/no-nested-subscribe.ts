@@ -9,9 +9,8 @@ export const noNestedSubscribeRule = ruleCreator({
       description:
         'Forbids the calling of `subscribe` within a `subscribe` callback.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Nested subscribe calls are forbidden.',
     },

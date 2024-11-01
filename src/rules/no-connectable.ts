@@ -7,10 +7,8 @@ export const noConnectableRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids operators that return connectable observables.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Connectable observables are forbidden.',
     },

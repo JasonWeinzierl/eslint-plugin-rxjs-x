@@ -7,10 +7,7 @@ export const noCompatRule = ruleCreator({
     docs: {
       description:
         'Forbids importation from locations that depend upon `rxjs-compat`.',
-      recommended: false,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: '\'rxjs-compat\'-dependent import locations are forbidden.',
     },

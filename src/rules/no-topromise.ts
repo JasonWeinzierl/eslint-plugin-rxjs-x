@@ -7,10 +7,8 @@ export const noTopromiseRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids the use of the `toPromise` method.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'The toPromise method is forbidden.',
     },

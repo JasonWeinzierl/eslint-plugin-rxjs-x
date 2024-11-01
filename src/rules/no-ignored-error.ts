@@ -8,10 +8,8 @@ export const noIgnoredErrorRule = ruleCreator({
     docs: {
       description:
         'Forbids the calling of `subscribe` without specifying an error handler.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Calling subscribe without an error handler is forbidden.',
     },

@@ -19,9 +19,8 @@ export const noRedundantNotifyRule = ruleCreator({
       description:
         'Forbids redundant notifications from completed or errored observables.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Redundant notifications are forbidden.',
     },

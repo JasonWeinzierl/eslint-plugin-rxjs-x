@@ -7,10 +7,7 @@ export const noTapRule = ruleCreator({
     deprecated: true,
     docs: {
       description: 'Forbids the use of the `tap` operator.',
-      recommended: false,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'The tap operator is forbidden.',
     },

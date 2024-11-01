@@ -19,10 +19,8 @@ export const suffixSubjectsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Enforces the use of a suffix in subject identifiers.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: `Subject identifiers must end with "{{suffix}}".`,
     },

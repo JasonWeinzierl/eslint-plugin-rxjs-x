@@ -7,10 +7,8 @@ export const noSubclassRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids subclassing RxJS classes.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Subclassing RxJS classes is forbidden.',
     },

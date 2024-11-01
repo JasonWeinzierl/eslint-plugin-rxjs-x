@@ -9,10 +9,7 @@ export const banObservablesRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids the use of banned observables.',
-      recommended: false,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'RxJS observable is banned: {{name}}{{explanation}}.',
     },

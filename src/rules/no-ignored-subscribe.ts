@@ -8,10 +8,8 @@ export const noIgnoredSubscribeRule = ruleCreator({
     docs: {
       description:
         'Forbids the calling of `subscribe` without specifying arguments.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Calling subscribe without arguments is forbidden.',
     },

@@ -10,10 +10,8 @@ export const noFinnishRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids the use of Finnish notation.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Finnish notation is forbidden.',
     },

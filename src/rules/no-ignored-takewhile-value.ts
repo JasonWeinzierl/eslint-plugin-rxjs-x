@@ -14,8 +14,6 @@ export const noIgnoredTakewhileValueRule = ruleCreator({
       description: 'Forbids ignoring the value within `takeWhile`.',
       recommended: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Ignoring the value within takeWhile is forbidden.',
     },

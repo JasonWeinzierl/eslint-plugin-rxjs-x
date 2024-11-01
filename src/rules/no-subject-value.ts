@@ -8,10 +8,8 @@ export const noSubjectValueRule = ruleCreator({
     docs: {
       description:
         'Forbids accessing the `value` property of a `BehaviorSubject` instance.',
-      recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden:
         'Accessing the value property of a BehaviorSubject is forbidden.',

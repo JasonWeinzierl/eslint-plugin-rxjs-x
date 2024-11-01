@@ -13,9 +13,8 @@ export const noUnsafeSubjectNext = ruleCreator({
     docs: {
       description: 'Forbids unsafe optional `next` calls.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Unsafe optional next calls are forbidden.',
     },

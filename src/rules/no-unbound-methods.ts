@@ -11,9 +11,8 @@ export const noUnboundMethodsRule = ruleCreator({
     docs: {
       description: 'Forbids the passing of unbound methods.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Unbound methods are forbidden.',
     },

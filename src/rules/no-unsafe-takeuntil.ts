@@ -19,9 +19,8 @@ export const noUnsafeTakeuntilRule = ruleCreator({
     docs: {
       description: 'Forbids the application of operators after `takeUntil`.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Applying operators after takeUntil is forbidden.',
     },

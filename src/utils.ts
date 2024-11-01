@@ -23,7 +23,7 @@ export function escapeRegExp(text: string): string {
 export interface RxjsXRuleDocs {
   description: string;
   recommended?: boolean;
-  suggestion?: boolean;
+  requiresTypeChecking?: boolean;
 }
 
 export const ruleCreator = ESLintUtils.RuleCreator<RxjsXRuleDocs>(

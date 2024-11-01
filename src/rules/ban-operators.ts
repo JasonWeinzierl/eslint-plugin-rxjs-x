@@ -9,10 +9,7 @@ export const banOperatorsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids the use of banned operators.',
-      recommended: false,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'RxJS operator is banned: {{name}}{{explanation}}.',
     },

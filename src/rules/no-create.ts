@@ -8,9 +8,8 @@ export const noCreateRule = ruleCreator({
     docs: {
       description: 'Forbids the calling of `Observable.create`.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Observable.create is forbidden; use new Observable.',
     },

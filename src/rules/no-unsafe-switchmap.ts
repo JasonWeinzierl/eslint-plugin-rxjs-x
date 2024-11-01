@@ -20,10 +20,8 @@ export const noUnsafeSwitchmapRule = ruleCreator({
   meta: {
     docs: {
       description: 'Forbids unsafe `switchMap` usage in effects and epics.',
-      recommended: false,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Unsafe switchMap usage in effects and epics is forbidden.',
     },

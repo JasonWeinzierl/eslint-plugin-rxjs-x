@@ -9,9 +9,8 @@ export const noSubjectUnsubscribeRule = ruleCreator({
       description:
         'Forbids calling the `unsubscribe` method of a subject instance.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Calling unsubscribe on a subject is forbidden.',
     },

@@ -9,10 +9,8 @@ export const macroRule = ruleCreator({
   meta: {
     docs: {
       description: 'Enforces the use of the RxJS Tools Babel macro.',
-      recommended: false,
     },
     fixable: 'code',
-    hasSuggestions: false,
     messages: {
       macro: 'Use the RxJS Tools Babel macro.',
     },

@@ -8,8 +8,6 @@ export const noIndexRule = ruleCreator({
       description: 'Forbids the importation from index modules.',
       recommended: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'RxJS imports from index modules are forbidden.',
     },

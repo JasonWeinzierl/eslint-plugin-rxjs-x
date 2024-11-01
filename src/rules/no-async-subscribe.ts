@@ -8,9 +8,8 @@ export const noAsyncSubscribeRule = ruleCreator({
     docs: {
       description: 'Forbids passing `async` functions to `subscribe`.',
       recommended: true,
+      requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Passing async functions to subscribe is forbidden.',
     },

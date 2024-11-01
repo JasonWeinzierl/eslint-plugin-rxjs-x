@@ -12,8 +12,6 @@ export const noSharereplayRule = ruleCreator({
       description: 'Forbids using the `shareReplay` operator.',
       recommended: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'shareReplay is forbidden.',
       forbiddenWithoutConfig:
