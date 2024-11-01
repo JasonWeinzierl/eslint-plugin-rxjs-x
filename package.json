@@ -38,6 +38,7 @@
   "scripts": {
     "build": "unbuild",
     "lint": "eslint",
+    "release": "bumpp && yarn run build",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
@@ -63,6 +64,7 @@
     "@types/node": "^18.18.0",
     "@typescript-eslint/rule-tester": "^8.12.2",
     "@vitest/coverage-v8": "^2.1.4",
+    "bumpp": "^9.8.0",
     "eslint": "^9.13.0",
     "eslint-config-flat-gitignore": "^0.3.0",
     "eslint-import-resolver-typescript": "^3.6.3",
