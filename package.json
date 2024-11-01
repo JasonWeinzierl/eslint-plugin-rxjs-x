@@ -32,10 +32,9 @@
     "dist:clean": "rimraf dist",
     "lint": "eslint src/**/*.ts tests/**/*.ts",
     "prepublishOnly": "yarn run test && yarn run dist",
-    "test": "yarn run test:rules && yarn run test:specs",
-    "test:debug": "mocha -r ts-node/register -t 5000 tests/rules/no-redundant-notify.ts",
-    "test:rules": "mocha -r ts-node/register -t 5000 tests/rules/*.ts",
-    "test:specs": "mocha -r ts-node/register tests/*-spec.ts"
+    "test": "yarn run test:all",
+    "test:debug": "mocha -r ts-node/register -t 5000 tests/rules/no-redundant-notify.test.ts",
+    "test:all": "mocha -r ts-node/register -t 5000 tests/*.test.ts tests/**/*.test.ts"
   },
   "dependencies": {
     "@typescript-eslint/experimental-utils": "^5.0.0",
