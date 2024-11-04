@@ -1,8 +1,8 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import * as tsutils from 'tsutils';
-import { couldBeType, isReferenceType, isUnionType } from 'tsutils-etc';
+import * as tsutils from 'ts-api-utils';
 import * as ts from 'typescript';
 import {
+  couldBeType,
   getTypeServices,
   isMemberExpression } from '../etc';
 import { ruleCreator } from '../utils';
@@ -30,7 +30,7 @@ export const noUnsafeSubjectNext = ruleCreator({
       ) => {
         if (node.arguments.length === 0 && isMemberExpression(node.callee)) {
           const type = getType(node.callee.object);
-          if (isReferenceType(type) && couldBeType(type, 'Subject')) {
+          if (tsutils.isTypeReference(type) && couldBeType(type, 'Subject')) {
             const [typeArg] = typeChecker.getTypeArguments(type);
             if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
               return;
@@ -42,7 +42,7 @@ export const noUnsafeSubjectNext = ruleCreator({
               return;
             }
             if (
-              isUnionType(typeArg)
+              tsutils.isUnionType(typeArg)
               && typeArg.types.some((t) =>
                 tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
               )
