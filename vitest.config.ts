@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, coverageConfigDefaults } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -6,6 +6,7 @@ export default defineConfig({
     reporters: process.env.GITHUB_ACTIONS ? ['dot', 'github-actions'] : ['dot'],
     coverage: {
       reporter: ['text-summary', 'lcovonly'],
+      exclude: ['scripts/**', ...coverageConfigDefaults.exclude],
     },
   },
 });
