@@ -7,42 +7,42 @@ describe('utils', () => {
     const regExp = createRegExpForWords(['add'])!;
 
     it('should match action literals', () => {
-      expect(`"ADD"`).to.match(regExp);
-      expect(`"ADD_SOMETHING"`).to.match(regExp);
-      expect(`"SOMETHING_ADD"`).to.match(regExp);
+      expect(`"ADD"`).toMatch(regExp);
+      expect(`"ADD_SOMETHING"`).toMatch(regExp);
+      expect(`"SOMETHING_ADD"`).toMatch(regExp);
 
-      expect(`'ADD'`).to.match(regExp);
-      expect(`'ADD_SOMETHING'`).to.match(regExp);
-      expect(`'SOMETHING_ADD'`).to.match(regExp);
+      expect(`'ADD'`).toMatch(regExp);
+      expect(`'ADD_SOMETHING'`).toMatch(regExp);
+      expect(`'SOMETHING_ADD'`).toMatch(regExp);
 
-      expect('`ADD`').to.match(regExp);
-      expect('`ADD_SOMETHING`').to.match(regExp);
-      expect('`SOMETHING_ADD`').to.match(regExp);
+      expect('`ADD`').toMatch(regExp);
+      expect('`ADD_SOMETHING`').toMatch(regExp);
+      expect('`SOMETHING_ADD`').toMatch(regExp);
     });
 
     it('should match action symbols', () => {
-      expect('ADD').to.match(regExp);
-      expect('ADD_SOMETHING').to.match(regExp);
-      expect('SOMETHING_ADD').to.match(regExp);
+      expect('ADD').toMatch(regExp);
+      expect('ADD_SOMETHING').toMatch(regExp);
+      expect('SOMETHING_ADD').toMatch(regExp);
 
-      expect(decamelize('Add')).to.match(regExp);
-      expect(decamelize('AddSomething')).to.match(regExp);
-      expect(decamelize('SomethingAdd')).to.match(regExp);
+      expect(decamelize('Add')).toMatch(regExp);
+      expect(decamelize('AddSomething')).toMatch(regExp);
+      expect(decamelize('SomethingAdd')).toMatch(regExp);
     });
 
     it('should not match words within larger words', () => {
-      expect('READD').to.not.match(regExp);
-      expect('Readd').to.not.match(regExp);
+      expect('READD').not.toMatch(regExp);
+      expect('Readd').not.toMatch(regExp);
 
-      expect('ADDER').to.not.match(regExp);
-      expect('Adder').to.not.match(regExp);
+      expect('ADDER').not.toMatch(regExp);
+      expect('Adder').not.toMatch(regExp);
 
-      expect('LADDER').to.not.match(regExp);
-      expect('Ladder').to.not.match(regExp);
+      expect('LADDER').not.toMatch(regExp);
+      expect('Ladder').not.toMatch(regExp);
     });
 
     it('should create a RegExp from a string', () => {
-      expect(createRegExpForWords('.')?.toString()).to.equal('/./i');
+      expect(createRegExpForWords('.')?.toString()).toEqual('/./i');
     });
   });
 });

@@ -5,6 +5,7 @@ import gitignore from 'eslint-config-flat-gitignore';
 import importX from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
 import tseslint from 'typescript-eslint';
+import vitest from '@vitest/eslint-plugin';
 
 export default tseslint.config(gitignore(), {
   files: [
@@ -80,4 +81,11 @@ export default tseslint.config(gitignore(), {
       },
     ],
   },
+}, {
+  files: [
+    'tests/**/*.ts',
+  ],
+  extends: [
+    vitest.configs.recommended,
+  ],
 });
