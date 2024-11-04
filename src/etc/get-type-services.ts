@@ -1,6 +1,8 @@
 import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
-import * as tsutils from 'tsutils-etc';
+import * as tsutils from 'ts-api-utils';
 import * as ts from 'typescript';
+import { couldBeFunction } from './could-be-function';
+import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
 import { isArrowFunctionExpression, isFunctionDeclaration } from './is';
 
 export function getTypeServices<
@@ -17,7 +19,7 @@ export function getTypeServices<
     qualified?: { name: RegExp },
   ): boolean => {
     const type = getType(node);
-    return tsutils.couldBeType(
+    return tsutilsEtcCouldBeType(
       type,
       name,
       qualified ? { ...qualified, typeChecker } : undefined,
@@ -46,7 +48,7 @@ export function getTypeServices<
     }
     return Boolean(
       tsTypeNode
-      && tsutils.couldBeType(
+      && tsutilsEtcCouldBeType(
         typeChecker.getTypeAtLocation(tsTypeNode),
         name,
         qualified ? { ...qualified, typeChecker } : undefined,
@@ -66,7 +68,7 @@ export function getTypeServices<
       if (isArrowFunctionExpression(node) || isFunctionDeclaration(node)) {
         return true;
       }
-      return tsutils.couldBeFunction(getType(node));
+      return couldBeFunction(getType(node));
     },
     couldBeMonoTypeOperatorFunction: (node: TSESTree.Node) =>
       couldBeType(node, 'MonoTypeOperatorFunction'),
@@ -78,9 +80,9 @@ export function getTypeServices<
       couldReturnType(node, 'Observable'),
     couldReturnType,
     getType,
-    isAny: (node: TSESTree.Node) => tsutils.isAny(getType(node)),
-    isReferenceType: (node: TSESTree.Node) => tsutils.isReferenceType(getType(node)),
-    isUnknown: (node: TSESTree.Node) => tsutils.isUnknown(getType(node)),
+    isAny: (node: TSESTree.Node) => tsutils.isIntrinsicAnyType(getType(node)),
+    isReferenceType: (node: TSESTree.Node) => tsutils.isTypeReference(getType(node)),
+    isUnknown: (node: TSESTree.Node) => tsutils.isIntrinsicUnknownType(getType(node)),
     typeChecker,
   };
 }

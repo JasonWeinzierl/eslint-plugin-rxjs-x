@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
-import { couldBeFunction, couldBeType, isAny, isUnknown } from 'tsutils-etc';
+import * as tsutils from 'ts-api-utils';
 import * as ts from 'typescript';
-import { getTypeServices } from '../etc';
+import { couldBeFunction, couldBeType, getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const throwErrorRule = ruleCreator({
@@ -32,8 +32,8 @@ export const throwErrorRule = ruleCreator({
         type = program.getTypeChecker().getTypeAtLocation(annotation ?? body);
       }
       if (
-        !isAny(type)
-        && !isUnknown(type)
+        !tsutils.isIntrinsicAnyType(type)
+        && !tsutils.isIntrinsicUnknownType(type)
         && !couldBeType(type, /^(Error|DOMException)$/)
       ) {
         context.report({
