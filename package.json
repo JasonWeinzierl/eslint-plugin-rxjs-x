@@ -28,12 +28,12 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       }
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
@@ -41,7 +41,7 @@
     "docs"
   ],
   "scripts": {
-    "build": "unbuild && tsx scripts/postbuild.ts",
+    "build": "tsup",
     "lint": "eslint",
     "release": "bumpp && yarn run build",
     "test": "vitest",
@@ -77,10 +77,10 @@
     "eslint-plugin-import-x": "^4.4.0",
     "eslint-plugin-n": "^17.12.0",
     "rxjs": "^7.0.0",
+    "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "~5.6.3",
     "typescript-eslint": "^8.12.2",
-    "unbuild": "^2.0.0",
     "vitest": "^2.1.4"
   },
   "engines": {

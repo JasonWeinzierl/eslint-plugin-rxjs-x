@@ -1,5 +1,5 @@
 import { TSESLint } from '@typescript-eslint/utils';
-import { name, version } from '../package.json' assert { type: 'json' };
+import { name, version } from '../package.json';
 import { createRecommendedConfig } from './configs/recommended';
 
 import { banObservablesRule } from './rules/ban-observables';
