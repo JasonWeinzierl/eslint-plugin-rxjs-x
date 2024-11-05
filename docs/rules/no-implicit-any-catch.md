@@ -1,6 +1,14 @@
-# Use type-safe error handlers (`no-implicit-any-catch`)
+# Disallow implicit `any` error parameters in `catchError` operators (`rxjs-x/no-implicit-any-catch`)
 
-This rule requires an explicit type annotation for error parameters in error handlers. It's similar to the TypeScript [`no-implicit-any-catch`](https://github.com/typescript-eslint/typescript-eslint/blob/e01204931e460f5e6731abc443c88d666ca0b07a/packages/eslint-plugin/docs/rules/no-implicit-any-catch.md) rule, but is for observables - not `try`/`catch` statements.
+💼 This rule is enabled in the ✅ `recommended` config.
+
+🔧💡 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix) and manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
+
+This rule requires an explicit type annotation for error parameters in error handlers. It's similar to the typescript-eslint [`use-unknown-in-catch-callback-variable`](https://typescript-eslint.io/rules/use-unknown-in-catch-callback-variable/) rule or the TSConfig [`useUnknownInCatchVariables`](https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables) option, but is for observables - not `try`/`catch` statements.
 
 ## Rule details
 
@@ -61,6 +69,14 @@ throwError(() => new Error("Kaboom!")).pipe(
 ```
 
 ## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name               | Type    |
+| :----------------- | :------ |
+| `allowExplicitAny` | Boolean |
+
+<!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with an `allowExplicitAny` property that determines whether or not the error variable can be explicitly typed as `any`. By default, the use of explicit `any` is forbidden.
 

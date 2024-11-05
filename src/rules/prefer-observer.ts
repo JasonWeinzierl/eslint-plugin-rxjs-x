@@ -19,7 +19,7 @@ export const preferObserverRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids the passing separate handlers to `subscribe` and `tap`.',
+        'Disallow passing separate handlers to `subscribe` and `tap`.',
       requiresTypeChecking: true,
     },
     fixable: 'code',

@@ -12,7 +12,7 @@ export const noUnsafeFirstRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Forbids unsafe `first`/`take` usage in effects and epics.',
+      description: 'Disallow unsafe `first`/`take` usage in effects and epics.',
       requiresTypeChecking: true,
     },
     messages: {

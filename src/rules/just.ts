@@ -5,7 +5,7 @@ export const justRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Enforces the use of a `just` alias for `of`.',
+      description: 'Require the use of `just` instead of `of`.',
     },
     fixable: 'code',
     messages: {

@@ -1,4 +1,10 @@
-# Avoid passing async functions to `subscribe` (`no-async-subscribe`)
+# Disallow passing `async` functions to `subscribe` (`rxjs-x/no-async-subscribe`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if async functions are passed to `subscribe`.
 
@@ -17,10 +23,6 @@ Examples of **correct** code for this rule:
 import { of } from "rxjs";
 of(42).subscribe(() => console.log(value));
 ```
-
-## Options
-
-This rule has no options.
 
 ## Further reading
 

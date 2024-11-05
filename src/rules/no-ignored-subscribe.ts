@@ -7,7 +7,7 @@ export const noIgnoredSubscribeRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids the calling of `subscribe` without specifying arguments.',
+        'Disallow calling `subscribe` without specifying arguments.',
       requiresTypeChecking: true,
     },
     messages: {

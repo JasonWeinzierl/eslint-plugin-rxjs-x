@@ -7,7 +7,7 @@ export const noSubjectValueRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids accessing the `value` property of a `BehaviorSubject` instance.',
+        'Disallow accessing the `value` property of a `BehaviorSubject` instance.',
       requiresTypeChecking: true,
     },
     messages: {

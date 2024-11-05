@@ -6,7 +6,7 @@ export const noIgnoredSubscriptionRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids ignoring the subscription returned by `subscribe`.',
+      description: 'Disallow ignoring the subscription returned by `subscribe`.',
       requiresTypeChecking: true,
     },
     messages: {

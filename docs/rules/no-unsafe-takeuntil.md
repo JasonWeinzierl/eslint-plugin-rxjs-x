@@ -1,4 +1,10 @@
-# Avoid `takeUntil` subscription leaks (`no-unsafe-takeuntil`)
+# Disallow applying operators after `takeUntil` (`rxjs-x/no-unsafe-takeuntil`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures whenever `takeUntil` is used in observable compositions that can leak subscriptions.
 
@@ -23,6 +29,15 @@ const combined = source
 ```
 
 ## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name    | Type     |
+| :------ | :------- |
+| `alias` | String[] |
+| `allow` | String[] |
+
+<!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with `alias` and `allow` properties. The `alias` property is an array of names of operators that should be treated similarly to `takeUntil` and the `allow` property is an array of names of operators that are safe to use after `takeUntil`.
 

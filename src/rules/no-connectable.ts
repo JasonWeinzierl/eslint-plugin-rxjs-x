@@ -6,7 +6,7 @@ export const noConnectableRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids operators that return connectable observables.',
+      description: 'Disallow operators that return connectable observables.',
       requiresTypeChecking: true,
     },
     messages: {

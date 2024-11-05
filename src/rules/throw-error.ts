@@ -9,7 +9,7 @@ export const throwErrorRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Enforces the passing of `Error` values to error notifications.',
+        'Enforce passing only `Error` values to error notifications.',
       requiresTypeChecking: true,
     },
     messages: {

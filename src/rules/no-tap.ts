@@ -6,7 +6,7 @@ export const noTapRule = ruleCreator({
   meta: {
     deprecated: true,
     docs: {
-      description: 'Forbids the use of the `tap` operator.',
+      description: 'Disallow the `tap` operator.',
     },
     messages: {
       forbidden: 'The tap operator is forbidden.',

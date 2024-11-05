@@ -1,4 +1,8 @@
-# Avoid unbounded replay buffers (`no-ignored-replay-buffer`)
+# Disallow using `ReplaySubject`, `publishReplay` or `shareReplay` without specifying the buffer size (`rxjs-x/no-ignored-replay-buffer`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if the buffer size of a replay buffer is not explicitly specified.
 
@@ -22,7 +26,3 @@ const subject = new ReplaySubject<number>(1);
 import { ReplaySubject } from "rxjs";
 const subject = new ReplaySubject<number>(Infinity);
 ```
-
-## Options
-
-This rule has no options.

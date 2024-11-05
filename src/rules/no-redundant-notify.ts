@@ -17,7 +17,7 @@ export const noRedundantNotifyRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids redundant notifications from completed or errored observables.',
+        'Disallow sending redundant notifications from completed or errored observables.',
       recommended: true,
       requiresTypeChecking: true,
     },

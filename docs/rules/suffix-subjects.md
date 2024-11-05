@@ -1,4 +1,8 @@
-# Identify subjects (`suffix-subjects`)
+# Enforce the use of a suffix in subject identifiers (`rxjs-x/suffix-subjects`)
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if subject variables, properties and parameters don't conform to a naming scheme that identifies them as subjects.
 
@@ -17,6 +21,18 @@ const answersSubject = new Subject<number>();
 ```
 
 ## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name         | Type    |
+| :----------- | :------ |
+| `parameters` | Boolean |
+| `properties` | Boolean |
+| `suffix`     | String  |
+| `types`      | Object  |
+| `variables`  | Boolean |
+
+<!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with properties that determine whether Finnish notation is enforced for `parameters`, `properties` and `variables`. It also contains a `types` property that determine whether of not the naming convention is to be enforced for specific types and a `suffix` property.
 

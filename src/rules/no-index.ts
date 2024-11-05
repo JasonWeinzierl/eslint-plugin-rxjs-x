@@ -5,7 +5,7 @@ export const noIndexRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the importation from index modules.',
+      description: 'Disallow importing index modules.',
       recommended: true,
     },
     messages: {

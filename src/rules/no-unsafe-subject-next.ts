@@ -11,7 +11,7 @@ export const noUnsafeSubjectNext = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids unsafe optional `next` calls.',
+      description: 'Disallow unsafe optional `next` calls.',
       recommended: true,
       requiresTypeChecking: true,
     },

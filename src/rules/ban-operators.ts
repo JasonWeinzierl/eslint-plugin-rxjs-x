@@ -8,7 +8,7 @@ export const banOperatorsRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Forbids the use of banned operators.',
+      description: 'Disallow banned operators.',
     },
     messages: {
       forbidden: 'RxJS operator is banned: {{name}}{{explanation}}.',

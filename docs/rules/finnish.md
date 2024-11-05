@@ -1,4 +1,8 @@
-# Use Finnish notation (`finnish`)
+# Enforce Finnish notation (`rxjs-x/finnish`)
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule enforces the use of Finnish notation - i.e. the `$` suffix.
 
@@ -17,6 +21,21 @@ const answer$ = of(42, 54);
 ```
 
 ## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name         | Type    |
+| :----------- | :------ |
+| `functions`  | Boolean |
+| `methods`    | Boolean |
+| `names`      | Object  |
+| `parameters` | Boolean |
+| `properties` | Boolean |
+| `strict`     | Boolean |
+| `types`      | Object  |
+| `variables`  | Boolean |
+
+<!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with properties that determine whether Finnish notation is enforced for `functions`, `methods`, `parameters`, `properties` and `variables`. It also contains:
 

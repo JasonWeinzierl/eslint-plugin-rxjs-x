@@ -1,4 +1,8 @@
-# Avoid importing index modules (`no-index`)
+# Disallow importing index modules (`rxjs-x/no-index`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if an index module is specified as the import location.
 
@@ -15,7 +19,3 @@ Examples of **correct** code for this rule:
 ```ts
 import { of } from "rxjs";
 ```
-
-## Options
-
-This rule has no options.

@@ -8,7 +8,7 @@ export const noInternalRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the importation of internals.',
+      description: 'Disallow importing internal modules.',
       recommended: true,
     },
     fixable: 'code',
