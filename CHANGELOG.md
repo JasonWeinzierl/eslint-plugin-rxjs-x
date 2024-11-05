@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.2.0
 
 - Improved CJS typing to avoid needing `.default`.
 - Added options documentation to rule docs.
