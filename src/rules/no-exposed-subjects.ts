@@ -22,7 +22,7 @@ export const noExposedSubjectsRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowProtected: { type: 'boolean' },
+          allowProtected: { type: 'boolean', description: 'Allow protected subjects.', default: false },
         },
         type: 'object',
       },

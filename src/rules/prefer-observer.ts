@@ -31,7 +31,7 @@ export const preferObserverRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowNext: { type: 'boolean' },
+          allowNext: { type: 'boolean', description: 'Allows a single `next` callback.', default: true },
         },
         type: 'object',
       },

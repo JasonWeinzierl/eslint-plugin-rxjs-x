@@ -24,22 +24,22 @@ const answer$ = of(42, 54);
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Type    |
-| :----------- | :------ |
-| `functions`  | Boolean |
-| `methods`    | Boolean |
-| `names`      | Object  |
-| `parameters` | Boolean |
-| `properties` | Boolean |
-| `strict`     | Boolean |
-| `types`      | Object  |
-| `variables`  | Boolean |
+| Name         | Description                                                          | Type    |
+| :----------- | :------------------------------------------------------------------- | :------ |
+| `functions`  | Require for functions.                                               | Boolean |
+| `methods`    | Require for methods.                                                 | Boolean |
+| `names`      | Enforce for specific names. Keys are a RegExp, values are a boolean. | Object  |
+| `parameters` | Require for parameters.                                              | Boolean |
+| `properties` | Require for properties.                                              | Boolean |
+| `strict`     | Disallow Finnish notation for non-Observables.                       | Boolean |
+| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean. | Object  |
+| `variables`  | Require for variables.                                               | Boolean |
 
 <!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with properties that determine whether Finnish notation is enforced for `functions`, `methods`, `parameters`, `properties` and `variables`. It also contains:
 
-- `names` and `types` properties that determine whether of not Finnish notation is to be enforced for specific names or types.
+- `names` and `types` properties that determine whether or not Finnish notation is to be enforced for specific names or types.
 - a `strict` property that, if `true`, allows the `$` suffix to be used _only_ with identifiers that have an `Observable` type.
 
 The default (Angular-friendly) configuration looks like this:

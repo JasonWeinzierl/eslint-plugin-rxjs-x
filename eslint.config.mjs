@@ -6,6 +6,11 @@ import importX from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
 import tseslint from 'typescript-eslint';
 import vitest from '@vitest/eslint-plugin';
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
+
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
+// @ts-expect-error -- eslint-plugin does not provide types.
+const eslintPluginConfig = eslintPlugin.configs['flat/recommended'];
 
 export default tseslint.config(gitignore(), {
   files: [
@@ -29,6 +34,7 @@ export default tseslint.config(gitignore(), {
     n.configs['flat/recommended-module'],
     importX.flatConfigs.recommended,
     importX.flatConfigs.typescript,
+    eslintPluginConfig,
   ],
   languageOptions: {
     parserOptions: {
@@ -58,6 +64,15 @@ export default tseslint.config(gitignore(), {
     ],
 
     'n/no-missing-import': 'off',
+
+    'eslint-plugin/require-meta-docs-description': [
+      'error',
+      {
+        pattern: '^(Enforce|Require|Disallow)',
+      },
+    ],
+    'eslint-plugin/prefer-placeholders': 'error',
+    'eslint-plugin/require-meta-schema-description': 'error',
 
     '@typescript-eslint/no-unnecessary-condition': 'off',
     '@typescript-eslint/restrict-template-expressions': [

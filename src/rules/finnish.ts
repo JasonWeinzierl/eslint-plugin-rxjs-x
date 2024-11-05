@@ -30,14 +30,14 @@ export const finnishRule = ruleCreator({
     schema: [
       {
         properties: {
-          functions: { type: 'boolean' },
-          methods: { type: 'boolean' },
-          names: { type: 'object' },
-          parameters: { type: 'boolean' },
-          properties: { type: 'boolean' },
-          strict: { type: 'boolean' },
-          types: { type: 'object' },
-          variables: { type: 'boolean' },
+          functions: { type: 'boolean', description: 'Require for functions.' },
+          methods: { type: 'boolean', description: 'Require for methods.' },
+          names: { type: 'object', description: 'Enforce for specific names. Keys are a RegExp, values are a boolean.' },
+          parameters: { type: 'boolean', description: 'Require for parameters.' },
+          properties: { type: 'boolean', description: 'Require for properties.' },
+          strict: { type: 'boolean', description: 'Disallow Finnish notation for non-Observables.' },
+          types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
+          variables: { type: 'boolean', description: 'Require for variables.' },
         },
         type: 'object',
       },

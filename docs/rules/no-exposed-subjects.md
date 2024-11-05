@@ -33,9 +33,9 @@ class Answers {
 
 <!-- begin auto-generated rule options list -->
 
-| Name             | Type    |
-| :--------------- | :------ |
-| `allowProtected` | Boolean |
+| Name             | Description               | Type    | Default |
+| :--------------- | :------------------------ | :------ | :------ |
+| `allowProtected` | Allow protected subjects. | Boolean | `false` |
 
 <!-- end auto-generated rule options list -->
 

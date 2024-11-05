@@ -26,7 +26,7 @@ export const noUnsafeCatchRule = ruleCreator({
     schema: [
       {
         properties: {
-          observable: { type: 'string' },
+          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.', default: defaultObservable },
         },
         type: 'object',
         description: stripIndent`
