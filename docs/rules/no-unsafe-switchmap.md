@@ -10,11 +10,11 @@ This rule effects failures if `switchMap` is used in effects or epics that perfo
 
 <!-- begin auto-generated rule options list -->
 
-| Name         |
-| :----------- |
-| `allow`      |
-| `disallow`   |
-| `observable` |
+| Name         | Description                                                                                  | Type   | Default                  |
+| :----------- | :------------------------------------------------------------------------------------------- | :----- | :----------------------- |
+| `allow`      | Action types that are allowed to be used with switchMap. Mutually exclusive with `disallow`. |        |                          |
+| `disallow`   | Action types that are disallowed to be used with switchMap. Mutually exclusive with `allow`. |        |                          |
+| `observable` | A RegExp that matches an effect or epic's actions observable.                                | String | `[Aa]ction(s\|s\$\|\$)$` |
 
 <!-- end auto-generated rule options list -->
 

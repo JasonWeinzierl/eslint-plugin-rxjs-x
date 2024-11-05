@@ -32,10 +32,10 @@ const combined = source
 
 <!-- begin auto-generated rule options list -->
 
-| Name    | Type     |
-| :------ | :------- |
-| `alias` | String[] |
-| `allow` | String[] |
+| Name    | Description                                                                 | Type     | Default                                                                                                                                                                                                                                                    |
+| :------ | :-------------------------------------------------------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `alias` | An array of operator names that should be treated similarly to `takeUntil`. | String[] |                                                                                                                                                                                                                                                            |
+| `allow` | An array of operator names that are allowed to follow `takeUntil`.          | String[] | [`count`, `defaultIfEmpty`, `endWith`, `every`, `finalize`, `finally`, `isEmpty`, `last`, `max`, `min`, `publish`, `publishBehavior`, `publishLast`, `publishReplay`, `reduce`, `share`, `shareReplay`, `skipLast`, `takeLast`, `throwIfEmpty`, `toArray`] |
 
 <!-- end auto-generated rule options list -->
 

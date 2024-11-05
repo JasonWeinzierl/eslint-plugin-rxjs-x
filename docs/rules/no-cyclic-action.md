@@ -56,9 +56,9 @@ Or you can use an ESLint [inline comment](https://eslint.org/docs/user-guide/con
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Type   |
-| :----------- | :----- |
-| `observable` | String |
+| Name         | Description                                                   | Type   | Default                  |
+| :----------- | :------------------------------------------------------------ | :----- | :----------------------- |
+| `observable` | A RegExp that matches an effect or epic's actions observable. | String | `[Aa]ction(s\|s\$\|\$)$` |
 
 <!-- end auto-generated rule options list -->
 

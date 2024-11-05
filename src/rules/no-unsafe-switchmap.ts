@@ -29,22 +29,23 @@ export const noUnsafeSwitchmapRule = ruleCreator({
       {
         properties: {
           allow: {
+            description: 'Action types that are allowed to be used with switchMap. Mutually exclusive with `disallow`.',
             oneOf: [
-              { type: 'string' },
-              { type: 'array', items: { type: 'string' } },
+              { type: 'string', description: 'A regular expression string.' },
+              { type: 'array', items: { type: 'string' }, description: 'An array of words.' },
             ],
           },
           disallow: {
+            description: 'Action types that are disallowed to be used with switchMap. Mutually exclusive with `allow`.',
             oneOf: [
-              { type: 'string' },
-              { type: 'array', items: { type: 'string' } },
+              { type: 'string', description: 'A regular expression string.' },
+              { type: 'array', items: { type: 'string' }, description: 'An array of words.' },
             ],
           },
           observable: {
-            oneOf: [
-              { type: 'string' },
-              { type: 'array', items: { type: 'string' } },
-            ],
+            type: 'string',
+            description: 'A RegExp that matches an effect or epic\'s actions observable.',
+            default: defaultObservable,
           },
         },
         type: 'object',

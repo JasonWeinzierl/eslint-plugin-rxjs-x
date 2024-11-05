@@ -72,9 +72,9 @@ throwError(() => new Error("Kaboom!")).pipe(
 
 <!-- begin auto-generated rule options list -->
 
-| Name               | Type    |
-| :----------------- | :------ |
-| `allowExplicitAny` | Boolean |
+| Name               | Description                                           | Type    | Default |
+| :----------------- | :---------------------------------------------------- | :------ | :------ |
+| `allowExplicitAny` | Allow error variable to be explicitly typed as `any`. | Boolean | `false` |
 
 <!-- end auto-generated rule options list -->
 

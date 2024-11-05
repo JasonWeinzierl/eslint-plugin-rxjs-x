@@ -27,11 +27,11 @@ export const suffixSubjectsRule = ruleCreator({
     schema: [
       {
         properties: {
-          parameters: { type: 'boolean' },
-          properties: { type: 'boolean' },
-          suffix: { type: 'string' },
-          types: { type: 'object' },
-          variables: { type: 'boolean' },
+          parameters: { type: 'boolean', description: 'Require for parameters.' },
+          properties: { type: 'boolean', description: 'Require for properties.' },
+          suffix: { type: 'string', description: 'The suffix to enforce.' },
+          types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
+          variables: { type: 'boolean', description: 'Require for variables.' },
         },
         type: 'object',
       },

@@ -12,9 +12,9 @@ The behavior of `shareReplay` has changed several times - see the blog post link
 
 <!-- begin auto-generated rule options list -->
 
-| Name          | Type    |
-| :------------ | :------ |
-| `allowConfig` | Boolean |
+| Name          | Description                                          | Type    | Default |
+| :------------ | :--------------------------------------------------- | :------ | :------ |
+| `allowConfig` | Allow shareReplay if a config argument is specified. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
 

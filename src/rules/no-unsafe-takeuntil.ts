@@ -13,6 +13,30 @@ const defaultOptions: readonly {
   allow?: string[];
 }[] = [];
 
+const allowedOperators = [
+  'count',
+  'defaultIfEmpty',
+  'endWith',
+  'every',
+  'finalize',
+  'finally',
+  'isEmpty',
+  'last',
+  'max',
+  'min',
+  'publish',
+  'publishBehavior',
+  'publishLast',
+  'publishReplay',
+  'reduce',
+  'share',
+  'shareReplay',
+  'skipLast',
+  'takeLast',
+  'throwIfEmpty',
+  'toArray',
+];
+
 export const noUnsafeTakeuntilRule = ruleCreator({
   defaultOptions,
   meta: {
@@ -27,8 +51,8 @@ export const noUnsafeTakeuntilRule = ruleCreator({
     schema: [
       {
         properties: {
-          alias: { type: 'array', items: { type: 'string' } },
-          allow: { type: 'array', items: { type: 'string' } },
+          alias: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that should be treated similarly to `takeUntil`.' },
+          allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.', default: allowedOperators },
         },
         type: 'object',
         description: stripIndent`
@@ -42,29 +66,6 @@ export const noUnsafeTakeuntilRule = ruleCreator({
   name: 'no-unsafe-takeuntil',
   create: (context) => {
     let checkedOperatorsRegExp = /^takeUntil$/;
-    const allowedOperators = [
-      'count',
-      'defaultIfEmpty',
-      'endWith',
-      'every',
-      'finalize',
-      'finally',
-      'isEmpty',
-      'last',
-      'max',
-      'min',
-      'publish',
-      'publishBehavior',
-      'publishLast',
-      'publishReplay',
-      'reduce',
-      'share',
-      'shareReplay',
-      'skipLast',
-      'takeLast',
-      'throwIfEmpty',
-      'toArray',
-    ];
     const [config = {}] = context.options;
     const { alias, allow = allowedOperators } = config;
 

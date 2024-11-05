@@ -20,7 +20,7 @@ export const noSharereplayRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowConfig: { type: 'boolean' },
+          allowConfig: { type: 'boolean', description: 'Allow shareReplay if a config argument is specified.', default: true },
         },
         type: 'object',
       },

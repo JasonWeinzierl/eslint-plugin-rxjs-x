@@ -10,9 +10,9 @@ This rule effects failures if `first` is used in an effect or epic in a manner t
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Type   |
-| :----------- | :----- |
-| `observable` | String |
+| Name         | Description                                                   | Type   | Default                  |
+| :----------- | :------------------------------------------------------------ | :----- | :----------------------- |
+| `observable` | A RegExp that matches an effect or epic's actions observable. | String | `[Aa]ction(s\|s\$\|\$)$` |
 
 <!-- end auto-generated rule options list -->
 

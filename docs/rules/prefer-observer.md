@@ -30,9 +30,9 @@ of(42, 54).subscribe({
 
 <!-- begin auto-generated rule options list -->
 
-| Name        | Type    |
-| :---------- | :------ |
-| `allowNext` | Boolean |
+| Name        | Description                      | Type    | Default |
+| :---------- | :------------------------------- | :------ | :------ |
+| `allowNext` | Allows a single `next` callback. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
 

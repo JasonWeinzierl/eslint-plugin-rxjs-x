@@ -24,13 +24,13 @@ const answersSubject = new Subject<number>();
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Type    |
-| :----------- | :------ |
-| `parameters` | Boolean |
-| `properties` | Boolean |
-| `suffix`     | String  |
-| `types`      | Object  |
-| `variables`  | Boolean |
+| Name         | Description                                                          | Type    |
+| :----------- | :------------------------------------------------------------------- | :------ |
+| `parameters` | Require for parameters.                                              | Boolean |
+| `properties` | Require for properties.                                              | Boolean |
+| `suffix`     | The suffix to enforce.                                               | String  |
+| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean. | Object  |
+| `variables`  | Require for variables.                                               | Boolean |
 
 <!-- end auto-generated rule options list -->
 

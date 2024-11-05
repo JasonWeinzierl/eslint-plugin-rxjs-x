@@ -58,6 +58,8 @@ export const noImplicitAnyCatchRule = ruleCreator({
         properties: {
           allowExplicitAny: {
             type: 'boolean',
+            description: 'Allow error variable to be explicitly typed as `any`.',
+            default: false,
           },
         },
         type: 'object',

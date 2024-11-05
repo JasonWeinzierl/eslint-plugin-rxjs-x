@@ -72,6 +72,7 @@ export default tseslint.config(gitignore(), {
       },
     ],
     'eslint-plugin/prefer-placeholders': 'error',
+    'eslint-plugin/require-meta-schema-description': 'error',
 
     '@typescript-eslint/no-unnecessary-condition': 'off',
     '@typescript-eslint/restrict-template-expressions': [
