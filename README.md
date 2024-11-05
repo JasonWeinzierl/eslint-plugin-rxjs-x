@@ -17,7 +17,7 @@ Almost all of these rules require the TypeScript parser for ESLint and are indic
 
 See [typescript-eslint's Getting Started](https://typescript-eslint.io/getting-started) for a full ESLint setup guide.
 
-Then use the `recommended` configuration in your `eslint.config.mjs`:
+Then use the `recommended` configuration in your `eslint.config.mjs` and enable typed linting:
 
 ```js
 // @ts-check
@@ -26,6 +26,7 @@ import rxjsX from 'eslint-plugin-rxjs-x';
 
 export default tseslint.config({
     extends: [
+        ...tseslint.configs.recommended,
         rxjsX.configs.recommended,
     ],
     languageOptions: {
@@ -35,6 +36,10 @@ export default tseslint.config({
     },
 });
 ```
+
+The above example uses `typescript-eslint`'s built-in config to set up the TypeScript parser for us.
+Enabling `projectService` then turns on typed linting.
+See [Linting with Type Information](https://typescript-eslint.io/getting-started/typed-linting/) for details.
 
 ## Configs
 
