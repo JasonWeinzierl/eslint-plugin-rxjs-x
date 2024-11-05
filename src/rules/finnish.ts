@@ -20,7 +20,7 @@ export const finnishRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Enforces the use of Finnish notation.',
+      description: 'Enforce Finnish notation.',
       requiresTypeChecking: true,
     },
     messages: {

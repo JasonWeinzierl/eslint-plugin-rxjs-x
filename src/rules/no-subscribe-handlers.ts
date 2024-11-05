@@ -6,7 +6,7 @@ export const noSubscribeHandlersRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the passing of handlers to `subscribe`.',
+      description: 'Disallow passing handlers to `subscribe`.',
       requiresTypeChecking: true,
     },
     messages: {

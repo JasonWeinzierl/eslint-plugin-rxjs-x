@@ -1,4 +1,8 @@
-# Avoid throwing non-Error values (`throw-error`)
+# Enforce passing only `Error` values to error notifications (`rxjs-x/throw-error`)
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule forbids throwing values that are neither `Error` nor `DOMException` instances.
 
@@ -43,7 +47,3 @@ throwError(new Error("Kaboom!"));
 import { throwError } from "rxjs";
 throwError(() => new Error("Kaboom!"));
 ```
-
-## Options
-
-This rule has no options.

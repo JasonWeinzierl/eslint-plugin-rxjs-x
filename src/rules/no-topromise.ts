@@ -6,7 +6,7 @@ export const noTopromiseRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the use of the `toPromise` method.',
+      description: 'Disallow use of the `toPromise` method.',
       requiresTypeChecking: true,
     },
     messages: {

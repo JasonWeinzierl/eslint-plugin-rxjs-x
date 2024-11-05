@@ -1,6 +1,10 @@
-# Avoid public and protected subjects (`no-exposed-subjects`)
+# Disallow public and protected subjects (`rxjs-x/no-exposed-subjects`)
 
-This rule prevents the public or protected subjects. Developers should instead expose observables via the subjects' `toObservable` method.
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
+
+This rule prevents exposed (i.e. non-private) subjects. Developers should instead expose observables via the subjects' `toObservable` method.
 
 ## Rule details
 
@@ -26,6 +30,14 @@ class Answers {
 ```
 
 ## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name             | Type    |
+| :--------------- | :------ |
+| `allowProtected` | Boolean |
+
+<!-- end auto-generated rule options list -->
 
 This rule accepts a single option which is an object with an `allowProtected` property that determines whether or not protected subjects are allowed. By default, they are not.
 

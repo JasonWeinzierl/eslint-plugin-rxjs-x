@@ -6,7 +6,7 @@ export const noIgnoredObservableRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the ignoring of observables returned by functions.',
+      description: 'Disallow ignoring observables returned by functions.',
       requiresTypeChecking: true,
     },
     messages: {

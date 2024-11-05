@@ -7,7 +7,7 @@ export const noIgnoredErrorRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids the calling of `subscribe` without specifying an error handler.',
+        'Disallow calling `subscribe` without specifying an error handler.',
       requiresTypeChecking: true,
     },
     messages: {

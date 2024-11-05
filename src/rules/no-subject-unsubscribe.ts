@@ -7,7 +7,7 @@ export const noSubjectUnsubscribeRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Forbids calling the `unsubscribe` method of a subject instance.',
+        'Disallow calling the `unsubscribe` method of subjects.',
       recommended: true,
       requiresTypeChecking: true,
     },

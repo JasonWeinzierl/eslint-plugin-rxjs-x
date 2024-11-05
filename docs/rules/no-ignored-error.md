@@ -1,4 +1,8 @@
-# Enforce the passing of error handlers (`no-ignored-error`)
+# Disallow calling `subscribe` without specifying an error handler (`rxjs-x/no-ignored-error`)
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule enforces the passing of an error handler to `subscribe` calls.
 
@@ -31,7 +35,3 @@ source.subscribe({
   error: (error) => console.error(error)
 });
 ```
-
-## Options
-
-This rule has no options.

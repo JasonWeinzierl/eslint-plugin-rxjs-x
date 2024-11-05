@@ -1,4 +1,10 @@
-# Ensure `repeatWhen` or `retryWhen` notifiers are used (`no-ignored-notifier`)
+# Disallow observables not composed from the `repeatWhen` or `retryWhen` notifier (`rxjs-x/no-ignored-notifier`)
+
+💼 This rule is enabled in the ✅ `recommended` config.
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if the notifier passed to a `repeatWhen` or `retryWhen` callback is not used.
 
@@ -24,7 +30,3 @@ const repeating = source.pipe(
   repeatWhen(notifications => notifications.pipe(take(3)))
 );
 ```
-
-## Options
-
-This rule has no options.

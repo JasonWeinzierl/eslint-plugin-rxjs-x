@@ -8,7 +8,7 @@ export const macroRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Enforces the use of the RxJS Tools Babel macro.',
+      description: 'Require the use of the RxJS Tools Babel macro.',
     },
     fixable: 'code',
     messages: {

@@ -1,4 +1,6 @@
-# Avoid banned operators (`ban-operators`)
+# Disallow banned operators (`rxjs-x/ban-operators`)
+
+<!-- end auto-generated rule header -->
 
 This rule can be configured so that developers can ban any operators they want to avoid in their project.
 

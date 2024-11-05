@@ -8,7 +8,7 @@ export const banObservablesRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Forbids the use of banned observables.',
+      description: 'Disallow banned observable creators.',
     },
     messages: {
       forbidden: 'RxJS observable is banned: {{name}}{{explanation}}.',

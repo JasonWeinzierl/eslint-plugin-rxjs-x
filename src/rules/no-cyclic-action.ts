@@ -18,7 +18,7 @@ export const noCyclicActionRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Forbids effects and epics that re-emit filtered actions.',
+      description: 'Disallow cyclic actions in effects and epics.',
       requiresTypeChecking: true,
     },
     messages: {

@@ -9,7 +9,7 @@ export const noFinnishRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Forbids the use of Finnish notation.',
+      description: 'Disallow Finnish notation.',
       requiresTypeChecking: true,
     },
     messages: {

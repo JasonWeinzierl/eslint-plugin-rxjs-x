@@ -17,7 +17,7 @@ export const noUnsafeCatchRule = ruleCreator({
   defaultOptions,
   meta: {
     docs: {
-      description: 'Forbids unsafe `catchError` usage in effects and epics.',
+      description: 'Disallow unsafe `catchError` usage in effects and epics.',
       requiresTypeChecking: true,
     },
     messages: {
