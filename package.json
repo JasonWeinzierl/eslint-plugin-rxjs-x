@@ -44,7 +44,7 @@
     "build": "tsup",
     "lint": "yarn lint-js && yarn lint-docs && yarn lint-eslint-docs",
     "lint-js": "eslint",
-    "lint-docs": "markdownlint-cli2 \"*/**.md\" \"#node_modules\"",
+    "lint-docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-eslint-docs": "yarn build && eslint-doc-generator --check",
     "docs": "eslint-doc-generator",
     "release": "bumpp && yarn run build",
