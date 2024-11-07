@@ -1,8 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Fixed broken imports in ESM configs using typescript versions lower than 5.5.
+
 ## v0.2.1
 
-- Decrease minimum `typescript-eslint` version to ^8.1.0 (matches import-x plugin).
+- Decreased minimum `typescript-eslint` version to ^8.1.0 (matches import-x plugin).
 
 ## v0.2.0
 

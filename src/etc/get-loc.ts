@@ -1,5 +1,5 @@
 import { TSESTree } from '@typescript-eslint/utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 export function getLoc(node: ts.Node): TSESTree.SourceLocation {
   const sourceFile = node.getSourceFile();

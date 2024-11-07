@@ -1,6 +1,6 @@
 import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { couldBeFunction } from './could-be-function';
 import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
 import { isArrowFunctionExpression, isFunctionDeclaration } from './is';

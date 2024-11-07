@@ -1,4 +1,4 @@
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { couldBeType } from './could-be-type';
 
 export function couldBeFunction(type: ts.Type): boolean {

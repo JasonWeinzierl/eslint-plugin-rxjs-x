@@ -1,6 +1,6 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   couldBeType,
   getTypeServices,

@@ -1,6 +1,6 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { couldBeFunction, couldBeType, getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
