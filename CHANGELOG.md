@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Decrease minimum `typescript-eslint` version to ^8.1.0 (matches import-x plugin).
+
 ## v0.2.0
 
 - Improved CJS typing to avoid needing `.default`.

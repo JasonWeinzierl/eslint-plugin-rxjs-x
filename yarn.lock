@@ -1090,7 +1090,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:8.12.2, @typescript-eslint/scope-manager@npm:^8.12.2":
+"@typescript-eslint/scope-manager@npm:8.12.2, @typescript-eslint/scope-manager@npm:^8.1.0":
   version: 8.12.2
   resolution: "@typescript-eslint/scope-manager@npm:8.12.2"
   dependencies:
@@ -2409,8 +2409,8 @@ __metadata:
     "@types/common-tags": "npm:^1.8.4"
     "@types/node": "npm:^18.18.0"
     "@typescript-eslint/rule-tester": "npm:^8.12.2"
-    "@typescript-eslint/scope-manager": "npm:^8.12.2"
-    "@typescript-eslint/utils": "npm:^8.12.2"
+    "@typescript-eslint/scope-manager": "npm:^8.1.0"
+    "@typescript-eslint/utils": "npm:^8.1.0"
     "@typescript/vfs": "npm:^1.6.0"
     "@vitest/coverage-v8": "npm:^2.1.4"
     "@vitest/eslint-plugin": "npm:^1.1.7"
