@@ -118,8 +118,8 @@ export const finnishRule = ruleCreator({
           }
         : () => { /* noop */ };
       if (
-        couldBeObservable(typeNode || nameNode)
-        || couldReturnObservable(typeNode || nameNode)
+        couldBeObservable(typeNode ?? nameNode)
+        || couldReturnObservable(typeNode ?? nameNode)
       ) {
         for (const name of names) {
           const { regExp, validate } = name;
@@ -131,8 +131,8 @@ export const finnishRule = ruleCreator({
         for (const type of types) {
           const { regExp, validate } = type;
           if (
-            (couldBeType(typeNode || nameNode, regExp)
-              || couldReturnType(typeNode || nameNode, regExp))
+            (couldBeType(typeNode ?? nameNode, regExp)
+              || couldReturnType(typeNode ?? nameNode, regExp))
             && !validate
           ) {
             shouldNotBeFinnish();

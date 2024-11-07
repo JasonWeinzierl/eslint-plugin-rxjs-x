@@ -26,8 +26,8 @@ export const noFinnishRule = ruleCreator({
 
     function checkNode(nameNode: es.Node, typeNode?: es.Node) {
       if (
-        couldBeObservable(typeNode || nameNode)
-        || couldReturnObservable(typeNode || nameNode)
+        couldBeObservable(typeNode ?? nameNode)
+        || couldReturnObservable(typeNode ?? nameNode)
       ) {
         const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
         if (/[$]+$/.test(tsNode.getText())) {
