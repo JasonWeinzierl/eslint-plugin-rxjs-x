@@ -63,6 +63,8 @@ export default tseslint.config(gitignore(), {
       },
     ],
 
+    'import-x/no-named-as-default-member': 'off',
+
     'n/no-missing-import': 'off',
 
     'eslint-plugin/require-meta-docs-description': [
