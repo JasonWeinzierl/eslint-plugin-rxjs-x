@@ -1,4 +1,4 @@
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { couldBeType } from '../../src/etc/could-be-type';
 import { createSourceFileAndTypeChecker } from './create-source-file-and-type-checker';
 

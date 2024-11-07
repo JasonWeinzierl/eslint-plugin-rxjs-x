@@ -1,6 +1,6 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { defaultObservable } from '../constants';
 import { getTypeServices, isCallExpression, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';

@@ -1,5 +1,5 @@
 import * as tsvfs from '@typescript/vfs';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 interface SourceFileAndTypeChecker {
   sourceFile: ts.SourceFile;
