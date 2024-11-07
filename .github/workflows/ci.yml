@@ -44,6 +44,7 @@ jobs:
         run: yarn coverage
 
       - name: Report Coverage
+        if: ${{ matrix.node-version == 20 }}
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
           coverage-files: coverage/lcov.info
