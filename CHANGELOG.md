@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.2.2
 
 - Fixed broken imports in ESM configs using typescript versions lower than 5.5.
 
