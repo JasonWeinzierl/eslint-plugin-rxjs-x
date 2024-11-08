@@ -15,6 +15,11 @@ import { ReplaySubject } from "rxjs";
 const subject = new ReplaySubject<number>();
 ```
 
+```ts
+import { of, shareReplay } from "rxjs";
+of(42).pipe(shareReplay({ refCount: true }));
+```
+
 Examples of **correct** code for this rule:
 
 ```ts
@@ -25,4 +30,9 @@ const subject = new ReplaySubject<number>(1);
 ```ts
 import { ReplaySubject } from "rxjs";
 const subject = new ReplaySubject<number>(Infinity);
+```
+
+```ts
+import { of, shareReplay } from "rxjs";
+of(42).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 ```

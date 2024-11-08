@@ -1,4 +1,4 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
 import { ruleCreator } from '../utils';
 
 export const noIgnoredReplayBufferRule = ruleCreator({
@@ -17,15 +17,34 @@ export const noIgnoredReplayBufferRule = ruleCreator({
   },
   name: 'no-ignored-replay-buffer',
   create: (context) => {
+    function checkShareReplayConfig(
+      node: es.Identifier,
+      shareReplayConfigArg: es.ObjectExpression,
+    ) {
+      if (!shareReplayConfigArg.properties.some(p => p.type === AST_NODE_TYPES.Property && p.key.type === AST_NODE_TYPES.Identifier && p.key.name === 'bufferSize')) {
+        context.report({
+          messageId: 'forbidden',
+          node,
+        });
+      }
+    }
+
     function checkNode(
-      node: es.Node,
-      { arguments: args }: { arguments: es.Node[] },
+      node: es.Identifier,
+      { arguments: args }: es.NewExpression | es.CallExpression,
     ) {
       if (!args || args.length === 0) {
         context.report({
           messageId: 'forbidden',
           node,
         });
+      }
+
+      if (node.name === 'shareReplay' && args?.length === 1) {
+        const arg = args[0];
+        if (arg.type === AST_NODE_TYPES.ObjectExpression) {
+          checkShareReplayConfig(node, arg);
+        }
       }
     }
 
@@ -47,6 +66,13 @@ export const noIgnoredReplayBufferRule = ruleCreator({
         node: es.Identifier,
       ) => {
         const callExpression = node.parent as es.CallExpression;
+        checkNode(node, callExpression);
+      },
+      'CallExpression > MemberExpression > Identifier[name=/^(publishReplay|shareReplay)$/]': (
+        node: es.Identifier,
+      ) => {
+        const memberExpression = node.parent as es.MemberExpression;
+        const callExpression = memberExpression.parent as es.CallExpression;
         checkNode(node, callExpression);
       },
     };

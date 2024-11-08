@@ -26,6 +26,13 @@ ruleTester({ types: false }).run('no-ignored-replay-buffer', noIgnoredReplayBuff
 
       const a = of(42).pipe(shareReplay(1));
     `,
+    fromFixture(
+      stripIndent`
+        // shareReplay with config not ignored
+        import { interval, shareReplay } from "rxjs";
+        interval(1000).pipe(shareReplay({ bufferSize: 1, refCount: true }));
+      `,
+    ),
     stripIndent`
       // namespace ReplaySubject not ignored
       import * as Rx from "rxjs";
@@ -46,6 +53,13 @@ ruleTester({ types: false }).run('no-ignored-replay-buffer', noIgnoredReplayBuff
       import { shareReplay } from "rxjs/operators";
 
       const a = Rx.of(42).pipe(shareReplay(1));
+    `,
+    stripIndent`
+      // namespace shareReplay with config not ignored
+      import * as Rx from "rxjs";
+      import { shareReplay } from "rxjs/operators";
+
+      const a = Rx.of(42).pipe(shareReplay({ bufferSize: 1, refCount: true }));
     `,
     stripIndent`
       // namespace class not ignored
@@ -93,6 +107,15 @@ ruleTester({ types: false }).run('no-ignored-replay-buffer', noIgnoredReplayBuff
     ),
     fromFixture(
       stripIndent`
+        // shareReplay with config ignored
+        import { of, shareReplay } from "rxjs";
+
+        const a = of(42).pipe(shareReplay({ refCount: true }));
+                              ~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
         // namespace ReplaySubject ignored
         import * as Rx from "rxjs";
 
@@ -120,6 +143,14 @@ ruleTester({ types: false }).run('no-ignored-replay-buffer', noIgnoredReplayBuff
 
         const a = Rx.of(42).pipe(shareReplay());
                                  ~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // namespace shareReplay with config ignored
+        import * as Rx from "rxjs";
+        const a = Rx.of(42).pipe(Rx.shareReplay({ refCount: true }));
+                                    ~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
