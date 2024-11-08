@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.3
+
+### Fixes
+
+- **no-ignored-replay-buffer**: check config bufferSize ([#12](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/12)) ([ef2f886](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ef2f8866684ed6f918eb8c465e90a1de8982186a))
+
+### Chores
+
+- rxjs as an optional peer dependency ([90b03e6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/90b03e6a01e0357603eb6426638ca43e0f392dca))
+
 ## v0.2.2
 
 - Fixed broken imports in ESM configs using typescript versions lower than 5.5.
