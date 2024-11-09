@@ -7,6 +7,7 @@ import { ruleCreator } from '../utils';
 export const macroRule = ruleCreator({
   defaultOptions: [],
   meta: {
+    deprecated: true,
     docs: {
       description: 'Require the use of the RxJS Tools Babel macro.',
     },
