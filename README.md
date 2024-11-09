@@ -70,7 +70,7 @@ The package includes the following rules.
 | [ban-operators](docs/rules/ban-operators.md)                           | Disallow banned operators.                                                                           |    |    |    |    |    |
 | [finnish](docs/rules/finnish.md)                                       | Enforce Finnish notation.                                                                            |    |    |    | 💭 |    |
 | [just](docs/rules/just.md)                                             | Require the use of `just` instead of `of`.                                                           |    | 🔧 |    |    |    |
-| [macro](docs/rules/macro.md)                                           | Require the use of the RxJS Tools Babel macro.                                                       |    | 🔧 |    |    |    |
+| [macro](docs/rules/macro.md)                                           | Require the use of the RxJS Tools Babel macro.                                                       |    | 🔧 |    |    | ❌  |
 | [no-async-subscribe](docs/rules/no-async-subscribe.md)                 | Disallow passing `async` functions to `subscribe`.                                                   | ✅  |    |    | 💭 |    |
 | [no-compat](docs/rules/no-compat.md)                                   | Disallow the `rxjs-compat` package.                                                                  |    |    |    |    |    |
 | [no-connectable](docs/rules/no-connectable.md)                         | Disallow operators that return connectable observables.                                              |    |    |    | 💭 |    |
