@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.4
+
+### Features
+
+- **macro**: deprecated (#13)
+
 ## v0.2.3
 
 ### Fixes
