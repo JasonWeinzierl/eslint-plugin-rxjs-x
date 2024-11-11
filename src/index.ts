@@ -15,6 +15,7 @@ import { noCyclicActionRule } from './rules/no-cyclic-action';
 import { noExplicitGenericsRule } from './rules/no-explicit-generics';
 import { noExposedSubjectsRule } from './rules/no-exposed-subjects';
 import { noFinnishRule } from './rules/no-finnish';
+import { noIgnoredDefaultValueRule } from './rules/no-ignored-default-value';
 import { noIgnoredErrorRule } from './rules/no-ignored-error';
 import { noIgnoredNotifierRule } from './rules/no-ignored-notifier';
 import { noIgnoredObservableRule } from './rules/no-ignored-observable';
@@ -60,6 +61,7 @@ const plugin = {
     'no-explicit-generics': noExplicitGenericsRule,
     'no-exposed-subjects': noExposedSubjectsRule,
     'no-finnish': noFinnishRule,
+    'no-ignored-default-value': noIgnoredDefaultValueRule,
     'no-ignored-error': noIgnoredErrorRule,
     'no-ignored-notifier': noIgnoredNotifierRule,
     'no-ignored-observable': noIgnoredObservableRule,
