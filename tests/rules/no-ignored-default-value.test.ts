@@ -12,6 +12,14 @@ ruleTester({ types: true }).run('no-ignored-default-value', noIgnoredDefaultValu
       firstValueFrom(of(42), { defaultValue: 0 });
       firstValueFrom(of(42), { defaultValue: null });
       firstValueFrom(of(42), { defaultValue: undefined });
+      function getValue(obs) {
+        return firstValueFrom(obs, { defaultValue: "hello" });
+      }
+      class Foo {
+        getValue(obs) {
+          return firstValueFrom(obs, { defaultValue: "world" });
+        }
+      }
     `,
     stripIndent`
       // lastValueFrom with default value
@@ -38,11 +46,23 @@ ruleTester({ types: true }).run('no-ignored-default-value', noIgnoredDefaultValu
       of(42).pipe(last(x => x, { defaultValue: undefined }));
     `,
     stripIndent`
+      // other operators
+      import { of, map, filter, refCount } from "rxjs";
+
+      of(42).pipe(map(x => x), filter(x => x > 0), shareReplay({ bufferSize: 1, refCount: true }));
+    `,
+    stripIndent`
       // non-RxJS firstValueFrom
       import { of } from "rxjs";
 
       function firstValueFrom(obs) {}
       firstValueFrom(of(42));
+
+      class Foo {
+        firstValueFrom(obs) {}
+      }
+      const myFoo = new Foo();
+      myFoo.firstValueFrom(of(42));
     `,
     stripIndent`
       // non-RxJS lastValueFrom
@@ -76,6 +96,12 @@ ruleTester({ types: true }).run('no-ignored-default-value', noIgnoredDefaultValu
         ~~~~~~~~~~~~~~ [forbidden]
         firstValueFrom(of(42), {});
                                ~~ [forbidden]
+        const config = {};
+        firstValueFrom(of(42), config);
+                               ~~~~~~ [forbidden]
+        const config2 = { config: {} };
+        firstValueFrom(of(42), config2.config);
+                                       ~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
@@ -94,6 +120,14 @@ ruleTester({ types: true }).run('no-ignored-default-value', noIgnoredDefaultValu
 
         of(42).pipe(first());
                     ~~~~~ [forbidden]
+        of(42).pipe(first({}));
+                          ~~ [forbidden]
+        const config = {};
+        of(42).pipe(first(config));
+                          ~~~~~~ [forbidden]
+        const config2 = { config: {} };
+        of(42).pipe(first(config2.config));
+                                  ~~~~~~ [forbidden]
       `,
     ),
     fromFixture(

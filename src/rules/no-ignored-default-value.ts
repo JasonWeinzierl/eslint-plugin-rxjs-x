@@ -1,5 +1,5 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
-import { getTypeServices, isIdentifier, isImport, isObjectExpression, isProperty } from '../etc';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { getTypeServices, isIdentifier, isImport, isMemberExpression, isObjectExpression, isProperty } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noIgnoredDefaultValueRule = ruleCreator({
@@ -10,17 +10,28 @@ export const noIgnoredDefaultValueRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
-      forbidden: 'Ignoring the default value is forbidden.',
+      forbidden: 'Not specifying a default value is forbidden.',
     },
     schema: [],
     type: 'problem',
   },
   name: 'no-ignored-default-value',
   create: (context) => {
+    const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable } = getTypeServices(context);
 
-    function checkConfig(configArg: es.ObjectExpression) {
+    function checkConfigObj(configArg: es.ObjectExpression) {
       if (!configArg.properties.some(p => isProperty(p) && isIdentifier(p.key) && p.key.name === 'defaultValue')) {
+        context.report({
+          messageId: 'forbidden',
+          node: configArg,
+        });
+      }
+    }
+
+    function checkConfigType(configArg: es.Node) {
+      const configArgType = getTypeAtLocation(configArg);
+      if (!configArgType?.getProperties().some(p => p.name === 'defaultValue')) {
         context.report({
           messageId: 'forbidden',
           node: configArg,
@@ -49,10 +60,17 @@ export const noIgnoredDefaultValueRule = ruleCreator({
         });
         return;
       }
+      if (isIdentifier(configArg)) {
+        checkConfigType(configArg);
+        return;
+      } else if (isMemberExpression(configArg) && isIdentifier(configArg.property)) {
+        checkConfigType(configArg.property);
+        return;
+      }
       if (!isObjectExpression(configArg)) {
         return;
       }
-      checkConfig(configArg);
+      checkConfigObj(configArg);
     }
 
     function checkOperatorArgs(callExpression: es.CallExpression, reportNode: es.Node) {
@@ -71,10 +89,17 @@ export const noIgnoredDefaultValueRule = ruleCreator({
         return;
       }
       const [arg] = args;
+      if (isIdentifier(arg)) {
+        checkConfigType(arg);
+        return;
+      } else if (isMemberExpression(arg) && isIdentifier(arg.property)) {
+        checkConfigType(arg.property);
+        return;
+      }
       if (!isObjectExpression(arg)) {
         return;
       }
-      checkConfig(arg);
+      checkConfigObj(arg);
     }
 
     return {
