@@ -8,6 +8,10 @@ concurrency:
   group: '${{ github.workflow }} - ${{ github.head_ref || github.ref }}'
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
 
   build:
