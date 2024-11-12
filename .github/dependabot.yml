@@ -11,6 +11,7 @@ updates:
       interval: weekly
     allow:
       - dependency-type: development
+    versioning-strategy: increase
     groups:
       vitest:
         patterns:
