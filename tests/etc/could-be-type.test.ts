@@ -106,11 +106,10 @@ describe('couldBeType', () => {
     expect(couldBeType(type, 'B')).toBe(true);
   });
 
-  it.todo('should support fully-qualified types', () => {
-    // TODO: This test is disabled because we're failing to import from other files using @typescript/vfs.  See env.languageService.getSemanticDiagnostics(fileName) for error message.
+  it('should support fully-qualified types', () => {
     const { sourceFile, typeChecker } = createSourceFileAndTypeChecker(
       `
-      import { A } from "./a";
+      import { A } from "/a";
       class B {}
       let a: A;
       let b: B;
@@ -123,13 +122,13 @@ describe('couldBeType', () => {
 
     expect(
       couldBeType(typeA, 'A', {
-        name: /"a"/,
+        name: /"\/a"/,
         typeChecker,
       }),
     ).toBe(true);
     expect(
       couldBeType(typeB, 'B', {
-        name: /"b"/,
+        name: /b/,
         typeChecker,
       }),
     ).toBe(false);

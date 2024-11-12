@@ -18,13 +18,13 @@ export function createSourceFileAndTypeChecker(
 
   const fsMap = tsvfs.createDefaultMapFromNodeModules(compilerOptions, ts);
   fsMap.set(fileName, sourceText);
-  fsMap.set('a.ts', 'export class A {}');
-  fsMap.set('b.ts', 'export class B {}');
+  fsMap.set('/a.ts', 'export class A {}');
+  fsMap.set('/b.ts', 'export class B {}');
 
   const system = tsvfs.createSystem(fsMap);
   const env = tsvfs.createVirtualTypeScriptEnvironment(
     system,
-    [fileName, 'a.ts', 'b.ts'],
+    [fileName, '/a.ts', '/b.ts'],
     ts,
     compilerOptions,
   );
@@ -32,6 +32,11 @@ export function createSourceFileAndTypeChecker(
   const program = env.languageService.getProgram();
   if (program === undefined) {
     throw new Error('Failed to get program');
+  }
+  // Note: If you're having trouble with vfs, run the tests with DEBUG=1 for more output.
+  const fileIssues = env.languageService.getSemanticDiagnostics(fileName);
+  if (fileIssues.length) {
+    throw new Error(fileIssues.map(diag => diag.messageText).join());
   }
 
   return {
