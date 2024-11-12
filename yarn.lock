@@ -2431,7 +2431,7 @@ __metadata:
     eslint-plugin-eslint-plugin: "npm:^6.3.1"
     eslint-plugin-import-x: "npm:^4.4.2"
     eslint-plugin-n: "npm:^17.13.1"
-    markdownlint-cli2: "npm:^0.14.0"
+    markdownlint-cli2: "npm:^0.15.0"
     rxjs: "npm:^7.8.1"
     ts-api-utils: "npm:^1.3.0"
     tslib: "npm:^2.1.0"
@@ -3452,36 +3452,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdownlint-cli2@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "markdownlint-cli2@npm:0.14.0"
+"markdownlint-cli2@npm:^0.15.0":
+  version: 0.15.0
+  resolution: "markdownlint-cli2@npm:0.15.0"
   dependencies:
     globby: "npm:14.0.2"
     js-yaml: "npm:4.1.0"
     jsonc-parser: "npm:3.3.1"
-    markdownlint: "npm:0.35.0"
+    markdownlint: "npm:0.36.1"
     markdownlint-cli2-formatter-default: "npm:0.0.5"
     micromatch: "npm:4.0.8"
   bin:
     markdownlint-cli2: markdownlint-cli2.js
-  checksum: 10c0/cf2c65de97887a51e2ad756779fd90cabc6b26d09c07aed43422c142e0b2406a8a1e84e17cbf8590a72812e65d5a16e106d7110e392bb7f5fb154a09245bb985
+  checksum: 10c0/eb2bb8c855bfaa1cb5bca338ad262a6b7cdcf3f1624d3b5f77af45a7b1a919a4922d3f68be9651b96f301c3f03ebbfe4ce2067d5f7e97fa7644afe099743ddbf
   languageName: node
   linkType: hard
 
-"markdownlint-micromark@npm:0.1.10":
-  version: 0.1.10
-  resolution: "markdownlint-micromark@npm:0.1.10"
-  checksum: 10c0/1a392a3d92c01093244c15f69a658e68eeffe26b96218189509184246e19be9f64c7937241a5911f1ff2bd721f0d60f32242a46a9b3b6ab505ef22b8dbb66918
+"markdownlint-micromark@npm:0.1.12":
+  version: 0.1.12
+  resolution: "markdownlint-micromark@npm:0.1.12"
+  checksum: 10c0/6833c2b9eb6fd63c43dde30aff8bc526cb97638b287535f8277e2c97015602df0670becdece639986dbe3ac2b279d7c1d308c0a65cb5d2aacc331ea768afa86e
   languageName: node
   linkType: hard
 
-"markdownlint@npm:0.35.0":
-  version: 0.35.0
-  resolution: "markdownlint@npm:0.35.0"
+"markdownlint@npm:0.36.1":
+  version: 0.36.1
+  resolution: "markdownlint@npm:0.36.1"
   dependencies:
     markdown-it: "npm:14.1.0"
-    markdownlint-micromark: "npm:0.1.10"
-  checksum: 10c0/32330f6e6c2a35e3505f4bdae5211c0b8bd9130604a0d93bb22506835447065a4efd9d3ecefaa7f7c6744628f8427fe98296b71948d2d1502a46917863235717
+    markdownlint-micromark: "npm:0.1.12"
+  checksum: 10c0/1f93a010c5421a9c9cbd51aeb4046c674b4797ef1c6ad55b0344e7a6ecec46dd38d526e623fd6a3d4c486fe594119c5161dad6033b6468f7719d3c69b5d0cea6
   languageName: node
   linkType: hard
 
