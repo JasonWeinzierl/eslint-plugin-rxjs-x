@@ -10,7 +10,7 @@ updates:
     schedule:
       interval: weekly
     allow:
-      dependency-type: development
+      - dependency-type: development
     groups:
       vitest:
         patterns:
