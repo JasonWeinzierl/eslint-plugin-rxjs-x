@@ -33,6 +33,22 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       const ob1 = throwError(() => new MyFailure("Boom!"));
     `,
     stripIndent`
+      // arrow function return
+      import { throwError } from "rxjs";
+
+      throwError(() => {
+        return new Error("Boom!");
+      });
+    `,
+    stripIndent`
+      // function return
+      import { throwError } from "rxjs";
+
+      throwError(function () {
+        return new Error("Boom!");
+      });
+    `,
+    stripIndent`
       // any
       import { throwError } from "rxjs";
 
@@ -102,6 +118,17 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         new Error("Not Found"),
         { code: "NOT_FOUND" }
       ));
+    `,
+    stripIndent`
+      // Object.assign arrow function return
+      import { throwError } from "rxjs";
+
+      throwError(() => {
+        return Object.assign(
+          new Error("Not Found"),
+          { code: "NOT_FOUND" }
+        );
+      });
     `,
     stripIndent`
       // no signature
@@ -217,6 +244,15 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
                                      ~~~~ [forbidden]
         const ob4 = throwError(() => undefined);
                                      ~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // Object.assign with non-Error
+        import { throwError } from "rxjs";
+
+        throwError(() => Object.assign({ message: "Not Found" }, { code: "NOT_FOUND" }));
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
   ],
