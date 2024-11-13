@@ -40,8 +40,11 @@ export const throwErrorRule = ruleCreator({
 
     function checkThrowArgument(node: es.Node) {
       let type = getTypeAtLocation(node);
+      let reportNode = node;
 
       if (couldBeFunction(type)) {
+        reportNode = (node as es.ArrowFunctionExpression).body ?? node;
+
         const tsNode = esTreeNodeToTSNodeMap.get(node);
         const annotation = (tsNode as ts.ArrowFunction).type;
         const body = (tsNode as ts.ArrowFunction).body;
@@ -62,7 +65,7 @@ export const throwErrorRule = ruleCreator({
 
       context.report({
         messageId: 'forbidden',
-        node,
+        node: reportNode,
       });
     }
 

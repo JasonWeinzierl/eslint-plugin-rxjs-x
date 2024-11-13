@@ -146,7 +146,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => "Boom!");
-                               ~~~~~~~~~~~~~ [forbidden]
+                                     ~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
@@ -155,7 +155,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => errorMessage());
-                               ~~~~~~~~~~~~~~~~~~~~ [forbidden]
+                                     ~~~~~~~~~~~~~~ [forbidden]
 
         function errorMessage() {
           return "Boom!";
@@ -190,7 +190,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         throwError(() => "Boom!" as any);
-                   ~~~~~~~~~~~~~~~~~~~~ [forbidden]
+                         ~~~~~~~~~~~~~~ [forbidden]
       `,
       { options: [{ allowThrowingAny: false }] },
     ),
@@ -200,7 +200,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         throwError(() => "Boom!" as unknown);
-                   ~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+                         ~~~~~~~~~~~~~~~~~~ [forbidden]
       `,
       { options: [{ allowThrowingUnknown: false }] },
     ),
@@ -210,13 +210,13 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => 0);
-                               ~~~~~~~ [forbidden]
+                                     ~ [forbidden]
         const ob2 = throwError(() => false);
-                               ~~~~~~~~~~~ [forbidden]
+                                     ~~~~~ [forbidden]
         const ob3 = throwError(() => null);
-                               ~~~~~~~~~~ [forbidden]
+                                     ~~~~ [forbidden]
         const ob4 = throwError(() => undefined);
-                               ~~~~~~~~~~~~~~~ [forbidden]
+                                     ~~~~~~~~~ [forbidden]
       `,
     ),
   ],
