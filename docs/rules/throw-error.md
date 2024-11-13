@@ -25,3 +25,14 @@ import { throwError } from "rxjs";
 
 throwError(() => new Error("Kaboom!"));
 ```
+
+## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name                   | Description                                                 | Type    | Default |
+| :--------------------- | :---------------------------------------------------------- | :------ | :------ |
+| `allowThrowingAny`     | Whether to always allow throwing values typed as `any`.     | Boolean | `true`  |
+| `allowThrowingUnknown` | Whether to always allow throwing values typed as `unknown`. | Boolean | `true`  |
+
+<!-- end auto-generated rule options list -->

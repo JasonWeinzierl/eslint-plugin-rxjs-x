@@ -4,8 +4,13 @@ import ts from 'typescript';
 import { couldBeFunction, couldBeType, getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
+const defaultOptions: readonly {
+  allowThrowingAny?: boolean;
+  allowThrowingUnknown?: boolean;
+}[] = [];
+
 export const throwErrorRule = ruleCreator({
-  defaultOptions: [],
+  defaultOptions,
   meta: {
     docs: {
       description:
@@ -15,13 +20,23 @@ export const throwErrorRule = ruleCreator({
     messages: {
       forbidden: 'Passing non-Error values is forbidden.',
     },
-    schema: [],
+    schema: [
+      {
+        properties: {
+          allowThrowingAny: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `any`.' },
+          allowThrowingUnknown: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `unknown`.' },
+        },
+        type: 'object',
+      },
+    ],
     type: 'problem',
   },
   name: 'throw-error',
   create: (context) => {
     const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable } = getTypeServices(context);
+    const [config = {}] = context.options;
+    const { allowThrowingAny = true, allowThrowingUnknown = true } = config;
 
     function checkThrowArgument(node: es.Node) {
       let type = getTypeAtLocation(node);
@@ -33,11 +48,11 @@ export const throwErrorRule = ruleCreator({
         type = program.getTypeChecker().getTypeAtLocation(annotation ?? body);
       }
 
-      if (tsutils.isIntrinsicAnyType(type)) {
+      if (allowThrowingAny && tsutils.isIntrinsicAnyType(type)) {
         return;
       }
 
-      if (tsutils.isIntrinsicUnknownType(type)) {
+      if (allowThrowingUnknown && tsutils.isIntrinsicUnknownType(type)) {
         return;
       }
 
