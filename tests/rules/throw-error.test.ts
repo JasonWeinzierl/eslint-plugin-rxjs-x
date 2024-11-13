@@ -6,45 +6,32 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   valid: [
     stripIndent`
-      // throw Error
-      const a = () => { throw new Error("error"); };
-    `,
-    stripIndent`
-      // throw DOMException
-      const a = () => { throw new DOMException("error"); };
-    `,
-    stripIndent`
-      // throw any
-      const a = () => { throw "error" as any };
-    `,
-    stripIndent`
-      // throw returned any
-      const a = () => { throw errorMessage(); };
-
-      function errorMessage(): any {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // throwError Error
+      // Error
       import { throwError } from "rxjs";
 
       const ob1 = throwError(new Error("Boom!"));
     `,
     stripIndent`
-      // throwError DOMException
+      // RangeError
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(new RangeError("Boom!"));
+    `,
+    stripIndent`
+      // DOMException
+      /// <reference lib="dom" />
       import { throwError } from "rxjs";
 
       const ob1 = throwError(new DOMException("Boom!"));
     `,
     stripIndent`
-      // throwError any
+      // any
       import { throwError } from "rxjs";
 
       const ob1 = throwError("Boom!" as any);
     `,
     stripIndent`
-      // throwError returned any
+      // returned any
       import { throwError } from "rxjs";
 
       const ob1 = throwError(errorMessage());
@@ -54,13 +41,13 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       }
     `,
     stripIndent`
-      // throwError unknown
+      // unknown
       import { throwError } from "rxjs";
 
       const ob1 = throwError("Boom!" as unknown);
     `,
     stripIndent`
-      // throwError returned unknown
+      // returned unknown
       import { throwError } from "rxjs";
 
       const ob1 = throwError(errorMessage());
@@ -70,25 +57,26 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       }
     `,
     stripIndent`
-      // throwError Error with factory
+      // Error with factory
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => new Error("Boom!"));
     `,
     stripIndent`
-      // throwError DOMException with factory
+      // DOMException with factory
+      /// <reference lib="dom" />
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => new DOMException("Boom!"));
     `,
     stripIndent`
-      // throwError any with factory
+      // any with factory
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => "Boom!" as any);
     `,
     stripIndent`
-      // throwError returned any with factory
+      // returned any with factory
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => errorMessage());
@@ -98,6 +86,16 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       }
     `,
     stripIndent`
+      // subtype with Object.assign
+      // https://github.com/cartant/rxjs-tslint-rules/issues/86
+      import { throwError } from "rxjs";
+
+      throwError(() => Object.assign(
+        new Error("Not Found"),
+        { code: "NOT_FOUND" }
+      ));
+    `,
+    stripIndent`
       // no signature
       // There will be no signature for callback and
       // that should not effect an internal error.
@@ -105,6 +103,26 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       callback();
     `,
     stripIndent`
+      // unrelated throw statements (use @typescript-eslint/only-throw-error instead).
+      const a = () => { throw "error"; };
+      const b = () => { throw new Error("error"); };
+
+      const errorMessage = "Boom!";
+      const c = () => { throw errorMessage; };
+
+      const d = () => { throw errorMessage(); };
+      function errorMessage() {
+        return "error";
+      }
+
+      const e = () => { throw new DOMException("error"); };
+      const f = () => { throw "error" as any };
+
+      const g = () => { throw errorMessageAny(); };
+      function errorMessageAny(): any {
+        return "error";
+      }
+
       https://github.com/cartant/rxjs-tslint-rules/issues/85
       try {
         throw new Error("error");
@@ -116,34 +134,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   invalid: [
     fromFixture(
       stripIndent`
-        // throw string
-        const a = () => { throw "error"; };
-                                ~~~~~~~ [forbidden]
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // throw returned string
-        const a = () => { throw errorMessage(); };
-                                ~~~~~~~~~~~~~~ [forbidden]
-
-        function errorMessage() {
-          return "error";
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // throw string variable
-        const errorMessage = "Boom!";
-
-        const a = () => { throw errorMessage; };
-                                ~~~~~~~~~~~~ [forbidden]
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // throwError string
+        // string
         import { throwError } from "rxjs";
 
         const ob1 = throwError("Boom!");
@@ -152,7 +143,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     ),
     fromFixture(
       stripIndent`
-        // throwError returned string
+        // returned string
         import { throwError } from "rxjs";
 
         const ob1 = throwError(errorMessage());
@@ -165,21 +156,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     ),
     fromFixture(
       stripIndent`
-        https://github.com/cartant/rxjs-tslint-rules/issues/86
-        const a = () => { throw "error"; };
-                                ~~~~~~~ [forbidden]
-        const b = () => { throw new Error("error"); };
-        const c = () => {
-          throw Object.assign(
-            new Error("Not Found"),
-            { code: "NOT_FOUND" }
-          );
-        };
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // throwError string with factory
+        // string with factory
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => "Boom!");
@@ -188,7 +165,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     ),
     fromFixture(
       stripIndent`
-        // throwError returned string with factory
+        // returned string with factory
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => errorMessage());
@@ -197,6 +174,21 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         function errorMessage() {
           return "Boom!";
         }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // falsy
+        import { throwError } from "rxjs";
+
+        const ob1 = throwError(() => 0);
+                               ~~~~~~~ [forbidden]
+        const ob2 = throwError(() => false);
+                               ~~~~~~~~~~~ [forbidden]
+        const ob3 = throwError(() => null);
+                               ~~~~~~~~~~ [forbidden]
+        const ob4 = throwError(() => undefined);
+                               ~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
   ],
