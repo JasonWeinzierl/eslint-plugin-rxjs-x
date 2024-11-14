@@ -20,11 +20,11 @@ export const throwErrorRule = ruleCreator({
   },
   name: 'throw-error',
   create: (context) => {
-    const { esTreeNodeToTSNodeMap, program } = ESLintUtils.getParserServices(context);
-    const { couldBeObservable, getType } = getTypeServices(context);
+    const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = ESLintUtils.getParserServices(context);
+    const { couldBeObservable } = getTypeServices(context);
 
     function checkNode(node: es.Node) {
-      let type = getType(node);
+      let type = getTypeAtLocation(node);
       if (couldBeFunction(type)) {
         const tsNode = esTreeNodeToTSNodeMap.get(node);
         const annotation = (tsNode as ts.ArrowFunction).type;

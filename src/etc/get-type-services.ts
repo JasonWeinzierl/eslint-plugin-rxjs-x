@@ -1,5 +1,4 @@
 import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
-import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import { couldBeFunction } from './could-be-function';
 import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
@@ -18,7 +17,7 @@ export function getTypeServices<
     name: string | RegExp,
     qualified?: { name: RegExp },
   ): boolean => {
-    const type = getType(node);
+    const type = getTypeAtLocation(node);
     return tsutilsEtcCouldBeType(
       type,
       name,
@@ -56,19 +55,14 @@ export function getTypeServices<
     );
   };
 
-  const getType = (node: TSESTree.Node): ts.Type => {
-    return getTypeAtLocation(node);
-  };
-
   return {
     couldBeBehaviorSubject: (node: TSESTree.Node) =>
       couldBeType(node, 'BehaviorSubject'),
-    couldBeError: (node: TSESTree.Node) => couldBeType(node, 'Error'),
     couldBeFunction: (node: TSESTree.Node) => {
       if (isArrowFunctionExpression(node) || isFunctionDeclaration(node)) {
         return true;
       }
-      return couldBeFunction(getType(node));
+      return couldBeFunction(getTypeAtLocation(node));
     },
     couldBeMonoTypeOperatorFunction: (node: TSESTree.Node) =>
       couldBeType(node, 'MonoTypeOperatorFunction'),
@@ -79,10 +73,5 @@ export function getTypeServices<
     couldReturnObservable: (node: TSESTree.Node) =>
       couldReturnType(node, 'Observable'),
     couldReturnType,
-    getType,
-    isAny: (node: TSESTree.Node) => tsutils.isIntrinsicAnyType(getType(node)),
-    isReferenceType: (node: TSESTree.Node) => tsutils.isTypeReference(getType(node)),
-    isUnknown: (node: TSESTree.Node) => tsutils.isIntrinsicUnknownType(getType(node)),
-    typeChecker,
   };
 }
