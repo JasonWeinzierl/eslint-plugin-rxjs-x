@@ -1,8 +1,8 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
 import ts from 'typescript';
 import { defaultObservable } from '../constants';
-import { getTypeServices, isCallExpression, isIdentifier } from '../etc';
+import { isCallExpression, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
 function isTypeReference(type: ts.Type): type is ts.TypeReference {
@@ -44,7 +44,8 @@ export const noCyclicActionRule = ruleCreator({
     const { observable = defaultObservable } = config;
     const observableRegExp = new RegExp(observable);
 
-    const { getType, typeChecker } = getTypeServices(context);
+    const { getTypeAtLocation, program } = ESLintUtils.getParserServices(context);
+    const typeChecker = program.getTypeChecker();
 
     function checkNode(pipeCallExpression: es.CallExpression) {
       const operatorCallExpression = pipeCallExpression.arguments.find(
@@ -56,7 +57,7 @@ export const noCyclicActionRule = ruleCreator({
       if (!operatorCallExpression) {
         return;
       }
-      const operatorType = getType(operatorCallExpression);
+      const operatorType = getTypeAtLocation(operatorCallExpression);
       const [signature] = typeChecker.getSignaturesOfType(
         operatorType,
         ts.SignatureKind.Call,
@@ -75,7 +76,7 @@ export const noCyclicActionRule = ruleCreator({
         return;
       }
 
-      const pipeType = getType(pipeCallExpression);
+      const pipeType = getTypeAtLocation(pipeCallExpression);
       if (!isTypeReference(pipeType)) {
         return;
       }

@@ -1,4 +1,4 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   getTypeServices,
   isCallExpression,
@@ -21,13 +21,13 @@ export const noUnboundMethodsRule = ruleCreator({
   },
   name: 'no-unbound-methods',
   create: (context) => {
-    const { couldBeObservable, couldBeSubscription, getType }
-      = getTypeServices(context);
+    const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
+    const { couldBeObservable, couldBeSubscription } = getTypeServices(context);
     const nodeMap = new WeakMap<es.Node, void>();
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
       node.arguments.filter(isMemberExpression).forEach((arg) => {
-        const argType = getType(arg);
+        const argType = getTypeAtLocation(arg);
         if (argType.getCallSignatures().length > 0) {
           nodeMap.set(arg);
         }

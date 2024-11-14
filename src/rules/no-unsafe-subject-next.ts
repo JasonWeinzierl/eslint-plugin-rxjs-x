@@ -1,10 +1,10 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import {
   couldBeType,
-  getTypeServices,
-  isMemberExpression } from '../etc';
+  isMemberExpression,
+} from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noUnsafeSubjectNext = ruleCreator({
@@ -23,13 +23,15 @@ export const noUnsafeSubjectNext = ruleCreator({
   },
   name: 'no-unsafe-subject-next',
   create: (context) => {
-    const { getType, typeChecker } = getTypeServices(context);
+    const { getTypeAtLocation, program } = ESLintUtils.getParserServices(context);
+    const typeChecker = program.getTypeChecker();
+
     return {
       [`CallExpression[callee.property.name='next']`]: (
         node: es.CallExpression,
       ) => {
         if (node.arguments.length === 0 && isMemberExpression(node.callee)) {
-          const type = getType(node.callee.object);
+          const type = getTypeAtLocation(node.callee.object);
           if (tsutils.isTypeReference(type) && couldBeType(type, 'Subject')) {
             const [typeArg] = typeChecker.getTypeArguments(type);
             if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
