@@ -1,5 +1,4 @@
 import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
-import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import { couldBeFunction } from './could-be-function';
 import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
@@ -59,7 +58,6 @@ export function getTypeServices<
   return {
     couldBeBehaviorSubject: (node: TSESTree.Node) =>
       couldBeType(node, 'BehaviorSubject'),
-    couldBeError: (node: TSESTree.Node) => couldBeType(node, 'Error'),
     couldBeFunction: (node: TSESTree.Node) => {
       if (isArrowFunctionExpression(node) || isFunctionDeclaration(node)) {
         return true;
@@ -75,8 +73,5 @@ export function getTypeServices<
     couldReturnObservable: (node: TSESTree.Node) =>
       couldReturnType(node, 'Observable'),
     couldReturnType,
-    isAny: (node: TSESTree.Node) => tsutils.isIntrinsicAnyType(getTypeAtLocation(node)),
-    isReferenceType: (node: TSESTree.Node) => tsutils.isTypeReference(getTypeAtLocation(node)),
-    isUnknown: (node: TSESTree.Node) => tsutils.isIntrinsicUnknownType(getTypeAtLocation(node)),
   };
 }
