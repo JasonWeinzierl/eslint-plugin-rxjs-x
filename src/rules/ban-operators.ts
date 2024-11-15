@@ -59,10 +59,10 @@ export const banOperatorsRule = ruleCreator({
     }
 
     return {
-      'CallExpression[callee.name]': (node: es.CallExpression) => {
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name]': (node: es.CallExpression) => {
         checkNode(node.callee);
       },
-      'CallExpression[callee.type="MemberExpression"]': (node: es.CallExpression) => {
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.type="MemberExpression"]': (node: es.CallExpression) => {
         const callee = node.callee as es.MemberExpression;
         checkNode(callee.property);
       },

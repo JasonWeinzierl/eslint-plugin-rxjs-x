@@ -55,6 +55,16 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       `,
       options: [{ concat: true }],
     },
+    {
+      code: stripIndent`
+        // only within pipe
+        import { of, concat } from "rxjs";
+
+        // For performance reasons, we don't lint operators used outside of pipe.
+        concat(of('a'));
+      `,
+      options: [{ concat: true }],
+    },
   ],
   invalid: [
     fromFixture(
