@@ -67,7 +67,7 @@ The package includes the following rules.
 | Name                                                                   | Description                                                                                          | 💼 | 🔧 | 💡 | 💭 | ❌  |
 | :--------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------- | :- | :- | :- | :- | :- |
 | [ban-observables](docs/rules/ban-observables.md)                       | Disallow banned observable creators.                                                                 |    |    |    |    |    |
-| [ban-operators](docs/rules/ban-operators.md)                           | Disallow banned operators.                                                                           |    |    |    |    |    |
+| [ban-operators](docs/rules/ban-operators.md)                           | Disallow banned operators.                                                                           |    |    |    | 💭 |    |
 | [finnish](docs/rules/finnish.md)                                       | Enforce Finnish notation.                                                                            |    |    |    | 💭 |    |
 | [just](docs/rules/just.md)                                             | Require the use of `just` instead of `of`.                                                           |    | 🔧 |    |    |    |
 | [macro](docs/rules/macro.md)                                           | Require the use of the RxJS Tools Babel macro.                                                       |    | 🔧 |    |    | ❌  |

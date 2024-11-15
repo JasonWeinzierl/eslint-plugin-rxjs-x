@@ -1,5 +1,6 @@
-import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
+import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly Record<string, boolean | string>[] = [];
@@ -9,6 +10,7 @@ export const banOperatorsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow banned operators.',
+      requiresTypeChecking: true,
     },
     messages: {
       forbidden: 'RxJS operator is banned: {{name}}{{explanation}}.',
@@ -25,7 +27,8 @@ export const banOperatorsRule = ruleCreator({
   },
   name: 'ban-operators',
   create: (context) => {
-    const bans: { explanation: string; regExp: RegExp }[] = [];
+    const { couldBeType } = getTypeServices(context);
+    const bans: { name: string; explanation: string }[] = [];
 
     const [config] = context.options;
     if (!config) {
@@ -35,39 +38,34 @@ export const banOperatorsRule = ruleCreator({
     Object.entries(config).forEach(([key, value]) => {
       if (value !== false) {
         bans.push({
+          name: key,
           explanation: typeof value === 'string' ? value : '',
-          regExp: new RegExp(`^${key}$`),
         });
       }
     });
 
-    function getFailure(name: string) {
-      for (let b = 0, length = bans.length; b < length; ++b) {
-        const ban = bans[b];
-        if (ban.regExp.test(name)) {
+    function checkNode(node: es.Node) {
+      for (const ban of bans) {
+        if (couldBeType(node, ban.name, { name: /[/\\]rxjs[/\\]/ })) {
           const explanation = ban.explanation ? `: ${ban.explanation}` : '';
-          return {
+          context.report({
             messageId: 'forbidden',
-            data: { name, explanation },
-          } as const;
+            data: { name: ban.name, explanation },
+            node,
+          });
+          return;
         }
       }
-      return undefined;
     }
 
     return {
-      [String.raw`ImportDeclaration[source.value=/^rxjs\u002foperators$/] > ImportSpecifier`]:
-        (node: es.ImportSpecifier) => {
-          const identifier = node.imported;
-          const name = identifier.type === AST_NODE_TYPES.Identifier ? identifier.name : identifier.value;
-          const failure = getFailure(name);
-          if (failure) {
-            context.report({
-              ...failure,
-              node: identifier,
-            });
-          }
-        },
+      'CallExpression[callee.name]': (node: es.CallExpression) => {
+        checkNode(node.callee);
+      },
+      'CallExpression[callee.type="MemberExpression"]': (node: es.CallExpression) => {
+        const callee = node.callee as es.MemberExpression;
+        checkNode(callee.property);
+      },
     };
   },
 });
