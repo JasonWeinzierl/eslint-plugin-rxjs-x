@@ -1,5 +1,7 @@
 # Disallow banned operators (`rxjs-x/ban-operators`)
 
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
 <!-- end auto-generated rule header -->
 
 This rule can be configured so that developers can ban any operators they want to avoid in their project.
