@@ -12,6 +12,19 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       observable.subscribe(() => {}, () => {});
     `,
     stripIndent`
+      // observer argument
+      import { of } from "rxjs";
+
+      const observable = of([1, 2]);
+      observable.subscribe({ next: () => {}, error: () => {} });
+
+      const observer1 = { next: () => {}, error: () => {} };
+      observable.subscribe(observer1);
+
+      const obj = { observer: observer1 };
+      observable.subscribe(obj.observer);
+    `,
+    stripIndent`
       // subject
       import { Subject } from "rxjs";
       const subject = new Subject<any>();
@@ -83,6 +96,22 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
           return obs.subscribe((v: T) => {})
                      ~~~~~~~~~ [forbidden]
         }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // observer argument
+        import { of } from "rxjs";
+
+        const observable = of([1, 2]);
+        observable.subscribe({ next: () => {} });
+                   ~~~~~~~~~ [forbidden]
+        const observer1 = { next: () => {} };
+        observable.subscribe(observer1);
+                   ~~~~~~~~~ [forbidden]
+        const obj = { observer: observer1 };
+        observable.subscribe(obj.observer1);
+                   ~~~~~~~~~ [forbidden]
       `,
     ),
   ],
