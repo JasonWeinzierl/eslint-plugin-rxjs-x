@@ -255,5 +255,14 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // namespace import
+        import * as Rx from "rxjs";
+
+        Rx.throwError(() => "Boom!");
+                            ~~~~~~~ [forbidden]
+      `,
+    ),
   ],
 });

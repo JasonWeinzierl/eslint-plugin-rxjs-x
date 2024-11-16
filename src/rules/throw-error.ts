@@ -69,14 +69,21 @@ export const throwErrorRule = ruleCreator({
       });
     }
 
+    function checkNode(node: es.CallExpression) {
+      if (couldBeObservable(node)) {
+        const [arg] = node.arguments;
+        if (arg) {
+          checkThrowArgument(arg);
+        }
+      }
+    }
+
     return {
       'CallExpression[callee.name=\'throwError\']': (node: es.CallExpression) => {
-        if (couldBeObservable(node)) {
-          const [arg] = node.arguments;
-          if (arg) {
-            checkThrowArgument(arg);
-          }
-        }
+        checkNode(node);
+      },
+      'CallExpression[callee.property.name=\'throwError\']': (node: es.CallExpression) => {
+        checkNode(node);
       },
     };
   },
