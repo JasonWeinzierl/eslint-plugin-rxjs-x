@@ -106,6 +106,6 @@ The package includes the following rules.
 | [no-unsafe-takeuntil](docs/rules/no-unsafe-takeuntil.md)               | Disallow applying operators after `takeUntil`.                                                       | ✅  |    |    | 💭 |    |
 | [prefer-observer](docs/rules/prefer-observer.md)                       | Disallow passing separate handlers to `subscribe` and `tap`.                                         |    | 🔧 | 💡 | 💭 |    |
 | [suffix-subjects](docs/rules/suffix-subjects.md)                       | Enforce the use of a suffix in subject identifiers.                                                  |    |    |    | 💭 |    |
-| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to error notifications.                                          |    |    |    | 💭 |    |
+| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to `throwError`.                                                 |    |    |    | 💭 |    |
 
 <!-- end auto-generated rules list -->

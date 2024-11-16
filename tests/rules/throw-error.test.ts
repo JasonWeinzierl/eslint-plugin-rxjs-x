@@ -6,89 +6,56 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   valid: [
     stripIndent`
-      // throw Error
-      const a = () => { throw new Error("error"); };
-    `,
-    stripIndent`
-      // throw DOMException
-      const a = () => { throw new DOMException("error"); };
-    `,
-    stripIndent`
-      // throw any
-      const a = () => { throw "error" as any };
-    `,
-    stripIndent`
-      // throw returned any
-      const a = () => { throw errorMessage(); };
-
-      function errorMessage(): any {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // throwError Error
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError(new Error("Boom!"));
-    `,
-    stripIndent`
-      // throwError DOMException
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError(new DOMException("Boom!"));
-    `,
-    stripIndent`
-      // throwError any
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError("Boom!" as any);
-    `,
-    stripIndent`
-      // throwError returned any
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError(errorMessage());
-
-      function errorMessage(): any {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // throwError unknown
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError("Boom!" as unknown);
-    `,
-    stripIndent`
-      // throwError returned unknown
-      import { throwError } from "rxjs";
-
-      const ob1 = throwError(errorMessage());
-
-      function errorMessage(): unknown {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // throwError Error with factory
+      // Error
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => new Error("Boom!"));
     `,
     stripIndent`
-      // throwError DOMException with factory
+      // RangeError
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(() => new RangeError("Boom!"));
+    `,
+    stripIndent`
+      // DOMException
+      /// <reference lib="dom" />
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => new DOMException("Boom!"));
     `,
     stripIndent`
-      // throwError any with factory
+      // custom Error
+      import { throwError } from "rxjs";
+
+      class MyFailure extends Error {}
+
+      const ob1 = throwError(() => new MyFailure("Boom!"));
+    `,
+    stripIndent`
+      // arrow function return
+      import { throwError } from "rxjs";
+
+      throwError(() => {
+        return new Error("Boom!");
+      });
+    `,
+    stripIndent`
+      // function return
+      import { throwError } from "rxjs";
+
+      throwError(function () {
+        return new Error("Boom!");
+      });
+    `,
+    stripIndent`
+      // any
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => "Boom!" as any);
     `,
     stripIndent`
-      // throwError returned any with factory
+      // returned any
       import { throwError } from "rxjs";
 
       const ob1 = throwError(() => errorMessage());
@@ -98,6 +65,72 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       }
     `,
     stripIndent`
+      // unknown
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(() => "Boom!" as unknown);
+    `,
+    stripIndent`
+      // returned unknown
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(() => errorMessage());
+
+      function errorMessage(): unknown {
+        return "error";
+      }
+    `,
+    stripIndent`
+      // Error without factory (deprecated)
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(new Error("Boom!"));
+    `,
+    stripIndent`
+      // DOMException without factory (deprecated)
+      /// <reference lib="dom" />
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(new DOMException("Boom!"));
+    `,
+    stripIndent`
+      // any without factory (deprecated)
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError("Boom!" as any);
+    `,
+    stripIndent`
+      // returned any without factory (deprecated)
+      import { throwError } from "rxjs";
+
+      const ob1 = throwError(errorMessage());
+
+      function errorMessage(): any {
+        return "error";
+      }
+    `,
+    stripIndent`
+      // Object.assign
+      // https://github.com/cartant/rxjs-tslint-rules/issues/86
+      import { throwError } from "rxjs";
+
+      throwError(() => Object.assign(
+        new Error("Not Found"),
+        { code: "NOT_FOUND" }
+      ));
+    `,
+    stripIndent`
+      // Object.assign arrow function return
+      import { throwError } from "rxjs";
+
+      throwError(() => {
+        return Object.assign(
+          new Error("Not Found"),
+          { code: "NOT_FOUND" }
+        );
+      });
+    `,
+    stripIndent`
       // no signature
       // There will be no signature for callback and
       // that should not effect an internal error.
@@ -105,6 +138,26 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       callback();
     `,
     stripIndent`
+      // unrelated throw statements (use @typescript-eslint/only-throw-error instead).
+      const a = () => { throw "error"; };
+      const b = () => { throw new Error("error"); };
+
+      const errorMessage = "Boom!";
+      const c = () => { throw errorMessage; };
+
+      const d = () => { throw errorMessage(); };
+      function errorMessage() {
+        return "error";
+      }
+
+      const e = () => { throw new DOMException("error"); };
+      const f = () => { throw "error" as any };
+
+      const g = () => { throw errorMessageAny(); };
+      function errorMessageAny(): any {
+        return "error";
+      }
+
       https://github.com/cartant/rxjs-tslint-rules/issues/85
       try {
         throw new Error("error");
@@ -116,34 +169,29 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   invalid: [
     fromFixture(
       stripIndent`
-        // throw string
-        const a = () => { throw "error"; };
-                                ~~~~~~~ [forbidden]
+        // string
+        import { throwError } from "rxjs";
+
+        const ob1 = throwError(() => "Boom!");
+                                     ~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
-        // throw returned string
-        const a = () => { throw errorMessage(); };
-                                ~~~~~~~~~~~~~~ [forbidden]
+        // returned string
+        import { throwError } from "rxjs";
+
+        const ob1 = throwError(() => errorMessage());
+                                     ~~~~~~~~~~~~~~ [forbidden]
 
         function errorMessage() {
-          return "error";
+          return "Boom!";
         }
       `,
     ),
     fromFixture(
       stripIndent`
-        // throw string variable
-        const errorMessage = "Boom!";
-
-        const a = () => { throw errorMessage; };
-                                ~~~~~~~~~~~~ [forbidden]
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // throwError string
+        // string without factory (deprecated)
         import { throwError } from "rxjs";
 
         const ob1 = throwError("Boom!");
@@ -152,7 +200,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     ),
     fromFixture(
       stripIndent`
-        // throwError returned string
+        // returned string without factory (deprecated)
         import { throwError } from "rxjs";
 
         const ob1 = throwError(errorMessage());
@@ -165,38 +213,55 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     ),
     fromFixture(
       stripIndent`
-        https://github.com/cartant/rxjs-tslint-rules/issues/86
-        const a = () => { throw "error"; };
-                                ~~~~~~~ [forbidden]
-        const b = () => { throw new Error("error"); };
-        const c = () => {
-          throw Object.assign(
-            new Error("Not Found"),
-            { code: "NOT_FOUND" }
-          );
-        };
+        // any not allowed
+        import { throwError } from "rxjs";
+
+        throwError(() => "Boom!" as any);
+                         ~~~~~~~~~~~~~~ [forbidden]
+      `,
+      { options: [{ allowThrowingAny: false }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // unknown not allowed
+        import { throwError } from "rxjs";
+
+        throwError(() => "Boom!" as unknown);
+                         ~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+      { options: [{ allowThrowingUnknown: false }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // falsy
+        import { throwError } from "rxjs";
+
+        const ob1 = throwError(() => 0);
+                                     ~ [forbidden]
+        const ob2 = throwError(() => false);
+                                     ~~~~~ [forbidden]
+        const ob3 = throwError(() => null);
+                                     ~~~~ [forbidden]
+        const ob4 = throwError(() => undefined);
+                                     ~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
-        // throwError string with factory
+        // Object.assign with non-Error
         import { throwError } from "rxjs";
 
-        const ob1 = throwError(() => "Boom!");
-                               ~~~~~~~~~~~~~ [forbidden]
+        throwError(() => Object.assign({ message: "Not Found" }, { code: "NOT_FOUND" }));
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
-        // throwError returned string with factory
-        import { throwError } from "rxjs";
+        // namespace import
+        import * as Rx from "rxjs";
 
-        const ob1 = throwError(() => errorMessage());
-                               ~~~~~~~~~~~~~~~~~~~~ [forbidden]
-
-        function errorMessage() {
-          return "Boom!";
-        }
+        Rx.throwError(() => "Boom!");
+                            ~~~~~~~ [forbidden]
       `,
     ),
   ],

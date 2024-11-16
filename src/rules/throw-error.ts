@@ -4,54 +4,86 @@ import ts from 'typescript';
 import { couldBeFunction, couldBeType, getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
+const defaultOptions: readonly {
+  allowThrowingAny?: boolean;
+  allowThrowingUnknown?: boolean;
+}[] = [];
+
 export const throwErrorRule = ruleCreator({
-  defaultOptions: [],
+  defaultOptions,
   meta: {
     docs: {
       description:
-        'Enforce passing only `Error` values to error notifications.',
+        'Enforce passing only `Error` values to `throwError`.',
       requiresTypeChecking: true,
     },
     messages: {
-      forbidden: 'Passing non-Error values are forbidden.',
+      forbidden: 'Passing non-Error values is forbidden.',
     },
-    schema: [],
+    schema: [
+      {
+        properties: {
+          allowThrowingAny: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `any`.' },
+          allowThrowingUnknown: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `unknown`.' },
+        },
+        type: 'object',
+      },
+    ],
     type: 'problem',
   },
   name: 'throw-error',
   create: (context) => {
     const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable } = getTypeServices(context);
+    const [config = {}] = context.options;
+    const { allowThrowingAny = true, allowThrowingUnknown = true } = config;
 
-    function checkNode(node: es.Node) {
+    function checkThrowArgument(node: es.Node) {
       let type = getTypeAtLocation(node);
+      let reportNode = node;
+
       if (couldBeFunction(type)) {
+        reportNode = (node as es.ArrowFunctionExpression).body ?? node;
+
         const tsNode = esTreeNodeToTSNodeMap.get(node);
         const annotation = (tsNode as ts.ArrowFunction).type;
         const body = (tsNode as ts.ArrowFunction).body;
         type = program.getTypeChecker().getTypeAtLocation(annotation ?? body);
       }
-      if (
-        !tsutils.isIntrinsicAnyType(type)
-        && !tsutils.isIntrinsicUnknownType(type)
-        && !couldBeType(type, /^(Error|DOMException)$/)
-      ) {
-        context.report({
-          messageId: 'forbidden',
-          node,
-        });
+
+      if (allowThrowingAny && tsutils.isIntrinsicAnyType(type)) {
+        return;
+      }
+
+      if (allowThrowingUnknown && tsutils.isIntrinsicUnknownType(type)) {
+        return;
+      }
+
+      if (couldBeType(type, /^Error$/)) {
+        return;
+      }
+
+      context.report({
+        messageId: 'forbidden',
+        node: reportNode,
+      });
+    }
+
+    function checkNode(node: es.CallExpression) {
+      if (couldBeObservable(node)) {
+        const [arg] = node.arguments;
+        if (arg) {
+          checkThrowArgument(arg);
+        }
       }
     }
 
     return {
-      'ThrowStatement > *': checkNode,
       'CallExpression[callee.name=\'throwError\']': (node: es.CallExpression) => {
-        if (couldBeObservable(node)) {
-          const [arg] = node.arguments;
-          if (arg) {
-            checkNode(arg);
-          }
-        }
+        checkNode(node);
+      },
+      'CallExpression[callee.property.name=\'throwError\']': (node: es.CallExpression) => {
+        checkNode(node);
       },
     };
   },
