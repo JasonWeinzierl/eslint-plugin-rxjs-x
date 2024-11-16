@@ -139,5 +139,28 @@ ruleTester({ types: true }).run('no-ignored-default-value', noIgnoredDefaultValu
                     ~~~~ [forbidden]
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // namespace import
+        import * as Rx from "rxjs";
+
+        Rx.firstValueFrom(Rx.of(42));
+           ~~~~~~~~~~~~~~ [forbidden]
+        Rx.of(42).pipe(Rx.first());
+                          ~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // operators import (deprecated)
+        import { of } from "rxjs";
+        import { first, last } from "rxjs/operators";
+
+        of(42).pipe(first());
+                    ~~~~~ [forbidden]
+        of(42).pipe(last());
+                    ~~~~ [forbidden]
+      `,
+    ),
   ],
 });

@@ -1,5 +1,5 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
-import { getTypeServices, isIdentifier, isImport, isMemberExpression, isObjectExpression, isProperty } from '../etc';
+import { getTypeServices, isIdentifier, isMemberExpression, isObjectExpression, isProperty } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noIgnoredDefaultValueRule = ruleCreator({
@@ -18,7 +18,7 @@ export const noIgnoredDefaultValueRule = ruleCreator({
   name: 'no-ignored-default-value',
   create: (context) => {
     const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
-    const { couldBeObservable } = getTypeServices(context);
+    const { couldBeObservable, couldBeType } = getTypeServices(context);
 
     function checkConfigObj(configArg: es.ObjectExpression) {
       if (!configArg.properties.some(p => isProperty(p) && isIdentifier(p.key) && p.key.name === 'defaultValue')) {
@@ -39,56 +39,7 @@ export const noIgnoredDefaultValueRule = ruleCreator({
       }
     }
 
-    function checkFunctionArgs(callExpression: es.CallExpression, reportNode: es.Node) {
-      const scope = context.sourceCode.getScope(callExpression);
-      if (!isImport(scope, 'firstValueFrom', /^rxjs\/?/)
-        && !isImport(scope, 'lastValueFrom', /^rxjs\/?/)) {
-        return;
-      }
-      const { arguments: args } = callExpression;
-      if (!args || args.length <= 0) {
-        return;
-      }
-      const [observableArg, configArg] = args;
-      if (!couldBeObservable(observableArg)) {
-        return;
-      }
-      if (!configArg) {
-        context.report({
-          messageId: 'forbidden',
-          node: reportNode,
-        });
-        return;
-      }
-      if (isIdentifier(configArg)) {
-        checkConfigType(configArg);
-        return;
-      } else if (isMemberExpression(configArg) && isIdentifier(configArg.property)) {
-        checkConfigType(configArg.property);
-        return;
-      }
-      if (!isObjectExpression(configArg)) {
-        return;
-      }
-      checkConfigObj(configArg);
-    }
-
-    function checkOperatorArgs(callExpression: es.CallExpression, reportNode: es.Node) {
-      const scope = context.sourceCode.getScope(callExpression);
-      if (!isImport(scope, 'first', /^rxjs\/?/)
-        && !isImport(scope, 'last', /^rxjs\/?/)) {
-        return;
-      }
-      const { arguments: args } = callExpression;
-
-      if (!args || args.length <= 0) {
-        context.report({
-          messageId: 'forbidden',
-          node: reportNode,
-        });
-        return;
-      }
-      const [arg] = args;
+    function checkArg(arg: es.Node) {
       if (isIdentifier(arg)) {
         checkConfigType(arg);
         return;
@@ -102,16 +53,59 @@ export const noIgnoredDefaultValueRule = ruleCreator({
       checkConfigObj(arg);
     }
 
+    function checkFunctionArgs(node: es.Node, args: es.CallExpressionArgument[]) {
+      if (!couldBeType(node, 'firstValueFrom', { name: /[/\\]rxjs[/\\]/ })
+        && !couldBeType(node, 'lastValueFrom', { name: /[/\\]rxjs[/\\]/ })) {
+        return;
+      }
+      if (!args || args.length <= 0) {
+        return;
+      }
+      const [observableArg, configArg] = args;
+      if (!couldBeObservable(observableArg)) {
+        return;
+      }
+      if (!configArg) {
+        context.report({
+          messageId: 'forbidden',
+          node,
+        });
+        return;
+      }
+      checkArg(configArg);
+    }
+
+    function checkOperatorArgs(node: es.Node, args: es.CallExpressionArgument[]) {
+      if (!couldBeType(node, 'first', { name: /[/\\]rxjs[/\\]/ })
+        && !couldBeType(node, 'last', { name: /[/\\]rxjs[/\\]/ })) {
+        return;
+      }
+
+      if (!args || args.length <= 0) {
+        context.report({
+          messageId: 'forbidden',
+          node,
+        });
+        return;
+      }
+      const [arg] = args;
+      checkArg(arg);
+    }
+
     return {
-      'CallExpression[callee.name=/^(firstValueFrom|lastValueFrom)$/]': (
-        node: es.CallExpression,
-      ) => {
-        checkFunctionArgs(node, node.callee);
+      'CallExpression[callee.name=/^(firstValueFrom|lastValueFrom)$/]': (node: es.CallExpression) => {
+        checkFunctionArgs(node.callee, node.arguments);
       },
-      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name=/^(first|last)$/]': (
-        node: es.CallExpression,
-      ) => {
-        checkOperatorArgs(node, node.callee);
+      'CallExpression[callee.property.name=/^(firstValueFrom|lastValueFrom)$/]': (node: es.CallExpression) => {
+        const memberExpression = node.callee as es.MemberExpression;
+        checkFunctionArgs(memberExpression.property, node.arguments);
+      },
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name=/^(first|last)$/]': (node: es.CallExpression) => {
+        checkOperatorArgs(node.callee, node.arguments);
+      },
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.property.name=/^(first|last)$/]': (node: es.CallExpression) => {
+        const memberExpression = node.callee as es.MemberExpression;
+        checkOperatorArgs(memberExpression.property, node.arguments);
       },
     };
   },
