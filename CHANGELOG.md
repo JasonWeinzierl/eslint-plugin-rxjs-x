@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.3.1 (2024-11-16)
+
+### Bug Fixes
+
+- **no-ignored-error**: fix observer objects not getting checked for `error` property ([#27](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/27)) ([46e105f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/46e105fde371a2013713f5e141b2c67ab039bd07))
+
 ## v0.3.0 (2024-11-15)
 
 ### Breaking Changes
