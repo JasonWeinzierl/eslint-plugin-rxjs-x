@@ -1,4 +1,5 @@
-import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es } from '@typescript-eslint/utils';
+import { isIdentifier, isObjectExpression, isProperty } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noIgnoredReplayBufferRule = ruleCreator({
@@ -21,7 +22,7 @@ export const noIgnoredReplayBufferRule = ruleCreator({
       node: es.Identifier,
       shareReplayConfigArg: es.ObjectExpression,
     ) {
-      if (!shareReplayConfigArg.properties.some(p => p.type === AST_NODE_TYPES.Property && p.key.type === AST_NODE_TYPES.Identifier && p.key.name === 'bufferSize')) {
+      if (!shareReplayConfigArg.properties.some(p => isProperty(p) && isIdentifier(p.key) && p.key.name === 'bufferSize')) {
         context.report({
           messageId: 'forbidden',
           node,
@@ -41,8 +42,8 @@ export const noIgnoredReplayBufferRule = ruleCreator({
       }
 
       if (node.name === 'shareReplay' && args?.length === 1) {
-        const arg = args[0];
-        if (arg.type === AST_NODE_TYPES.ObjectExpression) {
+        const [arg] = args;
+        if (isObjectExpression(arg)) {
           checkShareReplayConfig(node, arg);
         }
       }
