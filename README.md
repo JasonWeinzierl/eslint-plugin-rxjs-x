@@ -88,7 +88,7 @@ The package includes the following rules.
 | [no-ignored-subscription](docs/rules/no-ignored-subscription.md)       | Disallow ignoring the subscription returned by `subscribe`.                                               |    |    |    | 💭 |    |
 | [no-ignored-takewhile-value](docs/rules/no-ignored-takewhile-value.md) | Disallow ignoring the value within `takeWhile`.                                                           | ✅  |    |    |    |    |
 | [no-implicit-any-catch](docs/rules/no-implicit-any-catch.md)           | Disallow implicit `any` error parameters in `catchError` operators.                                       | ✅  | 🔧 | 💡 | 💭 |    |
-| [no-import-operators](docs/rules/no-import-operators.md)               | Disallow importing operators from `rxjs/operators`.                                                       |    |    |    |    |    |
+| [no-import-operators](docs/rules/no-import-operators.md)               | Disallow importing operators from `rxjs/operators`.                                                       |    |    | 💡 |    |    |
 | [no-index](docs/rules/no-index.md)                                     | Disallow importing index modules.                                                                         | ✅  |    |    |    |    |
 | [no-internal](docs/rules/no-internal.md)                               | Disallow importing internal modules.                                                                      | ✅  | 🔧 | 💡 |    |    |
 | [no-nested-subscribe](docs/rules/no-nested-subscribe.md)               | Disallow calling `subscribe` within a `subscribe` callback.                                               | ✅  |    |    | 💭 |    |

@@ -1,5 +1,7 @@
 # Disallow importing operators from `rxjs/operators` (`rxjs-x/no-import-operators`)
 
+💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
+
 <!-- end auto-generated rule header -->
 
 This rule prevents importing from the `rxjs/operators` export site.

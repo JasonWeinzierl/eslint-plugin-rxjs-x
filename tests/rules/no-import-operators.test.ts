@@ -45,38 +45,102 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
       stripIndent`
         // import declaration named
         import { concat } from "rxjs/operators";
-                               ~~~~~~~~~~~~~~~~ [forbidden]
+                               ~~~~~~~~~~~~~~~~ [forbidden suggest 0]
         import { concat } from 'rxjs/operators';
-                               ~~~~~~~~~~~~~~~~ [forbidden]
+                               ~~~~~~~~~~~~~~~~ [forbidden suggest 1]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import declaration named
+              import { concat } from "rxjs";
+              import { concat } from 'rxjs/operators';
+            `,
+          },
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import declaration named
+              import { concat } from "rxjs/operators";
+              import { concat } from 'rxjs';
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
         // import declaration namespace
         import * as RxOperators from "rxjs/operators";
-                                     ~~~~~~~~~~~~~~~~ [forbidden]
+                                     ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import declaration namespace
+              import * as RxOperators from "rxjs";
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
         // import expression
         const { concat } = await import("rxjs/operators");
-                                        ~~~~~~~~~~~~~~~~ [forbidden]
+                                        ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+            // import expression
+            const { concat } = await import("rxjs");
+          `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
         // export named
         export { concat } from "rxjs/operators";
-                               ~~~~~~~~~~~~~~~~ [forbidden]
+                               ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // export named
+              export { concat } from "rxjs";
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
         // export all
         export * from "rxjs/operators";
-                      ~~~~~~~~~~~~~~~~ [forbidden]
+                      ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // export all
+              export * from "rxjs";
+            `,
+          },
+        ],
+      },
     ),
   ],
 });
