@@ -24,6 +24,7 @@ import { noIgnoredSubscribeRule } from './rules/no-ignored-subscribe';
 import { noIgnoredSubscriptionRule } from './rules/no-ignored-subscription';
 import { noIgnoredTakewhileValueRule } from './rules/no-ignored-takewhile-value';
 import { noImplicitAnyCatchRule } from './rules/no-implicit-any-catch';
+import { noImportOperatorsRule } from './rules/no-import-operators';
 import { noIndexRule } from './rules/no-index';
 import { noInternalRule } from './rules/no-internal';
 import { noNestedSubscribeRule } from './rules/no-nested-subscribe';
@@ -70,6 +71,7 @@ const plugin = {
     'no-ignored-subscription': noIgnoredSubscriptionRule,
     'no-ignored-takewhile-value': noIgnoredTakewhileValueRule,
     'no-implicit-any-catch': noImplicitAnyCatchRule,
+    'no-import-operators': noImportOperatorsRule,
     'no-index': noIndexRule,
     'no-internal': noInternalRule,
     'no-nested-subscribe': noNestedSubscribeRule,
