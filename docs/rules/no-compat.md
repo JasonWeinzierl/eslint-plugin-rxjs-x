@@ -1,8 +1,12 @@
 # Disallow the `rxjs-compat` package (`rxjs-x/no-compat`)
 
+❌ This rule is deprecated.
+
 <!-- end auto-generated rule header -->
 
 This rule prevents importing from locations that depend upon the `rxjs-compat` package.
+
+This rule is deprecated because RxJS v7+ no longer includes `rxjs-compat`.
 
 ## Further reading
 

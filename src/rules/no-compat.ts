@@ -4,6 +4,7 @@ import { ruleCreator } from '../utils';
 export const noCompatRule = ruleCreator({
   defaultOptions: [],
   meta: {
+    deprecated: true,
     docs: {
       description:
         'Disallow the `rxjs-compat` package.',

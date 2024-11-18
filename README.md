@@ -72,7 +72,7 @@ The package includes the following rules.
 | [just](docs/rules/just.md)                                             | Require the use of `just` instead of `of`.                                                                |    | 🔧 |    |    |    |
 | [macro](docs/rules/macro.md)                                           | Require the use of the RxJS Tools Babel macro.                                                            |    | 🔧 |    |    | ❌  |
 | [no-async-subscribe](docs/rules/no-async-subscribe.md)                 | Disallow passing `async` functions to `subscribe`.                                                        | ✅  |    |    | 💭 |    |
-| [no-compat](docs/rules/no-compat.md)                                   | Disallow the `rxjs-compat` package.                                                                       |    |    |    |    |    |
+| [no-compat](docs/rules/no-compat.md)                                   | Disallow the `rxjs-compat` package.                                                                       |    |    |    |    | ❌  |
 | [no-connectable](docs/rules/no-connectable.md)                         | Disallow operators that return connectable observables.                                                   |    |    |    | 💭 |    |
 | [no-create](docs/rules/no-create.md)                                   | Disallow the static `Observable.create` function.                                                         | ✅  |    |    | 💭 |    |
 | [no-cyclic-action](docs/rules/no-cyclic-action.md)                     | Disallow cyclic actions in effects and epics.                                                             |    |    |    | 💭 |    |
