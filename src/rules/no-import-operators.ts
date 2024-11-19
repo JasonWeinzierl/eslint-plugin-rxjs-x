@@ -54,111 +54,100 @@ export const noImportOperatorsRule = ruleCreator({
       return undefined;
     }
 
+    function hasDeprecatedOperators(specifiers?: es.ImportSpecifier[] | es.ExportSpecifier[]): boolean {
+      return !!specifiers?.some(s => DEPRECATED_OPERATORS.includes(getName(getOperatorNode(s))));
+    }
+
     function getName(node: es.Identifier | es.StringLiteral): string {
       return isIdentifier(node) ? node.name : node.value;
     }
 
-    function getSpecifierReplacement(name: string): string | undefined {
+    function getOperatorNode(node: es.ImportSpecifier | es.ExportSpecifier): es.Identifier | es.StringLiteral {
+      return isImportSpecifier(node) ? node.imported : node.local;
+    }
+
+    function getAliasNode(node: es.ImportSpecifier | es.ExportSpecifier): es.Identifier | es.StringLiteral {
+      return isImportSpecifier(node) ? node.local : node.exported;
+    }
+
+    function getOperatorReplacement(name: string): string | undefined {
       return RENAMED_OPERATORS[name];
     }
 
-    function reportNode(source: es.Literal, importSpecifiers?: es.ImportSpecifier[], exportSpecifiers?: es.ExportSpecifier[]): void {
-      const replacement = getSourceReplacement(source.raw);
-      if (
-        replacement
-        && !importSpecifiers?.some(s => DEPRECATED_OPERATORS.includes(getName(s.imported)))
-        && !exportSpecifiers?.some(s => DEPRECATED_OPERATORS.includes(getName(s.exported)))
-      ) {
-        if (importSpecifiers) {
-          function* fix(fixer: TSESLint.RuleFixer) {
-            // Rename the module name.
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            yield fixer.replaceText(source, replacement!);
+    function isNodesEqual(a: es.Node, b: es.Node): boolean {
+      return a.range[0] === b.range[0] && a.range[1] === b.range[1];
+    }
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            for (const specifier of importSpecifiers!) {
-              const operatorName = getName(specifier.imported);
-              const specifierReplacement = getSpecifierReplacement(operatorName);
-              if (specifierReplacement) {
-                if (specifier.local.name === operatorName) {
-                  // concat -> concatWith as concat
-                  yield fixer.insertTextBefore(specifier.imported, specifierReplacement + ' as ');
-                } else if (isIdentifier(specifier.imported)) {
-                  // concat as c -> concatWith as c
-                  yield fixer.replaceText(specifier.imported, specifierReplacement);
-                } else {
-                  // 'concat' as c -> 'concatWith' as c
-                  const quote = getQuote(specifier.imported.raw);
-                  if (!quote) {
-                    continue;
-                  }
-                  yield fixer.replaceText(specifier.imported, quote + specifierReplacement + quote);
-                }
-              }
-            }
-          }
-          context.report({
-            fix,
-            messageId: 'forbidden',
-            node: source,
-            suggest: [{ messageId: 'suggest', fix }],
-          });
-        } else if (exportSpecifiers) {
-          function* fix(fixer: TSESLint.RuleFixer) {
-            // Rename the module name.
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            yield fixer.replaceText(source, replacement!);
+    function createFix(source: es.Node, replacement: string, specifiers: es.ImportSpecifier[] | es.ExportSpecifier[]) {
+      return function* fix(fixer: TSESLint.RuleFixer) {
+        // Rename the module name.
+        yield fixer.replaceText(source, replacement);
 
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            for (const specifier of exportSpecifiers!) {
-              const operatorName = getName(specifier.local);
-              const specifierReplacement = getSpecifierReplacement(operatorName);
-              if (specifierReplacement) {
-                const exportedName = getName(specifier.exported);
-                if (exportedName === operatorName) {
-                  // concat -> concatWith as concat
-                  yield fixer.insertTextBefore(specifier.exported, specifierReplacement + ' as ');
-                } else if (isIdentifier(specifier.local)) {
-                  // concat as c -> concatWith as c
-                  yield fixer.replaceText(specifier.local, specifierReplacement);
-                } else {
-                  // 'concat' as c -> 'concatWith' as c
-                  const quote = getQuote(specifier.local.raw);
-                  if (!quote) {
-                    continue;
-                  }
-                  yield fixer.replaceText(specifier.local, quote + specifierReplacement + quote);
-                }
-              }
-            }
+        // Rename the imported operators if necessary.
+        for (const specifier of specifiers) {
+          const operatorNode = getOperatorNode(specifier);
+          const operatorName = getName(operatorNode);
+
+          const operatorReplacement = getOperatorReplacement(operatorName);
+          if (!operatorReplacement) {
+            // The operator has the same name.
+            continue;
           }
-          context.report({
-            fix,
-            messageId: 'forbidden',
-            node: source,
-            suggest: [{ messageId: 'suggest', fix }],
-          });
-        } else {
-          context.report({
-            messageId: 'forbidden',
-            node: source,
-            suggest: [{ messageId: 'suggest', fix: (fixer) => fixer.replaceText(source, replacement) }],
-          });
+
+          const aliasNode = getAliasNode(specifier);
+          if (isNodesEqual(aliasNode, operatorNode)) {
+            // concat -> concatWith as concat
+            yield fixer.insertTextBefore(operatorNode, operatorReplacement + ' as ');
+          } else if (isIdentifier(operatorNode)) {
+            // concat as c -> concatWith as c
+            yield fixer.replaceText(operatorNode, operatorReplacement);
+          } else {
+            // 'concat' as c -> 'concatWith' as c
+            const quote = getQuote(operatorNode.raw);
+            if (!quote) {
+              continue;
+            }
+            yield fixer.replaceText(operatorNode, quote + operatorReplacement + quote);
+          }
         }
-      } else {
+      };
+    }
+
+    function reportNode(source: es.Literal, specifiers?: es.ImportSpecifier[] | es.ExportSpecifier[]): void {
+      const replacement = getSourceReplacement(source.raw);
+      if (!replacement || hasDeprecatedOperators(specifiers)) {
         context.report({
           messageId: 'forbidden',
           node: source,
         });
+        return;
       }
+
+      if (!specifiers) {
+        context.report({
+          messageId: 'forbidden',
+          node: source,
+          suggest: [{ messageId: 'suggest', fix: (fixer) => fixer.replaceText(source, replacement) }],
+        });
+        return;
+      }
+
+      const fix = createFix(source, replacement, specifiers);
+      context.report({
+        fix,
+        messageId: 'forbidden',
+        node: source,
+        suggest: [{ messageId: 'suggest', fix }],
+      });
     }
 
     return {
       'ImportDeclaration[source.value="rxjs/operators"]': (node: es.ImportDeclaration) => {
         // Exclude side effect imports, default imports, and namespace imports.
-        const specifiers = node.specifiers.length && node.specifiers.every(s => isImportSpecifier(s))
+        const specifiers = node.specifiers.length && node.specifiers.every(importClause => isImportSpecifier(importClause))
           ? node.specifiers
           : undefined;
+
         reportNode(node.source, specifiers);
       },
       'ImportExpression[source.value="rxjs/operators"]': (node: es.ImportExpression) => {
@@ -167,7 +156,7 @@ export const noImportOperatorsRule = ruleCreator({
         }
       },
       'ExportNamedDeclaration[source.value="rxjs/operators"]': (node: es.ExportNamedDeclarationWithSource) => {
-        reportNode(node.source, undefined, node.specifiers);
+        reportNode(node.source, node.specifiers);
       },
       'ExportAllDeclaration[source.value="rxjs/operators"]': (node: es.ExportAllDeclaration) => {
         reportNode(node.source);

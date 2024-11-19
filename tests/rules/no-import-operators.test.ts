@@ -44,32 +44,42 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
     fromFixture(
       stripIndent`
         // import declaration named
-        import { concat, map } from "rxjs/operators";
-                                    ~~~~~~~~~~~~~~~~ [forbidden suggest 0]
-        import { 'merge' as m, race as r } from 'rxjs/operators';
-                                                ~~~~~~~~~~~~~~~~ [forbidden suggest 1]
+        import { map as m, filter, 'tap' as tap } from "rxjs/operators";
+                                                       ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
       {
         output: stripIndent`
           // import declaration named
-          import { concatWith as concat, map } from "rxjs";
-          import { 'mergeWith' as m, raceWith as r } from 'rxjs';
+          import { map as m, filter, 'tap' as tap } from "rxjs";
         `,
         suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
               // import declaration named
-              import { concatWith as concat, map } from "rxjs";
-              import { 'merge' as m, race as r } from 'rxjs/operators';
+              import { map as m, filter, 'tap' as tap } from "rxjs";
             `,
           },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // import declaration named, renamed operators
+        import { 'merge' as m, race as race } from 'rxjs/operators';
+                                                   ~~~~~~~~~~~~~~~~ [forbidden suggest]
+      `,
+      {
+        output: stripIndent`
+          // import declaration named, renamed operators
+          import { 'mergeWith' as m, raceWith as race } from 'rxjs';
+        `,
+        suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
-              // import declaration named
-              import { concat, map } from "rxjs/operators";
-              import { 'mergeWith' as m, raceWith as r } from 'rxjs';
+              // import declaration named, renamed operators
+              import { 'mergeWith' as m, raceWith as race } from 'rxjs';
             `,
           },
         ],
