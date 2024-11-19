@@ -7,8 +7,8 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
   valid: [
     stripIndent`
       // import declaration named
-      import { concat } from "rxjs";
-      import { concat } from 'rxjs';
+      import { concatWith } from "rxjs";
+      import { mergeWith } from 'rxjs';
     `,
     stripIndent`
       // import declaration namespace
@@ -16,16 +16,16 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
     `,
     stripIndent`
       // import expression
-      const { concat } = await import("rxjs");
+      const { concatWith } = await import("rxjs");
     `,
     stripIndent`
-      // import expression with identifier is not supported
+      // import expression without a string literal is not supported
       const path = "rxjs/operators";
       const { concat } = await import(path);
     `,
     stripIndent`
       // export named
-      export { concat } from "rxjs";
+      export { concatWith, mergeWith as m } from "rxjs";
     `,
     stripIndent`
       // export all
@@ -44,31 +44,43 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
     fromFixture(
       stripIndent`
         // import declaration named
-        import { concat } from "rxjs/operators";
-                               ~~~~~~~~~~~~~~~~ [forbidden suggest 0]
-        import { concat } from 'rxjs/operators';
-                               ~~~~~~~~~~~~~~~~ [forbidden suggest 1]
+        import { concat, map } from "rxjs/operators";
+                                    ~~~~~~~~~~~~~~~~ [forbidden suggest 0]
+        import { 'merge' as m, race as r } from 'rxjs/operators';
+                                                ~~~~~~~~~~~~~~~~ [forbidden suggest 1]
       `,
       {
+        output: stripIndent`
+          // import declaration named
+          import { concatWith as concat, map } from "rxjs";
+          import { 'mergeWith' as m, raceWith as r } from 'rxjs';
+        `,
         suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
               // import declaration named
-              import { concat } from "rxjs";
-              import { concat } from 'rxjs/operators';
+              import { concatWith as concat, map } from "rxjs";
+              import { 'merge' as m, race as r } from 'rxjs/operators';
             `,
           },
           {
             messageId: 'suggest',
             output: stripIndent`
               // import declaration named
-              import { concat } from "rxjs/operators";
-              import { concat } from 'rxjs';
+              import { concat, map } from "rxjs/operators";
+              import { 'mergeWith' as m, raceWith as r } from 'rxjs';
             `,
           },
         ],
       },
+    ),
+    fromFixture(
+      stripIndent`
+        // import declaration named, deprecated operator
+        import { partition } from "rxjs/operators";
+                                  ~~~~~~~~~~~~~~~~ [forbidden]
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -90,18 +102,74 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
     ),
     fromFixture(
       stripIndent`
-        // import expression
-        const { concat } = await import("rxjs/operators");
-                                        ~~~~~~~~~~~~~~~~ [forbidden suggest]
+        // import declaration default
+        import RxOperators, { map } from "rxjs/operators";
+                                         ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
       {
         suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
-            // import expression
-            const { concat } = await import("rxjs");
-          `,
+              // import declaration default
+              import RxOperators, { map } from "rxjs";
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // import expression
+        const { concat, merge: m, map } = await import("rxjs/operators");
+                                                       ~~~~~~~~~~~~~~~~ [forbidden suggest]
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import expression
+              const { concat, merge: m, map } = await import("rxjs");
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // import expression, separated import
+        const opPromise = import("rxjs/operators");
+                                 ~~~~~~~~~~~~~~~~ [forbidden suggest]
+        const { concat } = await opPromise;
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import expression, separated import
+              const opPromise = import("rxjs");
+              const { concat } = await opPromise;
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // import expression, deprecated operator
+        const { concat, partition } = await import("rxjs/operators");
+                                                   ~~~~~~~~~~~~~~~~ [forbidden suggest]
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              // import expression, deprecated operator
+              const { concat, partition } = await import("rxjs");
+            `,
           },
         ],
       },
@@ -109,20 +177,31 @@ ruleTester({ types: false }).run('no-import-operators', noImportOperatorsRule, {
     fromFixture(
       stripIndent`
         // export named
-        export { concat } from "rxjs/operators";
-                               ~~~~~~~~~~~~~~~~ [forbidden suggest]
+        export { concat, merge as m, map, 'race' as "r" } from "rxjs/operators";
+                                                               ~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
       {
+        output: stripIndent`
+          // export named
+          export { concatWith as concat, mergeWith as m, map, 'raceWith' as "r" } from "rxjs";
+        `,
         suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
               // export named
-              export { concat } from "rxjs";
+              export { concatWith as concat, mergeWith as m, map, 'raceWith' as "r" } from "rxjs";
             `,
           },
         ],
       },
+    ),
+    fromFixture(
+      stripIndent`
+        // export named, deprecated operator
+        export { concat, partition } from "rxjs/operators";
+                                          ~~~~~~~~~~~~~~~~ [forbidden]
+      `,
     ),
     fromFixture(
       stripIndent`
