@@ -26,11 +26,12 @@ export const preferImportRootOperatorsRule = ruleCreator({
     fixable: 'code',
     hasSuggestions: true,
     messages: {
-      forbidden: 'RxJS imports from `rxjs/operators` are forbidden.',
-      suggest: 'Import from `rxjs` instead.',
+      forbidden: 'RxJS imports from `rxjs/operators` are forbidden; import from `rxjs` instead.',
+      forbiddenWithoutFix: 'RxJS imports from `rxjs/operators` are forbidden; import from `rxjs` instead. Note some operators may have been renamed or deprecated.',
+      suggest: 'Replace with import from `rxjs`.',
     },
     schema: [],
-    type: 'problem',
+    type: 'suggestion',
   },
   name: 'prefer-import-root-operators',
   create: (context) => {
@@ -117,7 +118,7 @@ export const preferImportRootOperatorsRule = ruleCreator({
       const replacement = getSourceReplacement(source.raw);
       if (!replacement || hasDeprecatedOperators(specifiers)) {
         context.report({
-          messageId: 'forbidden',
+          messageId: 'forbiddenWithoutFix',
           node: source,
         });
         return;
@@ -125,7 +126,7 @@ export const preferImportRootOperatorsRule = ruleCreator({
 
       if (!specifiers) {
         context.report({
-          messageId: 'forbidden',
+          messageId: 'forbiddenWithoutFix',
           node: source,
           suggest: [{ messageId: 'suggest', fix: (fixer) => fixer.replaceText(source, replacement) }],
         });

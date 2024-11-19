@@ -89,14 +89,14 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // import declaration named, deprecated operator
         import { partition } from "rxjs/operators";
-                                  ~~~~~~~~~~~~~~~~ [forbidden]
+                                  ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix]
       `,
     ),
     fromFixture(
       stripIndent`
         // import declaration namespace
         import * as RxOperators from "rxjs/operators";
-                                     ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                                     ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
       `,
       {
         suggestions: [
@@ -114,7 +114,7 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // import declaration default
         import RxOperators, { map } from "rxjs/operators";
-                                         ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                                         ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
       `,
       {
         suggestions: [
@@ -132,7 +132,7 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // import expression
         const { concat, merge: m, map } = await import("rxjs/operators");
-                                                       ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                                                       ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
       `,
       {
         suggestions: [
@@ -150,7 +150,7 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // import expression, separated import
         const opPromise = import("rxjs/operators");
-                                 ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                                 ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
         const { concat } = await opPromise;
       `,
       {
@@ -170,7 +170,7 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // import expression, deprecated operator
         const { concat, partition } = await import("rxjs/operators");
-                                                   ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                                                   ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
       `,
       {
         suggestions: [
@@ -210,14 +210,14 @@ ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRoo
       stripIndent`
         // export named, deprecated operator
         export { concat, partition } from "rxjs/operators";
-                                          ~~~~~~~~~~~~~~~~ [forbidden]
+                                          ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix]
       `,
     ),
     fromFixture(
       stripIndent`
         // export all
         export * from "rxjs/operators";
-                      ~~~~~~~~~~~~~~~~ [forbidden suggest]
+                      ~~~~~~~~~~~~~~~~ [forbiddenWithoutFix suggest]
       `,
       {
         suggestions: [
