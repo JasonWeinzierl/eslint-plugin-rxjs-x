@@ -98,7 +98,7 @@ The package includes the following rules.
 | [no-subject-value](docs/rules/no-subject-value.md)                     | Disallow accessing the `value` property of a `BehaviorSubject` instance.                                  |    |    |    | 💭 |    |
 | [no-subscribe-handlers](docs/rules/no-subscribe-handlers.md)           | Disallow passing handlers to `subscribe`.                                                                 |    |    |    | 💭 |    |
 | [no-tap](docs/rules/no-tap.md)                                         | Disallow the `tap` operator.                                                                              |    |    |    |    | ❌  |
-| [no-topromise](docs/rules/no-topromise.md)                             | Disallow use of the `toPromise` method.                                                                   |    |    |    | 💭 |    |
+| [no-topromise](docs/rules/no-topromise.md)                             | Disallow use of the `toPromise` method.                                                                   |    |    | 💡 | 💭 |    |
 | [no-unbound-methods](docs/rules/no-unbound-methods.md)                 | Disallow passing unbound methods.                                                                         | ✅  |    |    | 💭 |    |
 | [no-unsafe-catch](docs/rules/no-unsafe-catch.md)                       | Disallow unsafe `catchError` usage in effects and epics.                                                  |    |    |    | 💭 |    |
 | [no-unsafe-first](docs/rules/no-unsafe-first.md)                       | Disallow unsafe `first`/`take` usage in effects and epics.                                                |    |    |    | 💭 |    |
