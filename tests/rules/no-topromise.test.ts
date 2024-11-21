@@ -220,5 +220,50 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         ],
       },
     ),
+    fromFixture(
+      stripIndent`
+        // no imports
+        class Observable {
+          toPromise() {
+            return Promise.resolve("a");
+          }
+        }
+        const a = new Observable();
+        a.toPromise().then(value => console.log(value));
+          ~~~~~~~~~ [forbidden suggest 0 1]
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestLastValueFrom',
+            output: stripIndent`
+              // no imports
+              import { lastValueFrom } from "rxjs";
+              class Observable {
+                toPromise() {
+                  return Promise.resolve("a");
+                }
+              }
+              const a = new Observable();
+              lastValueFrom(a).then(value => console.log(value));
+            `,
+          },
+          {
+            messageId: 'suggestFirstValueFrom',
+            output: stripIndent`
+              // no imports
+              import { firstValueFrom } from "rxjs";
+              class Observable {
+                toPromise() {
+                  return Promise.resolve("a");
+                }
+              }
+              const a = new Observable();
+              firstValueFrom(a).then(value => console.log(value));
+            `,
+          },
+        ],
+      },
+    ),
   ],
 });
