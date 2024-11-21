@@ -35,13 +35,11 @@ export const noTopromiseRule = ruleCreator({
       conversion: 'lastValueFrom' | 'firstValueFrom',
       callExpression: es.CallExpression,
       observableNode: es.Node,
+      importDeclarations: es.ImportDeclaration[],
     ) {
       return function* fix(fixer: TSESLint.RuleFixer) {
         let namespace = '';
         let functionName: string = conversion;
-
-        const { body } = context.sourceCode.ast;
-        const importDeclarations = body.filter(isImportDeclaration);
 
         const rxjsImportDeclaration = importDeclarations.find(node => node.source.value === 'rxjs');
 
@@ -69,11 +67,8 @@ export const noTopromiseRule = ruleCreator({
             `\nimport { ${functionName} } from ${quote}rxjs${quote};`,
           );
         } else {
-          // No imports. Add to top of file.
-          yield fixer.insertTextBefore(
-            body[0],
-            `import { ${functionName} } from "rxjs";\n`,
-          );
+          console.warn('No import declarations found. Unable to suggest a fix.');
+          return;
         }
 
         yield fixer.replaceText(
@@ -91,17 +86,25 @@ export const noTopromiseRule = ruleCreator({
         if (!couldBeObservable(memberExpression.object)) {
           return;
         }
+
+        const { body } = context.sourceCode.ast;
+        const importDeclarations = body.filter(isImportDeclaration);
+        if (!importDeclarations.length) {
+          // couldBeObservable yet no imports? Skip.
+          return;
+        }
+
         context.report({
           messageId: 'forbidden',
           node: memberExpression.property,
           suggest: [
             {
               messageId: 'suggestLastValueFrom',
-              fix: createFix('lastValueFrom', node, memberExpression.object),
+              fix: createFix('lastValueFrom', node, memberExpression.object, importDeclarations),
             },
             {
               messageId: 'suggestFirstValueFrom',
-              fix: createFix('firstValueFrom', node, memberExpression.object),
+              fix: createFix('firstValueFrom', node, memberExpression.object, importDeclarations),
             },
           ],
         });

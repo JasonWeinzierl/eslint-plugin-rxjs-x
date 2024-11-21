@@ -20,6 +20,16 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       };
       a.toPromise().then(value => console.log(value));
     `,
+    stripIndent`
+      // no imports
+      class Observable {
+        toPromise() {
+          return Promise.resolve("a");
+        }
+      }
+      const a = new Observable();
+      a.toPromise().then(value => console.log(value));
+    `,
   ],
   invalid: [
     fromFixture(
@@ -215,51 +225,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
               import * as Rx from "rxjs";
               const a = Rx.of("a");
               Rx.firstValueFrom(a).then(value => console.log(value));
-            `,
-          },
-        ],
-      },
-    ),
-    fromFixture(
-      stripIndent`
-        // no imports
-        class Observable {
-          toPromise() {
-            return Promise.resolve("a");
-          }
-        }
-        const a = new Observable();
-        a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
-      `,
-      {
-        suggestions: [
-          {
-            messageId: 'suggestLastValueFrom',
-            output: stripIndent`
-              // no imports
-              import { lastValueFrom } from "rxjs";
-              class Observable {
-                toPromise() {
-                  return Promise.resolve("a");
-                }
-              }
-              const a = new Observable();
-              lastValueFrom(a).then(value => console.log(value));
-            `,
-          },
-          {
-            messageId: 'suggestFirstValueFrom',
-            output: stripIndent`
-              // no imports
-              import { firstValueFrom } from "rxjs";
-              class Observable {
-                toPromise() {
-                  return Promise.resolve("a");
-                }
-              }
-              const a = new Observable();
-              firstValueFrom(a).then(value => console.log(value));
             `,
           },
         ],
