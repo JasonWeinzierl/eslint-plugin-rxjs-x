@@ -17,7 +17,7 @@ const DEPRECATED_OPERATORS = [
   'partition',
 ];
 
-export const preferImportRootOperatorsRule = ruleCreator({
+export const preferRootOperatorsRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
@@ -33,7 +33,7 @@ export const preferImportRootOperatorsRule = ruleCreator({
     schema: [],
     type: 'suggestion',
   },
-  name: 'prefer-import-root-operators',
+  name: 'prefer-root-operators',
   create: (context) => {
     function getQuote(raw: string): string | undefined {
       const match = /^\s*('|")/.exec(raw);

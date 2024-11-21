@@ -24,7 +24,6 @@ import { noIgnoredSubscribeRule } from './rules/no-ignored-subscribe';
 import { noIgnoredSubscriptionRule } from './rules/no-ignored-subscription';
 import { noIgnoredTakewhileValueRule } from './rules/no-ignored-takewhile-value';
 import { noImplicitAnyCatchRule } from './rules/no-implicit-any-catch';
-import { preferImportRootOperatorsRule } from './rules/prefer-import-root-operators';
 import { noIndexRule } from './rules/no-index';
 import { noInternalRule } from './rules/no-internal';
 import { noNestedSubscribeRule } from './rules/no-nested-subscribe';
@@ -43,6 +42,7 @@ import { noUnsafeSubjectNext } from './rules/no-unsafe-subject-next';
 import { noUnsafeSwitchmapRule } from './rules/no-unsafe-switchmap';
 import { noUnsafeTakeuntilRule } from './rules/no-unsafe-takeuntil';
 import { preferObserverRule } from './rules/prefer-observer';
+import { preferRootOperatorsRule } from './rules/prefer-root-operators';
 import { suffixSubjectsRule } from './rules/suffix-subjects';
 import { throwErrorRule } from './rules/throw-error';
 
@@ -71,7 +71,6 @@ const plugin = {
     'no-ignored-subscription': noIgnoredSubscriptionRule,
     'no-ignored-takewhile-value': noIgnoredTakewhileValueRule,
     'no-implicit-any-catch': noImplicitAnyCatchRule,
-    'prefer-import-root-operators': preferImportRootOperatorsRule,
     'no-index': noIndexRule,
     'no-internal': noInternalRule,
     'no-nested-subscribe': noNestedSubscribeRule,
@@ -90,6 +89,7 @@ const plugin = {
     'no-unsafe-switchmap': noUnsafeSwitchmapRule,
     'no-unsafe-takeuntil': noUnsafeTakeuntilRule,
     'prefer-observer': preferObserverRule,
+    'prefer-root-operators': preferRootOperatorsRule,
     'suffix-subjects': suffixSubjectsRule,
     'throw-error': throwErrorRule,
   },

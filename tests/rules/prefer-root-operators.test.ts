@@ -1,9 +1,9 @@
 import { stripIndent } from 'common-tags';
-import { preferImportRootOperatorsRule } from '../../src/rules/prefer-import-root-operators';
+import { preferRootOperatorsRule } from '../../src/rules/prefer-root-operators';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run('prefer-import-root-operators', preferImportRootOperatorsRule, {
+ruleTester({ types: false }).run('prefer-root-operators', preferRootOperatorsRule, {
   valid: [
     stripIndent`
       // import declaration named
