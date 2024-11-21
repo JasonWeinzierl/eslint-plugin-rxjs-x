@@ -62,6 +62,18 @@ export function isIdentifier(node: TSESTree.Node): node is TSESTree.Identifier {
   return node.type === AST_NODE_TYPES.Identifier;
 }
 
+export function isImportDeclaration(node: TSESTree.Node): node is TSESTree.ImportDeclaration {
+  return node.type === AST_NODE_TYPES.ImportDeclaration;
+}
+
+export function isImportNamespaceSpecifier(node: TSESTree.Node): node is TSESTree.ImportNamespaceSpecifier {
+  return node.type === AST_NODE_TYPES.ImportNamespaceSpecifier;
+}
+
+export function isImportSpecifier(node: TSESTree.Node): node is TSESTree.ImportSpecifier {
+  return node.type === AST_NODE_TYPES.ImportSpecifier;
+}
+
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
 }
