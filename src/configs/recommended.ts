@@ -17,7 +17,7 @@ export const createRecommendedConfig = (
     'rxjs-x/no-internal': 'error',
     'rxjs-x/no-nested-subscribe': 'error',
     'rxjs-x/no-redundant-notify': 'error',
-    'rxjs-x/no-sharereplay': ['error', { allowConfig: true }],
+    'rxjs-x/no-sharereplay': 'error',
     'rxjs-x/no-subject-unsubscribe': 'error',
     'rxjs-x/no-unbound-methods': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',
