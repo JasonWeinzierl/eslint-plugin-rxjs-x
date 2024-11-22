@@ -29,7 +29,7 @@ export const createStrictConfig = (
     'rxjs-x/no-unbound-methods': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',
     'rxjs-x/no-unsafe-takeuntil': 'error',
-    'rxjs-x/prefer-observer': ['error', { allowNext: false }],
+    'rxjs-x/prefer-observer': 'error',
     'rxjs-x/prefer-root-operators': 'error',
     'rxjs-x/throw-error': ['error', { allowThrowingAny: false, allowThrowingUnknown: false }],
   },
