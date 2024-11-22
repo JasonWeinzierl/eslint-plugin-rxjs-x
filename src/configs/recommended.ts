@@ -1,6 +1,8 @@
 import { TSESLint } from '@typescript-eslint/utils';
 
-export const createRecommendedConfig = (plugin: TSESLint.FlatConfig.Plugin) => ({
+export const createRecommendedConfig = (
+  plugin: TSESLint.FlatConfig.Plugin,
+) => ({
   plugins: {
     'rxjs-x': plugin,
   },
