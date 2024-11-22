@@ -42,6 +42,7 @@ import { noUnsafeSubjectNext } from './rules/no-unsafe-subject-next';
 import { noUnsafeSwitchmapRule } from './rules/no-unsafe-switchmap';
 import { noUnsafeTakeuntilRule } from './rules/no-unsafe-takeuntil';
 import { preferObserverRule } from './rules/prefer-observer';
+import { preferRootOperatorsRule } from './rules/prefer-root-operators';
 import { suffixSubjectsRule } from './rules/suffix-subjects';
 import { throwErrorRule } from './rules/throw-error';
 
@@ -88,6 +89,7 @@ const plugin = {
     'no-unsafe-switchmap': noUnsafeSwitchmapRule,
     'no-unsafe-takeuntil': noUnsafeTakeuntilRule,
     'prefer-observer': preferObserverRule,
+    'prefer-root-operators': preferRootOperatorsRule,
     'suffix-subjects': suffixSubjectsRule,
     'throw-error': throwErrorRule,
   },
