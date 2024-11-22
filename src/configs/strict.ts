@@ -17,7 +17,9 @@ export const createStrictConfig = (
     'rxjs-x/no-ignored-observable': 'error',
     'rxjs-x/no-ignored-replay-buffer': 'error',
     'rxjs-x/no-ignored-takewhile-value': 'error',
-    'rxjs-x/no-implicit-any-catch': ['error', { allowExplicitAny: false }],
+    'rxjs-x/no-implicit-any-catch': ['error', {
+      allowExplicitAny: false as const,
+    }],
     'rxjs-x/no-index': 'error',
     'rxjs-x/no-internal': 'error',
     'rxjs-x/no-nested-subscribe': 'error',
@@ -31,6 +33,9 @@ export const createStrictConfig = (
     'rxjs-x/no-unsafe-takeuntil': 'error',
     'rxjs-x/prefer-observer': 'error',
     'rxjs-x/prefer-root-operators': 'error',
-    'rxjs-x/throw-error': ['error', { allowThrowingAny: false, allowThrowingUnknown: false }],
+    'rxjs-x/throw-error': ['error', {
+      allowThrowingAny: false as const,
+      allowThrowingUnknown: false as const,
+    }],
   },
 } satisfies TSESLint.FlatConfig.Config);
