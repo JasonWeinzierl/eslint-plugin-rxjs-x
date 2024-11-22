@@ -59,7 +59,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
           allowExplicitAny: {
             type: 'boolean',
             description: 'Allow error variable to be explicitly typed as `any`.',
-            default: false,
+            default: true,
           },
         },
         type: 'object',
@@ -70,7 +70,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
   name: 'no-implicit-any-catch',
   create: (context) => {
     const [config = {}] = context.options;
-    const { allowExplicitAny = false } = config;
+    const { allowExplicitAny = true } = config;
     const { couldBeObservable } = getTypeServices(context);
     const sourceCode = context.sourceCode;
 
