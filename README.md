@@ -3,15 +3,22 @@
 [![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/master/LICENSE)
 [![NPM version](https://img.shields.io/npm/v/eslint-plugin-rxjs-x.svg)](https://www.npmjs.com/package/eslint-plugin-rxjs-x)
 
-This package contains a bunch of ESLint v9+ rules for RxJS.
-It is a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
+This ESLint plugin is intended to prevent issues with [RxJS](https://github.com/ReactiveX/rxjs).
+
+Most of these rules require TypeScript typed linting and are indicated as such below.
+
+## Migrating from `eslint-plugin-rxjs`
+
+This project is a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
 initially started to support the new ESLint flat config format.
-The original package is itself a re-implementation of the rules that are in the [`rxjs-tslint-rules`](https://github.com/cartant/rxjs-tslint-rules) package.
-(The Angular-specific rules in `rxjs-tslint-rules` have been re-implemented in [`eslint-plugin-rxjs-angular`](https://github.com/cartant/eslint-plugin-rxjs-angular).)
+There are some breaking changes:
 
-Some of the rules are rather opinionated and are not included in the `recommended` configuration. Developers can decide for themselves whether they want to enable opinionated rules.
+- The old `.eslintrc` format is not supported.
+  - If you need to continue using this old format, use the original `eslint-plugin-rxjs` or a different fork.
+- The plugin namespace specified in the `recommended` config was changed from `rxjs` to `rxjs-x`.
+  - e.g. In your ESLint config, `rxjs/no-subject-value` should be renamed to `rxjs-x/no-subject-value`.
 
-Almost all of these rules require the TypeScript parser for ESLint and are indicated as such below.
+A complete description of all changes are documented in the [CHANGELOG](CHANGELOG.md) file.
 
 ## Install
 
