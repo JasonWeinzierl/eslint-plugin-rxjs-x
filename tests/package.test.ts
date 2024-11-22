@@ -69,6 +69,7 @@ describe('package', () => {
           expect(recommendedRules).toHaveProperty(fullRuleName);
         } else if (ruleRec === 'strict') {
           expect(strictRules).toHaveProperty(fullRuleName);
+          expect(strictRules[fullRuleName as keyof typeof strictRules]).toBe('error');
         } else {
           expect.fail(`Invalid recommended value for rule ${fullRuleName}: ${ruleRec}`);
         }
