@@ -45,4 +45,38 @@ describe('package', () => {
       }
     }
   });
+
+  it('has rules flagged according to their configs', () => {
+    if (!plugin.configs) {
+      expect.fail('No configs found.');
+    }
+
+    const namespace = 'rxjs-x';
+
+    for (const [ruleName, rule] of Object.entries(plugin.rules)) {
+      const fullRuleName = `${namespace}/${ruleName}`;
+      const ruleRec = rule.meta.docs?.recommended;
+
+      if (!ruleRec) {
+        // Rule is not part of any config.
+        expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
+        expect(plugin.configs.strict.rules).not.toHaveProperty(fullRuleName);
+      } else if (typeof ruleRec === 'string') {
+        // Rule is part of a single config.
+        if (ruleRec === 'recommended') {
+          expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
+        } else if (ruleRec === 'strict') {
+          expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName);
+        } else {
+          expect.fail(`Invalid recommended value for rule ${fullRuleName}: ${ruleRec}`);
+        }
+      } else {
+        // Rule is part of several configs.
+        if (ruleRec.recommended) {
+          expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
+        }
+        expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName);
+      }
+    }
+  });
 });
