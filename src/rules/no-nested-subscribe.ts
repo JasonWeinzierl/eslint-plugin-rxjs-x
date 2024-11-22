@@ -8,7 +8,7 @@ export const noNestedSubscribeRule = ruleCreator({
     docs: {
       description:
         'Disallow calling `subscribe` within a `subscribe` callback.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {

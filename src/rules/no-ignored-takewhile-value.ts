@@ -12,7 +12,7 @@ export const noIgnoredTakewhileValueRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow ignoring the value within `takeWhile`.',
-      recommended: true,
+      recommended: 'recommended',
     },
     messages: {
       forbidden: 'Ignoring the value within takeWhile is forbidden.',

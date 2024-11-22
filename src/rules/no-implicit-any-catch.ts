@@ -40,7 +40,12 @@ export const noImplicitAnyCatchRule = ruleCreator({
     docs: {
       description:
         'Disallow implicit `any` error parameters in `catchError` operators.',
-      recommended: true,
+      recommended: {
+        recommended: true,
+        strict: [{
+          allowExplicitAny: false,
+        }],
+      },
       requiresTypeChecking: true,
     },
     fixable: 'code',

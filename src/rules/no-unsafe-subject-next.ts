@@ -12,7 +12,7 @@ export const noUnsafeSubjectNext = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow unsafe optional `next` calls.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {

@@ -8,7 +8,7 @@ export const noIgnoredReplayBufferRule = ruleCreator({
     docs: {
       description:
         'Disallow using `ReplaySubject`, `publishReplay` or `shareReplay` without specifying the buffer size.',
-      recommended: true,
+      recommended: 'recommended',
     },
     messages: {
       forbidden: 'Ignoring the buffer size is forbidden.',

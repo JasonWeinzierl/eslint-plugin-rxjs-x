@@ -22,6 +22,7 @@ export const preferRootOperatorsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow importing operators from `rxjs/operators`.',
+      recommended: 'strict',
     },
     fixable: 'code',
     hasSuggestions: true,

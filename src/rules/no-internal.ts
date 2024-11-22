@@ -9,7 +9,7 @@ export const noInternalRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow importing internal modules.',
-      recommended: true,
+      recommended: 'recommended',
     },
     fixable: 'code',
     hasSuggestions: true,
