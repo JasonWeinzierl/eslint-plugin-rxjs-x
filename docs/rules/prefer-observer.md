@@ -48,3 +48,7 @@ This rule accepts a single option which is an object with an `allowNext` propert
   ]
 }
 ```
+
+## Further reading
+
+- [Subscribe Arguments](https://rxjs.dev/deprecations/subscribe-arguments)
