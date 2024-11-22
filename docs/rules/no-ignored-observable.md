@@ -1,5 +1,7 @@
 # Disallow ignoring observables returned by functions (`rxjs-x/no-ignored-observable`)
 
+💼 This rule is enabled in the 🔒 `strict` config.
+
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 <!-- end auto-generated rule header -->
