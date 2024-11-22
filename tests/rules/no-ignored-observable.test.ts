@@ -31,6 +31,16 @@ ruleTester({ types: true }).run('no-ignored-observable', noIgnoredObservableRule
       const a = arrowSource();
       sink(arrowSource());
     `,
+    stripIndent`
+      // void operator
+      import { of } from "rxjs";
+
+      function functionSource() {
+        return of(42);
+      }
+
+      void functionSource();
+    `,
   ],
   invalid: [
     fromFixture(

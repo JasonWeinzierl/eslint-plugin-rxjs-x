@@ -7,6 +7,17 @@
 <!-- end auto-generated rule header -->
 
 The effects failures if an observable returned by a function is neither assigned to a variable or property or passed to a function.
+This rule is like [no-floating-promises](https://typescript-eslint.io/rules/no-floating-promises/) but for Observables.
+
+This rule will report Observable-valued statements that are not treated in one of the following ways:
+
+- Calling its `.subscribe()`
+- `return`ing it
+- Wrapping it in `lastValueFrom` or `firstValueFrom` and `await`ing it
+- [`void`ing it](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
+
+> [!TIP]
+> `no-ignored-observable` only detects apparently unhandled Observable _statements_.
 
 ## Rule details
 
