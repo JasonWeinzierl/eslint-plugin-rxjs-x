@@ -2,6 +2,17 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.3.2 (2024-11-21)
+
+### Features
+
+- **prefer-root-operators**: new rule for migrating from `rxjs/operators` to `rxjs` ([#34](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/34)) ([e3b8090](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/e3b8090a6f2ad346ddeaedb9f5d46543c497f323))
+- **no-topromise**: suggest `lastValueFrom` or `firstValueFrom` ([#38](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/38)) ([cec2d60](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/cec2d604931a2862aff38a3d4354dea8a7b66ada))
+
+### Chores
+
+- **no-compat**: deprecated ([#32](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/32)) ([05862a3](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/05862a334ea6e7139fa8f809a6da0c008d4af2e6))
+
 ## v0.3.1 (2024-11-16)
 
 ### Bug Fixes
