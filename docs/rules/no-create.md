@@ -1,6 +1,6 @@
 # Disallow the static `Observable.create` function (`rxjs-x/no-create`)
 
-💼 This rule is enabled in the ✅ `recommended` config.
+💼 This rule is enabled in the following configs: ✅ `recommended`, 🔒 `strict`.
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 

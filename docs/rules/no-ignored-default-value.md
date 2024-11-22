@@ -1,5 +1,7 @@
 # Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value (`rxjs-x/no-ignored-default-value`)
 
+💼 This rule is enabled in the 🔒 `strict` config.
+
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 <!-- end auto-generated rule header -->

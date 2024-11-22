@@ -1,6 +1,6 @@
 # Disallow applying operators after `takeUntil` (`rxjs-x/no-unsafe-takeuntil`)
 
-💼 This rule is enabled in the ✅ `recommended` config.
+💼 This rule is enabled in the following configs: ✅ `recommended`, 🔒 `strict`.
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 

@@ -1,5 +1,7 @@
 # Enforce passing only `Error` values to `throwError` (`rxjs-x/throw-error`)
 
+💼 This rule is enabled in the 🔒 `strict` config.
+
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 <!-- end auto-generated rule header -->
