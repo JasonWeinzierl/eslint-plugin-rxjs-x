@@ -2,6 +2,16 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.4.0 (2024-11-24)
+
+### Breaking Changes
+
+- **no-implicit-any-catch**: default to allow explicit `any` ([#42](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/42)) ([93ef8e8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/93ef8e8c7a0d3d93142e901dabb17db78a84a2cd))
+
+### Features
+
+- add a strict configuration: ([#41](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/41)) ([f2bf3fa](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f2bf3fadcbe72dfec5c69db8ec683dc2b7a62a2a))
+
 ## v0.3.2 (2024-11-21)
 
 ### Features
