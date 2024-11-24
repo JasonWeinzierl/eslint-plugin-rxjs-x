@@ -74,11 +74,11 @@ throwError(() => new Error("Kaboom!")).pipe(
 
 | Name               | Description                                           | Type    | Default |
 | :----------------- | :---------------------------------------------------- | :------ | :------ |
-| `allowExplicitAny` | Allow error variable to be explicitly typed as `any`. | Boolean | `false` |
+| `allowExplicitAny` | Allow error variable to be explicitly typed as `any`. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
 
-This rule accepts a single option which is an object with an `allowExplicitAny` property that determines whether or not the error variable can be explicitly typed as `any`. By default, the use of explicit `any` is forbidden.
+This rule accepts a single option which is an object with an `allowExplicitAny` property that determines whether or not the error variable can be explicitly typed as `any`. By default, the use of explicit `any` is allowed.
 
 ```json
 {
