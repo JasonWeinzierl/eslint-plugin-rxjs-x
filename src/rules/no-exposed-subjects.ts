@@ -12,6 +12,7 @@ export const noExposedSubjectsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow public and protected subjects.',
+      recommended: 'strict',
       requiresTypeChecking: true,
     },
     messages: {

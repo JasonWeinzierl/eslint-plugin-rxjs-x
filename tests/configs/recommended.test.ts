@@ -8,8 +8,10 @@ describe('recommended', () => {
     expect(config.plugins).toEqual({ 'rxjs-x': mockPlugin });
   });
 
-  it('should default no-sharereplay to allowConfig: true', () => {
+  it('should use the defaults of each rule', () => {
     expect(config.rules).instanceOf(Object);
-    expect(config.rules['rxjs-x/no-sharereplay']).toEqual(['error', { allowConfig: true }]);
+    for (const ruleEntry of Object.values(config.rules)) {
+      expect(ruleEntry).toEqual('error');
+    }
   });
 });

@@ -7,6 +7,7 @@ export const noTopromiseRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow use of the `toPromise` method.',
+      recommended: 'strict',
       requiresTypeChecking: true,
     },
     hasSuggestions: true,

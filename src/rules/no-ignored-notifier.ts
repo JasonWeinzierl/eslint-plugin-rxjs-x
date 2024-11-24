@@ -12,7 +12,7 @@ export const noIgnoredNotifierRule = ruleCreator({
     docs: {
       description:
         'Disallow observables not composed from the `repeatWhen` or `retryWhen` notifier.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {

@@ -1,6 +1,6 @@
 # Disallow passing `async` functions to `subscribe` (`rxjs-x/no-async-subscribe`)
 
-💼 This rule is enabled in the ✅ `recommended` config.
+💼 This rule is enabled in the following configs: ✅ `recommended`, 🔒 `strict`.
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 

@@ -45,4 +45,43 @@ describe('package', () => {
       }
     }
   });
+
+  it('has rules flagged according to their configs', () => {
+    if (!plugin.configs) {
+      expect.fail('No configs found.');
+    }
+
+    const namespace = 'rxjs-x';
+    const recommendedRules = plugin.configs.recommended.rules;
+    const strictRules = plugin.configs.strict.rules;
+
+    for (const [ruleName, rule] of Object.entries(plugin.rules)) {
+      const fullRuleName = `${namespace}/${ruleName}`;
+      const ruleRec = rule.meta.docs?.recommended;
+
+      if (!ruleRec) {
+        // Rule is not part of any config.
+        expect(recommendedRules).not.toHaveProperty(fullRuleName);
+        expect(strictRules).not.toHaveProperty(fullRuleName);
+      } else if (typeof ruleRec === 'string') {
+        // Rule is part of a single config.
+        if (ruleRec === 'recommended') {
+          expect(recommendedRules).toHaveProperty(fullRuleName);
+        } else if (ruleRec === 'strict') {
+          expect(strictRules).toHaveProperty(fullRuleName);
+          expect(strictRules[fullRuleName as keyof typeof strictRules]).toBe('error');
+        } else {
+          expect.fail(`Invalid recommended value for rule ${fullRuleName}: ${ruleRec}`);
+        }
+      } else {
+        // Rule is part of several configs.
+        if (ruleRec.recommended) {
+          expect(recommendedRules).toHaveProperty(fullRuleName);
+        }
+        expect(strictRules).toHaveProperty(fullRuleName);
+        expect(strictRules[fullRuleName as keyof typeof strictRules]).toBeInstanceOf(Array);
+        expect(strictRules[fullRuleName as keyof typeof strictRules][1]).toEqual(ruleRec.strict[0]);
+      }
+    }
+  });
 });

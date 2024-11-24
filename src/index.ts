@@ -1,6 +1,7 @@
 import { TSESLint } from '@typescript-eslint/utils';
 import { name, version } from '../package.json';
 import { createRecommendedConfig } from './configs/recommended';
+import { createStrictConfig } from './configs/strict';
 
 import { banObservablesRule } from './rules/ban-observables';
 import { banOperatorsRule } from './rules/ban-operators';
@@ -99,6 +100,7 @@ const rxjsX = {
   ...plugin,
   configs: {
     recommended: createRecommendedConfig(plugin),
+    strict: createStrictConfig(plugin),
   },
 } satisfies TSESLint.FlatConfig.Plugin;
 

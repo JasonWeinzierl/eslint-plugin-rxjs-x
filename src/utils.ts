@@ -1,4 +1,4 @@
-import { ESLintUtils } from '@typescript-eslint/utils';
+import { ESLintUtils, TSESLint } from '@typescript-eslint/utils';
 
 export function createRegExpForWords(
   config: string | string[],
@@ -22,7 +22,7 @@ export function escapeRegExp(text: string): string {
 
 export interface RxjsXRuleDocs {
   description: string;
-  recommended?: boolean;
+  recommended?: TSESLint.RuleRecommendation | TSESLint.RuleRecommendationAcrossConfigs<unknown[]>;
   requiresTypeChecking?: boolean;
 }
 

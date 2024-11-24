@@ -7,7 +7,7 @@ export const noCreateRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow the static `Observable.create` function.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {

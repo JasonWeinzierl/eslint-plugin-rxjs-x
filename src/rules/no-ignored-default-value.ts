@@ -7,6 +7,7 @@ export const noIgnoredDefaultValueRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value.',
+      recommended: 'strict',
       requiresTypeChecking: true,
     },
     messages: {

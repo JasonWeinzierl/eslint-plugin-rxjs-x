@@ -10,7 +10,7 @@ export const noSharereplayRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow unsafe `shareReplay` usage.',
-      recommended: true,
+      recommended: 'recommended',
     },
     messages: {
       forbidden: 'shareReplay is forbidden.',

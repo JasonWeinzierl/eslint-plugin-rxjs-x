@@ -1,5 +1,7 @@
 # Disallow public and protected subjects (`rxjs-x/no-exposed-subjects`)
 
+💼 This rule is enabled in the 🔒 `strict` config.
+
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
 <!-- end auto-generated rule header -->

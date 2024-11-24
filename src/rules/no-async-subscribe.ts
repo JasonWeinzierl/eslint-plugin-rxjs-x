@@ -7,7 +7,7 @@ export const noAsyncSubscribeRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow passing `async` functions to `subscribe`.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {

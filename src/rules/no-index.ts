@@ -6,7 +6,7 @@ export const noIndexRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow importing index modules.',
-      recommended: true,
+      recommended: 'recommended',
     },
     messages: {
       forbidden: 'RxJS imports from index modules are forbidden.',

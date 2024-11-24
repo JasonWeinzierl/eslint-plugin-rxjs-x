@@ -10,7 +10,7 @@ export const noUnboundMethodsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow passing unbound methods.',
-      recommended: true,
+      recommended: 'recommended',
       requiresTypeChecking: true,
     },
     messages: {
