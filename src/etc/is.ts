@@ -124,6 +124,10 @@ export function isTSTypeReference(node: TSESTree.Node): node is TSESTree.TSTypeR
   return node.type === AST_NODE_TYPES.TSTypeReference;
 }
 
+export function isUnaryExpression(node: TSESTree.Node): node is TSESTree.UnaryExpression {
+  return node.type === AST_NODE_TYPES.UnaryExpression;
+}
+
 export function isVariableDeclarator(
   node: TSESTree.Node,
 ): node is TSESTree.VariableDeclarator {

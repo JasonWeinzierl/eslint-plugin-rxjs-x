@@ -35,3 +35,13 @@ Examples of **correct** code for this rule:
 import { of } from "rxjs";
 const answers = of(42, 54);
 ```
+
+## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name         | Description                           | Type    | Default |
+| :----------- | :------------------------------------ | :------ | :------ |
+| `ignoreVoid` | Whether to ignore `void` expressions. | Boolean | `true`  |
+
+<!-- end auto-generated rule options list -->

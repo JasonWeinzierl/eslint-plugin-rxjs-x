@@ -16,8 +16,10 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       function sink(source: Observable<number>) {
       }
 
+      functionSource().subscribe();
       const a = functionSource();
       sink(functionSource());
+      void functionSource();
     `,
     stripIndent`
       // not ignored arrow
@@ -28,17 +30,9 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       function sink(source: Observable<number>) {
       }
 
+      functionSource().subscribe();
       const a = arrowSource();
       sink(arrowSource());
-    `,
-    stripIndent`
-      // void operator
-      import { of } from "rxjs";
-
-      function functionSource() {
-        return of(42);
-      }
-
       void functionSource();
     `,
   ],
@@ -53,7 +47,7 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
         }
 
         functionSource();
-        ~~~~~~~~~~~~~~~~ [forbidden]
+        ~~~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
@@ -64,8 +58,24 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
         const arrowSource = () => of(42);
 
         arrowSource();
-        ~~~~~~~~~~~~~ [forbidden]
+        ~~~~~~~~~~~~~~ [forbidden]
       `,
+    ),
+    fromFixture(
+      stripIndent`
+        // ignoreVoid false
+        import { Observable, of } from "rxjs";
+
+        function functionSource() {
+          return of(42);
+        }
+
+        void functionSource();
+             ~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
+      `,
+      {
+        options: [{ ignoreVoid: false }],
+      },
     ),
   ],
 });
