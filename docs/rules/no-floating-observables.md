@@ -1,4 +1,4 @@
-# Disallow ignoring observables returned by functions (`rxjs-x/no-ignored-observable`)
+# Require Observables to be handled appropriately (`rxjs-x/no-floating-observables`)
 
 💼 This rule is enabled in the 🔒 `strict` config.
 
@@ -6,10 +6,11 @@
 
 <!-- end auto-generated rule header -->
 
-The effects failures if an observable returned by a function is neither assigned to a variable or property or passed to a function.
-This rule is like [no-floating-promises](https://typescript-eslint.io/rules/no-floating-promises/) but for Observables.
+A "floating" observable is one that is created without any code set up to handle any errors it might emit.
+Like a floating Promise, floating observables can cause several issues, such as ignored errors, unhandled cold observables, and more.
 
-This rule will report Observable-valued statements that are not treated in one of the following ways:
+This rule is like [no-floating-promises](https://typescript-eslint.io/rules/no-floating-promises/) but for Observables.
+This rule will report observable-valued statements that are not treated in one of the following ways:
 
 - Calling its `.subscribe()`
 - `return`ing it
@@ -17,7 +18,7 @@ This rule will report Observable-valued statements that are not treated in one o
 - [`void`ing it](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
 
 > [!TIP]
-> `no-ignored-observable` only detects apparently unhandled Observable _statements_.
+> `no-ignored-observable` only detects apparently unhandled observable _statements_.
 
 ## Rule details
 

@@ -11,10 +11,10 @@ export const createStrictConfig = (
     'rxjs-x/no-create': 'error',
     'rxjs-x/no-explicit-generics': 'error',
     'rxjs-x/no-exposed-subjects': 'error',
+    'rxjs-x/no-floating-observables': 'error',
     'rxjs-x/no-ignored-default-value': 'error',
     'rxjs-x/no-ignored-error': 'error',
     'rxjs-x/no-ignored-notifier': 'error',
-    'rxjs-x/no-ignored-observable': 'error',
     'rxjs-x/no-ignored-replay-buffer': 'error',
     'rxjs-x/no-ignored-takewhile-value': 'error',
     'rxjs-x/no-implicit-any-catch': ['error', {

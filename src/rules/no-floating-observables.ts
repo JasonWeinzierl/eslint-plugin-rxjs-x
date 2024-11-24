@@ -2,21 +2,23 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
-export const noIgnoredObservableRule = ruleCreator({
+export const noFloatingObservablesRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Disallow ignoring observables returned by functions.',
+      description: 'Require Observables to be handled appropriately.',
       recommended: 'strict',
       requiresTypeChecking: true,
     },
     messages: {
-      forbidden: 'Ignoring a returned Observable is forbidden.',
+      forbidden:
+        'Observables must be subscribed to, returned, converted to a promise and awaited, '
+        + 'or be explicitly marked as ignored with the `void` operator.',
     },
     schema: [],
     type: 'problem',
   },
-  name: 'no-ignored-observable',
+  name: 'no-floating-observables',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
 

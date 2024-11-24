@@ -1,9 +1,9 @@
 import { stripIndent } from 'common-tags';
-import { noIgnoredObservableRule } from '../../src/rules/no-ignored-observable';
+import { noFloatingObservablesRule } from '../../src/rules/no-floating-observables';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run('no-ignored-observable', noIgnoredObservableRule, {
+ruleTester({ types: true }).run('no-floating-observables', noFloatingObservablesRule, {
   valid: [
     stripIndent`
       // not ignored
