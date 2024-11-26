@@ -18,7 +18,7 @@ This rule will report observable-valued statements that are not treated in one o
 - [`void`ing it](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void)
 
 > [!TIP]
-> `no-ignored-observable` only detects apparently unhandled observable _statements_.
+> `no-floating-observables` only detects apparently unhandled observable _statements_.
 
 ## Rule details
 
