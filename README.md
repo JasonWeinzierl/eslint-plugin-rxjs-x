@@ -17,6 +17,7 @@ There are some breaking changes:
   - If you need to continue using this old format, use the original `eslint-plugin-rxjs` or a different fork.
 - The plugin namespace specified in the `recommended` config was changed from `rxjs` to `rxjs-x`.
   - e.g. In your ESLint config, `rxjs/no-subject-value` should be renamed to `rxjs-x/no-subject-value`.
+- The rule `rxjs/no-ignored-observable` is renamed to `rxjs-x/no-floating-observables`.
 
 A complete description of all changes are documented in the [CHANGELOG](CHANGELOG.md) file.
 
