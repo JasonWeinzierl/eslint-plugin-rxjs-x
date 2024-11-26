@@ -18,6 +18,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
 
       functionSource().subscribe();
       const a = functionSource();
+      const b = [functionSource()];
+      [void functionSource()];
       sink(functionSource());
       void functionSource();
     `,
@@ -32,8 +34,20 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
 
       functionSource().subscribe();
       const a = arrowSource();
+      const b = [arrowSource()];
+      [void arrowSource()];
       sink(arrowSource());
       void functionSource();
+    `,
+    stripIndent`
+      // unrelated
+      function foo() {}
+
+      [1, 2, 3, 'foo'];
+      const a = [1];
+      foo();
+      [foo()];
+      void foo();
     `,
   ],
   invalid: [
@@ -74,6 +88,15 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
     ),
     fromFixture(
       stripIndent`
+        // array
+        import { of } from "rxjs";
+
+        [of(42)];
+         ~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
         // ignoreVoid false
         import { Observable, of } from "rxjs";
 
@@ -85,6 +108,10 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
              ~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
         void functionSource?.();
              ~~~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
+        [void functionSource()];
+              ~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
+        [void functionSource?.()];
+              ~~~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
       `,
       {
         options: [{ ignoreVoid: false }],

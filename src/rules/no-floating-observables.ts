@@ -1,5 +1,5 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { getTypeServices, isCallExpression, isChainExpression } from '../etc';
+import { getTypeServices, isCallExpression, isChainExpression, isUnaryExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -50,21 +50,25 @@ export const noFloatingObservablesRule = ruleCreator({
       }
     }
 
+    function checkVoid(node: es.UnaryExpression) {
+      if (ignoreVoid) return;
+      if (node.operator !== 'void') return;
+
+      let expression = node.argument;
+      if (isChainExpression(expression)) {
+        expression = expression.expression;
+      }
+
+      if (!isCallExpression(expression)) return;
+      checkNode(expression);
+    }
+
     return {
       'ExpressionStatement > CallExpression': (node: es.CallExpression) => {
         checkNode(node);
       },
       'ExpressionStatement > UnaryExpression': (node: es.UnaryExpression) => {
-        if (ignoreVoid) return;
-        if (node.operator !== 'void') return;
-
-        let expression = node.argument;
-        if (isChainExpression(expression)) {
-          expression = expression.expression;
-        }
-
-        if (!isCallExpression(expression)) return;
-        checkNode(expression);
+        checkVoid(node);
       },
       'ExpressionStatement > ChainExpression': (node: es.ChainExpression) => {
         if (!isCallExpression(node.expression)) return;
@@ -75,6 +79,16 @@ export const noFloatingObservablesRule = ruleCreator({
         node.expressions.forEach(expression => {
           if (isCallExpression(expression)) {
             checkNode(expression);
+          }
+        });
+      },
+      'ExpressionStatement > ArrayExpression': (node: es.ArrayExpression) => {
+        node.elements.forEach(expression => {
+          if (!expression) return;
+          if (isCallExpression(expression)) {
+            checkNode(expression);
+          } else if (isUnaryExpression(expression)) {
+            checkVoid(expression);
           }
         });
       },
