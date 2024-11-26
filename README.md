@@ -92,7 +92,6 @@ The package includes the following rules.
 | [no-ignored-default-value](docs/rules/no-ignored-default-value.md)     | Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value. | 🔒   |    |    | 💭 |    |
 | [no-ignored-error](docs/rules/no-ignored-error.md)                     | Disallow calling `subscribe` without specifying an error handler.                                         | 🔒   |    |    | 💭 |    |
 | [no-ignored-notifier](docs/rules/no-ignored-notifier.md)               | Disallow observables not composed from the `repeatWhen` or `retryWhen` notifier.                          | ✅ 🔒 |    |    | 💭 |    |
-| [no-ignored-observable](docs/rules/no-ignored-observable.md)           | Disallow ignoring observables returned by functions.                                                      |      |    |    | 💭 | ❌  |
 | [no-ignored-replay-buffer](docs/rules/no-ignored-replay-buffer.md)     | Disallow using `ReplaySubject`, `publishReplay` or `shareReplay` without specifying the buffer size.      | ✅ 🔒 |    |    |    |    |
 | [no-ignored-subscribe](docs/rules/no-ignored-subscribe.md)             | Disallow calling `subscribe` without specifying arguments.                                                |      |    |    | 💭 |    |
 | [no-ignored-subscription](docs/rules/no-ignored-subscription.md)       | Disallow ignoring the subscription returned by `subscribe`.                                               |      |    |    | 💭 |    |
