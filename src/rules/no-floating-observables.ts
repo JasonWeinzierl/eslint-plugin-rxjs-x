@@ -1,5 +1,5 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { getTypeServices, isCallExpression } from '../etc';
+import { getTypeServices, isCallExpression, isChainExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -57,9 +57,19 @@ export const noFloatingObservablesRule = ruleCreator({
       'ExpressionStatement > UnaryExpression': (node: es.UnaryExpression) => {
         if (ignoreVoid) return;
         if (node.operator !== 'void') return;
-        if (!isCallExpression(node.argument)) return;
 
-        checkNode(node.argument);
+        let expression = node.argument;
+        if (isChainExpression(expression)) {
+          expression = expression.expression;
+        }
+
+        if (!isCallExpression(expression)) return;
+        checkNode(expression);
+      },
+      'ExpressionStatement > ChainExpression': (node: es.ChainExpression) => {
+        if (!isCallExpression(node.expression)) return;
+
+        checkNode(node.expression);
       },
     };
   },

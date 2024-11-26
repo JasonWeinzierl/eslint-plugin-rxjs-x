@@ -34,6 +34,10 @@ export function isCallExpression(node: TSESTree.Node): node is TSESTree.CallExpr
   return node.type === AST_NODE_TYPES.CallExpression;
 }
 
+export function isChainExpression(node: TSESTree.Node): node is TSESTree.ChainExpression {
+  return node.type === AST_NODE_TYPES.ChainExpression;
+}
+
 export function isExportNamedDeclaration(
   node: TSESTree.Node,
 ): node is TSESTree.ExportNamedDeclaration {

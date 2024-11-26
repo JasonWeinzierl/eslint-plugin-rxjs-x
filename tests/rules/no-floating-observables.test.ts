@@ -63,6 +63,17 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
     ),
     fromFixture(
       stripIndent`
+        // chain expression
+        import { Observable, of } from "rxjs";
+
+        const arrowSource: null | (() => Observable<number>) = () => of(42);
+
+        arrowSource?.();
+        ~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
         // ignoreVoid false
         import { Observable, of } from "rxjs";
 
@@ -72,6 +83,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
 
         void functionSource();
              ~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
+        void functionSource?.();
+             ~~~~~~~~~~~~~~~~~~ [forbiddenNoVoid]
       `,
       {
         options: [{ ignoreVoid: false }],
