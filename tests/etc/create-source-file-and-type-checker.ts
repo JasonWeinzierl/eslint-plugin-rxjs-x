@@ -36,7 +36,10 @@ export function createSourceFileAndTypeChecker(
   // Note: If you're having trouble with vfs, run the tests with DEBUG=1 for more output.
   const fileIssues = env.languageService.getSemanticDiagnostics(fileName);
   if (fileIssues.length) {
-    throw new Error(fileIssues.map(diag => diag.messageText).join());
+    throw new Error(fileIssues
+      .map(diag => diag.messageText)
+      .map(msg => typeof msg === 'string' ? msg : msg.messageText)
+      .join());
   }
 
   return {
