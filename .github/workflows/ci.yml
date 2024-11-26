@@ -14,7 +14,7 @@ permissions:
 
 jobs:
 
-  build:
+  check:
     strategy:
       matrix:
         node-version: [18, 20]
