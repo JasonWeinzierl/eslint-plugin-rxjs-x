@@ -19,8 +19,12 @@ export const createRecommendedConfig = (
     'rxjs-x/no-redundant-notify': 'error',
     'rxjs-x/no-sharereplay': 'error',
     'rxjs-x/no-subject-unsubscribe': 'error',
+    'rxjs-x/no-topromise': 'error',
     'rxjs-x/no-unbound-methods': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',
     'rxjs-x/no-unsafe-takeuntil': 'error',
+    'rxjs-x/prefer-observer': 'error',
+    'rxjs-x/prefer-root-operators': 'error',
+    'rxjs-x/throw-error': 'error',
   },
 } satisfies TSESLint.FlatConfig.Config);
