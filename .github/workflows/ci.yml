@@ -3,6 +3,7 @@ on:
     branches:
       - main
   pull_request: {}
+  workflow_call: {}
 
 concurrency:
   group: '${{ github.workflow }} - ${{ github.head_ref || github.ref }}'
@@ -31,8 +32,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
-
-      - name: Enable Yarn
+      - name: Setup Yarn
         run: corepack enable
 
       - name: Install Packages
@@ -48,7 +48,7 @@ jobs:
         run: yarn coverage
 
       - name: Report Coverage
-        if: ${{ matrix.node-version == 20 }}
+        if: ${{ matrix.node-version == 20 && github.event_name == 'pull_request' }}
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
           coverage-files: coverage/lcov.info

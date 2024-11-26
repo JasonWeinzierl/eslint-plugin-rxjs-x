@@ -47,7 +47,7 @@
     "lint-docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-eslint-docs": "yarn build && eslint-doc-generator --check",
     "docs": "eslint-doc-generator",
-    "release": "bumpp && yarn run build",
+    "release": "bumpp && echo \"Create a new release in GitHub to trigger the publish workflow.\"",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
