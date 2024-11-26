@@ -2,6 +2,10 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.4.1 (2024-11-26)
+
+No updates!
+
 ## v0.4.0 (2024-11-24)
 
 ### Breaking Changes
