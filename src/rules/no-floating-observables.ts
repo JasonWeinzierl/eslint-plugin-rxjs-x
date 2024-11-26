@@ -41,28 +41,25 @@ export const noFloatingObservablesRule = ruleCreator({
     const [config = {}] = context.options;
     const { ignoreVoid = true } = config;
 
+    function checkNode(node: es.Expression) {
+      if (!ignoreVoid && isUnaryExpression(node) && node.operator === 'void') {
+        node = node.argument;
+      }
+
+      if (isCallExpression(node) && couldBeObservable(node)) {
+        context.report({
+          messageId: ignoreVoid ? 'forbidden' : 'forbiddenNoVoid',
+          node,
+        });
+      }
+    }
+
     return {
-      ExpressionStatement: (node: es.ExpressionStatement) => {
-        const { expression } = node;
-
-        if (isCallExpression(expression) && couldBeObservable(expression)) {
-          context.report({
-            messageId: ignoreVoid ? 'forbidden' : 'forbiddenNoVoid',
-            node,
-          });
-          return;
-        }
-
-        if (!ignoreVoid && isUnaryExpression(expression)) {
-          const { operator, argument } = expression;
-          if (operator === 'void' && isCallExpression(argument) && couldBeObservable(argument)) {
-            context.report({
-              messageId: 'forbiddenNoVoid',
-              node: argument,
-            });
-            return;
-          }
-        }
+      'ExpressionStatement > CallExpression': (node: es.CallExpression) => {
+        checkNode(node);
+      },
+      'ExpressionStatement > UnaryExpression': (node: es.UnaryExpression) => {
+        checkNode(node);
       },
     };
   },

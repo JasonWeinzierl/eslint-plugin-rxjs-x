@@ -47,7 +47,7 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
         }
 
         functionSource();
-        ~~~~~~~~~~~~~~~~~ [forbidden]
+        ~~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
@@ -58,7 +58,7 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
         const arrowSource = () => of(42);
 
         arrowSource();
-        ~~~~~~~~~~~~~~ [forbidden]
+        ~~~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
