@@ -27,6 +27,7 @@ import { noIgnoredTakewhileValueRule } from './rules/no-ignored-takewhile-value'
 import { noImplicitAnyCatchRule } from './rules/no-implicit-any-catch';
 import { noIndexRule } from './rules/no-index';
 import { noInternalRule } from './rules/no-internal';
+import { noMisusedObservablesRule } from './rules/no-misused-observables';
 import { noNestedSubscribeRule } from './rules/no-nested-subscribe';
 import { noRedundantNotifyRule } from './rules/no-redundant-notify';
 import { noSharereplayRule } from './rules/no-sharereplay';
@@ -74,6 +75,7 @@ const plugin = {
     'no-implicit-any-catch': noImplicitAnyCatchRule,
     'no-index': noIndexRule,
     'no-internal': noInternalRule,
+    'no-misused-observables': noMisusedObservablesRule,
     'no-nested-subscribe': noNestedSubscribeRule,
     'no-redundant-notify': noRedundantNotifyRule,
     'no-sharereplay': noSharereplayRule,
