@@ -65,9 +65,8 @@ describe('package', () => {
       }
 
       // Strict configuration always includes all recommended rules.
-      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName);
-      // Not allowed to specify non-default options if rule only specifies a configuration name.
-      expect(typeof plugin.configs.strict.rules[fullRuleName as keyof typeof plugin.configs.strict.rules]).toBe('string');
+      // Not allowed to specify non-default options since rule only specifies a configuration name.
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
     } else {
       // Rule specifies non-default options for strict.
       if (rule.meta.docs.recommended.recommended) {
@@ -75,9 +74,7 @@ describe('package', () => {
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       }
-      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName);
-      expect(plugin.configs.strict.rules[fullRuleName as keyof typeof plugin.configs.strict.rules]).toBeInstanceOf(Array);
-      expect(plugin.configs.strict.rules[fullRuleName as keyof typeof plugin.configs.strict.rules][1]).toEqual(rule.meta.docs.recommended.strict[0]);
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), rule.meta.docs.recommended.strict[0]]);
     }
   });
 });
