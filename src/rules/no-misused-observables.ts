@@ -6,6 +6,7 @@ import { ruleCreator } from '../utils';
 // https://github.com/typescript-eslint/typescript-eslint/blob/fcd6cf063a774f73ea00af23705117a197f826d4/packages/eslint-plugin/src/rules/no-misused-promises.ts
 
 const defaultOptions: readonly {
+  checksVoidReturn?: boolean;
   checksSpreads?: boolean;
 }[] = [];
 
@@ -17,11 +18,18 @@ export const noMisusedObservablesRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
+      forbiddenVoidReturnArgument: 'Observable returned in function argument where a void return was expected.',
+      forbiddenVoidReturnAttribute: 'Observable-returning function provided to attribute where a void return was expected.',
+      forbiddenVoidReturnInheritedMethod: 'Observable-returning method provided where a void return was expected by extended/implemented type \'{{heritageTypeName}}\'.',
+      forbiddenVoidReturnProperty: 'Observable-returning function provided to property where a void return was expected.',
+      forbiddenVoidReturnReturnValue: 'Observable-returning function provided to return value where a void return was expected.',
+      forbiddenVoidReturnVariable: 'Observable-returning function provided to variable where a void return was expected.',
       forbiddenSpread: 'Expected a non-Observable value to be spread into an object.',
     },
     schema: [
       {
         properties: {
+          checksVoidReturn: { type: 'boolean', default: true, description: 'Disallow returning an Observable from a function typed as returning `void`.' },
           checksSpreads: { type: 'boolean', default: true, description: 'Disallow `...` spreading an Observable.' },
         },
         type: 'object',
@@ -33,7 +41,11 @@ export const noMisusedObservablesRule = ruleCreator({
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
     const [config = {}] = context.options;
-    const { checksSpreads = true } = config;
+    const { checksVoidReturn = true, checksSpreads = true } = config;
+
+    const voidReturnChecks: TSESLint.RuleListener = {
+
+    };
 
     const spreadChecks: TSESLint.RuleListener = {
       SpreadElement: (node) => {
@@ -47,6 +59,7 @@ export const noMisusedObservablesRule = ruleCreator({
     };
 
     return {
+      ...(checksVoidReturn ? voidReturnChecks : {}),
       ...(checksSpreads ? spreadChecks : {}),
     };
   },

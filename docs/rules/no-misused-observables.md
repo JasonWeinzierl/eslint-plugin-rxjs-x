@@ -8,8 +8,9 @@
 
 <!-- begin auto-generated rule options list -->
 
-| Name            | Description                             | Type    | Default |
-| :-------------- | :-------------------------------------- | :------ | :------ |
-| `checksSpreads` | Disallow `...` spreading an Observable. | Boolean | `true`  |
+| Name               | Description                                                                 | Type    | Default |
+| :----------------- | :-------------------------------------------------------------------------- | :------ | :------ |
+| `checksSpreads`    | Disallow `...` spreading an Observable.                                     | Boolean | `true`  |
+| `checksVoidReturn` | Disallow returning an Observable from a function typed as returning `void`. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
