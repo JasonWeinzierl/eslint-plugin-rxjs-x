@@ -1,5 +1,5 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { getTypeServices, isCallExpression, isUnaryExpression } from '../etc';
+import { getTypeServices, isCallExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -41,12 +41,8 @@ export const noFloatingObservablesRule = ruleCreator({
     const [config = {}] = context.options;
     const { ignoreVoid = true } = config;
 
-    function checkNode(node: es.Expression) {
-      if (!ignoreVoid && isUnaryExpression(node) && node.operator === 'void') {
-        node = node.argument;
-      }
-
-      if (isCallExpression(node) && couldBeObservable(node)) {
+    function checkNode(node: es.CallExpression) {
+      if (couldBeObservable(node)) {
         context.report({
           messageId: ignoreVoid ? 'forbidden' : 'forbiddenNoVoid',
           node,
@@ -59,7 +55,11 @@ export const noFloatingObservablesRule = ruleCreator({
         checkNode(node);
       },
       'ExpressionStatement > UnaryExpression': (node: es.UnaryExpression) => {
-        checkNode(node);
+        if (ignoreVoid) return;
+        if (node.operator !== 'void') return;
+        if (!isCallExpression(node.argument)) return;
+
+        checkNode(node.argument);
       },
     };
   },
