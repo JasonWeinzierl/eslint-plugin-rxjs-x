@@ -90,5 +90,15 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
         options: [{ ignoreVoid: false }],
       },
     ),
+    fromFixture(
+      stripIndent`
+        // sequence expression
+        import { of } from "rxjs";
+
+        of(42), of(42), void of(42);
+        ~~~~~~ [forbidden]
+                ~~~~~~ [forbidden]
+      `,
+    ),
   ],
 });

@@ -71,6 +71,13 @@ export const noFloatingObservablesRule = ruleCreator({
 
         checkNode(node.expression);
       },
+      'ExpressionStatement > SequenceExpression': (node: es.SequenceExpression) => {
+        node.expressions.forEach(expression => {
+          if (isCallExpression(expression)) {
+            checkNode(expression);
+          }
+        });
+      },
     };
   },
 });
