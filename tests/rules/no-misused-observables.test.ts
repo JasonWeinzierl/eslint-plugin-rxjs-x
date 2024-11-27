@@ -5,6 +5,7 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRule, {
   valid: [
+    // #region valid; void return argument
     {
       code: stripIndent`
         // void return argument; explicitly allowed
@@ -37,6 +38,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
       [1, 2, 3].forEach(i => { return of(i); });
     `,
+    // #endregion valid; void return argument
+    // #region valid; void return attribute
     {
       code: stripIndent`
         // void return attribute; explicitly allowed
@@ -63,6 +66,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
+    // #endregion valid; void return attribute
+    // #region valid; spread
     {
       code: stripIndent`
         // spread; explicitly allowed
@@ -78,8 +83,10 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       const foo = { bar: 42 };
       const baz = { ...foo };
     `,
+    // #endregion valid; spread
   ],
   invalid: [
+    // #region invalid; void return argument
     fromFixture(
       stripIndent`
         // void return argument; block body
@@ -128,6 +135,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
                 ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
       `,
     ),
+    // #endregion invalid; void return argument
+    // #region invalid; void return attribute
     fromFixture(
       stripIndent`
         // void return attribute; block body
@@ -160,6 +169,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
       },
     ),
+    // #endregion invalid; void return attribute
+    // #region invalid; spread
     fromFixture(
       stripIndent`
         // spread variable
@@ -182,5 +193,6 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
                          ~~~~~~~~ [forbiddenSpread]
       `,
     ),
+    // #endregion invalid; spread
   ],
 });
