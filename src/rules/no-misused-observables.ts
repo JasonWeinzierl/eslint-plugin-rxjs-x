@@ -49,7 +49,7 @@ export const noMisusedObservablesRule = ruleCreator({
 
     const voidReturnChecks: TSESLint.RuleListener = {
       CallExpression: checkArguments,
-      // NewExpression: checkArguments,
+      NewExpression: checkArguments,
       // JSXAttribute: checkJSXAttribute,
       // ClassDeclaration: checkClassLikeOrInterfaceNode,
       // ClassExpression: checkClassLikeOrInterfaceNode,

@@ -12,6 +12,11 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
         [1, 2, 3].forEach((i): Observable<number> => { return of(i); });
         [1, 2, 3].forEach(i => of(i));
+
+        class Foo {
+          constructor(x: () => void) {}
+        }
+        new Foo(() => of(42));
       `,
       options: [{ checksVoidReturn: false }],
     },
@@ -19,6 +24,12 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       // void return argument; unrelated
       [1, 2, 3].forEach(i => i);
       [1, 2, 3].forEach(i => { return i; });
+
+      class Foo {
+        constructor(x: () => void) {}
+      }
+      new Foo(() => 42);
+      new Foo;
     `,
     stripIndent`
       // couldReturnType is bugged for block body implicit return types (#57)
@@ -77,6 +88,18 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
         [1, 2, 3].forEach(i => i > 1 ? of(i) : i);
                           ~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return argument; constructor
+        import { of } from "rxjs";
+
+        class Foo {
+          constructor(x: () => void) {}
+        }
+        new Foo(() => of(42));
+                ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
       `,
     ),
     fromFixture(
