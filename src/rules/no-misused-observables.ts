@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils, TSESLint } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { getTypeServices } from '../etc';
+import { getTypeServices, isJSXExpressionContainer } from '../etc';
 import { ruleCreator } from '../utils';
 
 // The implementation of this rule is similar to typescript-eslint's no-misused-promises. MIT License.
@@ -50,7 +50,7 @@ export const noMisusedObservablesRule = ruleCreator({
     const voidReturnChecks: TSESLint.RuleListener = {
       CallExpression: checkArguments,
       NewExpression: checkArguments,
-      // JSXAttribute: checkJSXAttribute,
+      JSXAttribute: checkJSXAttribute,
       // ClassDeclaration: checkClassLikeOrInterfaceNode,
       // ClassExpression: checkClassLikeOrInterfaceNode,
       // TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
@@ -89,6 +89,19 @@ export const noMisusedObservablesRule = ruleCreator({
             node: argument,
           });
         }
+      }
+    }
+
+    function checkJSXAttribute(node: es.JSXAttribute): void {
+      if (!node.value || !isJSXExpressionContainer(node.value)) {
+        return;
+      }
+
+      if (couldReturnObservable(node.value.expression)) {
+        context.report({
+          messageId: 'forbiddenVoidReturnAttribute',
+          node: node.value,
+        });
       }
     }
 

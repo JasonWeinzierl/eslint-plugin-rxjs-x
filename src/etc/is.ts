@@ -78,6 +78,10 @@ export function isImportSpecifier(node: TSESTree.Node): node is TSESTree.ImportS
   return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
+export function isJSXExpressionContainer(node: TSESTree.Node): node is TSESTree.JSXExpressionContainer {
+  return node.type === AST_NODE_TYPES.JSXExpressionContainer;
+}
+
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
 }

@@ -39,6 +39,32 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     `,
     {
       code: stripIndent`
+        // void return attribute; explicitly allowed
+        import { Observable, of } from "rxjs";
+        import React, { FC } from "react";
+
+        const Component: FC<{ foo: () => void }> = () => <div />;
+        return (
+          <Component foo={() => of(42)} />
+        );
+      `,
+      options: [{ checksVoidReturn: false }],
+      languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+    },
+    {
+      code: stripIndent`
+        // void return attribute; unrelated
+        import React, { FC } from "react";
+
+        const Component: FC<{ foo: () => void }> = () => <div />;
+        return (
+          <Component foo={() => 42} />
+        );
+      `,
+      languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+    },
+    {
+      code: stripIndent`
         // spread; explicitly allowed
         import { of } from "rxjs";
 
@@ -101,6 +127,38 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         new Foo(() => of(42));
                 ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
       `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return attribute; block body
+        import { Observable, of } from "rxjs";
+        import React, { FC } from "react";
+
+        const Component: FC<{ foo: () => void }> = () => <div />;
+        return (
+          <Component foo={(): Observable<number> => { return of(42); }} />
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
+        );
+      `,
+      {
+        languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // void return attribute; inline body
+        import { Observable, of } from "rxjs";
+        import React, { FC } from "react";
+
+        const Component: FC<{ foo: () => void }> = () => <div />;
+        return (
+          <Component foo={() => of(42)} />
+                         ~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
+        );
+      `,
+      {
+        languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+      },
     ),
     fromFixture(
       stripIndent`
