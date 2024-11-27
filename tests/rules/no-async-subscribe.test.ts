@@ -3,7 +3,7 @@ import { noAsyncSubscribeRule } from '../../src/rules/no-async-subscribe';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true, jsx: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
+ruleTester({ types: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
   valid: [
     stripIndent`
       // sync arrow function
@@ -17,12 +17,15 @@ ruleTester({ types: true, jsx: true }).run('no-async-subscribe', noAsyncSubscrib
 
       of("a").subscribe(function() {});
     `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/46
-      import React, { FC } from "react";
-      const SomeComponent: FC<{}> = () => <span>some component</span>;
-      const someElement = <SomeComponent />;
-    `,
+    {
+      code: stripIndent`
+        // https://github.com/cartant/eslint-plugin-rxjs/issues/46
+        import React, { FC } from "react";
+        const SomeComponent: FC<{}> = () => <span>some component</span>;
+        const someElement = <SomeComponent />;
+      `,
+      languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+    },
     stripIndent`
       // https://github.com/cartant/eslint-plugin-rxjs/issues/61
       const whatever = {
