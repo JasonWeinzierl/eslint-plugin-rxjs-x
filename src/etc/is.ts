@@ -90,6 +90,10 @@ export function isMemberExpression(node: TSESTree.Node): node is TSESTree.Member
   return node.type === AST_NODE_TYPES.MemberExpression;
 }
 
+export function isMethodDefinition(node: TSESTree.Node): node is TSESTree.MethodDefinition {
+  return node.type === AST_NODE_TYPES.MethodDefinition;
+}
+
 export function isNewExpression(node: TSESTree.Node): node is TSESTree.NewExpression {
   return node.type === AST_NODE_TYPES.NewExpression;
 }
@@ -108,6 +112,10 @@ export function isProgram(node: TSESTree.Node): node is TSESTree.Program {
 
 export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === AST_NODE_TYPES.Property;
+}
+
+export function isPropertyDefinition(node: TSESTree.Node): node is TSESTree.PropertyDefinition {
+  return node.type === AST_NODE_TYPES.PropertyDefinition;
 }
 
 export function isPrivateIdentifier(

@@ -67,6 +67,33 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
     // #endregion valid; void return attribute
+    // #region valid; void return inherited method
+    {
+      code: stripIndent`
+        // void return inherited method; explicitly allowed
+        import { Observable, of } from "rxjs";
+
+        class Foo {
+          foo(): void {}
+        }
+
+        class Bar extends Foo {
+          foo(): Observable<number> { return of(42); }
+        }
+      `,
+      options: [{ checksVoidReturn: false }],
+    },
+    stripIndent`
+      // void return inherited method; unrelated
+      class Foo {
+        foo(): void {}
+      }
+
+      class Bar extends Foo {
+        foo(): number { return 42; }
+      }
+    `,
+    // #endregion valid; void return inherited method
     // #region valid; spread
     {
       code: stripIndent`
@@ -170,6 +197,151 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       },
     ),
     // #endregion invalid; void return attribute
+    // #region invalid; void return inherited method
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; extends
+        import { Observable, of } from "rxjs";
+
+        class Foo {
+          foo(): void {}
+        }
+
+        class Bar extends Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; abstract extends
+        import { Observable } from "rxjs";
+
+        class Foo {
+          foo(): void {}
+        }
+
+        abstract class Bar extends Foo {
+          abstract foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; extends abstract
+        import { Observable, of } from "rxjs";
+
+        abstract class Foo {
+          abstract foo(): void;
+        }
+
+        class Bar extends Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; abstract extends abstract
+        import { Observable } from "rxjs";
+
+        abstract class Foo {
+          abstract foo(): void;
+        }
+
+        abstract class Bar extends Foo {
+          abstract foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; implements
+        import { Observable, of } from "rxjs";
+
+        interface Foo {
+          foo(): void;
+        }
+
+        class Bar implements Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; abstract implements
+        import { Observable } from "rxjs";
+
+        interface Foo {
+          foo(): void;
+        }
+
+        abstract class Bar implements Foo {
+          abstract foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; implements type intersection
+        import { Observable, of } from "rxjs";
+
+        type Foo = { foo(): void } & { bar(): void };
+
+        class Bar implements Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+          bar(): void {}
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; extends and implements
+        import { Observable, of } from "rxjs";
+
+        interface Foo {
+          foo(): Observable<void>;
+        }
+
+        interface Bar {
+          foo(): void;
+        }
+
+        class Baz {
+          foo(): void {}
+        }
+
+        class Qux extends Baz implements Foo, Bar {
+          foo(): Observable<void> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Baz" }]
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Bar" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class declaration; extends class expression
+        import { Observable, of } from "rxjs";
+
+        const Foo = class {
+          foo(): void {}
+        }
+
+        class Bar extends Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    // #endregion invalid; void return inherited method
     // #region invalid; spread
     fromFixture(
       stripIndent`

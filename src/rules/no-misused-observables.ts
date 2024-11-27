@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils, TSESLint } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { getTypeServices, isJSXExpressionContainer } from '../etc';
+import { getTypeServices, isJSXExpressionContainer, isMethodDefinition, isPropertyDefinition } from '../etc';
 import { ruleCreator } from '../utils';
 
 // The implementation of this rule is similar to typescript-eslint's no-misused-promises. MIT License.
@@ -51,7 +51,7 @@ export const noMisusedObservablesRule = ruleCreator({
       CallExpression: checkArguments,
       NewExpression: checkArguments,
       JSXAttribute: checkJSXAttribute,
-      // ClassDeclaration: checkClassLikeOrInterfaceNode,
+      ClassDeclaration: checkClassLikeOrInterfaceNode,
       // ClassExpression: checkClassLikeOrInterfaceNode,
       // TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
       // Property: checkProperty,
@@ -105,6 +105,51 @@ export const noMisusedObservablesRule = ruleCreator({
       }
     }
 
+    function checkClassLikeOrInterfaceNode(
+      node: es.ClassDeclaration | es.ClassExpression | es.TSInterfaceDeclaration,
+    ): void {
+      const tsNode = esTreeNodeToTSNodeMap.get(node);
+
+      const heritageTypes = getHeritageTypes(checker, tsNode);
+      if (!heritageTypes?.length) {
+        return;
+      }
+
+      for (const element of node.body.body) {
+        const tsElement = esTreeNodeToTSNodeMap.get(element);
+        const memberName = tsElement?.name?.getText();
+        if (memberName === undefined) {
+          // See comment in typescript-eslint no-misused-promises for why.
+          continue;
+        }
+
+        if (!couldReturnObservable(element)) {
+          continue;
+        }
+
+        if (isStaticMember(element)) {
+          continue;
+        }
+
+        for (const heritageType of heritageTypes) {
+          const heritageMember = getMemberIfExists(heritageType, memberName);
+          if (heritageMember === undefined) {
+            continue;
+          }
+          const memberType = checker.getTypeOfSymbolAtLocation(heritageMember, tsElement);
+          if (!isVoidReturningFunctionType(memberType)) {
+            continue;
+          }
+
+          context.report({
+            messageId: 'forbiddenVoidReturnInheritedMethod',
+            node: element,
+            data: { heritageTypeName: checker.typeToString(heritageType) },
+          });
+        }
+      }
+    }
+
     return {
       ...(checksVoidReturn ? voidReturnChecks : {}),
       ...(checksSpreads ? spreadChecks : {}),
@@ -155,4 +200,27 @@ function isVoidReturningFunctionType(
   }
 
   return hasVoidReturn;
+}
+
+function getHeritageTypes(
+  checker: ts.TypeChecker,
+  tsNode: ts.ClassDeclaration | ts.ClassExpression | ts.InterfaceDeclaration,
+): ts.Type[] | undefined {
+  return tsNode.heritageClauses
+    ?.flatMap(clause => clause.types)
+    .map(typeExpressions => checker.getTypeAtLocation(typeExpressions));
+}
+
+function getMemberIfExists(
+  type: ts.Type,
+  memberName: string,
+): ts.Symbol | undefined {
+  const escapedMemberName = ts.escapeLeadingUnderscores(memberName);
+  const symbolMemberMatch = type.getSymbol()?.members?.get(escapedMemberName);
+  return symbolMemberMatch ?? tsutils.getPropertyOfType(type, escapedMemberName);
+}
+
+function isStaticMember(node: es.Node): boolean {
+  return (isMethodDefinition(node) || isPropertyDefinition(node))
+    && node.static;
 }
