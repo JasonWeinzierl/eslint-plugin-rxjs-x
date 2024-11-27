@@ -1,4 +1,6 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils, TSESLint } from '@typescript-eslint/utils';
+import * as tsutils from 'ts-api-utils';
+import ts from 'typescript';
 import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -39,12 +41,23 @@ export const noMisusedObservablesRule = ruleCreator({
   },
   name: 'no-misused-observables',
   create: (context) => {
-    const { couldBeObservable } = getTypeServices(context);
+    const { program, esTreeNodeToTSNodeMap } = ESLintUtils.getParserServices(context);
+    const checker = program.getTypeChecker();
+    const { couldBeObservable, couldReturnObservable } = getTypeServices(context);
     const [config = {}] = context.options;
     const { checksVoidReturn = true, checksSpreads = true } = config;
 
     const voidReturnChecks: TSESLint.RuleListener = {
-
+      CallExpression: checkArguments,
+      // NewExpression: checkArguments,
+      // JSXAttribute: checkJSXAttribute,
+      // ClassDeclaration: checkClassLikeOrInterfaceNode,
+      // ClassExpression: checkClassLikeOrInterfaceNode,
+      // TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
+      // Property: checkProperty,
+      // ReturnStatement: checkReturnStatement,
+      // AssignmentExpression: checkAssignment,
+      // VariableDeclarator: checkVariableDeclarator,
     };
 
     const spreadChecks: TSESLint.RuleListener = {
@@ -58,9 +71,75 @@ export const noMisusedObservablesRule = ruleCreator({
       },
     };
 
+    function checkArguments(node: es.CallExpression | es.NewExpression): void {
+      const tsNode = esTreeNodeToTSNodeMap.get(node);
+      const voidArgs = voidFunctionArguments(checker, tsNode);
+      if (!voidArgs.size) {
+        return;
+      }
+
+      for (const [index, argument] of node.arguments.entries()) {
+        if (!voidArgs.has(index)) {
+          continue;
+        }
+
+        if (couldReturnObservable(argument)) {
+          context.report({
+            messageId: 'forbiddenVoidReturnArgument',
+            node: argument,
+          });
+        }
+      }
+    }
+
     return {
       ...(checksVoidReturn ? voidReturnChecks : {}),
       ...(checksSpreads ? spreadChecks : {}),
     };
   },
 });
+
+function voidFunctionArguments(
+  checker: ts.TypeChecker,
+  tsNode: ts.CallExpression | ts.NewExpression,
+): Set<number> {
+  // let b = new Object;
+  if (!tsNode.arguments) {
+    return new Set<number>();
+  }
+
+  const voidReturnIndices = new Set<number>();
+  const type = checker.getTypeAtLocation(tsNode.expression);
+
+  for (const subType of tsutils.unionTypeParts(type)) {
+    const signatures = ts.isCallExpression(tsNode)
+      ? subType.getCallSignatures()
+      : subType.getConstructSignatures();
+    for (const signature of signatures) {
+      for (const [index, parameter] of signature.parameters.entries()) {
+        const type = checker.getTypeOfSymbolAtLocation(parameter, tsNode.expression);
+        if (isVoidReturningFunctionType(type)) {
+          voidReturnIndices.add(index);
+        }
+      }
+    }
+  }
+
+  return voidReturnIndices;
+}
+
+function isVoidReturningFunctionType(
+  type: ts.Type,
+): boolean {
+  let hasVoidReturn = false;
+
+  for (const subType of tsutils.unionTypeParts(type)) {
+    for (const signature of subType.getCallSignatures()) {
+      const returnType = signature.getReturnType();
+
+      hasVoidReturn ||= tsutils.isTypeFlagSet(returnType, ts.TypeFlags.Void);
+    }
+  }
+
+  return hasVoidReturn;
+}
