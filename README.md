@@ -17,6 +17,7 @@ There are some breaking changes:
   - If you need to continue using this old format, use the original `eslint-plugin-rxjs` or a different fork.
 - The plugin namespace specified in the `recommended` config was changed from `rxjs` to `rxjs-x`.
   - e.g. In your ESLint config, `rxjs/no-subject-value` should be renamed to `rxjs-x/no-subject-value`.
+- The rule `rxjs/no-ignored-observable` is renamed to `rxjs-x/no-floating-observables`.
 
 A complete description of all changes are documented in the [CHANGELOG](CHANGELOG.md) file.
 
@@ -88,10 +89,10 @@ The package includes the following rules.
 | [no-explicit-generics](docs/rules/no-explicit-generics.md)             | Disallow unnecessary explicit generic type arguments.                                                     | 🔒   |    |    |    |    |
 | [no-exposed-subjects](docs/rules/no-exposed-subjects.md)               | Disallow public and protected subjects.                                                                   | 🔒   |    |    | 💭 |    |
 | [no-finnish](docs/rules/no-finnish.md)                                 | Disallow Finnish notation.                                                                                |      |    |    | 💭 |    |
+| [no-floating-observables](docs/rules/no-floating-observables.md)       | Require Observables to be handled appropriately.                                                          | 🔒   |    |    | 💭 |    |
 | [no-ignored-default-value](docs/rules/no-ignored-default-value.md)     | Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value. | 🔒   |    |    | 💭 |    |
 | [no-ignored-error](docs/rules/no-ignored-error.md)                     | Disallow calling `subscribe` without specifying an error handler.                                         | 🔒   |    |    | 💭 |    |
 | [no-ignored-notifier](docs/rules/no-ignored-notifier.md)               | Disallow observables not composed from the `repeatWhen` or `retryWhen` notifier.                          | ✅ 🔒 |    |    | 💭 |    |
-| [no-ignored-observable](docs/rules/no-ignored-observable.md)           | Disallow ignoring observables returned by functions.                                                      | 🔒   |    |    | 💭 |    |
 | [no-ignored-replay-buffer](docs/rules/no-ignored-replay-buffer.md)     | Disallow using `ReplaySubject`, `publishReplay` or `shareReplay` without specifying the buffer size.      | ✅ 🔒 |    |    |    |    |
 | [no-ignored-subscribe](docs/rules/no-ignored-subscribe.md)             | Disallow calling `subscribe` without specifying arguments.                                                |      |    |    | 💭 |    |
 | [no-ignored-subscription](docs/rules/no-ignored-subscription.md)       | Disallow ignoring the subscription returned by `subscribe`.                                               |      |    |    | 💭 |    |

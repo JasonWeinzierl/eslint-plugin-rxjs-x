@@ -16,10 +16,10 @@ import { noCyclicActionRule } from './rules/no-cyclic-action';
 import { noExplicitGenericsRule } from './rules/no-explicit-generics';
 import { noExposedSubjectsRule } from './rules/no-exposed-subjects';
 import { noFinnishRule } from './rules/no-finnish';
+import { noFloatingObservablesRule } from './rules/no-floating-observables';
 import { noIgnoredDefaultValueRule } from './rules/no-ignored-default-value';
 import { noIgnoredErrorRule } from './rules/no-ignored-error';
 import { noIgnoredNotifierRule } from './rules/no-ignored-notifier';
-import { noIgnoredObservableRule } from './rules/no-ignored-observable';
 import { noIgnoredReplayBufferRule } from './rules/no-ignored-replay-buffer';
 import { noIgnoredSubscribeRule } from './rules/no-ignored-subscribe';
 import { noIgnoredSubscriptionRule } from './rules/no-ignored-subscription';
@@ -63,10 +63,10 @@ const plugin = {
     'no-explicit-generics': noExplicitGenericsRule,
     'no-exposed-subjects': noExposedSubjectsRule,
     'no-finnish': noFinnishRule,
+    'no-floating-observables': noFloatingObservablesRule,
     'no-ignored-default-value': noIgnoredDefaultValueRule,
     'no-ignored-error': noIgnoredErrorRule,
     'no-ignored-notifier': noIgnoredNotifierRule,
-    'no-ignored-observable': noIgnoredObservableRule,
     'no-ignored-replay-buffer': noIgnoredReplayBufferRule,
     'no-ignored-subscribe': noIgnoredSubscribeRule,
     'no-ignored-subscription': noIgnoredSubscriptionRule,
