@@ -1,4 +1,4 @@
-import { TSESTree as es, ESLintUtils, TSESLint } from '@typescript-eslint/utils';
+import { TSESTree as es, TSESLint as eslint, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import { getTypeServices, isJSXExpressionContainer, isMethodDefinition, isPropertyDefinition } from '../etc';
@@ -47,12 +47,12 @@ export const noMisusedObservablesRule = ruleCreator({
     const [config = {}] = context.options;
     const { checksVoidReturn = true, checksSpreads = true } = config;
 
-    const voidReturnChecks: TSESLint.RuleListener = {
+    const voidReturnChecks: eslint.RuleListener = {
       CallExpression: checkArguments,
       NewExpression: checkArguments,
       JSXAttribute: checkJSXAttribute,
       ClassDeclaration: checkClassLikeOrInterfaceNode,
-      // ClassExpression: checkClassLikeOrInterfaceNode,
+      ClassExpression: checkClassLikeOrInterfaceNode,
       // TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
       // Property: checkProperty,
       // ReturnStatement: checkReturnStatement,
@@ -60,7 +60,7 @@ export const noMisusedObservablesRule = ruleCreator({
       // VariableDeclarator: checkVariableDeclarator,
     };
 
-    const spreadChecks: TSESLint.RuleListener = {
+    const spreadChecks: eslint.RuleListener = {
       SpreadElement: (node) => {
         if (couldBeObservable(node.argument)) {
           context.report({

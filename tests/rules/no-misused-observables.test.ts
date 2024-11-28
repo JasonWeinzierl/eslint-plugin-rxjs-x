@@ -80,6 +80,10 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         class Bar extends Foo {
           foo(): Observable<number> { return of(42); }
         }
+
+        const Baz = class extends Foo {
+          foo(): Observable<number> { return of(42); }
+        }
       `,
       options: [{ checksVoidReturn: false }],
     },
@@ -336,6 +340,36 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         }
 
         class Bar extends Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class expression; extends
+        import { Observable, of } from "rxjs";
+
+        const Foo = class {
+          foo(): void {}
+        }
+
+        const Bar = class extends Foo {
+          foo(): Observable<number> { return of(42); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; class expression; implements
+        import { Observable, of } from "rxjs";
+
+        interface Foo {
+          foo(): void;
+        }
+
+        const Bar = class implements Foo {
           foo(): Observable<number> { return of(42); }
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
         }
