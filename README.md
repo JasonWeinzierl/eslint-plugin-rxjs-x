@@ -108,16 +108,16 @@ The package includes the following rules.
 | [no-subject-value](docs/rules/no-subject-value.md)                     | Disallow accessing the `value` property of a `BehaviorSubject` instance.                                  |      |    |    | 💭 |    |
 | [no-subscribe-handlers](docs/rules/no-subscribe-handlers.md)           | Disallow passing handlers to `subscribe`.                                                                 |      |    |    | 💭 |    |
 | [no-tap](docs/rules/no-tap.md)                                         | Disallow the `tap` operator.                                                                              |      |    |    |    | ❌  |
-| [no-topromise](docs/rules/no-topromise.md)                             | Disallow use of the `toPromise` method.                                                                   | 🔒   |    | 💡 | 💭 |    |
+| [no-topromise](docs/rules/no-topromise.md)                             | Disallow use of the `toPromise` method.                                                                   | ✅ 🔒 |    | 💡 | 💭 |    |
 | [no-unbound-methods](docs/rules/no-unbound-methods.md)                 | Disallow passing unbound methods.                                                                         | ✅ 🔒 |    |    | 💭 |    |
 | [no-unsafe-catch](docs/rules/no-unsafe-catch.md)                       | Disallow unsafe `catchError` usage in effects and epics.                                                  |      |    |    | 💭 |    |
 | [no-unsafe-first](docs/rules/no-unsafe-first.md)                       | Disallow unsafe `first`/`take` usage in effects and epics.                                                |      |    |    | 💭 |    |
 | [no-unsafe-subject-next](docs/rules/no-unsafe-subject-next.md)         | Disallow unsafe optional `next` calls.                                                                    | ✅ 🔒 |    |    | 💭 |    |
 | [no-unsafe-switchmap](docs/rules/no-unsafe-switchmap.md)               | Disallow unsafe `switchMap` usage in effects and epics.                                                   |      |    |    | 💭 |    |
 | [no-unsafe-takeuntil](docs/rules/no-unsafe-takeuntil.md)               | Disallow applying operators after `takeUntil`.                                                            | ✅ 🔒 |    |    | 💭 |    |
-| [prefer-observer](docs/rules/prefer-observer.md)                       | Disallow passing separate handlers to `subscribe` and `tap`.                                              | 🔒   | 🔧 | 💡 | 💭 |    |
-| [prefer-root-operators](docs/rules/prefer-root-operators.md)           | Disallow importing operators from `rxjs/operators`.                                                       | 🔒   | 🔧 | 💡 |    |    |
+| [prefer-observer](docs/rules/prefer-observer.md)                       | Disallow passing separate handlers to `subscribe` and `tap`.                                              | ✅ 🔒 | 🔧 | 💡 | 💭 |    |
+| [prefer-root-operators](docs/rules/prefer-root-operators.md)           | Disallow importing operators from `rxjs/operators`.                                                       | ✅ 🔒 | 🔧 | 💡 |    |    |
 | [suffix-subjects](docs/rules/suffix-subjects.md)                       | Enforce the use of a suffix in subject identifiers.                                                       |      |    |    | 💭 |    |
-| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to `throwError`.                                                      | 🔒   |    |    | 💭 |    |
+| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to `throwError`.                                                      | ✅ 🔒 |    |    | 💭 |    |
 
 <!-- end auto-generated rules list -->

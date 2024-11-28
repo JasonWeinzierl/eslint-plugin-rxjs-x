@@ -46,42 +46,35 @@ describe('package', () => {
     }
   });
 
-  it('has rules flagged according to their configs', () => {
-    if (!plugin.configs) {
-      expect.fail('No configs found.');
-    }
-
+  it.for(Object.keys(plugin.rules))('includes rule %s in configurations based on meta.docs.recommended', (ruleName, { expect }) => {
+    const rule = plugin.rules[ruleName as keyof typeof plugin.rules];
     const namespace = 'rxjs-x';
-    const recommendedRules = plugin.configs.recommended.rules;
-    const strictRules = plugin.configs.strict.rules;
+    const fullRuleName = `${namespace}/${ruleName}`;
 
-    for (const [ruleName, rule] of Object.entries(plugin.rules)) {
-      const fullRuleName = `${namespace}/${ruleName}`;
-      const ruleRec = rule.meta.docs?.recommended;
-
-      if (!ruleRec) {
-        // Rule is not part of any config.
-        expect(recommendedRules).not.toHaveProperty(fullRuleName);
-        expect(strictRules).not.toHaveProperty(fullRuleName);
-      } else if (typeof ruleRec === 'string') {
-        // Rule is part of a single config.
-        if (ruleRec === 'recommended') {
-          expect(recommendedRules).toHaveProperty(fullRuleName);
-        } else if (ruleRec === 'strict') {
-          expect(strictRules).toHaveProperty(fullRuleName);
-          expect(strictRules[fullRuleName as keyof typeof strictRules]).toBe('error');
-        } else {
-          expect.fail(`Invalid recommended value for rule ${fullRuleName}: ${ruleRec}`);
-        }
+    if (!rule.meta.docs?.recommended) {
+      // Rule is not included in any configuration.
+      expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
+      expect(plugin.configs.strict.rules).not.toHaveProperty(fullRuleName);
+    } else if (typeof rule.meta.docs.recommended === 'string') {
+      // Rule specifies only a configuration name.
+      expect(rule.meta.docs.recommended).toMatch(/^(recommended|strict)$/);
+      if (rule.meta.docs.recommended === 'recommended') {
+        expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
-        // Rule is part of several configs.
-        if (ruleRec.recommended) {
-          expect(recommendedRules).toHaveProperty(fullRuleName);
-        }
-        expect(strictRules).toHaveProperty(fullRuleName);
-        expect(strictRules[fullRuleName as keyof typeof strictRules]).toBeInstanceOf(Array);
-        expect(strictRules[fullRuleName as keyof typeof strictRules][1]).toEqual(ruleRec.strict[0]);
+        expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       }
+
+      // Strict configuration always includes all recommended rules.
+      // Not allowed to specify non-default options since rule only specifies a configuration name.
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
+    } else {
+      // Rule specifies non-default options for strict.
+      if (rule.meta.docs.recommended.recommended) {
+        expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
+      } else {
+        expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
+      }
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), rule.meta.docs.recommended.strict[0]]);
     }
   });
 });

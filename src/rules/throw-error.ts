@@ -16,6 +16,7 @@ export const throwErrorRule = ruleCreator({
       description:
         'Enforce passing only `Error` values to `throwError`.',
       recommended: {
+        recommended: true,
         strict: [{ allowThrowingAny: false, allowThrowingUnknown: false }],
       },
       requiresTypeChecking: true,
