@@ -1,7 +1,15 @@
-import { TSESTree as es, TSESLint as eslint, ESLintUtils } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, TSESTree as es, TSESLint as eslint, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { getTypeServices, isJSXExpressionContainer, isMethodDefinition, isPropertyDefinition } from '../etc';
+import {
+  getTypeServices,
+  isArrowFunctionExpression,
+  isFunctionDeclaration,
+  isFunctionExpression,
+  isJSXExpressionContainer,
+  isMethodDefinition,
+  isPropertyDefinition,
+} from '../etc';
 import { ruleCreator } from '../utils';
 
 // The implementation of this rule is similar to typescript-eslint's no-misused-promises. MIT License.
@@ -55,7 +63,7 @@ export const noMisusedObservablesRule = ruleCreator({
       ClassExpression: checkClassLikeOrInterfaceNode,
       TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
       Property: checkProperty,
-      // ReturnStatement: checkReturnStatement,
+      ReturnStatement: checkReturnStatement,
       // AssignmentExpression: checkAssignment,
       // VariableDeclarator: checkVariableDeclarator,
     };
@@ -171,6 +179,50 @@ export const noMisusedObservablesRule = ruleCreator({
       });
     }
 
+    function checkReturnStatement(node: es.ReturnStatement): void {
+      const tsNode = esTreeNodeToTSNodeMap.get(node);
+      if (tsNode.expression === undefined || !node.argument) {
+        return;
+      }
+
+      // Optimization to avoid touching type info.
+      function getFunctionNode() {
+        let current: es.Node | undefined = node.parent;
+        while (
+          current
+          && !isArrowFunctionExpression(current)
+          && !isFunctionExpression(current)
+          && !isFunctionDeclaration(current)
+        ) {
+          current = current.parent;
+        }
+        return current;
+      }
+      const functionNode = getFunctionNode();
+      if (
+        functionNode?.returnType
+        && !isPossiblyFunctionType(functionNode.returnType)
+      ) {
+        return;
+      }
+
+      const contextualType = checker.getContextualType(tsNode.expression);
+      if (contextualType === undefined) {
+        return;
+      }
+      if (!isVoidReturningFunctionType(contextualType)) {
+        return;
+      }
+      if (!couldReturnObservable(node.argument)) {
+        return;
+      }
+
+      context.report({
+        node: node.argument,
+        messageId: 'forbiddenVoidReturnReturnValue',
+      });
+    }
+
     return {
       ...(checksVoidReturn ? voidReturnChecks : {}),
       ...(checksSpreads ? spreadChecks : {}),
@@ -276,5 +328,67 @@ function getPropertyContextualType(
     return checker.getTypeOfSymbolAtLocation(propertySymbol, tsNode.name);
   } else {
     return undefined;
+  }
+}
+
+/**
+ * From no-misused-promises.
+ */
+function isPossiblyFunctionType(node: es.TSTypeAnnotation): boolean {
+  switch (node.typeAnnotation.type) {
+    case AST_NODE_TYPES.TSConditionalType:
+    case AST_NODE_TYPES.TSConstructorType:
+    case AST_NODE_TYPES.TSFunctionType:
+    case AST_NODE_TYPES.TSImportType:
+    case AST_NODE_TYPES.TSIndexedAccessType:
+    case AST_NODE_TYPES.TSInferType:
+    case AST_NODE_TYPES.TSIntersectionType:
+    case AST_NODE_TYPES.TSQualifiedName:
+    case AST_NODE_TYPES.TSThisType:
+    case AST_NODE_TYPES.TSTypeOperator:
+    case AST_NODE_TYPES.TSTypeQuery:
+    case AST_NODE_TYPES.TSTypeReference:
+    case AST_NODE_TYPES.TSUnionType:
+      return true;
+
+    case AST_NODE_TYPES.TSTypeLiteral:
+      return node.typeAnnotation.members.some(
+        member =>
+          member.type === AST_NODE_TYPES.TSCallSignatureDeclaration
+          || member.type === AST_NODE_TYPES.TSConstructSignatureDeclaration,
+      );
+
+    case AST_NODE_TYPES.TSAbstractKeyword:
+    case AST_NODE_TYPES.TSAnyKeyword:
+    case AST_NODE_TYPES.TSArrayType:
+    case AST_NODE_TYPES.TSAsyncKeyword:
+    case AST_NODE_TYPES.TSBigIntKeyword:
+    case AST_NODE_TYPES.TSBooleanKeyword:
+    case AST_NODE_TYPES.TSDeclareKeyword:
+    case AST_NODE_TYPES.TSExportKeyword:
+    case AST_NODE_TYPES.TSIntrinsicKeyword:
+    case AST_NODE_TYPES.TSLiteralType:
+    case AST_NODE_TYPES.TSMappedType:
+    case AST_NODE_TYPES.TSNamedTupleMember:
+    case AST_NODE_TYPES.TSNeverKeyword:
+    case AST_NODE_TYPES.TSNullKeyword:
+    case AST_NODE_TYPES.TSNumberKeyword:
+    case AST_NODE_TYPES.TSObjectKeyword:
+    case AST_NODE_TYPES.TSOptionalType:
+    case AST_NODE_TYPES.TSPrivateKeyword:
+    case AST_NODE_TYPES.TSProtectedKeyword:
+    case AST_NODE_TYPES.TSPublicKeyword:
+    case AST_NODE_TYPES.TSReadonlyKeyword:
+    case AST_NODE_TYPES.TSRestType:
+    case AST_NODE_TYPES.TSStaticKeyword:
+    case AST_NODE_TYPES.TSStringKeyword:
+    case AST_NODE_TYPES.TSSymbolKeyword:
+    case AST_NODE_TYPES.TSTemplateLiteralType:
+    case AST_NODE_TYPES.TSTupleType:
+    case AST_NODE_TYPES.TSTypePredicate:
+    case AST_NODE_TYPES.TSUndefinedKeyword:
+    case AST_NODE_TYPES.TSUnknownKeyword:
+    case AST_NODE_TYPES.TSVoidKeyword:
+      return false;
   }
 }

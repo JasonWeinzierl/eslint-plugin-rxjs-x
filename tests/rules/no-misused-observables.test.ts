@@ -47,9 +47,11 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         import React, { FC } from "react";
 
         const Component: FC<{ foo: () => void }> = () => <div />;
-        return (
-          <Component foo={() => of(42)} />
-        );
+        const App = () => {
+          return (
+            <Component foo={() => of(42)} />
+          );
+        };
       `,
       options: [{ checksVoidReturn: false }],
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -60,9 +62,11 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         import React, { FC } from "react";
 
         const Component: FC<{ foo: () => void }> = () => <div />;
-        return (
-          <Component foo={() => 42} />
-        );
+        const App = () => {
+          return (
+            <Component foo={() => 42} />
+          );
+        };
       `,
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
@@ -171,6 +175,36 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       };
     `,
     // #endregion valid; void return property
+    // #region valid; void return return value
+    {
+      code: stripIndent`
+        // void return return value; explicitly allowed
+        import { Observable, of } from "rxjs";
+
+        function foo(): () => void {
+          return (): Observable<number> => of(42);
+        }
+      `,
+      options: [{ checksVoidReturn: false }],
+    },
+    stripIndent`
+      // void return return value; not void
+      import { Observable, of } from "rxjs";
+
+      function foo(): () => Observable<number> {
+        return (): Observable<number> => of(42);
+      }
+    `,
+    stripIndent`
+      // void return return value; unrelated
+      function foo(): () => number {
+        return (): number => 42;
+      }
+      function bar(): () => void {
+        return (): number => 42;
+      }
+    `,
+    // #endregion valid; void return return value
     // #region valid; spread
     {
       code: stripIndent`
@@ -248,10 +282,12 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         import React, { FC } from "react";
 
         const Component: FC<{ foo: () => void }> = () => <div />;
-        return (
-          <Component foo={(): Observable<number> => { return of(42); }} />
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
-        );
+        const App = () => {
+          return (
+            <Component foo={(): Observable<number> => { return of(42); }} />
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
+          );
+        };
       `,
       {
         languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -264,10 +300,12 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         import React, { FC } from "react";
 
         const Component: FC<{ foo: () => void }> = () => <div />;
-        return (
-          <Component foo={() => of(42)} />
-                         ~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
-        );
+        const App = () => {
+          return (
+            <Component foo={() => of(42)} />
+                           ~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
+          );
+        };
       `,
       {
         languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -659,6 +697,30 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     // #endregion invalid; void return property
+    // #region invalid; void return return value
+    fromFixture(
+      stripIndent`
+        // void return return value; arrow function
+        import { Observable, of } from "rxjs";
+
+        function foo(): () => void {
+          return (): Observable<number> => of(42);
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnReturnValue]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return return value; function
+        import { Observable, of } from "rxjs";
+
+        function foo(): () => void {
+          return function(): Observable<number> { return of(42); };
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnReturnValue]
+        }
+      `,
+    ),
+    // #endregion invalid; void return return value
     // #region invalid; spread
     fromFixture(
       stripIndent`
