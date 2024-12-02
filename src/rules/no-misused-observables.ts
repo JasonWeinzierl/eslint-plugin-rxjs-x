@@ -54,7 +54,7 @@ export const noMisusedObservablesRule = ruleCreator({
       ClassDeclaration: checkClassLikeOrInterfaceNode,
       ClassExpression: checkClassLikeOrInterfaceNode,
       TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
-      // Property: checkProperty,
+      Property: checkProperty,
       // ReturnStatement: checkReturnStatement,
       // AssignmentExpression: checkAssignment,
       // VariableDeclarator: checkVariableDeclarator,
@@ -150,6 +150,27 @@ export const noMisusedObservablesRule = ruleCreator({
       }
     }
 
+    function checkProperty(node: es.Property): void {
+      const tsNode = esTreeNodeToTSNodeMap.get(node);
+
+      const contextualType = getPropertyContextualType(checker, tsNode);
+      if (contextualType === undefined) {
+        return;
+      }
+
+      if (!isVoidReturningFunctionType(contextualType)) {
+        return;
+      }
+      if (!couldReturnObservable(node.value)) {
+        return;
+      }
+
+      context.report({
+        messageId: 'forbiddenVoidReturnProperty',
+        node: node.value,
+      });
+    }
+
     return {
       ...(checksVoidReturn ? voidReturnChecks : {}),
       ...(checksSpreads ? spreadChecks : {}),
@@ -223,4 +244,37 @@ function getMemberIfExists(
 function isStaticMember(node: es.Node): boolean {
   return (isMethodDefinition(node) || isPropertyDefinition(node))
     && node.static;
+}
+
+function getPropertyContextualType(
+  checker: ts.TypeChecker,
+  tsNode: ts.Node,
+): ts.Type | undefined {
+  if (ts.isPropertyAssignment(tsNode)) {
+    // { a: 1 }
+    return checker.getContextualType(tsNode.initializer);
+  } else if (ts.isShorthandPropertyAssignment(tsNode)) {
+    // { a }
+    return checker.getContextualType(tsNode.name);
+  } else if (ts.isMethodDeclaration(tsNode)) {
+    // { a() {} }
+    if (ts.isComputedPropertyName(tsNode.name)) {
+      return;
+    }
+    const obj = tsNode.parent;
+    if (!ts.isObjectLiteralExpression(obj)) {
+      return;
+    }
+    const objType = checker.getContextualType(obj);
+    if (objType === undefined) {
+      return;
+    }
+    const propertySymbol = checker.getPropertyOfType(objType, tsNode.name.text);
+    if (propertySymbol === undefined) {
+      return;
+    }
+    return checker.getTypeOfSymbolAtLocation(propertySymbol, tsNode.name);
+  } else {
+    return undefined;
+  }
 }

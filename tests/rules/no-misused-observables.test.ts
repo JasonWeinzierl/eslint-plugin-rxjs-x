@@ -122,6 +122,55 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       }
     `,
     // #endregion valid; void return inherited method
+    // #region valid; void return property
+    {
+      code: stripIndent`
+        // void return property; explicitly allowed
+        import { Observable, of } from "rxjs";
+
+        type Foo = { a: () => void, b: () => void, c: () => void };
+        const b: () => Observable<number> = () => of(42);
+        const foo: Foo = {
+          a: (): Observable<number> => of(42),
+          b,
+          c(): Observable<number> { return of(42); },
+        };
+      `,
+      options: [{ checksVoidReturn: false }],
+    },
+    stripIndent`
+      // void return property; not void
+      import { Observable, of } from "rxjs";
+
+      type Foo = { a: () => Observable<number>, b: () => Observable<number>, c: () => Observable<number> };
+      const b: () => Observable<number> = () => of(42);
+      const foo: Foo = {
+        a: () => of(42),
+        b,
+        c(): Observable<number> { return of(42); },
+      };
+    `,
+    stripIndent`
+      // void return property; unrelated
+      type Foo = { a: () => void, b: () => void, c: () => void };
+      const b: () => number = () => 42;
+      const foo: Foo = {
+        a: () => 42,
+        b,
+        c(): number { return 42; },
+      };
+    `,
+    stripIndent`
+      // couldReturnType is bugged for variables (#66)
+      import { Observable, of } from "rxjs";
+
+      type Foo = { bar: () => void };
+      const bar: () => Observable<number> = () => of(42);
+      const foo: Foo = {
+        bar,
+      };
+    `,
+    // #endregion valid; void return property
     // #region valid; spread
     {
       code: stripIndent`
@@ -584,6 +633,32 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     // #endregion invalid; void return inherited method
+    // #region invalid; void return property
+    fromFixture(
+      stripIndent`
+        // void return property; arrow function
+        import { of } from "rxjs";
+
+        type Foo = { bar: () => void };
+        const foo: Foo = {
+          bar: () => of(42),
+               ~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
+        };
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return property; function
+        import { Observable, of } from "rxjs";
+
+        type Foo = { bar: () => void };
+        const foo: Foo = {
+          bar(): Observable<number> { return of(42); },
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
+        };
+      `,
+    ),
+    // #endregion invalid; void return property
     // #region invalid; spread
     fromFixture(
       stripIndent`
