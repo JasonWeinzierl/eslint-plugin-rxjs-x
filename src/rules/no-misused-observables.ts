@@ -65,7 +65,7 @@ export const noMisusedObservablesRule = ruleCreator({
       Property: checkProperty,
       ReturnStatement: checkReturnStatement,
       AssignmentExpression: checkAssignment,
-      // VariableDeclarator: checkVariableDeclarator,
+      VariableDeclarator: checkVariableDeclaration,
     };
 
     const spreadChecks: eslint.RuleListener = {
@@ -233,6 +233,34 @@ export const noMisusedObservablesRule = ruleCreator({
         context.report({
           messageId: 'forbiddenVoidReturnVariable',
           node: node.right,
+        });
+      }
+    }
+
+    function checkVariableDeclaration(node: es.VariableDeclarator): void {
+      const tsNode = esTreeNodeToTSNodeMap.get(node);
+      if (
+        tsNode.initializer === undefined
+        || !node.init
+        || !node.id.typeAnnotation
+      ) {
+        return;
+      }
+
+      // Optimization to avoid touching type info.
+      if (!isPossiblyFunctionType(node.id.typeAnnotation)) {
+        return;
+      }
+
+      const varType = getTypeAtLocation(node.id);
+      if (!isVoidReturningFunctionType(varType)) {
+        return;
+      }
+
+      if (couldReturnObservable(node.init)) {
+        context.report({
+          messageId: 'forbiddenVoidReturnVariable',
+          node: node.init,
         });
       }
     }

@@ -213,6 +213,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
         let foo: () => void;
         foo = (): Observable<number> => of(42);
+        const bar: () => void = (): Observable<number> => of(42);
       `,
       options: [{ checksVoidReturn: false }],
     },
@@ -754,6 +755,17 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         let foo: () => void;
         foo = () => of(42);
               ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return variable; const
+        import { of } from "rxjs";
+
+        const foo: () => void = () => of(42);
+                                ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
+        const bar = () => of(42), baz: () => void = () => of(42);
+                                                    ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
       `,
     ),
     fromFixture(
