@@ -53,7 +53,7 @@ export const noMisusedObservablesRule = ruleCreator({
       JSXAttribute: checkJSXAttribute,
       ClassDeclaration: checkClassLikeOrInterfaceNode,
       ClassExpression: checkClassLikeOrInterfaceNode,
-      // TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
+      TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
       // Property: checkProperty,
       // ReturnStatement: checkReturnStatement,
       // AssignmentExpression: checkAssignment,

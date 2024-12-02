@@ -84,9 +84,33 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         const Baz = class extends Foo {
           foo(): Observable<number> { return of(42); }
         }
+
+        interface Qux extends Foo {
+          foo(): Observable<number>;
+        }
       `,
       options: [{ checksVoidReturn: false }],
     },
+    stripIndent`
+      // void return inherited method; not void
+      import { Observable, of } from "rxjs";
+
+      class Foo {
+        foo(): Observable<number> { return of(42); }
+      }
+
+      class Bar extends Foo {
+        foo(): Observable<number> { return of(43); }
+      }
+
+      const Baz = class extends Foo {
+        foo(): Observable<number> { return of(44); }
+      }
+
+      interface Qux extends Foo {
+        foo(): Observable<45>;
+      }
+    `,
     stripIndent`
       // void return inherited method; unrelated
       class Foo {
@@ -372,6 +396,190 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         const Bar = class implements Foo {
           foo(): Observable<number> { return of(42); }
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends class
+        import { Observable } from "rxjs";
+
+        class Foo {
+          foo(): void {}
+        }
+
+        interface Bar extends Foo {
+          foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends abstract
+        import { Observable } from "rxjs";
+
+        abstract class Foo {
+          abstract foo(): void;
+        }
+
+        interface Bar extends Foo {
+          foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends interface
+        import { Observable } from "rxjs";
+
+        interface Foo {
+          foo(): void;
+        }
+
+        interface Bar extends Foo {
+          foo(): Observable<number>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends conditional type
+        import { Observable } from "rxjs";
+
+        type Foo<IsRx extends boolean = true> = IsRx extends true
+          ? { foo(): Observable<void> }
+          : { foo(): void };
+
+        interface Bar extends Foo<false> {
+          foo(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "{ foo(): void; }" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends multiple
+        import { Observable } from "rxjs";
+
+        interface Foo {
+          foo(): void;
+        }
+
+        interface Bar {
+          foo(): void;
+        }
+
+        interface Baz extends Foo, Bar {
+          foo(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Bar" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends multiple classes
+        import { Observable } from "rxjs";
+
+        class Foo {
+          foo(): void {}
+        }
+
+        class Bar {
+          foo(): void {}
+        }
+
+        interface Baz extends Foo, Bar {
+          foo(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Bar" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends typeof class
+        import { Observable } from "rxjs";
+
+        const Foo = class {
+          foo(): void {}
+        }
+
+        type Bar = typeof Foo;
+
+        interface Baz extends Bar {
+          foo(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "typeof Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends function, index, constructor
+        import { Observable } from "rxjs";
+
+        interface Foo {
+          (): void;
+          (arg: string): void;
+          new (): void;
+          [key: string]: () => void;
+          [key: number]: () => void;
+          myMethod(): void;
+        }
+
+        interface Bar extends Foo {
+          (): Observable<void>;
+          (arg: string): Observable<void>;
+          new (): Observable<void>;
+          [key: string]: () => Observable<void>;
+          [key: number]: () => Observable<void>;
+          myMethod(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Foo" }]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return inherited method; interface; extends multiple function, index, constructor
+        import { Observable } from "rxjs";
+
+        interface Foo {
+          (): void;
+          (arg: string): void;
+        }
+
+        interface Bar {
+          [key: string]: () => void;
+          [key: number]: () => void;
+        }
+
+        interface Baz {
+          new (): void;
+          new (arg: string): void;
+        }
+
+        interface Qux {
+          doSyncThing(): void;
+          doOtherSyncThing(): void;
+          syncMethodProperty: () => void;
+        }
+
+        interface Quux extends Foo, Bar, Baz, Qux {
+          (): void;
+          (arg: string): Observable<void>;
+          new (): void;
+          new (arg: string): void;
+          [key: string]: () => Observable<void>;
+          [key: number]: () => void;
+          doSyncThing(): Observable<void>;
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Qux" }]
+          doRxThing(): Observable<void>;
+          syncMethodProperty: () => Observable<void>;
+          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Qux" }]
+          // TODO(#66): couldReturnType doesn't work for properties.
         }
       `,
     ),
