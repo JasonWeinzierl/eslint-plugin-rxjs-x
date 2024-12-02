@@ -19,7 +19,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         }
         new Foo(() => of(42));
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { arguments: false } }],
     },
     stripIndent`
       // void return argument; unrelated
@@ -53,7 +53,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           );
         };
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { attributes: false } }],
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
     {
@@ -93,7 +93,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           foo(): Observable<number>;
         }
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { inheritedMethods: false } }],
     },
     stripIndent`
       // void return inherited method; not void
@@ -140,7 +140,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           c(): Observable<number> { return of(42); },
         };
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { properties: false } }],
     },
     stripIndent`
       // void return property; not void
@@ -185,7 +185,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           return (): Observable<number> => of(42);
         }
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { returns: false } }],
     },
     stripIndent`
       // void return return value; not void
@@ -215,7 +215,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         foo = (): Observable<number> => of(42);
         const bar: () => void = (): Observable<number> => of(42);
       `,
-      options: [{ checksVoidReturn: false }],
+      options: [{ checksVoidReturn: { variables: false } }],
     },
     stripIndent`
       // void return variable; not void

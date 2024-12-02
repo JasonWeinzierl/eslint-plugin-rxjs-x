@@ -6,11 +6,22 @@
 
 ## Options
 
-<!-- begin auto-generated rule options list -->
+<!-- WARNING: not auto-generated! -->
 
-| Name               | Description                                                                 | Type    | Default |
-| :----------------- | :-------------------------------------------------------------------------- | :------ | :------ |
-| `checksSpreads`    | Disallow `...` spreading an Observable.                                     | Boolean | `true`  |
-| `checksVoidReturn` | Disallow returning an Observable from a function typed as returning `void`. | Boolean | `true`  |
+| Name               | Description                                                                                                                              | Type    | Default |
+| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------ |
+| `checksSpreads`    | Disallow `...` spreading an Observable.                                                                                                  | Boolean | `true`  |
+| `checksVoidReturn` | Disallow returning an Observable from a function typed as returning `void`.                                                              | Object  | `true`  |
 
-<!-- end auto-generated rule options list -->
+### `checksVoidReturn`
+
+You can disable selective parts of the `checksVoidReturn` option. The following sub-options are supported:
+
+| Name               | Description                                                                                                                              | Type    | Default |
+| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :------ | :------ |
+| `arguments`        | Disallow passing an Observable-returning function as an argument where the parameter type expects a function that returns `void`.        | Boolean | `true`  |
+| `attributes`       | Disallow passing an Observable-returning function as a JSX attribute expected to be a function that returns `void`.                      | Boolean | `true`  |
+| `inheritedMethods` | Disallow providing an Observable-returning function where a function that returns `void` is expected by an extended or implemented type. | Boolean | `true`  |
+| `properties`       | Disallow providing an Observable-returning function where a function that returns `void` is expected by a property.                      | Boolean | `true`  |
+| `returns`          | Disallow returning an Observable-returning function where a function that returns `void` is expected.                                    | Boolean | `true`  |
+| `variables`        | Disallow assigning or declaring an Observable-returning function where a function that returns `void` is expected.                       | Boolean | `true`  |

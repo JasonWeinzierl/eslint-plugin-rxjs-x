@@ -15,8 +15,48 @@ import { ruleCreator } from '../utils';
 // The implementation of this rule is similar to typescript-eslint's no-misused-promises. MIT License.
 // https://github.com/typescript-eslint/typescript-eslint/blob/fcd6cf063a774f73ea00af23705117a197f826d4/packages/eslint-plugin/src/rules/no-misused-promises.ts
 
+// This is only exported for dts build to work.
+export interface ChecksVoidReturnOptions {
+  arguments?: boolean;
+  attributes?: boolean;
+  inheritedMethods?: boolean;
+  properties?: boolean;
+  returns?: boolean;
+  variables?: boolean;
+}
+
+function parseChecksVoidReturn(
+  checksVoidReturn: boolean | ChecksVoidReturnOptions,
+): ChecksVoidReturnOptions | false {
+  switch (checksVoidReturn) {
+    case false:
+      return false;
+
+    case true:
+    case undefined:
+      return {
+        arguments: true,
+        attributes: true,
+        inheritedMethods: true,
+        properties: true,
+        returns: true,
+        variables: true,
+      };
+
+    default:
+      return {
+        arguments: checksVoidReturn.arguments ?? true,
+        attributes: checksVoidReturn.attributes ?? true,
+        inheritedMethods: checksVoidReturn.inheritedMethods ?? true,
+        properties: checksVoidReturn.properties ?? true,
+        returns: checksVoidReturn.returns ?? true,
+        variables: checksVoidReturn.variables ?? true,
+      };
+  }
+}
+
 const defaultOptions: readonly {
-  checksVoidReturn?: boolean;
+  checksVoidReturn?: boolean | ChecksVoidReturnOptions;
   checksSpreads?: boolean;
 }[] = [];
 
@@ -39,7 +79,30 @@ export const noMisusedObservablesRule = ruleCreator({
     schema: [
       {
         properties: {
-          checksVoidReturn: { type: 'boolean', default: true, description: 'Disallow returning an Observable from a function typed as returning `void`.' },
+          checksVoidReturn: {
+            default: true,
+            description: 'Disallow returning an Observable from a function typed as returning `void`.',
+            oneOf: [
+              {
+                default: true,
+                type: 'boolean',
+                description: 'Disallow returning an Observable from all types of functions typed as returning `void`.',
+              },
+              {
+                type: 'object',
+                additionalProperties: false,
+                description: 'Which forms of functions may have checking disabled.',
+                properties: {
+                  arguments: { type: 'boolean', description: 'Disallow passing an Observable-returning function as an argument where the parameter type expects a function that returns `void`.' },
+                  attributes: { type: 'boolean', description: 'Disallow passing an Observable-returning function as a JSX attribute expected to be a function that returns `void`.' },
+                  inheritedMethods: { type: 'boolean', description: 'Disallow providing an Observable-returning function where a function that returns `void` is expected by an extended or implemented type.' },
+                  properties: { type: 'boolean', description: 'Disallow providing an Observable-returning function where a function that returns `void` is expected by a property.' },
+                  returns: { type: 'boolean', description: 'Disallow returning an Observable-returning function where a function that returns `void` is expected.' },
+                  variables: { type: 'boolean', description: 'Disallow assigning or declaring an Observable-returning function where a function that returns `void` is expected.' },
+                },
+              },
+            ],
+          },
           checksSpreads: { type: 'boolean', default: true, description: 'Disallow `...` spreading an Observable.' },
         },
         type: 'object',
@@ -55,18 +118,32 @@ export const noMisusedObservablesRule = ruleCreator({
     const [config = {}] = context.options;
     const { checksVoidReturn = true, checksSpreads = true } = config;
 
-    const voidReturnChecks: eslint.RuleListener = {
-      CallExpression: checkArguments,
-      NewExpression: checkArguments,
-      JSXAttribute: checkJSXAttribute,
-      ClassDeclaration: checkClassLikeOrInterfaceNode,
-      ClassExpression: checkClassLikeOrInterfaceNode,
-      TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
-      Property: checkProperty,
-      ReturnStatement: checkReturnStatement,
-      AssignmentExpression: checkAssignment,
-      VariableDeclarator: checkVariableDeclaration,
-    };
+    const parsedChecksVoidReturn = parseChecksVoidReturn(checksVoidReturn);
+
+    const voidReturnChecks: eslint.RuleListener = parsedChecksVoidReturn ? {
+      ...(parsedChecksVoidReturn.arguments && {
+        CallExpression: checkArguments,
+        NewExpression: checkArguments,
+      }),
+      ...(parsedChecksVoidReturn.attributes && {
+        JSXAttribute: checkJSXAttribute,
+      }),
+      ...(parsedChecksVoidReturn.inheritedMethods && {
+        ClassDeclaration: checkClassLikeOrInterfaceNode,
+        ClassExpression: checkClassLikeOrInterfaceNode,
+        TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
+      }),
+      ...(parsedChecksVoidReturn.properties && {
+        Property: checkProperty,
+      }),
+      ...(parsedChecksVoidReturn.returns && {
+        ReturnStatement: checkReturnStatement,
+      }),
+      ...(parsedChecksVoidReturn.variables && {
+        AssignmentExpression: checkAssignment,
+        VariableDeclarator: checkVariableDeclaration,
+      }),
+    } : {};
 
     const spreadChecks: eslint.RuleListener = {
       SpreadElement: (node) => {
