@@ -2130,9 +2130,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.4.2":
-  version: 4.4.2
-  resolution: "eslint-plugin-import-x@npm:4.4.2"
+"eslint-plugin-import-x@npm:^4.4.3":
+  version: 4.4.3
+  resolution: "eslint-plugin-import-x@npm:4.4.3"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.1.0"
     debug: "npm:^4.3.4"
@@ -2146,7 +2146,7 @@ __metadata:
     tslib: "npm:^2.6.3"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/0c7ac5e5390f30178d78f7380ba55cfa23fa150f1e49b313e4ed787ff760dac65f1a250eb261768b2f6d6cdd16cc0d95a7874da213e43a849a747e30b4108cf2
+  checksum: 10c0/8c629786f6791ff12d438a48252188937ce57a8901b5968d18872fe90034e737893fce556669d6b36481706212d1ef87e73cd4696b3406ffc9cc3a26cbdd8584
   languageName: node
   linkType: hard
 
@@ -2190,7 +2190,7 @@ __metadata:
     eslint-doc-generator: "npm:^1.7.1"
     eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-eslint-plugin: "npm:^6.3.2"
-    eslint-plugin-import-x: "npm:^4.4.2"
+    eslint-plugin-import-x: "npm:^4.4.3"
     eslint-plugin-n: "npm:^17.14.0"
     markdownlint-cli2: "npm:^0.15.0"
     rxjs: "npm:^7.8.1"
