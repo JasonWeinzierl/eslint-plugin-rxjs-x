@@ -205,6 +205,30 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       }
     `,
     // #endregion valid; void return return value
+    // #region valid; void return variable
+    {
+      code: stripIndent`
+        // void return variable; explicitly allowed
+        import { Observable, of } from "rxjs";
+
+        let foo: () => void;
+        foo = (): Observable<number> => of(42);
+      `,
+      options: [{ checksVoidReturn: false }],
+    },
+    stripIndent`
+      // void return variable; not void
+      import { Observable, of } from "rxjs";
+
+      let foo: () => Observable<number>;
+      foo = () => of(42);
+    `,
+    stripIndent`
+      // void return variable; unrelated
+      let foo: () => void;
+      foo = (): number => 42;
+    `,
+    // #endregion valid; void return variable
     // #region valid; spread
     {
       code: stripIndent`
@@ -721,6 +745,40 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     // #endregion invalid; void return return value
+    // #region invalid; void return variable
+    fromFixture(
+      stripIndent`
+        // void return variable; reassign
+        import { of } from "rxjs";
+
+        let foo: () => void;
+        foo = () => of(42);
+              ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return variable; nested
+        import { of } from "rxjs";
+
+        const foo: {
+          bar?: () => void;
+        } = {};
+        foo.bar = () => of(42);
+                  ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return variable; Record
+        import { of } from "rxjs";
+
+        const foo: Record<string, () => void> = {};
+        foo.bar = () => of(42);
+                  ~~~~~~~~~~~~ [forbiddenVoidReturnVariable]
+      `,
+    ),
+    // #endregion invalid; void return variable
     // #region invalid; spread
     fromFixture(
       stripIndent`

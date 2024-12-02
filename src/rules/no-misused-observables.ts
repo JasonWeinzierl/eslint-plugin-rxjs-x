@@ -49,7 +49,7 @@ export const noMisusedObservablesRule = ruleCreator({
   },
   name: 'no-misused-observables',
   create: (context) => {
-    const { program, esTreeNodeToTSNodeMap } = ESLintUtils.getParserServices(context);
+    const { program, esTreeNodeToTSNodeMap, getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const checker = program.getTypeChecker();
     const { couldBeObservable, couldReturnObservable } = getTypeServices(context);
     const [config = {}] = context.options;
@@ -64,7 +64,7 @@ export const noMisusedObservablesRule = ruleCreator({
       TSInterfaceDeclaration: checkClassLikeOrInterfaceNode,
       Property: checkProperty,
       ReturnStatement: checkReturnStatement,
-      // AssignmentExpression: checkAssignment,
+      AssignmentExpression: checkAssignment,
       // VariableDeclarator: checkVariableDeclarator,
     };
 
@@ -221,6 +221,20 @@ export const noMisusedObservablesRule = ruleCreator({
         node: node.argument,
         messageId: 'forbiddenVoidReturnReturnValue',
       });
+    }
+
+    function checkAssignment(node: es.AssignmentExpression): void {
+      const varType = getTypeAtLocation(node.left);
+      if (!isVoidReturningFunctionType(varType)) {
+        return;
+      }
+
+      if (couldReturnObservable(node.right)) {
+        context.report({
+          messageId: 'forbiddenVoidReturnVariable',
+          node: node.right,
+        });
+      }
     }
 
     return {
