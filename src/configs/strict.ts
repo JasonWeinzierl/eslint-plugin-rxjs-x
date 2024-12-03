@@ -3,6 +3,7 @@ import { TSESLint } from '@typescript-eslint/utils';
 export const createStrictConfig = (
   plugin: TSESLint.FlatConfig.Plugin,
 ) => ({
+  name: 'rxjs-x/strict' as const,
   plugins: {
     'rxjs-x': plugin,
   },

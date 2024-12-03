@@ -16,4 +16,8 @@ describe('strict', () => {
       expect(config.rules).toHaveProperty(rule);
     }
   });
+
+  it('should be named', () => {
+    expect(config.name).toEqual('rxjs-x/strict');
+  });
 });

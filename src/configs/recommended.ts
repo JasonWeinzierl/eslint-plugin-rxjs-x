@@ -3,6 +3,7 @@ import { TSESLint } from '@typescript-eslint/utils';
 export const createRecommendedConfig = (
   plugin: TSESLint.FlatConfig.Plugin,
 ) => ({
+  name: 'rxjs-x/recommended' as const,
   plugins: {
     'rxjs-x': plugin,
   },
