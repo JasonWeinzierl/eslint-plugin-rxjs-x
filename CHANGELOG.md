@@ -2,6 +2,13 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.5.1 (2024-12-03)
+
+### Features
+
+- **no-misused-observables**: new rule similar to `@typescript-eslint/no-misused-promises`. ([#58](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/58)) ([41c7be8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/41c7be8976b3941b4a9f3e9bb4aa6105978509b6))
+- add `name` to each configuration. ([#75](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/75)) ([c3b3b33](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c3b3b33e42235936ad2b6e49231c579088acc52c))
+
 ## v0.5.0 (2024-11-28)
 
 ### Breaking Changes
