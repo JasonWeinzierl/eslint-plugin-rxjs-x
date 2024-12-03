@@ -5,6 +5,18 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRule, {
   valid: [
+    {
+      code: stripIndent`
+        // all checks disabled
+        import { of } from "rxjs";
+
+        [1, 2, 3].forEach(i => of(i));
+
+        const source = of(42);
+        const foo = { ...source };
+      `,
+      options: [{ checksVoidReturn: false, checksSpreads: false }],
+    },
     // #region valid; void return argument
     {
       code: stripIndent`
@@ -27,9 +39,9 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       [1, 2, 3].forEach(i => { return i; });
 
       class Foo {
-        constructor(x: () => void) {}
+        constructor(x: () => void, y: number) {}
       }
-      new Foo(() => 42);
+      new Foo(() => 42, 0);
       new Foo;
     `,
     stripIndent`
@@ -61,10 +73,10 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         // void return attribute; unrelated
         import React, { FC } from "react";
 
-        const Component: FC<{ foo: () => void }> = () => <div />;
+        const Component: FC<{ foo: () => void, bar: boolean }> = () => <div />;
         const App = () => {
           return (
-            <Component foo={() => 42} />
+            <Component foo={() => 42} bar />
           );
         };
       `,
@@ -101,10 +113,12 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
       class Foo {
         foo(): Observable<number> { return of(42); }
+        s(): void {}
       }
 
       class Bar extends Foo {
         foo(): Observable<number> { return of(43); }
+        static s(): Observable<number> { return of(43); }
       }
 
       const Baz = class extends Foo {
@@ -152,16 +166,31 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         a: () => of(42),
         b,
         c(): Observable<number> { return of(42); },
+        d(): Observable<number> { return of(42); },
       };
     `,
     stripIndent`
       // void return property; unrelated
+      import { Observable, of } from "rxjs";
+
       type Foo = { a: () => void, b: () => void, c: () => void };
       const b: () => number = () => 42;
       const foo: Foo = {
         a: () => 42,
         b,
-        c(): number { return 42; },
+        ['c'](): number { return 42; },
+      };
+      const bar = {
+        a(): Observable<number> { return of(42); },
+      }
+    `,
+    stripIndent`
+      // computed property name for method declaration is not supported
+      import { Observable, of } from "rxjs";
+
+      type Foo = { a: () => void };
+      const foo: Foo = {
+        ['a'](): Observable<number> { return of(42); },
       };
     `,
     stripIndent`
@@ -202,6 +231,9 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       }
       function bar(): () => void {
         return (): number => 42;
+      }
+      function baz(): () => void {
+        return (): void => { return; };
       }
     `,
     // #endregion valid; void return return value
