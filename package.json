@@ -18,6 +18,8 @@
     "lint",
     "rules",
     "eslint",
+    "eslintplugin",
+    "eslint-plugin",
     "rxjs"
   ],
   "sideEffects": false,
