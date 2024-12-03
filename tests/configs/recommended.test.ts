@@ -14,4 +14,8 @@ describe('recommended', () => {
       expect(ruleEntry).toEqual('error');
     }
   });
+
+  it('should be named', () => {
+    expect(config.name).toEqual('rxjs-x/recommended');
+  });
 });
