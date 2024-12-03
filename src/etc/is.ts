@@ -78,12 +78,20 @@ export function isImportSpecifier(node: TSESTree.Node): node is TSESTree.ImportS
   return node.type === AST_NODE_TYPES.ImportSpecifier;
 }
 
+export function isJSXExpressionContainer(node: TSESTree.Node): node is TSESTree.JSXExpressionContainer {
+  return node.type === AST_NODE_TYPES.JSXExpressionContainer;
+}
+
 export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
 }
 
 export function isMemberExpression(node: TSESTree.Node): node is TSESTree.MemberExpression {
   return node.type === AST_NODE_TYPES.MemberExpression;
+}
+
+export function isMethodDefinition(node: TSESTree.Node): node is TSESTree.MethodDefinition {
+  return node.type === AST_NODE_TYPES.MethodDefinition;
 }
 
 export function isNewExpression(node: TSESTree.Node): node is TSESTree.NewExpression {
@@ -104,6 +112,10 @@ export function isProgram(node: TSESTree.Node): node is TSESTree.Program {
 
 export function isProperty(node: TSESTree.Node): node is TSESTree.Property {
   return node.type === AST_NODE_TYPES.Property;
+}
+
+export function isPropertyDefinition(node: TSESTree.Node): node is TSESTree.PropertyDefinition {
+  return node.type === AST_NODE_TYPES.PropertyDefinition;
 }
 
 export function isPrivateIdentifier(

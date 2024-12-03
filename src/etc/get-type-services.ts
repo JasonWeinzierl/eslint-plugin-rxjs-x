@@ -38,12 +38,16 @@ export function getTypeServices<
       || ts.isMethodDeclaration(tsNode)
       || ts.isFunctionExpression(tsNode)
     ) {
-      tsTypeNode = tsNode.type ?? tsNode.body;
+      tsTypeNode = tsNode.type ?? tsNode.body; // TODO(#57): this doesn't work for Block bodies.
     } else if (
       ts.isCallSignatureDeclaration(tsNode)
       || ts.isMethodSignature(tsNode)
     ) {
       tsTypeNode = tsNode.type;
+    } else if (
+      ts.isPropertySignature(tsNode)
+    ) {
+      // TODO(#66): this doesn't work for functions assigned to class properties, variables, params.
     }
     return Boolean(
       tsTypeNode
