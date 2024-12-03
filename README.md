@@ -100,7 +100,7 @@ The package includes the following rules.
 | [no-implicit-any-catch](docs/rules/no-implicit-any-catch.md)           | Disallow implicit `any` error parameters in `catchError` operators.                                       | ✅ 🔒 | 🔧 | 💡 | 💭 |    |
 | [no-index](docs/rules/no-index.md)                                     | Disallow importing index modules.                                                                         | ✅ 🔒 |    |    |    |    |
 | [no-internal](docs/rules/no-internal.md)                               | Disallow importing internal modules.                                                                      | ✅ 🔒 | 🔧 | 💡 |    |    |
-| [no-misused-observables](docs/rules/no-misused-observables.md)         | Disallow Observables in places not designed to handle them.                                               |      |    |    | 💭 |    |
+| [no-misused-observables](docs/rules/no-misused-observables.md)         | Disallow Observables in places not designed to handle them.                                               | 🔒   |    |    | 💭 |    |
 | [no-nested-subscribe](docs/rules/no-nested-subscribe.md)               | Disallow calling `subscribe` within a `subscribe` callback.                                               | ✅ 🔒 |    |    | 💭 |    |
 | [no-redundant-notify](docs/rules/no-redundant-notify.md)               | Disallow sending redundant notifications from completed or errored observables.                           | ✅ 🔒 |    |    | 💭 |    |
 | [no-sharereplay](docs/rules/no-sharereplay.md)                         | Disallow unsafe `shareReplay` usage.                                                                      | ✅ 🔒 |    |    |    |    |

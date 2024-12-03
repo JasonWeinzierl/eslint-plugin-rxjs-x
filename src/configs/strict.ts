@@ -22,6 +22,7 @@ export const createStrictConfig = (
     }],
     'rxjs-x/no-index': 'error',
     'rxjs-x/no-internal': 'error',
+    'rxjs-x/no-misused-observables': 'error',
     'rxjs-x/no-nested-subscribe': 'error',
     'rxjs-x/no-redundant-notify': 'error',
     'rxjs-x/no-sharereplay': 'error',

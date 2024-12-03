@@ -65,6 +65,7 @@ export const noMisusedObservablesRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow Observables in places not designed to handle them.',
+      recommended: 'strict',
       requiresTypeChecking: true,
     },
     messages: {
