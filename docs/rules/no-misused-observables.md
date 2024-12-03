@@ -36,6 +36,9 @@ class MyRxClass implements MySyncInterface {
         return of(42);
     }
 }
+
+const a = of(42);
+const b = { ...b };
 ```
 
 Examples of **correct** code for this rule:
