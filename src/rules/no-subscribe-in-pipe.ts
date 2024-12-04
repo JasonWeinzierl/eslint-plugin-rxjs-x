@@ -1,62 +1,59 @@
-/**
- * @license Use of this source code is governed by an MIT-style license that
- * can be found in the LICENSE file at https://github.com/cartant/eslint-plugin-rxjs
- */
+import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { getTypeServices } from '../etc';
+import { ruleCreator } from '../utils';
 
-import { TSESTree as es } from "@typescript-eslint/experimental-utils";
-import { getParent, getTypeServices } from "eslint-etc";
-import { ruleCreator } from "../utils";
-
-const rule = ruleCreator({
+export const noSubscribeInPipeRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
       description:
-        "Forbids the calling of `subscribe` within any RxJS operator inside a `pipe`.",
-      recommended: "error",
+        'Disallow calling of `subscribe` within any RxJS operator inside a `pipe`.',
+      recommended: 'recommended',
+      requiresTypeChecking: true,
     },
     fixable: undefined,
     hasSuggestions: false,
     messages: {
-      forbidden: "Subscribe calls within pipe operators are forbidden.",
+      forbidden: 'Subscribe calls within pipe operators are forbidden.',
     },
     schema: [],
-    type: "problem",
+    type: 'problem',
   },
-  name: "no-subscribe-in-pipe",
+  name: 'no-subscribe-in-pipe',
   create: (context) => {
     const { couldBeObservable, couldBeType } = getTypeServices(context);
 
     function isWithinPipe(node: es.Node): boolean {
-      let parent = getParent(node);
+      let parent = node.parent;
+
       while (parent) {
         if (
-          parent.type === "CallExpression" &&
-          parent.callee.type === "MemberExpression" &&
-          parent.callee.property.type === "Identifier" &&
-          parent.callee.property.name === "pipe"
+          parent.type === AST_NODE_TYPES.CallExpression
+          && parent.callee.type === AST_NODE_TYPES.MemberExpression
+          && parent.callee.property.type === AST_NODE_TYPES.Identifier
+          && parent.callee.property.name === 'pipe'
         ) {
           return true;
         }
-        parent = getParent(parent);
+        parent = node.parent;
       }
       return false;
     }
 
     return {
-      "CallExpression > MemberExpression[property.name='subscribe']": (
-        node: es.MemberExpression
+      'CallExpression > MemberExpression[property.name=\'subscribe\']': (
+        node: es.MemberExpression,
       ) => {
         if (
-          !couldBeObservable(node.object) &&
-          !couldBeType(node.object, "Subscribable")
+          !couldBeObservable(node.object)
+          && !couldBeType(node.object, 'Subscribable')
         ) {
           return;
         }
 
         if (isWithinPipe(node)) {
           context.report({
-            messageId: "forbidden",
+            messageId: 'forbidden',
             node: node.property,
           });
         }
@@ -64,5 +61,3 @@ const rule = ruleCreator({
     };
   },
 });
-
-export = rule;

@@ -29,6 +29,7 @@ export const createStrictConfig = (
     'rxjs-x/no-sharereplay': 'error',
     'rxjs-x/no-subclass': 'error',
     'rxjs-x/no-subject-unsubscribe': 'error',
+    'rxjs-x/no-subscribe-in-pipe': 'error',
     'rxjs-x/no-topromise': 'error',
     'rxjs-x/no-unbound-methods': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',

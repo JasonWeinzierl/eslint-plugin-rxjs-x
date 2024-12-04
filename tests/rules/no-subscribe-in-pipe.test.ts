@@ -1,9 +1,9 @@
-import { stripIndent } from "common-tags";
-import { fromFixture } from "eslint-etc";
-import rule = require("../../source/rules/no-subscribe-in-pipe");
-import { ruleTester } from "../utils";
+import { stripIndent } from 'common-tags';
+import { noSubscribeInPipeRule } from '../../src/rules/no-subscribe-in-pipe';
+import { fromFixture } from '../etc';
+import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
+ruleTester({ types: true }).run('no-subscribe-in-pipe', noSubscribeInPipeRule, {
   valid: [
     stripIndent`
       // subscribe outside of pipe
@@ -88,6 +88,14 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
         })
       ).subscribe();
     `,
+    stripIndent`
+      // subscribe inside of an Observable constructor
+      import { Observable, of } from "rxjs";
+
+      new Observable<number>(subscriber => {
+        of(42).subscribe(subscriber);
+      }).subscribe();
+      `,
   ],
   invalid: [
     fromFixture(
@@ -102,7 +110,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
             return x * 2;
           })
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -118,7 +126,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
             })
           ))
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -131,7 +139,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
                   ~~~~~~~~~ [forbidden]
           })
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -145,7 +153,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
             return of(x * 2);
           })
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -161,7 +169,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
             })
           ))
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -181,7 +189,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
             return x * 2;
           })
         ).subscribe();
-      `
+      `,
     ),
     fromFixture(
       stripIndent`
@@ -192,7 +200,7 @@ ruleTester({ types: true }).run("no-subscribe-in-pipe", rule, {
           map(x => x > 50 ? x : of(x).subscribe(console.log))
                                       ~~~~~~~~~ [forbidden]
         ).subscribe();
-      `
+      `,
     ),
   ],
 });

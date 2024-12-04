@@ -20,6 +20,7 @@ export const createRecommendedConfig = (
     'rxjs-x/no-redundant-notify': 'error',
     'rxjs-x/no-sharereplay': 'error',
     'rxjs-x/no-subject-unsubscribe': 'error',
+    'rxjs-x/no-subscribe-in-pipe': 'error',
     'rxjs-x/no-topromise': 'error',
     'rxjs-x/no-unbound-methods': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',

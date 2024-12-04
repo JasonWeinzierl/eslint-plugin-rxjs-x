@@ -1,4 +1,10 @@
-# Avoid `subscribe` calls inside `pipe` operators (`no-subscribe-in-pipe`)
+# Disallow calling of `subscribe` within any RxJS operator inside a `pipe` (`rxjs-x/no-subscribe-in-pipe`)
+
+💼 This rule is enabled in the following configs: ✅ `recommended`, 🔒 `strict`.
+
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
+<!-- end auto-generated rule header -->
 
 This rule effects failures if `subscribe` is called within any operator inside a `pipe` operation.
 
@@ -29,7 +35,3 @@ of(42, 54).pipe(
   map(value => value * 2)
 ).subscribe(result => console.log(result));
 ```
-
-## Options
-
-This rule has no options.
