@@ -35,7 +35,7 @@ export const noSubscribeInPipeRule = ruleCreator({
         ) {
           return true;
         }
-        parent = node.parent;
+        parent = parent.parent;
       }
       return false;
     }
