@@ -108,6 +108,7 @@ The package includes the following rules.
 | [no-subject-unsubscribe](docs/rules/no-subject-unsubscribe.md)         | Disallow calling the `unsubscribe` method of subjects.                                                    | ✅ 🔒 |    |    | 💭 |    |
 | [no-subject-value](docs/rules/no-subject-value.md)                     | Disallow accessing the `value` property of a `BehaviorSubject` instance.                                  |      |    |    | 💭 |    |
 | [no-subscribe-handlers](docs/rules/no-subscribe-handlers.md)           | Disallow passing handlers to `subscribe`.                                                                 |      |    |    | 💭 |    |
+| [no-subscribe-in-pipe](docs/rules/no-subscribe-in-pipe.md)             | Disallow calling of `subscribe` within any RxJS operator inside a `pipe`.                                 | ✅ 🔒 |    |    | 💭 |    |
 | [no-tap](docs/rules/no-tap.md)                                         | Disallow the `tap` operator.                                                                              |      |    |    |    | ❌  |
 | [no-topromise](docs/rules/no-topromise.md)                             | Disallow use of the `toPromise` method.                                                                   | ✅ 🔒 |    | 💡 | 💭 |    |
 | [no-unbound-methods](docs/rules/no-unbound-methods.md)                 | Disallow passing unbound methods.                                                                         | ✅ 🔒 |    |    | 💭 |    |
