@@ -2,11 +2,23 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.6.0 (2024-12-04)
+
+### Breaking Changes
+
+- **no-subscribe-in-pipe**: added to recommended and strict configurations. ([#59](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/59)) ([26fe38b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/26fe38b38af9dcacc9f5c8d4c5db2c4c2c4480f9))
+- TypeScript >= 4.8.4 is required ([#68](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/68)) ([7e412aa](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/7e412aa08f93d303c664b22d09360c48d53513fc))
+
+### Features
+
+- **no-subscribe-in-pipe**: new rule to forbid calling `subscribe` within `pipe`. ([#59](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/59)) ([26fe38b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/26fe38b38af9dcacc9f5c8d4c5db2c4c2c4480f9))
+
 ## v0.5.1 (2024-12-03)
 
 ### Features
 
 - **no-misused-observables**: new rule similar to `@typescript-eslint/no-misused-promises`. ([#58](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/58)) ([41c7be8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/41c7be8976b3941b4a9f3e9bb4aa6105978509b6))
+  - enabled in the strict configuration.
 - add `name` to each configuration. ([#75](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/75)) ([c3b3b33](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c3b3b33e42235936ad2b6e49231c579088acc52c))
 
 ## v0.5.0 (2024-11-28)
@@ -14,15 +26,20 @@
 ### Breaking Changes
 
 - **no-ignored-observable**: rule removed. Use `no-floating-observables` instead. ([#55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/55)) ([1268dc8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1268dc86741a37a71d5b1994b8702a8c3874db4d))
+- RxJS ^7.2.0 is required ([#56](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/56)) ([ada5d55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ada5d55ef29aa07ece11a72a0322dc58c686498a))
 
 ### Features
 
-- **no-floating-observables**: new rule which re-implements `no-ignored-observable`. Adds `ignoreVoid` option which defaults to `true`. ([#55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/55)) ([1268dc8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1268dc86741a37a71d5b1994b8702a8c3874db4d))
-- **recommended configuration**: enabled `no-topromise`, `prefer-observer`, `prefer-root-operators`, and `throw-error`. ([#56](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/56)) ([ada5d55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ada5d55ef29aa07ece11a72a0322dc58c686498a))
+- **no-floating-observables**: new rule which replaces and improves upon `no-ignored-observable`. Adds `ignoreVoid` option which defaults to `true`. ([#55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/55)) ([1268dc8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1268dc86741a37a71d5b1994b8702a8c3874db4d))
+- Enabled four more rules in the recommended configuration. ([#56](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/56)) ([ada5d55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ada5d55ef29aa07ece11a72a0322dc58c686498a))
+  - `no-topromise`
+  - `prefer-observer`
+  - `prefer-root-operators`
+  - `throw-error`
 
 ## v0.4.1 (2024-11-26)
 
-No updates!
+First (pre)release with provenance.
 
 ## v0.4.0 (2024-11-24)
 
