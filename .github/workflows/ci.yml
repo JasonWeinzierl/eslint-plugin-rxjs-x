@@ -18,7 +18,7 @@ jobs:
   check:
     strategy:
       matrix:
-        node-version: [18, 20]
+        node-version: [18, 20, 22]
 
     runs-on: ubuntu-latest
 
@@ -48,7 +48,7 @@ jobs:
         run: yarn coverage
 
       - name: Report Coverage
-        if: ${{ matrix.node-version == 20 && github.event_name == 'pull_request' }}
+        if: ${{ matrix.node-version == 22 && github.event_name == 'pull_request' }}
         uses: zgosalvez/github-actions-report-lcov@v4
         with:
           coverage-files: coverage/lcov.info
