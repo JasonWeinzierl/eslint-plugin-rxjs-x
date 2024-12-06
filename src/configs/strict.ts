@@ -10,7 +10,6 @@ export const createStrictConfig = (
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
     'rxjs-x/no-create': 'error',
-    'rxjs-x/no-explicit-generics': 'error',
     'rxjs-x/no-exposed-subjects': 'error',
     'rxjs-x/no-floating-observables': 'error',
     'rxjs-x/no-ignored-default-value': 'error',

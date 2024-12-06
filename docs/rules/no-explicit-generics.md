@@ -1,7 +1,5 @@
 # Disallow unnecessary explicit generic type arguments (`rxjs-x/no-explicit-generics`)
 
-💼 This rule is enabled in the 🔒 `strict` config.
-
 <!-- end auto-generated rule header -->
 
 This rule prevents the use of explicit type arguments when the type arguments can be inferred.
@@ -21,3 +19,7 @@ Examples of **correct** code for this rule:
 import { BehaviorSubject } from "rxjs";
 const subject = new BehaviorSubject(42);
 ```
+
+## Known problems
+
+- ([#77](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/77)) Type unions cause false positives e.g. `new BehaviorSubject<number | null>(null)` will be incorrectly caught by this rule.
