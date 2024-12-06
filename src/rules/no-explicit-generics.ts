@@ -7,7 +7,6 @@ export const noExplicitGenericsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow unnecessary explicit generic type arguments.',
-      recommended: 'strict',
     },
     messages: {
       forbidden: 'Explicit generic type arguments are forbidden.',
