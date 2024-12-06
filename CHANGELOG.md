@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.6.1 (2024-12-06)
+
+### Features
+
+- **no-explicit-generics**: removed from `strict` configuration due to known issue. ([#78](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/78)) ([c97c29f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c97c29fd8ab6c363eb1b7c62360d69fc6f8e0c97))
+
 ## v0.6.0 (2024-12-04)
 
 ### Breaking Changes
