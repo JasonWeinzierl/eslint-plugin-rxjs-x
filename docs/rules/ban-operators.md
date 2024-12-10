@@ -23,3 +23,5 @@ The following configuration bans `partition` and `onErrorResumeNext`:
     }
   ]
 }
+```
+
