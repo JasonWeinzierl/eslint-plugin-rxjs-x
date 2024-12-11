@@ -2181,7 +2181,7 @@ __metadata:
     eslint-plugin-eslint-plugin: "npm:^6.3.2"
     eslint-plugin-import-x: "npm:^4.5.0"
     eslint-plugin-n: "npm:^17.14.0"
-    markdownlint-cli2: "npm:^0.15.0"
+    markdownlint-cli2: "npm:^0.16.0"
     rxjs: "npm:^7.8.1"
     ts-api-utils: "npm:^1.3.0"
     tslib: "npm:^2.1.0"
@@ -3200,9 +3200,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdownlint-cli2@npm:^0.15.0":
-  version: 0.15.0
-  resolution: "markdownlint-cli2@npm:0.15.0"
+"markdownlint-cli2@npm:^0.16.0":
+  version: 0.16.0
+  resolution: "markdownlint-cli2@npm:0.16.0"
   dependencies:
     globby: "npm:14.0.2"
     js-yaml: "npm:4.1.0"
@@ -3212,7 +3212,7 @@ __metadata:
     micromatch: "npm:4.0.8"
   bin:
     markdownlint-cli2: markdownlint-cli2.js
-  checksum: 10c0/eb2bb8c855bfaa1cb5bca338ad262a6b7cdcf3f1624d3b5f77af45a7b1a919a4922d3f68be9651b96f301c3f03ebbfe4ce2067d5f7e97fa7644afe099743ddbf
+  checksum: 10c0/485fcddcba6e82bfd276cebb509bfa421d2a97e678a1db13b06af6e66bd3f5d518cde7f66bf138842ad984f00cd4ebe4f637bd6a351911d5d260707bb8f5b316
   languageName: node
   linkType: hard
 
