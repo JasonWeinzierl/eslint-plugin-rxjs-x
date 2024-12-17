@@ -1351,9 +1351,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^9.9.0":
-  version: 9.9.0
-  resolution: "bumpp@npm:9.9.0"
+"bumpp@npm:^9.9.1":
+  version: 9.9.1
+  resolution: "bumpp@npm:9.9.1"
   dependencies:
     c12: "npm:^2.0.1"
     cac: "npm:^6.7.14"
@@ -1366,7 +1366,7 @@ __metadata:
     tinyglobby: "npm:^0.2.10"
   bin:
     bumpp: bin/bumpp.js
-  checksum: 10c0/9fe2ba946e584bb70a9e5328c834b3f0c7098666d853f50e7f8914152d45ea411baf76620533e799187a3a9976043d6fdc6e6a403a3a9f7002fb94f18e5d5320
+  checksum: 10c0/cb0efd9d1d3cae08bd8e306fe3ba4e540df78c60505fcf7b2e1e69fd6b05c48063d8489acc6cf11104a5d8b61bcd248589496e0f52e9d5c36826ca77c02a4948
   languageName: node
   linkType: hard
 
@@ -2107,7 +2107,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.0"
     "@vitest/coverage-v8": "npm:^2.1.8"
     "@vitest/eslint-plugin": "npm:^1.1.16"
-    bumpp: "npm:^9.9.0"
+    bumpp: "npm:^9.9.1"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.17.0"
