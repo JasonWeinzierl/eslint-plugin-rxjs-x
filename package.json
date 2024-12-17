@@ -80,7 +80,7 @@
     "@typescript-eslint/rule-tester": "^8.17.0",
     "@typescript/vfs": "^1.6.0",
     "@vitest/coverage-v8": "^2.1.8",
-    "@vitest/eslint-plugin": "^1.1.14",
+    "@vitest/eslint-plugin": "^1.1.16",
     "bumpp": "^9.9.0",
     "eslint": "^9.16.0",
     "eslint-config-flat-gitignore": "^0.3.0",
