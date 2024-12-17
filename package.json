@@ -73,7 +73,7 @@
     }
   },
   "devDependencies": {
-    "@eslint/js": "^9.16.0",
+    "@eslint/js": "^9.17.0",
     "@stylistic/eslint-plugin": "^2.12.0",
     "@types/common-tags": "^1.8.4",
     "@types/node": "~18.18.0",
@@ -82,7 +82,7 @@
     "@vitest/coverage-v8": "^2.1.8",
     "@vitest/eslint-plugin": "^1.1.16",
     "bumpp": "^9.9.0",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "eslint-config-flat-gitignore": "^0.3.0",
     "eslint-doc-generator": "^1.7.1",
     "eslint-import-resolver-typescript": "^3.7.0",
