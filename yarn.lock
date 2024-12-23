@@ -827,6 +827,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/doctrine@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "@types/doctrine@npm:0.0.9"
+  checksum: 10c0/cdaca493f13c321cf0cacd1973efc0ae74569633145d9e6fc1128f32217a6968c33bea1f858275239fe90c98f3be57ec8f452b416a9ff48b8e8c1098b20fa51c
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:1.0.6, @types/estree@npm:^1.0.0, @types/estree@npm:^1.0.6":
   version: 1.0.6
   resolution: "@types/estree@npm:1.0.6"
@@ -2005,14 +2012,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "eslint-plugin-import-x@npm:4.5.0"
+"eslint-plugin-import-x@npm:^4.6.1":
+  version: 4.6.1
+  resolution: "eslint-plugin-import-x@npm:4.6.1"
   dependencies:
+    "@types/doctrine": "npm:^0.0.9"
     "@typescript-eslint/scope-manager": "npm:^8.1.0"
     "@typescript-eslint/utils": "npm:^8.1.0"
     debug: "npm:^4.3.4"
     doctrine: "npm:^3.0.0"
+    enhanced-resolve: "npm:^5.17.1"
     eslint-import-resolver-node: "npm:^0.3.9"
     get-tsconfig: "npm:^4.7.3"
     is-glob: "npm:^4.0.3"
@@ -2022,7 +2031,7 @@ __metadata:
     tslib: "npm:^2.6.3"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/ad4cd39d152fcb5f86f659cc3fd66b8a149e14ac784c13509512bf8ae695a36dad7ddaf404769f06348eb6d4b22a38acb40abd09417186c58c3e2b41c95a129d
+  checksum: 10c0/08ea85d7dc096f3998c05237c93cd14e0cb072c66ee500fa69f5ce37a81ffc8c76cf682ec53156b09f2ed2071308eb93e53bd7741e0cfd8c56e12f09ae24be82
   languageName: node
   linkType: hard
 
@@ -2066,7 +2075,7 @@ __metadata:
     eslint-doc-generator: "npm:^2.0.1"
     eslint-import-resolver-typescript: "npm:^3.7.0"
     eslint-plugin-eslint-plugin: "npm:^6.3.2"
-    eslint-plugin-import-x: "npm:^4.5.0"
+    eslint-plugin-import-x: "npm:^4.6.1"
     eslint-plugin-n: "npm:^17.15.0"
     markdownlint-cli2: "npm:^0.16.0"
     rxjs: "npm:^7.8.1"
