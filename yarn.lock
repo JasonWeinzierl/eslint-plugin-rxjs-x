@@ -1015,9 +1015,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/eslint-plugin@npm:^1.1.16":
-  version: 1.1.16
-  resolution: "@vitest/eslint-plugin@npm:1.1.16"
+"@vitest/eslint-plugin@npm:^1.1.20":
+  version: 1.1.20
+  resolution: "@vitest/eslint-plugin@npm:1.1.20"
   peerDependencies:
     "@typescript-eslint/utils": ">= 8.0"
     eslint: ">= 8.57.0"
@@ -1028,7 +1028,7 @@ __metadata:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/b815a3e5ddfe2acc745650d599a91765abba5b07c7deee7c2be31e683128607943beaf13da47dd7598a067a25b00b4c1e17ecc6eae1c2772d1830b5fce60463f
+  checksum: 10c0/d6ef1a55d0763fb0d85e9464d6c24bdd840c78c98c0ffe990933dc0f44dde433dbd7235cd011930908a3a5e24d8c432ad34c6b7171dffccc75e9745b8e76b159
   languageName: node
   linkType: hard
 
@@ -2057,7 +2057,7 @@ __metadata:
     "@typescript-eslint/utils": "npm:^8.1.0"
     "@typescript/vfs": "npm:^1.6.0"
     "@vitest/coverage-v8": "npm:^2.1.8"
-    "@vitest/eslint-plugin": "npm:^1.1.16"
+    "@vitest/eslint-plugin": "npm:^1.1.20"
     bumpp: "npm:^9.9.1"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
