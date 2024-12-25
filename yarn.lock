@@ -1253,13 +1253,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"boolean@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "boolean@npm:3.2.0"
-  checksum: 10c0/6a0dc9668f6f3dda42a53c181fcbdad223169c8d87b6c4011b87a8b14a21770efb2934a778f063d7ece17280f8c06d313c87f7b834bb1dd526a867ffcd00febf
-  languageName: node
-  linkType: hard
-
 "brace-expansion@npm:^1.1.7":
   version: 1.1.11
   resolution: "brace-expansion@npm:1.1.11"
@@ -1925,13 +1918,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-doc-generator@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "eslint-doc-generator@npm:2.0.1"
+"eslint-doc-generator@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "eslint-doc-generator@npm:2.0.2"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.0.0"
     ajv: "npm:^8.11.2"
-    boolean: "npm:^3.2.0"
     change-case: "npm:^5.0.0"
     commander: "npm:^12.1.0"
     cosmiconfig: "npm:^9.0.0"
@@ -1947,7 +1939,7 @@ __metadata:
     eslint: ">= 8.57.1"
   bin:
     eslint-doc-generator: dist/bin/eslint-doc-generator.js
-  checksum: 10c0/296278d17f209b0d7aa9843ccd5037b8441024cb5a5b6189aabffe9ef671da7c9b917748fa117b2201af74ab9590860ead0f5c94d4ada7aa9762983a5e6b2013
+  checksum: 10c0/6bbe6ac76b04c6f275ea138ccf73c3c0ad3e868102a7db3cab391afb7e9477176cf53e19208d08908e288354055c0e141546698e17fab2e276825760cbf66c87
   languageName: node
   linkType: hard
 
@@ -2072,7 +2064,7 @@ __metadata:
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.17.0"
     eslint-config-flat-gitignore: "npm:^0.3.0"
-    eslint-doc-generator: "npm:^2.0.1"
+    eslint-doc-generator: "npm:^2.0.2"
     eslint-import-resolver-typescript: "npm:^3.7.0"
     eslint-plugin-eslint-plugin: "npm:^6.3.2"
     eslint-plugin-import-x: "npm:^4.6.1"
