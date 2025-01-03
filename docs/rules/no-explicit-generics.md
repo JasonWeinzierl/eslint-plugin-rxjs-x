@@ -20,6 +20,13 @@ import { BehaviorSubject } from "rxjs";
 const subject = new BehaviorSubject(42);
 ```
 
-## Known problems
+## When Not To Use It
+
+This rule has known problems in the latest release:
 
 - ([#77](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/77)) Type unions cause false positives e.g. `new BehaviorSubject<number | null>(null)` will be incorrectly caught by this rule.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-explicit-generics.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-explicit-generics.test.ts)
