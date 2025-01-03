@@ -29,3 +29,15 @@ const sub = new Subject();
 const result = firstValueFrom(sub, { defaultValue: null });
 sub.complete();
 ```
+
+## When Not To Use It
+
+If you intentionally want `EmptyError` rejections when the observable completes, then you may not need this rule.
+You might consider using ESLint disable comments for specific situations instead of completely disabling this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-default-value.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-default-value.test.ts)
