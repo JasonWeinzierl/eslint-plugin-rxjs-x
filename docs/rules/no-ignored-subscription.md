@@ -31,3 +31,16 @@ const numbers = new Observable<number>(subscriber => {
   interval(1e3).subscribe(subscriber);
 });
 ```
+
+## When Not To Use It
+
+If you don't care about unsubscribing from all observables in your project, then you may not need this rule.
+Alternatively, your project might use operators like `take`, `takeUntil`, `takeWhile`, etc.
+or Angular's `takeUntilDestroyed` to automatically handle subscriptions.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-subscription.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-subscription.test.ts)
