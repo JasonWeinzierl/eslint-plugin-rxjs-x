@@ -68,6 +68,22 @@ The default (Angular-friendly) configuration looks like this:
 
 The properties in the options object are themselves optional; they do not all have to be specified.
 
+## When Not To Use It
+
+If you don't use Finnish notation in your project or don't care about enforcing Finnish notation in your project, you don't need this rule.
+However, keep in mind that inconsistent style can harm readability in a project.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Observables and Finnish Notation](https://medium.com/@benlesh/observables-and-finnish-notation-df8356ed1c9b)
+
+## Related To
+
+- [`no-finnish`](./no-finnish.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/finnish.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/finnish.test.ts)
