@@ -2,11 +2,16 @@
 
 <!-- end auto-generated rule header -->
 
-This rule can be configured so that developers can ban any observable creators they want to avoid in their project.
+It can sometimes be useful to ban specific `rxjs` imports.
+This rule can be configured to ban a list of specific `rxjs` imports developers want to avoid in their project.
+
+> [!TIP]
+> `ban-observables` only bans at the _import_ site. (In fact, it can ban anything imported from `rxjs`.)
+> See [`ban-operators`](./ban-operators.md) for banning operators at their _usage_.
 
 ## Options
 
-This rule accepts a single option which is an object the keys of which are the names of observable factory functions and the values are either booleans or strings containing the explanation for the ban.
+This rule accepts a single option which is an object the keys of which are the names of anything in `rxjs` and the values are either booleans or strings containing the explanation for the ban.
 
 The following configuration bans `partition` and `onErrorResumeNext`:
 
@@ -22,3 +27,16 @@ The following configuration bans `partition` and `onErrorResumeNext`:
   ]
 }
 ```
+
+## When Not To Use It
+
+If you have no need to ban importing anything from `rxjs`, you don't need this rule.
+
+## Related To
+
+- [`ban-operators`](./ban-operators.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/ban-observables.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/ban-observables.test.ts)
