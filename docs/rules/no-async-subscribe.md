@@ -36,7 +36,19 @@ of(42).pipe(
 ).subscribe(data2 => console.log(data2));
 ```
 
+## When Not To Use It
+
+If you don't care about avoiding `.subscribe(async...`, then you will not need this rule.
+However, keep in mind that features of observables like cancellation or retrying will not work, and race conditions may occur.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Why does this rule exist?](https://stackoverflow.com/q/71559135)
 - [Higher-order Observables](https://rxjs.dev/guide/higher-order-observables)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-async-subscribe.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-async-subscribe.test.ts)
