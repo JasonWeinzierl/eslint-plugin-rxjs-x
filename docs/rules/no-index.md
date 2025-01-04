@@ -19,3 +19,16 @@ Examples of **correct** code for this rule:
 ```ts
 import { of } from "rxjs";
 ```
+
+## When Not To Use It
+
+If you don't care about unnecessary import path segments, then you don't need this rule.
+
+## Further reading
+
+- [Importing instructions](https://rxjs.dev/guide/importing)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-index.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-index.test.ts)
