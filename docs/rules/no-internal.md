@@ -21,3 +21,18 @@ Examples of **correct** code for this rule:
 ```ts
 import { of } from "rxjs";
 ```
+
+## When Not To Use It
+
+If you need to import internal modules that are not covered by the public API,
+then you don't need this rule.
+However, keep in mind that internal modules may change without notice.
+
+## Further reading
+
+- [Importing instructions](https://rxjs.dev/guide/importing)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-internal.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-internal.test.ts)
