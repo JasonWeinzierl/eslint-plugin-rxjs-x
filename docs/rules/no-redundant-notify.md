@@ -32,3 +32,18 @@ const subject = new Subject<number>();
 subject.next(42);
 subject.error(new Error("Kaboom!"));
 ```
+
+## When Not To Use It
+
+If you don't care about redundant notifications, then you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`no-subject-unsubscribe`](./no-subject-unsubscribe.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-redundant-notify.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-redundant-notify.test.ts)

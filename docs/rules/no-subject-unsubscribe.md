@@ -11,3 +11,7 @@ This rule effects failures if the `unsubscribe` method is called on subjects. Th
 ## Further reading
 
 - [Closed Subjects](https://ncjamieson.com/closed-subjects/)
+
+## Related To
+
+- [`no-redundant-notify`](./no-redundant-notify.md)
