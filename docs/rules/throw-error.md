@@ -38,3 +38,16 @@ throwError(() => new Error("Kaboom!"));
 | `allowThrowingUnknown` | Whether to always allow throwing values typed as `unknown`. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
+
+## When Not To Use It
+
+If you don't care about throwing values that are not `Error` objects, then you don't need this rule.
+However, keep in mind that, while JavaScript _allows_ throwing any value,
+most developer may find this behavior surprising or inconvenient to handle.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/throw-error.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/throw-error.test.ts)
