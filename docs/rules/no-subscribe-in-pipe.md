@@ -18,7 +18,7 @@ import { map } from "rxjs/operators";
 
 of(42, 54).pipe(
   map(value => {
-    of(value).subscribe(console.log); // This will trigger the rule
+    of(value).subscribe(console.log);
     return value * 2;
   })
 ).subscribe(result => console.log(result));
@@ -35,3 +35,21 @@ of(42, 54).pipe(
   map(value => value * 2)
 ).subscribe(result => console.log(result));
 ```
+
+## When Not To Use It
+
+If you need to subscribe within `pipe` and are aware of the potential issues,
+then you might not need this rule.
+However, you should typically prefer to use higher-order mapping operators
+like `mergeMap`, `switchMap`, or `concatMap` to handle nested observables.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`no-nested-subscribe`](./no-nested-subscribe.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-subscribe-in-pipe.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-subscribe-in-pipe.test.ts)
