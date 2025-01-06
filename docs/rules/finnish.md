@@ -71,7 +71,8 @@ The properties in the options object are themselves optional; they do not all ha
 ## When Not To Use It
 
 If you don't use Finnish notation in your project or don't care about enforcing Finnish notation in your project, you don't need this rule.
-However, keep in mind that inconsistent style can harm readability in a project.
+However, keep in mind that inconsistent style can harm readability in a project;
+consider using [`no-finnish`](./no-finnish.md) to ban Finnish notation if you don't use it in your project.
 
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
 
