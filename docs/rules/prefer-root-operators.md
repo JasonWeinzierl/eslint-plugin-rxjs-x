@@ -29,6 +29,17 @@ Examples of **correct** code for this rule:
 import { map } from 'rxjs';
 ```
 
+## When Not To Use It
+
+If you don't care about importing from the deprecated site, then you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Importing instructions](https://rxjs.dev/guide/importing)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/prefer-root-operators.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/prefer-root-operators.test.ts)
