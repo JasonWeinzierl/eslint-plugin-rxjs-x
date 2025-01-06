@@ -32,6 +32,9 @@ const answers = new Observable<number>(subscriber => {
 
 ## When Not To Use It
 
+If you rely on RxJS's deprecation of `Observable.create` and don't need to double-flag usage,
+then you don't need this rule.
+
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
 
 ## Resources
