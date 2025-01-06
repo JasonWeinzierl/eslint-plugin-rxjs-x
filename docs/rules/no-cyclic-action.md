@@ -77,7 +77,7 @@ This rule accepts a single option which is an object with an `observable` proper
 
 If you don't use a library with effects and epics (e.g. NgRx or redux-observable),
 then you don't need this rule.
-Alternatively, if you use NgRx's own `avoid-cyclic-effects` rule,
+Alternatively, if you use NgRx's own [`avoid-cyclic-effects`](https://ngrx.io/guide/eslint-plugin/rules/avoid-cyclic-effects) rule,
 then you don't need this rule.
 
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
