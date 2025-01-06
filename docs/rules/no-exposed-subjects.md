@@ -25,11 +25,11 @@ Examples of **correct** code for this rule:
 import { Subject } from "rxjs";
 
 class Answers {
-  private answersSubject = new Subject<string>();
-  public answers$ = this.answersSubject.asObservable();
+  private answersSubject$ = new Subject<string>();
+  public answers$ = this.answersSubject$.asObservable();
 
   public nextAnswer(a: string) {
-    this.answersSubject.next(a);
+    this.answersSubject$.next(a);
   }
 }
 ```
