@@ -6,7 +6,8 @@
 
 <!-- end auto-generated rule header -->
 
-This rule effects failures if an attempt is made to send a notification to an observer after a `complete` or `error` notification has already been sent.
+This rule effects failures if an attempt is made to send a notification to an observer after a `complete` or `error` notification has already been sent,
+or if `unsubscribe` has been called.
 
 Note that the rule _does not perform extensive analysis_. It uses a straightforward and limited approach to catch obviously redundant notifications.
 

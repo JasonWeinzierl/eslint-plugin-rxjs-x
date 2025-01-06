@@ -32,7 +32,7 @@ export const noRedundantNotifyRule = ruleCreator({
     const sourceCode = context.sourceCode;
     const { couldBeType } = getTypeServices(context);
     return {
-      'ExpressionStatement[expression.callee.property.name=/^(complete|error)$/] + ExpressionStatement[expression.callee.property.name=/^(next|complete|error)$/]':
+      'ExpressionStatement[expression.callee.property.name=/^(complete|error|unsubscribe)$/] + ExpressionStatement[expression.callee.property.name=/^(next|complete|error|unsubscribe)$/]':
         (node: es.ExpressionStatement) => {
           const parent = node.parent;
           if (!parent) {
