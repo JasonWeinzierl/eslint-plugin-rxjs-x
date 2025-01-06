@@ -41,6 +41,21 @@ return this.http
   );
 ```
 
+## When Not To Use It
+
+If every handler in your project does not depend on the `this` context in their implementations,
+then in some cases it may be safe to not use this rule.
+However, keep in mind that future changes may introduce bugs
+by changing their implementations to depend on the `this` context;
+see the linked blog post for best practice explanation.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Avoiding unbound methods](https://ncjamieson.com/avoiding-unbound-methods/)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-unbound-methods.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-unbound-methods.test.ts)
