@@ -8,8 +8,9 @@
 
 This rule effects failures if the notifier passed to a `repeatWhen` or `retryWhen` callback is not used.
 
-Note that both `repeatWhen` and `retryWhen` are deprecated by RxJS,
-so this rule may be removed in a future major version.
+> [!NOTE]
+> Both `repeatWhen` and `retryWhen` are deprecated by RxJS,
+> so this rule may be removed in a future major version.
 
 ## Rule details
 
