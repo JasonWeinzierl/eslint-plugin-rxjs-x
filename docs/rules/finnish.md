@@ -68,19 +68,6 @@ The default (Angular-friendly) configuration looks like this:
 
 The properties in the options object are themselves optional; they do not all have to be specified.
 
-Note the default options of this rule will conflict with [`suffix-subjects`](./suffix-subjects.md).
-If you want to handle subjects separately with `suffix-subjects` (or another rule),
-then add the following to your `finnish` options:
-
-```js
-    "types": {
-        // The default allowed types.
-        "^EventEmitter$": false,
-        // The subject types to be compatible with suffix-subjects.
-        "^(BehaviorSubject|ReplaySubject|AsyncSubject|Subject)$": false,
-    }
-```
-
 ## When Not To Use It
 
 If you don't use Finnish notation in your project or don't care about enforcing Finnish notation in your project, you don't need this rule.

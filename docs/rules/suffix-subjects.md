@@ -6,6 +6,10 @@
 
 This rule effects failures if subject variables, properties and parameters don't conform to a naming scheme that identifies them as subjects.
 
+> [!NOTE]
+> This rule is designed to be optionally compatible with [`finnish`](./finnish.md).
+> Using Finnish notation (adding a `$` suffix) your subject names will _not_ cause a failure of this rule.
+
 ## Rule details
 
 Examples of **incorrect** code for this rule:
@@ -18,6 +22,7 @@ Examples of **correct** code for this rule:
 
 ```ts
 const answersSubject = new Subject<number>();
+const answersSubject$ = new Subject<number>();
 ```
 
 ## Options
@@ -56,9 +61,6 @@ The default (Angular-friendly) configuration looks like this:
 ```
 
 The properties in the options object are themselves optional; they do not all have to be specified.
-
-Note this rule will conflict with [`finnish`](./finnish.md) with default options.
-See that rule for notes on how to configure both rules.
 
 ## When Not To Use It
 
