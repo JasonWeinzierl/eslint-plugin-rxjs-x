@@ -31,7 +31,8 @@ of(42, 54).subscribe((value) => console.log(value));
 
 If you don't care about errors or output of some observables in your project, you may not need this rule.
 Alternatively, you may require all logic to go in the `pipe` section of your observables.
-In that case, you should not use this rule and should enable `no-subscribe-handlers` instead, which is the opposite of this rule.
+In that case, you should not use this rule and should enable [`no-subscribe-handlers`](./no-subscribe-handlers.md) instead,
+which is the opposite of this rule.
 
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
 
