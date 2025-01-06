@@ -6,8 +6,9 @@
 
 This rule prevents the use of operators that return connectable observables.
 
-Note that all operators banned by this rule are also deprecated by RxJS,
-so this rule may be removed in a future major version.
+> [!NOTE]
+> All operators banned by this rule are also deprecated by RxJS,
+> so this rule may be removed in a future major version.
 
 ## Rule details
 
