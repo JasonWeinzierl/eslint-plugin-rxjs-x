@@ -39,7 +39,9 @@ const answersSubject$ = new Subject<number>();
 
 <!-- end auto-generated rule options list -->
 
-This rule accepts a single option which is an object with properties that determine whether subject suffixes are enforced for `parameters`, `properties` and `variables`. It also contains a `types` property that determine whether of not the naming convention is to be enforced for specific types and a `suffix` property.
+This rule accepts a single option which is an object with properties that determine whether subject suffixes are enforced for `parameters`, `properties` and `variables`.
+It also contains a `types` property that determine whether or not the naming convention is to be enforced for specific types
+and a `suffix` property.
 
 The default (Angular-friendly) configuration looks like this:
 
