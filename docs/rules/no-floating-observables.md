@@ -51,7 +51,8 @@ const answers = of(42, 54);
 
 Like `@typescript-eslint/no-floating-promises`,
 this rule can be difficult to enable on large existing projects that set up many floating observables.
-Alternatively, if you're not worried about ignored errors, then in some cases it may be safe to not use this rule.
+Alternatively, if you're not worried about ignored errors or unhandled cold observables,
+then in some cases it may be safe to not use this rule.
 You might consider using `void`s and/or ESLint disable comments for those specific situations
 instead of completely disabling this rule.
 
