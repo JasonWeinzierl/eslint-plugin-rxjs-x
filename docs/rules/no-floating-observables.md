@@ -19,7 +19,7 @@ This rule will report observable-valued statements that are not treated in one o
 
 > [!TIP]
 > `no-floating-observables` only detects apparently unhandled observable _statements_.
-> See [`no-misused-observables`](./no-misused-observables.md) for detecting code that provides observables to _logical_ locations
+> See [`no-misused-observables`](./no-misused-observables.md) for detecting code that provides observables to _logical_ locations.
 
 ## Rule details
 
