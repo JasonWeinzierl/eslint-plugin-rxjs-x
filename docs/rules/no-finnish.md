@@ -22,7 +22,8 @@ const answers = of(42, 54);
 
 ## When Not To Use It
 
-If you use Finnish notation in your project or don't care if Finnish notation is used in your project, you don't need this rule.
+If you use Finnish notation in your project, you should avoid this rule.
+Or if you don't care if Finnish notation is used in your project, then you don't need this rule.
 However, keep in mind that inconsistent style can harm readability in a project.
 
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
