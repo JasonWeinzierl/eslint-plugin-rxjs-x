@@ -8,7 +8,8 @@
 
 This rule effects failures if `next` is called without an argument and the subject's value type is not `void`.
 
-In RxJS version 6, the `next` method's `value` parameter is optional, but a value should always be specified for subjects with non-`void` element types.
+In RxJS version 6, the `next` method's `value` parameter was optional, but a value should always be specified for subjects with non-`void` element types.
+RxJS version 7 changed the `value` parameter to mandatory.
 
 ## Rule details
 
@@ -30,3 +31,16 @@ subject.next();
 const subject = new Subject<number>();
 subject.next(0);
 ```
+
+## When Not To Use It
+
+If you don't care about sending `undefined` to subjects, then you don't need this rule.
+Alternatively, you may rely on TypeScript to enforce the `value` parameter,
+which was made mandatory in RxJS version 7.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-unsafe-subject-next.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-unsafe-subject-next.test.ts)

@@ -10,6 +10,23 @@
 
 This rule effects failures if the `toPromise` method is used.
 
+This rule provides two editor suggestions which replace `toPromise` with either:
+
+- `lastValueFrom(...)`, which behaves closest to the behavior of `toPromise`,
+- or `firstValueFrom(...)`.
+
+## When Not To Use It
+
+If you rely on RxJS's deprecation of `toPromise` and don't need to double-flag usage,
+then you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Conversion to Promises](https://rxjs.dev/deprecations/to-promise)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-topromise.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-topromise.test.ts)

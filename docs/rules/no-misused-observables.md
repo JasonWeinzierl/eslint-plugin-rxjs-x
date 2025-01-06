@@ -80,6 +80,22 @@ You can disable selective parts of the `checksVoidReturn` option. The following 
 | `returns`          | Disallow returning an Observable-returning function where a function that returns `void` is expected.                                    | Boolean | `true`  |
 | `variables`        | Disallow assigning or declaring an Observable-returning function where a function that returns `void` is expected.                       | Boolean | `true`  |
 
+## When Not To Use It
+
+Like `@typescript-eslint/no-misused-promises`,
+this rule can be difficult to enable on large existing projects that set up many misused observables.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [TypeScript void function assignability](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-functions-returning-non-void-assignable-to-function-returning-void)
+
+## Related To
+
+- [`no-floating-observables`](./no-floating-observables.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-misused-observables.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-misused-observables.test.ts)

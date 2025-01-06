@@ -56,6 +56,17 @@ By default, the `allow` property contains all of the built-in operators that are
 
 The properties in the options object are themselves optional; they do not all have to be specified.
 
+## When Not To Use It
+
+If you are confident your project uses `takeUntil` correctly, then you may not need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Avoiding takeUntil leaks](https://ncjamieson.com/avoiding-takeuntil-leaks/)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-unsafe-takeuntil.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-unsafe-takeuntil.test.ts)

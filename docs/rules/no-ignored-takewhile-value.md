@@ -24,3 +24,12 @@ import { takeWhile } from "rxjs/operators";
 
 const whilst = source.pipe(takeWhile(value => value));
 ```
+
+## When Not To Use It
+
+If you don't care about using the given value in a `takeWhile` callback, then you don't need this rule.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-takewhile-value.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-takewhile-value.test.ts)

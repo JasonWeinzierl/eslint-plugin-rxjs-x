@@ -4,7 +4,10 @@
 
 <!-- end auto-generated rule header -->
 
-This rule can be configured so that developers can ban any operators they want to avoid in their project.
+This rule can be configured so that developers can ban `rxjs` operators they want to avoid in their project.
+
+> [!NOTE]
+> Operators outside of a `pipe` or not directly exported by `rxjs` are ignored.
 
 ## Options
 
@@ -23,3 +26,19 @@ The following configuration bans `partition` and `onErrorResumeNext`:
     }
   ]
 }
+```
+
+## When Not To Use It
+
+If you have no need to ban `rxjs` operators, you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`ban-observables`](./ban-observables.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/ban-operators.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/ban-operators.test.ts)

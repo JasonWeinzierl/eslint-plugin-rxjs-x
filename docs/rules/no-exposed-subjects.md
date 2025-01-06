@@ -23,10 +23,13 @@ Examples of **correct** code for this rule:
 
 ```ts
 import { Subject } from "rxjs";
+
 class Answers {
-  private _answers: Subject<string>;
-  get answers() {
-    return this._answers.asObservable();
+  private answersSubject$ = new Subject<string>();
+  public answers$ = this.answersSubject$.asObservable();
+
+  public nextAnswer(a: string) {
+    this.answersSubject$.next(a);
   }
 }
 ```
@@ -51,3 +54,15 @@ This rule accepts a single option which is an object with an `allowProtected` pr
   ]
 }
 ```
+
+## When Not To Use It
+
+If you don't care about encapsulating subjects in your project, then you don't need this rule.
+However, be aware that anyone can call `next()` or `complete()` on the exposed subject, which may cause bugs or less readable code.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-exposed-subjects.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-exposed-subjects.test.ts)

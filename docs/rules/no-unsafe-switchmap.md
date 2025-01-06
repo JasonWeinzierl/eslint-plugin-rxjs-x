@@ -47,6 +47,18 @@ The `allow` or `disallow` properties are mutually exclusive. Whether or not `swi
 
 The properties in the options object are themselves optional; they do not all have to be specified.
 
+## When Not To Use It
+
+If you don't use a library with effects and epics (e.g. NgRx or redux-observable),
+then you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Avoiding switchMap-related bugs](https://ncjamieson.com/avoiding-switchmap-related-bugs/)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-unsafe-switchmap.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-unsafe-switchmap.test.ts)

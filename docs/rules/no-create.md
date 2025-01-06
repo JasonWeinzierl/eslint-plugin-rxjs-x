@@ -29,3 +29,15 @@ const answers = new Observable<number>(subscriber => {
   subscriber.complete();
 });
 ```
+
+## When Not To Use It
+
+If you rely on RxJS's deprecation of `Observable.create` and don't need to double-flag usage,
+then you don't need this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-create.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-create.test.ts)

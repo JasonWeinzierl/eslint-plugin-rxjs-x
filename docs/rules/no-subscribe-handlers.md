@@ -35,3 +35,19 @@ of(42, 54)
   .pipe(tap((value) => console.log(value)))
   .subscribe();
 ```
+
+## When Not To Use It
+
+If you don't require all logic to go in the `pipe` section of your observables, then you don't need this rule.
+Also, if your project uses `no-ignored-subscribe`, which is the opposite of this rule, then you should not use this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`no-ignored-subscribe`](./no-ignored-subscribe.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-subscribe-handlers.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-subscribe-handlers.test.ts)

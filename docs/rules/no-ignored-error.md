@@ -37,3 +37,17 @@ source.subscribe({
   error: (error) => console.error(error)
 });
 ```
+
+## When Not To Use It
+
+If you're not worried about ignored errors, then in some cases it may be safe to not use this rule.
+Or if you use operators like `catchError` to handle all errors, then in some cases it may be safe to not use this rule.
+You might consider using ESLint disable comments for those specific situations
+instead of completely disabling this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-error.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-error.test.ts)

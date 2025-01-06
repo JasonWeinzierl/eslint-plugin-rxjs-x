@@ -36,3 +36,12 @@ const subject = new ReplaySubject<number>(Infinity);
 import { of, shareReplay } from "rxjs";
 of(42).pipe(shareReplay({ refCount: true, bufferSize: 1 }));
 ```
+
+## When Not To Use It
+
+If you don't care about implicitly defaulting to `Infinity` in your replay buffers, then you don't need this rule.
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-replay-buffer.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-replay-buffer.test.ts)

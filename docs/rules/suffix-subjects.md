@@ -6,6 +6,10 @@
 
 This rule effects failures if subject variables, properties and parameters don't conform to a naming scheme that identifies them as subjects.
 
+> [!NOTE]
+> This rule is designed to be optionally compatible with [`finnish`](./finnish.md).
+> Using Finnish notation (adding a `$` suffix) your subject names will _not_ cause a failure of this rule.
+
 ## Rule details
 
 Examples of **incorrect** code for this rule:
@@ -18,6 +22,7 @@ Examples of **correct** code for this rule:
 
 ```ts
 const answersSubject = new Subject<number>();
+const answersSubject$ = new Subject<number>();
 ```
 
 ## Options
@@ -34,7 +39,9 @@ const answersSubject = new Subject<number>();
 
 <!-- end auto-generated rule options list -->
 
-This rule accepts a single option which is an object with properties that determine whether Finnish notation is enforced for `parameters`, `properties` and `variables`. It also contains a `types` property that determine whether of not the naming convention is to be enforced for specific types and a `suffix` property.
+This rule accepts a single option which is an object with properties that determine whether subject suffixes are enforced for `parameters`, `properties` and `variables`.
+It also contains a `types` property that determine whether or not the naming convention is to be enforced for specific types
+and a `suffix` property.
 
 The default (Angular-friendly) configuration looks like this:
 
@@ -56,3 +63,19 @@ The default (Angular-friendly) configuration looks like this:
 ```
 
 The properties in the options object are themselves optional; they do not all have to be specified.
+
+## When Not To Use It
+
+If you don't use suffixes on your project's subjects, then you don't need this rule.
+However, keep in mind that inconsistent style can harm readability in a project.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`finnish`](./finnish.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/suffix-subjects.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/suffix-subjects.test.ts)

@@ -19,7 +19,7 @@ This rule will report observable-valued statements that are not treated in one o
 
 > [!TIP]
 > `no-floating-observables` only detects apparently unhandled observable _statements_.
-> See [`no-misused-observables`](./no-misused-observables.md) for detecting code that provides observables to _logical_ locations
+> See [`no-misused-observables`](./no-misused-observables.md) for detecting code that provides observables to _logical_ locations.
 
 ## Rule details
 
@@ -46,3 +46,23 @@ const answers = of(42, 54);
 | `ignoreVoid` | Whether to ignore `void` expressions. | Boolean | `true`  |
 
 <!-- end auto-generated rule options list -->
+
+## When Not To Use It
+
+Like `@typescript-eslint/no-floating-promises`,
+this rule can be difficult to enable on large existing projects that set up many floating observables.
+Alternatively, if you're not worried about ignored errors or unhandled cold observables,
+then in some cases it may be safe to not use this rule.
+You might consider using `void`s and/or ESLint disable comments for those specific situations
+instead of completely disabling this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
+## Related To
+
+- [`no-misused-observables`](./no-misused-observables.md)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-floating-observables.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-floating-observables.test.ts)

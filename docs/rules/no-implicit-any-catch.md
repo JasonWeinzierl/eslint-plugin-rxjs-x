@@ -8,7 +8,10 @@
 
 <!-- end auto-generated rule header -->
 
-This rule requires an explicit type annotation for error parameters in error handlers. It's similar to the typescript-eslint [`use-unknown-in-catch-callback-variable`](https://typescript-eslint.io/rules/use-unknown-in-catch-callback-variable/) rule or the TSConfig [`useUnknownInCatchVariables`](https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables) option, but is for observables - not `try`/`catch` statements.
+This rule requires an explicit type annotation for error parameters in error handlers.
+It's similar to the typescript-eslint [`use-unknown-in-catch-callback-variable`](https://typescript-eslint.io/rules/use-unknown-in-catch-callback-variable/) rule
+or the TSConfig [`useUnknownInCatchVariables`](https://www.typescriptlang.org/tsconfig/#useUnknownInCatchVariables) option,
+but is for observables - not `try`/`catch` statements.
 
 ## Rule details
 
@@ -89,6 +92,18 @@ This rule accepts a single option which is an object with an `allowExplicitAny` 
 }
 ```
 
+## When Not To Use It
+
+If your codebase is not yet able to enable `useUnknownInCatchVariables`,
+it likely would be similarly difficult to enable this rule.
+
+Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
+
 ## Further reading
 
 - [Catching Unknowns](https://ncjamieson.com/catching-unknowns/)
+
+## Resources
+
+- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-implicit-any-catch.ts)
+- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-implicit-any-catch.test.ts)
