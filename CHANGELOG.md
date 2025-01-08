@@ -2,6 +2,17 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.6.2 (2025-01-08)
+
+### Features
+
+- **no-redundant-notify**: also catch `unsubscribe`. ([#113](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/113)) ([d42dd58](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/d42dd58bbc6095c1c6a11b3f413e260b091146a4))
+
+### Documentation
+
+- add complete documentation on when _not_ to use each rule. ([#91](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/91)) ([f4b16eb](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f4b16eb1f4461b3f36eb7c40cadf99d8b60cebf3))
+- **no-subject-unsubscribe**: document behavior that bans passing subjects to `Subscription`'s `add` method. ([#112](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/112)) ([3ca435b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/3ca435b1f8e70677f0d5d818892ed508189b694a))
+
 ## v0.6.1 (2024-12-06)
 
 ### Features
