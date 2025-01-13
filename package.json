@@ -83,7 +83,7 @@
     "@vitest/eslint-plugin": "^1.1.24",
     "bumpp": "^9.9.3",
     "eslint": "^9.17.0",
-    "eslint-config-flat-gitignore": "^0.3.0",
+    "eslint-config-flat-gitignore": "^1.0.0",
     "eslint-doc-generator": "^2.0.2",
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-eslint-plugin": "^6.4.0",
