@@ -1311,22 +1311,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^9.9.3":
-  version: 9.9.3
-  resolution: "bumpp@npm:9.9.3"
+"bumpp@npm:^9.10.1":
+  version: 9.10.1
+  resolution: "bumpp@npm:9.10.1"
   dependencies:
     c12: "npm:^2.0.1"
     cac: "npm:^6.7.14"
     escalade: "npm:^3.2.0"
     js-yaml: "npm:^4.1.0"
     jsonc-parser: "npm:^3.3.1"
+    package-manager-detector: "npm:^0.2.8"
     prompts: "npm:^2.4.2"
     semver: "npm:^7.6.3"
     tinyexec: "npm:^0.3.2"
     tinyglobby: "npm:^0.2.10"
   bin:
     bumpp: bin/bumpp.js
-  checksum: 10c0/c412c5bda8e434f768063e6013f2eae86817aeb7082d683b6b9888e62ed534292453e9f76cd00467fbc2db7045d98a4ed53d521a6f78f63b00266d3f7487e722
+  checksum: 10c0/7e69d98d269022b884ae376f371bee416201a038e88f88ca596deb9e3e628873f7ead693d95faeb48cd35ce05fdbd4035e715e409317f05d085b2fcc8cf48dfd
   languageName: node
   linkType: hard
 
@@ -2142,7 +2143,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.0"
     "@vitest/coverage-v8": "npm:^2.1.8"
     "@vitest/eslint-plugin": "npm:^1.1.24"
-    bumpp: "npm:^9.9.3"
+    bumpp: "npm:^9.10.1"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.17.0"
@@ -3841,6 +3842,13 @@ __metadata:
   version: 1.0.1
   resolution: "package-json-from-dist@npm:1.0.1"
   checksum: 10c0/62ba2785eb655fec084a257af34dbe24292ab74516d6aecef97ef72d4897310bc6898f6c85b5cd22770eaa1ce60d55a0230e150fb6a966e3ecd6c511e23d164b
+  languageName: node
+  linkType: hard
+
+"package-manager-detector@npm:^0.2.8":
+  version: 0.2.8
+  resolution: "package-manager-detector@npm:0.2.8"
+  checksum: 10c0/2d24dd6e50a196a0b1e3ce7bf6db8aff403bdbe333cf81383bec54fa441dac958ec87a7e6865cf86e614704f349c7effaf8d0c2474a6a50a164e6218689f02db
   languageName: node
   linkType: hard
 
