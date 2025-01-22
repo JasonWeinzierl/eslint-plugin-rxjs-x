@@ -34,7 +34,7 @@ ruleTester({ types: true }).run("no-nested-pipe", rule, {
      }
   `,
     stripIndent`
-  // not nested in pipe
+  // not nested in pipe using function move to separate function 
   import { Observable,switchMap } from "rxjs";
   of(47).pipe(switchMap(value => {
    return someFunction1(value)
@@ -74,7 +74,7 @@ ruleTester({ types: true }).run("no-nested-pipe", rule, {
     ),
     fromFixture(
       stripIndent`
-        // nested in pipe
+        // nested in pipe with parallel pipes
         import { of,switchMap,tap } from "rxjs";
         of("foo").pipe(
         switchMap(value => { 
