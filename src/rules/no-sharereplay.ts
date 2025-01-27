@@ -39,7 +39,7 @@ export const noSharereplayRule = ruleCreator({
         if (allowConfig) {
           report
             = node.arguments.length !== 1
-            || node.arguments[0].type !== AST_NODE_TYPES.ObjectExpression;
+              || node.arguments[0].type !== AST_NODE_TYPES.ObjectExpression;
         }
         if (report) {
           context.report({
