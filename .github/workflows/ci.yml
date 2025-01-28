@@ -53,5 +53,5 @@ jobs:
         with:
           coverage-files: coverage/lcov.info
           minimum-coverage: 90
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.actor == 'JasonWeinzierl' && secrets.GITHUB_TOKEN || '' }} # Only leave a comment if the PR is from the main repo (otherwise it fails due to security restrictions).
           update-comment: true
