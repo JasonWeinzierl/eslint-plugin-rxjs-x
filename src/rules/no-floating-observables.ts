@@ -8,7 +8,7 @@ const defaultOptions: readonly {
 
 const messageBase
   = 'Observables must be subscribed to, returned, converted to a promise and awaited, '
-  + 'or be explicitly marked as ignored with the `void` operator.';
+    + 'or be explicitly marked as ignored with the `void` operator.';
 
 const messageBaseNoVoid
     = 'Observables must be subscribed to, returned, or converted to a promise and awaited.';
