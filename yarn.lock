@@ -1272,6 +1272,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"args-tokenizer@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "args-tokenizer@npm:0.3.0"
+  checksum: 10c0/214b17add0ed80deea86dfd257260038bad7b434f75f2e4de118b87cd01dee76f9d3fee55c6fdd1b096a593cabdeee281b55f71a8ffde48cc642a8245d41b6a7
+  languageName: node
+  linkType: hard
+
 "assertion-error@npm:^2.0.1":
   version: 2.0.1
   resolution: "assertion-error@npm:2.0.1"
@@ -1314,22 +1321,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^9.9.3":
-  version: 9.9.3
-  resolution: "bumpp@npm:9.9.3"
+"bumpp@npm:^10.0.3":
+  version: 10.0.3
+  resolution: "bumpp@npm:10.0.3"
   dependencies:
+    args-tokenizer: "npm:^0.3.0"
     c12: "npm:^2.0.1"
     cac: "npm:^6.7.14"
     escalade: "npm:^3.2.0"
     js-yaml: "npm:^4.1.0"
     jsonc-parser: "npm:^3.3.1"
+    package-manager-detector: "npm:^0.2.9"
     prompts: "npm:^2.4.2"
-    semver: "npm:^7.6.3"
+    semver: "npm:^7.7.1"
     tinyexec: "npm:^0.3.2"
     tinyglobby: "npm:^0.2.10"
   bin:
-    bumpp: bin/bumpp.js
-  checksum: 10c0/c412c5bda8e434f768063e6013f2eae86817aeb7082d683b6b9888e62ed534292453e9f76cd00467fbc2db7045d98a4ed53d521a6f78f63b00266d3f7487e722
+    bumpp: bin/bumpp.mjs
+  checksum: 10c0/4f968cd984f7e4e3185c71e557fbb018929816c0c5088ae35f6c961307049339c02d9c7348b211b1ac98fd56333feee412f8a0e8265b14ea0f1801fa7afe5dc9
   languageName: node
   linkType: hard
 
@@ -2144,7 +2153,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.1"
     "@vitest/coverage-v8": "npm:^2.1.8"
     "@vitest/eslint-plugin": "npm:^1.1.25"
-    bumpp: "npm:^9.9.3"
+    bumpp: "npm:^10.0.3"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.19.0"
@@ -3839,6 +3848,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"package-manager-detector@npm:^0.2.9":
+  version: 0.2.9
+  resolution: "package-manager-detector@npm:0.2.9"
+  checksum: 10c0/5fe1e80743fd110954f1904be4be32f34fc46c17b05e9e47a81e2f5777e474366cb570ed3b697a5ae8290860b53ac4b309898b24919dc1ddeb6d4097429113e1
+  languageName: node
+  linkType: hard
+
 "parent-module@npm:^1.0.0":
   version: 1.0.1
   resolution: "parent-module@npm:1.0.1"
@@ -4272,6 +4288,15 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10c0/88f33e148b210c153873cb08cfe1e281d518aaa9a666d4d148add6560db5cd3c582f3a08ccb91f38d5f379ead256da9931234ed122057f40bb5766e65e58adaf
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.7.1":
+  version: 7.7.1
+  resolution: "semver@npm:7.7.1"
+  bin:
+    semver: bin/semver.js
+  checksum: 10c0/fd603a6fb9c399c6054015433051bdbe7b99a940a8fb44b85c2b524c4004b023d7928d47cb22154f8d054ea7ee8597f586605e05b52047f048278e4ac56ae958
   languageName: node
   linkType: hard
 
