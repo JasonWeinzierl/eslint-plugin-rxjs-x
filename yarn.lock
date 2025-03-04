@@ -2001,14 +2001,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-flat-gitignore@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "eslint-config-flat-gitignore@npm:2.0.0"
+"eslint-config-flat-gitignore@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "eslint-config-flat-gitignore@npm:2.1.0"
   dependencies:
     "@eslint/compat": "npm:^1.2.5"
   peerDependencies:
     eslint: ^9.5.0
-  checksum: 10c0/7b9db7ee8870ca65300267ad45c2a3627abf1abc80151801af1d89a651418d9dc0c1b6dd6269b956fab51f05d2dabe0ef491141bea5d1f3127e1210417536858
+  checksum: 10c0/ed043b2bbbaf14fcc063343888810292bfc3e671d69d9406085a102e4b60b6787a06602da289eb3e71a67ace201b69203a86998f0a3b5de8213706690d8b101b
   languageName: node
   linkType: hard
 
@@ -2157,7 +2157,7 @@ __metadata:
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.19.0"
-    eslint-config-flat-gitignore: "npm:^2.0.0"
+    eslint-config-flat-gitignore: "npm:^2.1.0"
     eslint-doc-generator: "npm:^2.0.2"
     eslint-import-resolver-typescript: "npm:^3.7.0"
     eslint-plugin-eslint-plugin: "npm:^6.4.0"
