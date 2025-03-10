@@ -88,7 +88,7 @@
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-eslint-plugin": "^6.4.0",
     "eslint-plugin-import-x": "^4.6.1",
-    "eslint-plugin-n": "^17.15.1",
+    "eslint-plugin-n": "^17.16.2",
     "markdownlint-cli2": "^0.17.2",
     "rxjs": "^7.8.1",
     "tsup": "^8.3.6",
