@@ -2121,9 +2121,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^17.15.1":
-  version: 17.15.1
-  resolution: "eslint-plugin-n@npm:17.15.1"
+"eslint-plugin-n@npm:^17.16.2":
+  version: 17.16.2
+  resolution: "eslint-plugin-n@npm:17.16.2"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.1"
     enhanced-resolve: "npm:^5.17.1"
@@ -2135,7 +2135,7 @@ __metadata:
     semver: "npm:^7.6.3"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10c0/0b52ffed0b80d74977e1157b4c0cc79efcdf81ea35d2997bdbf02f3d41f428f52ccb7fb3a08cf02e6fed8ae1bf4708d69fdf496e75b8b2bd3e671029d89ccc6c
+  checksum: 10c0/25a77159b363814384b141d6f74b2c2e5787c58756c936f5547c01cb0e3b28f7ca4f32d77fe4214af6f1359dd35693380921395cdfc14c72595d89117ab92e9a
   languageName: node
   linkType: hard
 
@@ -2162,7 +2162,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^3.7.0"
     eslint-plugin-eslint-plugin: "npm:^6.4.0"
     eslint-plugin-import-x: "npm:^4.6.1"
-    eslint-plugin-n: "npm:^17.15.1"
+    eslint-plugin-n: "npm:^17.16.2"
     markdownlint-cli2: "npm:^0.17.2"
     rxjs: "npm:^7.8.1"
     ts-api-utils: "npm:^2.0.0"
