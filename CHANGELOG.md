@@ -2,6 +2,17 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.0 (2025-03-12)
+
+### Breaking Changes
+
+- typescript-eslint ^8.19.0 is required ([#135](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/135)) ([e5e4f7c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/e5e4f7c4be7fbae1a5c7e7fd2f32e1f9b589dc2f))
+- Bump ts-api-utils to ^2.
+
+### Features
+
+- The URL for each rule now aligns with the installed version of this plugin, instead of latest main. ([bf70419](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/bf704199497eafb7d8e8fe44149489a9b2e88e05))
+
 ## v0.6.2 (2025-01-08)
 
 ### Features
