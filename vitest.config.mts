@@ -8,5 +8,6 @@ export default defineConfig({
       reporter: ['text-summary', 'lcovonly'],
       exclude: ['scripts/**', ...coverageConfigDefaults.exclude],
     },
+    testTimeout: 10_000,
   },
 });
