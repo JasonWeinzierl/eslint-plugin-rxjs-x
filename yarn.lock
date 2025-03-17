@@ -1810,9 +1810,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-doc-generator@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "eslint-doc-generator@npm:2.1.1"
+"eslint-doc-generator@npm:^2.1.2":
+  version: 2.1.2
+  resolution: "eslint-doc-generator@npm:2.1.2"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.0.0"
     ajv: "npm:^8.11.2"
@@ -1831,7 +1831,7 @@ __metadata:
     eslint: ">= 8.57.1"
   bin:
     eslint-doc-generator: dist/bin/eslint-doc-generator.js
-  checksum: 10c0/45f466af55bb471135b8b4653a7023c29bf09bc6e23180cfbcbd2eb3dd2ed32898f98fee09203386dfdd63587ef5687407dc0f550061abb1e717bf2219541989
+  checksum: 10c0/fa4fc54cb63132b823b6beccb2065a770b1e303c451a09ff3f9507a888ee2cdf43e9590269677173d0ef02008d0a90a64699958849de786ed07d936c9e75f609
   languageName: node
   linkType: hard
 
@@ -1955,7 +1955,7 @@ __metadata:
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.22.0"
     eslint-config-flat-gitignore: "npm:^2.1.0"
-    eslint-doc-generator: "npm:^2.1.1"
+    eslint-doc-generator: "npm:^2.1.2"
     eslint-import-resolver-typescript: "npm:^3.8.5"
     eslint-plugin-eslint-plugin: "npm:^6.4.0"
     eslint-plugin-import-x: "npm:^4.6.1"
