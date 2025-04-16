@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.1 (2025-04-16)
+
+### Features
+
+- **no-topromise**: suggest `lastValueFrom(..., { defaultValue: undefined })`. ([#184](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/184)) ([940ee0c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/940ee0cbfbe1ff1a94b22e8abf405993a14258b1))
+
 ## v0.7.0 (2025-03-12)
 
 ### Breaking Changes
