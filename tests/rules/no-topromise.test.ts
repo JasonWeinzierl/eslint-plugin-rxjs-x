@@ -38,10 +38,19 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         import { of } from "rxjs";
         const a = of("a");
         a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
+          ~~~~~~~~~ [forbidden suggest 0 1 2]
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // observable toPromise
+              import { of, lastValueFrom } from "rxjs";
+              const a = of("a");
+              lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
@@ -69,10 +78,19 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         import { Subject } from "rxjs";
         const a = new Subject<string>();
         a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
+          ~~~~~~~~~ [forbidden suggest 0 1 2]
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // subject toPromise
+              import { Subject, lastValueFrom } from "rxjs";
+              const a = new Subject<string>();
+              lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
@@ -102,11 +120,22 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         a
           .foo$
           .toPromise().then(value => console.log(value))
-           ~~~~~~~~~ [forbidden suggest 0 1]
+           ~~~~~~~~~ [forbidden suggest 0 1 2]
           .catch(error => console.error(error));
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // weird whitespace
+              import { of, lastValueFrom } from "rxjs";
+              const a = { foo$: of("a") };
+              lastValueFrom(a
+                .foo$, { defaultValue: undefined }).then(value => console.log(value))
+                .catch(error => console.error(error));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
@@ -138,10 +167,19 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         import { lastValueFrom as lvf, of } from "rxjs";
         const a = of("a");
         a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
+          ~~~~~~~~~ [forbidden suggest 0 1 2]
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // lastValueFrom already imported
+              import { lastValueFrom as lvf, of } from "rxjs";
+              const a = of("a");
+              lvf(a, { defaultValue: undefined }).then(value => console.log(value));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
@@ -170,10 +208,21 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
 
         const a = fromFetch("https://api.some.com");
         a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
+          ~~~~~~~~~ [forbidden suggest 0 1 2]
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // rxjs not already imported
+              import { fromFetch } from "rxjs/fetch";
+              import { lastValueFrom } from "rxjs";
+
+              const a = fromFetch("https://api.some.com");
+              lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
@@ -205,10 +254,19 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
         import * as Rx from "rxjs";
         const a = Rx.of("a");
         a.toPromise().then(value => console.log(value));
-          ~~~~~~~~~ [forbidden suggest 0 1]
+          ~~~~~~~~~ [forbidden suggest 0 1 2]
       `,
       {
         suggestions: [
+          {
+            messageId: 'suggestLastValueFromWithDefault',
+            output: stripIndent`
+              // namespace import
+              import * as Rx from "rxjs";
+              const a = Rx.of("a");
+              Rx.lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
+            `,
+          },
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
