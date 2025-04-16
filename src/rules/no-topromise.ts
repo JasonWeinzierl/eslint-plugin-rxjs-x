@@ -13,6 +13,7 @@ export const noTopromiseRule = ruleCreator({
     hasSuggestions: true,
     messages: {
       forbidden: 'The toPromise method is forbidden.',
+      suggestLastValueFromWithDefault: 'Use lastValueFrom(..., { defaultValue: undefined }) instead.',
       suggestLastValueFrom: 'Use lastValueFrom instead.',
       suggestFirstValueFrom: 'Use firstValueFrom instead.',
     },
@@ -37,6 +38,7 @@ export const noTopromiseRule = ruleCreator({
       callExpression: es.CallExpression,
       observableNode: es.Node,
       importDeclarations: es.ImportDeclaration[],
+      { withDefault }: { withDefault?: boolean } = {},
     ) {
       return function* fix(fixer: TSESLint.RuleFixer) {
         let namespace = '';
@@ -74,7 +76,7 @@ export const noTopromiseRule = ruleCreator({
 
         yield fixer.replaceText(
           callExpression,
-          `${namespace}${functionName}(${context.sourceCode.getText(observableNode)})`,
+          `${namespace}${functionName}(${context.sourceCode.getText(observableNode)}${withDefault ? ', { defaultValue: undefined }' : ''})`,
         );
       };
     }
@@ -99,6 +101,10 @@ export const noTopromiseRule = ruleCreator({
           messageId: 'forbidden',
           node: memberExpression.property,
           suggest: [
+            {
+              messageId: 'suggestLastValueFromWithDefault',
+              fix: createFix('lastValueFrom', node, memberExpression.object, importDeclarations, { withDefault: true }),
+            },
             {
               messageId: 'suggestLastValueFrom',
               fix: createFix('lastValueFrom', node, memberExpression.object, importDeclarations),

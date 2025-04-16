@@ -10,9 +10,10 @@
 
 This rule effects failures if the `toPromise` method is used.
 
-This rule provides two editor suggestions which replace `toPromise` with either:
+This rule provides three editor suggestions which replace `toPromise` with either:
 
-- `lastValueFrom(...)`, which behaves closest to the behavior of `toPromise`,
+- `lastValueFrom(..., { defaultValue: undefined })`, which imitates the behavior of `toPromise`,
+- or `lastValueFrom(...)`, which throws `EmptyError` instead of defaulting to `undefined`,
 - or `firstValueFrom(...)`.
 
 ## When Not To Use It
@@ -25,6 +26,10 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 ## Further reading
 
 - [Conversion to Promises](https://rxjs.dev/deprecations/to-promise)
+
+## Related To
+
+- [`no-ignored-default-value`](./no-ignored-default-value.md)
 
 ## Resources
 
