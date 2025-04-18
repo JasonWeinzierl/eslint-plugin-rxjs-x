@@ -95,5 +95,15 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
                                                                       ~~~~~~~~~ [forbidden]
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // separate subscribe does not support last operator
+        import { of, takeUntil } from "rxjs";
+
+        const foo$ = of(42).pipe(takeUntil());
+        foo$.subscribe();
+             ~~~~~~~~~ [forbidden]
+      `,
+    ),
   ],
 });
