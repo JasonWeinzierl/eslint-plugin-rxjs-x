@@ -44,12 +44,6 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       new Foo(() => 42, 0);
       new Foo;
     `,
-    stripIndent`
-      // couldReturnType is bugged for block body implicit return types (#57)
-      import { of } from "rxjs";
-
-      [1, 2, 3].forEach(i => { return of(i); });
-    `,
     // #endregion valid; void return argument
     // #region valid; void return attribute
     {
@@ -298,6 +292,15 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
 
         [1, 2, 3].forEach(i => of(i));
                           ~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return argument; block body; implicit return type
+        import { of } from "rxjs";
+
+        [1, 2, 3].forEach(i => { return of(i); });
+                          ~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
       `,
     ),
     fromFixture(

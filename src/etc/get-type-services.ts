@@ -38,7 +38,16 @@ export function getTypeServices<
       || ts.isMethodDeclaration(tsNode)
       || ts.isFunctionExpression(tsNode)
     ) {
-      tsTypeNode = tsNode.type ?? tsNode.body; // TODO(#57): this doesn't work for Block bodies.
+      if (tsNode.type) {
+        tsTypeNode = tsNode.type;
+      } else if (tsNode.body && ts.isBlock(tsNode.body)) {
+        const returnStatement = tsNode.body.statements.find(ts.isReturnStatement);
+        if (returnStatement?.expression) {
+          tsTypeNode = returnStatement.expression;
+        }
+      } else {
+        tsTypeNode = tsNode.body;
+      }
     } else if (
       ts.isCallSignatureDeclaration(tsNode)
       || ts.isMethodSignature(tsNode)

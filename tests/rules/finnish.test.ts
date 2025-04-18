@@ -23,6 +23,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         someArray.forEach((element$: Observable<any>) => {});
 
         function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam; }
+        function someImplicitReturnFunction$(someParam$: Observable<any>) { return someParam; }
 
         class SomeClass {
           someProperty$: Observable<any>;
@@ -30,6 +31,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
           get someGetter$(): Observable<any> { throw new Error("Some error."); }
           set someSetter$(someParam$: Observable<any>) {}
           someMethod$(someParam$: Observable<any>): Observable<any> { return someParam; }
+          someImplicitReturnMethod$(someParam$: Observable<any>) { return someParam; }
         }
 
         interface SomeInterface {
@@ -131,6 +133,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someObservable$ = of(0);
         const someArray = [someObservable$];
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
+        function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
       `,
       options: [{ functions: false }],
     },
@@ -141,6 +144,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         class SomeClass {
           someMethod(someParam$: Observable<any>): Observable<any> { return someParam$; }
+          someImplicitReturnMethod(someParam$: Observable<any>) { return someParam$; }
         }
 
         interface SomeInterface {
@@ -269,6 +273,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someArray = [someObservable$];
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
                  ~~~~~~~~~~~~ [shouldBeFinnish]
+        function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
       `,
     ),
     fromFixture(
@@ -279,6 +285,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         class SomeClass {
           someMethod(someParam$: Observable<any>): Observable<any> { return someParam$; }
           ~~~~~~~~~~ [shouldBeFinnish]
+          someImplicitReturnMethod(someParam$: Observable<any>) { return someParam$; }
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
         }
 
         interface SomeInterface {
@@ -413,6 +421,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         class SomeClass {
           someMethod(someValue: any): Observable<any> { return of(someValue); }
           ~~~~~~~~~~ [shouldBeFinnish]
+          someImplicitReturnMethod(someValue: any) { return of(someValue); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
         }
 
         interface SomeInterface {
