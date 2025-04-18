@@ -97,5 +97,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-misused-observables.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-misused-observables.test.ts)
+- [Rule source](/src/rules/no-misused-observables.ts)
+- [Test source](/tests/rules/no-misused-observables.test.ts)

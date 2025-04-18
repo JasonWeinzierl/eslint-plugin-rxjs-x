@@ -43,5 +43,5 @@ If you don't care about implicitly defaulting to `Infinity` in your replay buffe
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-replay-buffer.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-replay-buffer.test.ts)
+- [Rule source](/src/rules/no-ignored-replay-buffer.ts)
+- [Test source](/tests/rules/no-ignored-replay-buffer.test.ts)

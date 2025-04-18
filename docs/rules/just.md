@@ -16,5 +16,5 @@ If you prefer `of` in your project, you will want to avoid this rule.
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/just.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/just.test.ts)
+- [Rule source](/src/rules/just.ts)
+- [Test source](/tests/rules/just.test.ts)

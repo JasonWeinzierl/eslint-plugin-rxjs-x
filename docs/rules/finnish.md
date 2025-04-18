@@ -87,5 +87,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/finnish.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/finnish.test.ts)
+- [Rule source](/src/rules/finnish.ts)
+- [Test source](/tests/rules/finnish.test.ts)

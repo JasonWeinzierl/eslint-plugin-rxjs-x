@@ -34,5 +34,5 @@ However, keep in mind that internal modules may change without notice.
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-internal.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-internal.test.ts)
+- [Rule source](/src/rules/no-internal.ts)
+- [Test source](/tests/rules/no-internal.test.ts)

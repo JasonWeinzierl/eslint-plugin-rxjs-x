@@ -70,5 +70,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-unsafe-catch.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-unsafe-catch.test.ts)
+- [Rule source](/src/rules/no-unsafe-catch.ts)
+- [Test source](/tests/rules/no-unsafe-catch.test.ts)

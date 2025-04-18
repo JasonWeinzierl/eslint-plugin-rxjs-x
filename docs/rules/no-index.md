@@ -30,5 +30,5 @@ If you don't care about unnecessary import path segments, then you don't need th
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-index.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-index.test.ts)
+- [Rule source](/src/rules/no-index.ts)
+- [Test source](/tests/rules/no-index.test.ts)

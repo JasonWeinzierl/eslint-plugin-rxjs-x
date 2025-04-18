@@ -28,5 +28,5 @@ This rule has known problems in the latest release:
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-explicit-generics.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-explicit-generics.test.ts)
+- [Rule source](/src/rules/no-explicit-generics.ts)
+- [Test source](/tests/rules/no-explicit-generics.test.ts)
