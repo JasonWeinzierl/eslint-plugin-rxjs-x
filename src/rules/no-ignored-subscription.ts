@@ -22,7 +22,7 @@ export const noIgnoredSubscriptionRule = ruleCreator({
     schema: [
       {
         properties: {
-          lastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will handle the subscription if last.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last'] },
+          lastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will handle the subscription if last.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
           allowAfterLastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the last operators.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
         },
         type: 'object',
@@ -39,7 +39,7 @@ export const noIgnoredSubscriptionRule = ruleCreator({
   create: (context) => {
     const [config = {}] = context.options;
     const {
-      lastOperators = ['takeUntil', 'takeWhile', 'take', 'first', 'last'],
+      lastOperators = ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'],
       allowAfterLastOperators = DEFAULT_VALID_POST_COMPLETION_OPERATORS,
     } = config;
 
