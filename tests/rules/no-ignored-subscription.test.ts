@@ -40,6 +40,18 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
       };
       whatever.subscribe(() => {});
     `,
+    stripIndent`
+      // allowed last operators
+      import { of, first, share, switchMap } from "rxjs";
+
+      of(42).pipe(first(), share()).subscribe();
+    `,
+    stripIndent`
+      // allowed last operators; namespace import
+      import * as Rx from "rxjs";
+
+      Rx.of(42).pipe(Rx.first(), Rx.share()).subscribe();
+    `,
   ],
   invalid: [
     fromFixture(
@@ -52,11 +64,35 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
     ),
     fromFixture(
       stripIndent`
+        // ignored; namespace import
+        import * as Rx from "rxjs";
+        Rx.of(42).subscribe();
+                  ~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
         // ignored subject
         import { Subject } from "rxjs";
         const s = new Subject<any>()
         s.subscribe();
           ~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // takeUntil is not last operator
+        import { of, takeUntil, switchMap } from "rxjs";
+        of(42).pipe(takeUntil(), switchMap(() => of(42))).subscribe();
+                                                          ~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // takeUntil is not last operator; namespace import
+        import * as Rx from "rxjs";
+        Rx.of(42).pipe(Rx.takeUntil(), Rx.switchMap(() => Rx.of(42))).subscribe();
+                                                                      ~~~~~~~~~ [forbidden]
       `,
     ),
   ],
