@@ -119,6 +119,10 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
           someMethod$(someParam$: Observable<any>): Observable<any> { return someParam; }
           ~~~~~~~~~~~ [forbidden]
                       ~~~~~~~~~~ [forbidden]
+          someImplicitReturnMethod$(someParam: Observable<any>) {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+            return someParam;
+          }
         }
       `,
     ),
