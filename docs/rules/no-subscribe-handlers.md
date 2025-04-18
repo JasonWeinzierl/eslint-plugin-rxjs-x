@@ -49,5 +49,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-subscribe-handlers.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-subscribe-handlers.test.ts)
+- [Rule source](/src/rules/no-subscribe-handlers.ts)
+- [Test source](/tests/rules/no-subscribe-handlers.test.ts)

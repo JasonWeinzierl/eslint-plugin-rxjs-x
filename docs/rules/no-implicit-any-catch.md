@@ -105,5 +105,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-implicit-any-catch.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-implicit-any-catch.test.ts)
+- [Rule source](/src/rules/no-implicit-any-catch.ts)
+- [Test source](/tests/rules/no-implicit-any-catch.test.ts)

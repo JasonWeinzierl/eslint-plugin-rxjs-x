@@ -38,5 +38,5 @@ If you have no need to ban importing anything from `rxjs`, you don't need this r
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/ban-observables.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/ban-observables.test.ts)
+- [Rule source](/src/rules/ban-observables.ts)
+- [Test source](/tests/rules/ban-observables.test.ts)

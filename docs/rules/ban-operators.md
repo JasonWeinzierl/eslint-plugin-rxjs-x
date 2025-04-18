@@ -40,5 +40,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/ban-operators.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/ban-operators.test.ts)
+- [Rule source](/src/rules/ban-operators.ts)
+- [Test source](/tests/rules/ban-operators.test.ts)

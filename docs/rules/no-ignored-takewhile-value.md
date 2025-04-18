@@ -31,5 +31,5 @@ If you don't care about using the given value in a `takeWhile` callback, then yo
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-ignored-takewhile-value.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-ignored-takewhile-value.test.ts)
+- [Rule source](/src/rules/no-ignored-takewhile-value.ts)
+- [Test source](/tests/rules/no-ignored-takewhile-value.test.ts)

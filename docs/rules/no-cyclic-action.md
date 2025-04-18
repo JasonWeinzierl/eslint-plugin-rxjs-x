@@ -84,5 +84,5 @@ Type checked lint rules are more powerful than traditional lint rules, but also 
 
 ## Resources
 
-- [Rule source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/src/rules/no-cyclic-action.ts)
-- [Test source](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/main/tests/rules/no-cyclic-action.test.ts)
+- [Rule source](/src/rules/no-cyclic-action.ts)
+- [Test source](/tests/rules/no-cyclic-action.test.ts)
