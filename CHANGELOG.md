@@ -2,6 +2,16 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.2 (2025-04-18)
+
+### Fixes
+
+- Functions and methods with implicit return types will now be properly checked by `finnish`, `no-finnish`, and `no-misused-observables`. ([#185](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/185)) ([b69756e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/b69756e8fc3c27de4e0cc6e244d179a90075601a))
+
+### Chores
+
+- The `docs` folder of Markdown documentation is no longer published to npm. ([#186](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/186)) ([cd82f47](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/cd82f474649adcc10cd4f506b88df5b7eebd6d2a))
+
 ## v0.7.1 (2025-04-16)
 
 ### Features
