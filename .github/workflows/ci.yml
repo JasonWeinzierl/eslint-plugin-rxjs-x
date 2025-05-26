@@ -53,5 +53,5 @@ jobs:
         with:
           coverage-files: coverage/lcov.info
           minimum-coverage: 90
-          github-token: ${{ github.repository_owner == 'JasonWeinzierl' && secrets.GITHUB_TOKEN || '' }} # Only leave a comment if the PR is from the main repo (otherwise it fails due to security restrictions).
+          github-token: ${{ github.repository == github.event.pull_request.head.repo.full_name && secrets.GITHUB_TOKEN || '' }} # Only leave a comment if the PR is from the main repo (otherwise it fails due to security restrictions).
           update-comment: true
