@@ -1,5 +1,5 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { isArrayExpression, isObjectExpression } from '../etc';
+import { isArrayExpression, isObjectExpression, isUnionType } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noExplicitGenericsRule = ruleCreator({
@@ -28,7 +28,9 @@ export const noExplicitGenericsRule = ruleCreator({
       const {
         arguments: [value],
       } = parent;
-      if (isArrayExpression(value) || isObjectExpression(value)) {
+
+      const typeArgs = parent.typeArguments?.params[0];
+      if (isArrayExpression(value) || isObjectExpression(value) || isUnionType(typeArgs)) {
         return;
       }
       report(node);
@@ -39,7 +41,9 @@ export const noExplicitGenericsRule = ruleCreator({
       const {
         arguments: [, value],
       } = parent;
-      if (isArrayExpression(value) || isObjectExpression(value)) {
+
+      const typeArgs = parent.typeArguments?.params[0];
+      if (isArrayExpression(value) || isObjectExpression(value) || isUnionType(typeArgs)) {
         return;
       }
       report(node);

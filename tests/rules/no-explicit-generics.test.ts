@@ -38,6 +38,22 @@ ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule,
         const h = new Notification<{ answer?: number }>("N", {});
       `,
     },
+    {
+      code: stripIndent`
+        // with union types
+        import { BehaviorSubject, Notification } from "rxjs";
+        const a = new BehaviorSubject<number | null>(null);
+        const b = new BehaviorSubject<number | null>(42);
+        const c = new BehaviorSubject<{ answer: number } | null>({ answer: 42 });
+        const d = new BehaviorSubject<{ answer: number } | null>(null);
+        const e = new BehaviorSubject<{ answer?: number }>({});
+        const f = new Notification<number | null>("N", 42);
+        const g = new Notification<number | null>("N", null);
+        const h = new Notification<{ answer: number } | null>("N", { answer: 42 });
+        const i = new Notification<{ answer?: number } | null>("N", {});
+        const j = new Notification<{ answer?: number } | null>("N", null);
+      `,
+    },
   ],
   invalid: [
     fromFixture(
