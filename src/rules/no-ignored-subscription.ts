@@ -22,13 +22,13 @@ export const noIgnoredSubscriptionRule = ruleCreator({
     schema: [
       {
         properties: {
-          lastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will handle the subscription if last.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
+          lastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will handle unsubscribing if last.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
           allowAfterLastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the last operators.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
         },
         type: 'object',
         description: stripIndent`
           An object with optional \`lastOperators\` and \`allowAfterLastOperators\` properties.
-          The \`lastOperators\` property is an array containing the names of operators that will handle the subscription if last.
+          The \`lastOperators\` property is an array containing the names of operators that will handle unsubscribing if last.
           The \`allowAfterLastOperators\` property is an array containing the names of the operators that are allowed to follow the last operators.
         `,
       },
