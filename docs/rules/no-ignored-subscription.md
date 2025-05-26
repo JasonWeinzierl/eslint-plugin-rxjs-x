@@ -59,7 +59,8 @@ const numbers = new Observable<number>(subscriber => {
 
 If you don't care about unsubscribing from all observables in your project, then you may not need this rule.
 Alternatively, your project might compose observables with operators like `take`, `takeUntil`, `takeWhile`, etc.
-or Angular's `takeUntilDestroyed` and then call `subscribe` elsewhere, which cannot be detected by this rule.
+or [Angular's `takeUntilDestroyed`](https://angular.dev/api/core/rxjs-interop/takeUntilDestroyed)
+and then call `subscribe` elsewhere, which cannot be detected by this rule.
 
 Type checked lint rules are more powerful than traditional lint rules, but also require configuring type checked linting.
 
