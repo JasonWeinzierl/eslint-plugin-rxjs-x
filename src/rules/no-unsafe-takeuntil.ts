@@ -1,41 +1,15 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
+import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import {
   getTypeServices,
-  isCallExpression,
-  isIdentifier,
-  isMemberExpression,
 } from '../etc';
-import { ruleCreator } from '../utils';
+import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   alias?: string[];
   allow?: string[];
 }[] = [];
-
-const allowedOperators = [
-  'count',
-  'defaultIfEmpty',
-  'endWith',
-  'every',
-  'finalize',
-  'finally',
-  'isEmpty',
-  'last',
-  'max',
-  'min',
-  'publish',
-  'publishBehavior',
-  'publishLast',
-  'publishReplay',
-  'reduce',
-  'share',
-  'shareReplay',
-  'skipLast',
-  'takeLast',
-  'throwIfEmpty',
-  'toArray',
-];
 
 export const noUnsafeTakeuntilRule = ruleCreator({
   defaultOptions,
@@ -52,7 +26,7 @@ export const noUnsafeTakeuntilRule = ruleCreator({
       {
         properties: {
           alias: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that should be treated similarly to `takeUntil`.' },
-          allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.', default: allowedOperators },
+          allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
         },
         type: 'object',
         description: stripIndent`
@@ -67,7 +41,7 @@ export const noUnsafeTakeuntilRule = ruleCreator({
   create: (context) => {
     let checkedOperatorsRegExp = /^takeUntil$/;
     const [config = {}] = context.options;
-    const { alias, allow = allowedOperators } = config;
+    const { alias, allow = DEFAULT_VALID_POST_COMPLETION_OPERATORS } = config;
 
     if (alias) {
       checkedOperatorsRegExp = new RegExp(
@@ -86,44 +60,18 @@ export const noUnsafeTakeuntilRule = ruleCreator({
         return;
       }
 
-      type State = 'allowed' | 'disallowed' | 'taken';
+      const { isOrderValid, operatorNode } = findIsLastOperatorOrderValid(
+        pipeCallExpression,
+        checkedOperatorsRegExp,
+        allow,
+      );
 
-      pipeCallExpression.arguments.reduceRight((state, arg) => {
-        if (state === 'taken') {
-          return state;
-        }
-
-        if (!isCallExpression(arg)) {
-          return 'disallowed';
-        }
-
-        let operatorName: string;
-        if (isIdentifier(arg.callee)) {
-          operatorName = arg.callee.name;
-        } else if (
-          isMemberExpression(arg.callee)
-          && isIdentifier(arg.callee.property)
-        ) {
-          operatorName = arg.callee.property.name;
-        } else {
-          return 'disallowed';
-        }
-
-        if (checkedOperatorsRegExp.test(operatorName)) {
-          if (state === 'disallowed') {
-            context.report({
-              messageId: 'forbidden',
-              node: arg.callee,
-            });
-          }
-          return 'taken';
-        }
-
-        if (!allow.includes(operatorName)) {
-          return 'disallowed';
-        }
-        return state;
-      }, 'allowed' as State);
+      if (!isOrderValid && operatorNode) {
+        context.report({
+          messageId: 'forbidden',
+          node: operatorNode,
+        });
+      }
     }
 
     return {
