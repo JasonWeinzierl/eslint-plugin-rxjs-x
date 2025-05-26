@@ -30,7 +30,7 @@ export const noExplicitGenericsRule = ruleCreator({
       } = parent;
 
       const typeArgs = parent.typeArguments?.params[0];
-      if (isArrayExpression(value) || isObjectExpression(value) || isUnionType(typeArgs)) {
+      if (isArrayExpression(value) || isObjectExpression(value) || (typeArgs && isUnionType(typeArgs))) {
         return;
       }
       report(node);
@@ -43,7 +43,7 @@ export const noExplicitGenericsRule = ruleCreator({
       } = parent;
 
       const typeArgs = parent.typeArguments?.params[0];
-      if (isArrayExpression(value) || isObjectExpression(value) || isUnionType(typeArgs)) {
+      if (isArrayExpression(value) || isObjectExpression(value) || (typeArgs && isUnionType(typeArgs))) {
         return;
       }
       report(node);
