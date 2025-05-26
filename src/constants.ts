@@ -10,6 +10,13 @@ export const SOURCES_OBJECT_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
 ];
 
 /**
+ * The names of types that are allowed to be passed unbound.
+ */
+export const DEFAULT_UNBOUND_ALLOWED_TYPES = [
+  'Signal',
+];
+
+/**
  * The names of operators that are safe to be used after
  * operators like `takeUntil` that complete the observable.
  */

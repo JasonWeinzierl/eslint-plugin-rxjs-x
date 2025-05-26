@@ -8,6 +8,9 @@
 
 This rule effects failures if unbound methods are passed as callbacks.
 
+This rule is aware of Angular's `Signal` type by default
+which can be safely passed unbound.
+
 ## Rule details
 
 Examples of **incorrect** code for this rule:
@@ -40,6 +43,16 @@ return this.http
     catchError(this.handleError.bind(this))
   );
 ```
+
+## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name         | Description                                                       | Type     | Default    |
+| :----------- | :---------------------------------------------------------------- | :------- | :--------- |
+| `allowTypes` | An array of function types that are allowed to be passed unbound. | String[] | [`Signal`] |
+
+<!-- end auto-generated rule options list -->
 
 ## When Not To Use It
 

@@ -1,12 +1,19 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { DEFAULT_UNBOUND_ALLOWED_TYPES } from '../constants';
 import {
+  couldBeType,
   getTypeServices,
   isCallExpression,
-  isMemberExpression } from '../etc';
+  isMemberExpression,
+} from '../etc';
 import { ruleCreator } from '../utils';
 
+const defaultOptions: readonly {
+  allowTypes?: string[];
+}[] = [];
+
 export const noUnboundMethodsRule = ruleCreator({
-  defaultOptions: [],
+  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow passing unbound methods.',
@@ -16,7 +23,14 @@ export const noUnboundMethodsRule = ruleCreator({
     messages: {
       forbidden: 'Unbound methods are forbidden.',
     },
-    schema: [],
+    schema: [
+      {
+        properties: {
+          allowTypes: { type: 'array', items: { type: 'string' }, description: 'An array of function types that are allowed to be passed unbound.', default: DEFAULT_UNBOUND_ALLOWED_TYPES },
+        },
+        type: 'object',
+      },
+    ],
     type: 'problem',
   },
   name: 'no-unbound-methods',
@@ -24,10 +38,18 @@ export const noUnboundMethodsRule = ruleCreator({
     const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable, couldBeSubscription } = getTypeServices(context);
     const nodeMap = new WeakMap<es.Node, void>();
+    const [config = {}] = context.options;
+    const { allowTypes = [] } = config;
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
       node.arguments.filter(isMemberExpression).forEach((arg) => {
         const argType = getTypeAtLocation(arg);
+
+        // Skip if the type matches any of the allowed types.
+        if (allowTypes.some(t => couldBeType(argType, t))) {
+          return;
+        }
+
         if (argType.getCallSignatures().length > 0) {
           nodeMap.set(arg);
         }

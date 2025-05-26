@@ -1,13 +1,13 @@
-import { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
+import { RunTests } from '@typescript-eslint/rule-tester';
 import { stripIndent } from 'common-tags';
 import { noUnboundMethodsRule } from '../../src/rules/no-unbound-methods';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-interface Tests {
-  valid: (string | ValidTestCase<never>)[];
-  invalid: InvalidTestCase<keyof typeof noUnboundMethodsRule['meta']['messages'], never>[];
-}
+type Tests = RunTests<
+  keyof typeof noUnboundMethodsRule['meta']['messages'],
+  typeof noUnboundMethodsRule['defaultOptions']
+>;
 
 const arrowTests: Tests = {
   valid: [
@@ -266,6 +266,73 @@ const unboundTests: Tests = {
   ],
 };
 
+const allowTypesTests: Tests = {
+  valid: [
+    {
+      code: stripIndent`
+        // allowed types
+        import { of, tap } from "rxjs";
+
+        interface Signal<T> extends Function {
+          (): T;
+        }
+        interface WritableSignal<T> extends Signal<T> {
+          set(value: T): void;
+        }
+
+        function customLog<T>(signal: Signal<T>) {
+          return tap((value: T) => console.log(value, signal()));
+        }
+        function customSet<T>(signal: WritableSignal<T>) {
+          return tap((value: T) => signal.set(value));
+        }
+
+        class Something {
+          private readonly x: Signal<string>;
+          private readonly y: WritableSignal<number>;
+
+          constructor() {
+            of(1).pipe(
+              customLog(this.x),
+              customSet(this.y),
+            ).subscribe();
+          }
+        }
+      `,
+      options: [{
+        allowTypes: ['Signal'],
+      }],
+    },
+  ],
+  invalid: [
+    fromFixture(
+      stripIndent`
+        // unbound signal without allowed types
+        import { of, tap } from "rxjs";
+
+        interface Signal<T> extends Function {
+          (): T;
+        }
+
+        function customOperator<T>(signal: Signal<T>) {
+          return tap((value: T) => console.log(value, signal()));
+        }
+
+        class Something {
+          private readonly x: Signal<string>;
+
+          constructor() {
+            of(1).pipe(
+              customOperator(this.x),
+                             ~~~~~~ [forbidden]
+            ).subscribe();
+          }
+        }
+      `,
+    ),
+  ],
+};
+
 ruleTester({ types: true }).run('no-unbound-methods', noUnboundMethodsRule, {
   valid: [
     ...arrowTests.valid,
@@ -273,6 +340,7 @@ ruleTester({ types: true }).run('no-unbound-methods', noUnboundMethodsRule, {
     ...deepTests.valid,
     ...staticTests.valid,
     ...unboundTests.valid,
+    ...allowTypesTests.valid,
   ],
   invalid: [
     ...arrowTests.invalid,
@@ -280,5 +348,6 @@ ruleTester({ types: true }).run('no-unbound-methods', noUnboundMethodsRule, {
     ...deepTests.invalid,
     ...staticTests.invalid,
     ...unboundTests.invalid,
+    ...allowTypesTests.invalid,
   ],
 });
