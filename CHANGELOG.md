@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.3 (2025-05-25)
+
+### Features
+
+- **no-ignored-subscription**: ignore for certain operators ([#187](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/187)) ([782f823](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/782f8237d67ced2d478ba9351a04d049948ae04a))
+
 ## v0.7.2 (2025-04-18)
 
 ### Fixes
