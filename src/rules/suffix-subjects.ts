@@ -3,6 +3,7 @@ import {
   findParent,
   getLoc,
   getTypeServices,
+  isCallingMethodWhitelistedFromNamingRules,
 } from '../etc';
 import { escapeRegExp, ruleCreator } from '../utils';
 
@@ -161,7 +162,7 @@ export const suffixSubjectsRule = ruleCreator({
       ) => {
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key) {
+          if (node === parent.key && !isCallingMethodWhitelistedFromNamingRules(parent.parent.parent)) {
             checkNode(node);
           }
         }

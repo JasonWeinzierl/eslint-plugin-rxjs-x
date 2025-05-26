@@ -282,6 +282,15 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
         const mySubject = new MySubject<number>();
       `,
     },
+    {
+      code: stripIndent`
+        // RxJS methods that takes subjects should have whitelisted object property names
+        import { Subject, BehaviorSubject, combineLatest, forkJoin } from "rxjs";
+
+        combineLatest({ one: new Subject<number>(), two: new BehaviorSubject('a') });
+        forkJoin({ one: new Subject<number>(), two: new BehaviorSubject('a') });
+      `,
+    },
   ],
   invalid: [
     fromFixture(
