@@ -5,8 +5,8 @@ import { getTypeServices, isCallExpression, isIdentifier, isMemberExpression } f
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
-  lastOperators?: string[];
-  allowAfterLastOperators?: string[];
+  completers?: string[];
+  postCompleters?: string[];
 }[] = [];
 
 export const noIgnoredSubscriptionRule = ruleCreator({
@@ -22,14 +22,14 @@ export const noIgnoredSubscriptionRule = ruleCreator({
     schema: [
       {
         properties: {
-          lastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will handle unsubscribing if last.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
-          allowAfterLastOperators: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the last operators.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
+          completers: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will complete the observable and silence this rule.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
+          postCompleters: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the completion operators.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
         },
         type: 'object',
         description: stripIndent`
-          An object with optional \`lastOperators\` and \`allowAfterLastOperators\` properties.
-          The \`lastOperators\` property is an array containing the names of operators that will handle unsubscribing if last.
-          The \`allowAfterLastOperators\` property is an array containing the names of the operators that are allowed to follow the last operators.
+          An object with optional \`completers\` and \`postCompleters\` properties.
+          The \`completers\` property is an array containing the names of operators that will complete the observable and silence this rule.
+          The \`postCompleters\` property is an array containing the names of the operators that are allowed to follow the completion operators.
         `,
       },
     ],
@@ -39,12 +39,12 @@ export const noIgnoredSubscriptionRule = ruleCreator({
   create: (context) => {
     const [config = {}] = context.options;
     const {
-      lastOperators = ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'],
-      allowAfterLastOperators = DEFAULT_VALID_POST_COMPLETION_OPERATORS,
+      completers = ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'],
+      postCompleters = DEFAULT_VALID_POST_COMPLETION_OPERATORS,
     } = config;
 
     const checkedOperatorsRegExp = new RegExp(
-      `^(${lastOperators.join('|')})$`,
+      `^(${completers.join('|')})$`,
     );
 
     const { couldBeObservable, couldBeType } = getTypeServices(context);
@@ -56,11 +56,11 @@ export const noIgnoredSubscriptionRule = ruleCreator({
         && isIdentifier(node.callee.property)
         && node.callee.property.name === 'pipe'
       ) {
-        // Only ignore the subscription if an allowed operator is last (excluding allowed after-last operators).
+        // Only ignore the subscription if an allowed completion operator is last (excluding allowed post-completion operators).
         const { isOrderValid, operatorNode } = findIsLastOperatorOrderValid(
           node,
           checkedOperatorsRegExp,
-          allowAfterLastOperators,
+          postCompleters,
         );
 
         return isOrderValid && !!operatorNode;

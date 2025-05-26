@@ -6,7 +6,7 @@
 
 This rule effects failures if an subscription returned by call to `subscribe` is neither assigned to a variable or property or passed to a function.
 
-This rule is aware of operators which can automatically unsubscribe (see the rule's options, below)
+This rule is aware of operators which can automatically complete the observable (see the rule's options, below)
 and will not effect failures if they are present in the `pipe` before calling `subscribe`.
 (Note this does not work if you compose an observable into a variable and subscribe later.)
 
@@ -48,10 +48,10 @@ const numbers = new Observable<number>(subscriber => {
 
 <!-- begin auto-generated rule options list -->
 
-| Name                      | Description                                                               | Type     | Default                                                                                                                                                                                                                                                    |
-| :------------------------ | :------------------------------------------------------------------------ | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `allowAfterLastOperators` | An array of operator names that are allowed to follow the last operators. | String[] | [`count`, `defaultIfEmpty`, `endWith`, `every`, `finalize`, `finally`, `isEmpty`, `last`, `max`, `min`, `publish`, `publishBehavior`, `publishLast`, `publishReplay`, `reduce`, `share`, `shareReplay`, `skipLast`, `takeLast`, `throwIfEmpty`, `toArray`] |
-| `lastOperators`           | An array of operator names that will handle unsubscribing if last.        | String[] | [`takeUntil`, `takeWhile`, `take`, `first`, `last`, `takeUntilDestroyed`]                                                                                                                                                                                  |
+| Name             | Description                                                                         | Type     | Default                                                                                                                                                                                                                                                    |
+| :--------------- | :---------------------------------------------------------------------------------- | :------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `completers`     | An array of operator names that will complete the observable and silence this rule. | String[] | [`takeUntil`, `takeWhile`, `take`, `first`, `last`, `takeUntilDestroyed`]                                                                                                                                                                                  |
+| `postCompleters` | An array of operator names that are allowed to follow the completion operators.     | String[] | [`count`, `defaultIfEmpty`, `endWith`, `every`, `finalize`, `finally`, `isEmpty`, `last`, `max`, `min`, `publish`, `publishBehavior`, `publishLast`, `publishReplay`, `reduce`, `share`, `shareReplay`, `skipLast`, `takeLast`, `throwIfEmpty`, `toArray`] |
 
 <!-- end auto-generated rule options list -->
 
