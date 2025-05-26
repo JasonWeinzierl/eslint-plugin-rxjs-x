@@ -362,6 +362,7 @@ function voidFunctionArguments(
   const voidReturnIndices = new Set<number>();
   const type = checker.getTypeAtLocation(tsNode.expression);
 
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
   for (const subType of tsutils.unionTypeParts(type)) {
     const signatures = ts.isCallExpression(tsNode)
       ? subType.getCallSignatures()
@@ -384,6 +385,7 @@ function isVoidReturningFunctionType(
 ): boolean {
   let hasVoidReturn = false;
 
+  // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
   for (const subType of tsutils.unionTypeParts(type)) {
     for (const signature of subType.getCallSignatures()) {
       const returnType = signature.getReturnType();
