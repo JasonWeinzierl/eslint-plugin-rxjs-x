@@ -2,7 +2,8 @@ import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/
 import {
   findParent,
   getLoc,
-  getTypeServices } from '../etc';
+  getTypeServices,
+  isCallingMethodWhitelistedFromNamingRules } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -228,7 +229,7 @@ export const finnishRule = ruleCreator({
       ) => {
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key) {
+          if (node === parent.key && !isCallingMethodWhitelistedFromNamingRules(parent.parent.parent)) {
             checkNode(node);
           }
         }

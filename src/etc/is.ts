@@ -149,3 +149,11 @@ export function isVariableDeclarator(
 ): node is TSESTree.VariableDeclarator {
   return node.type === AST_NODE_TYPES.VariableDeclarator;
 }
+
+export function isCallingMethodWhitelistedFromNamingRules(expression: TSESTree.Node): boolean {
+  const whitelistedMethods = ['combineLatest', 'forkJoin'];
+  if (isCallExpression(expression) && isIdentifier(expression.callee)) {
+    return whitelistedMethods.includes(expression.callee.name);
+  }
+  return false;
+}
