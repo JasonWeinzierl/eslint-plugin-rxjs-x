@@ -10,7 +10,7 @@ Examples of **incorrect** code for this rule:
 
 ```ts
 import { BehaviorSubject } from "rxjs";
-const subject = new BehaviorSubject<number>(42);
+const subject = new BehaviorSubject<number>(42); //Adding a type here is not useful
 ```
 
 Examples of **correct** code for this rule:
@@ -20,11 +20,10 @@ import { BehaviorSubject } from "rxjs";
 const subject = new BehaviorSubject(42);
 ```
 
-## When Not To Use It
-
-This rule has known problems in the latest release:
-
-- ([#77](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/77)) Type unions cause false positives e.g. `new BehaviorSubject<number | null>(null)` will be incorrectly caught by this rule.
+```ts
+import { BehaviorSubject } from "rxjs";
+const subject = new BehaviorSubject<ISomeType | null>(null); //Allow union types to be defined, useful when things can be nullable
+```
 
 ## Resources
 
