@@ -144,6 +144,10 @@ export function isUnaryExpression(node: TSESTree.Node): node is TSESTree.UnaryEx
   return node.type === AST_NODE_TYPES.UnaryExpression;
 }
 
+export function isUnionType(node: TSESTree.Node): node is TSESTree.TSUnionType {
+  return node.type === AST_NODE_TYPES.TSUnionType;
+}
+
 export function isVariableDeclarator(
   node: TSESTree.Node,
 ): node is TSESTree.VariableDeclarator {
