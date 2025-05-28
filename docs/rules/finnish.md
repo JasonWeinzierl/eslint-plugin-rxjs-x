@@ -18,6 +18,9 @@ Examples of **correct** code for this rule:
 
 ```ts
 const answer$ = of(42, 54);
+
+// The static observable creators that accept a sources object are exempt from this rule.
+combineLatest({ answer: of(42, 54) });
 ```
 
 ## Options

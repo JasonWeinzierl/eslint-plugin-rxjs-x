@@ -23,6 +23,9 @@ Examples of **correct** code for this rule:
 ```ts
 const answersSubject = new Subject<number>();
 const answersSubject$ = new Subject<number>();
+
+// The static observable creators that accept a sources object are exempt from this rule.
+combineLatest({ answers: new Subject<number>() });
 ```
 
 ## Options

@@ -202,7 +202,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     },
     {
       code: stripIndent`
-        // RxJS methods that takes observables should have whitelisted object property names
+        // Static observable creators that accept a sources object
         import { of, combineLatest, forkJoin } from "rxjs";
 
         combineLatest({ one: of(0), two: of('a') });

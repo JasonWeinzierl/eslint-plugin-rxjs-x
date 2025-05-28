@@ -3,8 +3,8 @@ import {
   findParent,
   getLoc,
   getTypeServices,
-  isCallingMethodWhitelistedFromNamingRules } from '../etc';
-import { ruleCreator } from '../utils';
+} from '../etc';
+import { isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   functions?: boolean;
@@ -229,7 +229,7 @@ export const finnishRule = ruleCreator({
       ) => {
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key && !isCallingMethodWhitelistedFromNamingRules(parent.parent.parent)) {
+          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
             checkNode(node);
           }
         }

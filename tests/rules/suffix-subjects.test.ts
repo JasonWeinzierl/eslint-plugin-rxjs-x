@@ -284,7 +284,7 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
     },
     {
       code: stripIndent`
-        // RxJS methods that takes subjects should have whitelisted object property names
+        // Static observable creators that accept a sources object
         import { Subject, BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 
         combineLatest({ one: new Subject<number>(), two: new BehaviorSubject('a') });
