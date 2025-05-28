@@ -1,6 +1,15 @@
 export const defaultObservable = String.raw`[Aa]ction(s|s\$|\$)$`;
 
 /**
+ * The names of static observable creators
+ * that accept a sources object as input.
+ */
+export const SOURCES_OBJECT_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
+  'combineLatest',
+  'forkJoin',
+];
+
+/**
  * The names of operators that are safe to be used after
  * operators like `takeUntil` that complete the observable.
  */

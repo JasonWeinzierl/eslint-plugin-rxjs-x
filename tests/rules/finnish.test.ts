@@ -200,6 +200,15 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
       options: [{ properties: false }],
     },
+    {
+      code: stripIndent`
+        // Static observable creators that accept a sources object
+        import { of, combineLatest, forkJoin } from "rxjs";
+
+        combineLatest({ one: of(0), two: of('a') });
+        forkJoin({ one: of(0), two: of('a') });
+      `,
+    },
   ],
   invalid: [
     fromFixture(

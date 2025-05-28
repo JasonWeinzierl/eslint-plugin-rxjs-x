@@ -2,8 +2,9 @@ import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/
 import {
   findParent,
   getLoc,
-  getTypeServices } from '../etc';
-import { ruleCreator } from '../utils';
+  getTypeServices,
+} from '../etc';
+import { isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   functions?: boolean;
@@ -228,7 +229,7 @@ export const finnishRule = ruleCreator({
       ) => {
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key) {
+          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
             checkNode(node);
           }
         }

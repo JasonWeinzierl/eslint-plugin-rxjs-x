@@ -4,7 +4,7 @@ import {
   getLoc,
   getTypeServices,
 } from '../etc';
-import { escapeRegExp, ruleCreator } from '../utils';
+import { escapeRegExp, isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   parameters?: boolean;
@@ -161,7 +161,7 @@ export const suffixSubjectsRule = ruleCreator({
       ) => {
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key) {
+          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
             checkNode(node);
           }
         }
