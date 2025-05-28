@@ -2,6 +2,14 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.4 (2025-05-27)
+
+### Fixes
+
+- **no-explicit-generics**: don't incorrectly flag union types ([#210](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/210)) ([5662966](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/5662966caeb655354fceabef0f080aeebf7de4d9))
+- **finnish**: don't require `$` for `forkJoin` and `combineLatest` overloads that take object expressions as input ([#212](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/212)) ([ee9ec8e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ee9ec8e57ee32d702c6ff44f2b4750110f845182))
+- **suffix-subjects**: don't require `Subject` suffix for `forkJoin` and `combineLatest` overloads that take object expressions as input ([#212](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/212)) ([ee9ec8e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ee9ec8e57ee32d702c6ff44f2b4750110f845182))
+
 ## v0.7.3 (2025-05-25)
 
 ### Features
