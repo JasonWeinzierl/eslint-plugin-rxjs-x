@@ -23,6 +23,14 @@ of(42).subscribe(async value => {
     const data2 = await fetch(`https://api.some.com/things/${data1.id}`);
     console.log(data2);
 });
+
+of(42).subscribe({
+    next: async () => {
+        const data1 = await fetch(`https://api.some.com/things/${value}`);
+        const data2 = await fetch(`https://api.some.com/things/${data1.id}`);
+        console.log(data2);
+    },
+})
 ```
 
 Examples of **correct** code for this rule:
@@ -34,6 +42,11 @@ of(42).pipe(
     switchMap(value => fetch(`http://api.some.com/things/${value}`)),
     switchMap(data1 => fetch(`http://api.some.com/things/${data1.id}`)),
 ).subscribe(data2 => console.log(data2));
+
+of(42).pipe(
+    switchMap(value => fetch(`http://api.some.com/things/${value}`)),
+    switchMap(data1 => fetch(`http://api.some.com/things/${data1.id}`)),
+).subscribe({ next: data2 => console.log(data2) });
 ```
 
 ## When Not To Use It
