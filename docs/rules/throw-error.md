@@ -1,4 +1,4 @@
-# Enforce passing only `Error` values to `throwError` (`rxjs-x/throw-error`)
+# Enforce passing only `Error` values to `throwError` or `Subject.error` (`rxjs-x/throw-error`)
 
 💼 This rule is enabled in the following configs: ✅ `recommended`, 🔒 `strict`.
 
@@ -8,7 +8,7 @@
 
 This rule forbids passing values that are not `Error` objects to `throwError` or `Subject.error`.
 It's similar to the typescript-eslint [`only-throw-error`](https://typescript-eslint.io/rules/only-throw-error/) rule,
-but is for the `throwError` Observable creation function or `Subject.error` variants - not `throw` statements.
+but is for the `throwError` Observable creation function or the `Subject.error` method - not `throw` statements.
 
 ## Rule details
 
