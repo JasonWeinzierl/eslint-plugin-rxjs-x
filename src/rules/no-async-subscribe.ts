@@ -11,7 +11,7 @@ export const noAsyncSubscribeRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
-      forbidden: 'Passing async functions to subscribe is forbidden.',
+      forbidden: 'Passing async functions to subscribe is forbidden. Use operators like `concatMap` or `switchMap` to avoid race conditions.',
     },
     schema: [],
     type: 'problem',
