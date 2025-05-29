@@ -5,6 +5,7 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   valid: [
+    // #region valid; throwError
     stripIndent`
       // Error
       import { throwError } from "rxjs";
@@ -130,6 +131,72 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         );
       });
     `,
+    // #endregion valid; throwError
+    // #region valid; subject.error
+    stripIndent`
+      // Error
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error(new Error("Boom!"));
+    `,
+    stripIndent`
+      // RangeError
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error(new RangeError("Boom!"));
+    `,
+    stripIndent`
+      // DOMException
+      /// <reference lib="dom" />
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error(new DOMException("Boom!"));
+    `,
+    stripIndent`
+      // custom Error
+      import { Subject } from "rxjs";
+
+      class MyFailure extends Error {}
+
+      const subject = new Subject<void>();
+
+      subject.error(new MyFailure("Boom!"));
+    `,
+    stripIndent`
+      // any
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error("Boom!" as any);
+    `,
+    stripIndent`
+      // unknown
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error("Boom!" as unknown);
+    `,
+    stripIndent`
+      // Object.assign
+      import { Subject } from "rxjs";
+
+      const subject = new Subject<void>();
+
+      subject.error(Object.assign(
+        new Error("Not Found"),
+        { code: "NOT_FOUND" }
+      ));
+    `,
+    // #endregion valid; subject.error
+    // #region valid; other
     stripIndent`
       // no signature
       // There will be no signature for callback and
@@ -165,8 +232,10 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         throw error;
       }
     `,
+    // #endregion valid; other
   ],
   invalid: [
+    // #region invalid; throwError
     fromFixture(
       stripIndent`
         // string
@@ -264,5 +333,80 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
                             ~~~~~~~ [forbidden]
       `,
     ),
+    // #endregion invalid; throwError
+    // #region invalid; subject.error
+    fromFixture(
+      stripIndent`
+        // string
+        import { Subject } from "rxjs";
+
+        const subject = new Subject<void>();
+
+        subject.error("Boom!");
+                      ~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // any not allowed
+        import { Subject } from "rxjs";
+
+        const subject = new Subject<void>();
+
+        subject.error("Boom!" as any);
+                      ~~~~~~~~~~~~~~ [forbidden]
+      `,
+      { options: [{ allowThrowingAny: false }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // unknown not allowed
+        import { Subject } from "rxjs";
+
+        const subject = new Subject<void>();
+
+        subject.error("Boom!" as unknown);
+                      ~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+      { options: [{ allowThrowingUnknown: false }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // falsy
+        import { Subject } from "rxjs";
+
+        const subject = new Subject<void>();
+
+        subject.error(0);
+                      ~ [forbidden]
+        subject.error(false);
+                      ~~~~~ [forbidden]
+        subject.error(null);
+                      ~~~~ [forbidden]
+        subject.error(undefined);
+                      ~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // Object.assign with non-Error
+        import { Subject } from "rxjs";
+
+        const subject = new Subject<void>();
+
+        subject.error(Object.assign({ message: "Not Found" }, { code: "NOT_FOUND" }));
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // namespace import
+        import * as Rx from "rxjs";
+        const subject = new Rx.Subject<void>();
+        subject.error("Boom!");
+                      ~~~~~~~ [forbidden]
+      `,
+    ),
+    // #endregion invalid; subject.error
   ],
 });

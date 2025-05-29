@@ -6,26 +6,32 @@
 
 <!-- end auto-generated rule header -->
 
-This rule forbids passing values that are not `Error` objects to `throwError`.
+This rule forbids passing values that are not `Error` objects to `throwError` or `Subject.error`.
 It's similar to the typescript-eslint [`only-throw-error`](https://typescript-eslint.io/rules/only-throw-error/) rule,
-but is for the `throwError` Observable creation function - not `throw` statements.
+but is for the `throwError` Observable creation function or `Subject.error` variants - not `throw` statements.
 
 ## Rule details
 
 Examples of **incorrect** code for this rule:
 
 ```ts
-import { throwError } from "rxjs";
+import { throwError, Subject } from "rxjs";
 
 throwError(() => "Kaboom!");
+
+const subject = new Subject<void>();
+subject.error("Kaboom!");
 ```
 
 Examples of **correct** code for this rule:
 
 ```ts
-import { throwError } from "rxjs";
+import { throwError, Subject } from "rxjs";
 
 throwError(() => new Error("Kaboom!"));
+
+const subject = new Subject<void>();
+subject.error(new Error("Kaboom!"));
 ```
 
 ## Options
