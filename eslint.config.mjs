@@ -23,7 +23,6 @@ export default tseslint.config(gitignore(), {
     ...tseslint.configs.stylisticTypeChecked,
     stylistic.configs['disable-legacy'],
     stylistic.configs.customize({
-      flat: true,
       quotes: 'single',
       indent: 2,
       semi: true,
