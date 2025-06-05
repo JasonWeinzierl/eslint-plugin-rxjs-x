@@ -2,6 +2,17 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.5 (2025-06-05)
+
+### Features
+
+- **no-unbound-methods**: ignore certain types, defaulting to Angular's Signal ([#211](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/211)) ([087bf3c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/087bf3cd351fe5cc849c6831a2e0ea0473706177))
+- **throw-error**: report subjects throwing non-Errors ([#215](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/215)) ([eb979fb](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/eb979fb9f533e65e0f540af7e986ba4a2fea3fd4))
+
+### Fixes
+
+- **no-async-subscribe**: report async next property on observer objects ([#214](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/214)) ([f3ab04d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f3ab04d5d1648d076abc8af40f68befc082f45ae))
+
 ## v0.7.4 (2025-05-27)
 
 ### Fixes
