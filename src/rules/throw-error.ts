@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { couldBeFunction, couldBeType, getTypeServices } from '../etc';
+import { couldBeFunction, couldBeType, getTypeServices, isMemberExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -14,7 +14,7 @@ export const throwErrorRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Enforce passing only `Error` values to `throwError`.',
+        'Enforce passing only `Error` values to `throwError` or `Subject.error`.',
       recommended: {
         recommended: true,
         strict: [{ allowThrowingAny: false, allowThrowingUnknown: false }],
@@ -38,15 +38,15 @@ export const throwErrorRule = ruleCreator({
   name: 'throw-error',
   create: (context) => {
     const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = ESLintUtils.getParserServices(context);
-    const { couldBeObservable } = getTypeServices(context);
+    const { couldBeObservable, couldBeSubject } = getTypeServices(context);
     const [config = {}] = context.options;
     const { allowThrowingAny = true, allowThrowingUnknown = true } = config;
 
-    function checkThrowArgument(node: es.Node) {
+    function checkThrowArgument(node: es.Node, noFunction = false) {
       let type = getTypeAtLocation(node);
       let reportNode = node;
 
-      if (couldBeFunction(type)) {
+      if (!noFunction && couldBeFunction(type)) {
         reportNode = (node as es.ArrowFunctionExpression).body ?? node;
 
         const tsNode = esTreeNodeToTSNodeMap.get(node);
@@ -73,7 +73,7 @@ export const throwErrorRule = ruleCreator({
       });
     }
 
-    function checkNode(node: es.CallExpression) {
+    function checkThrowError(node: es.CallExpression) {
       if (couldBeObservable(node)) {
         const [arg] = node.arguments;
         if (arg) {
@@ -82,13 +82,22 @@ export const throwErrorRule = ruleCreator({
       }
     }
 
+    function checkSubjectError(node: es.CallExpression) {
+      if (isMemberExpression(node.callee) && couldBeSubject(node.callee.object)) {
+        const [arg] = node.arguments;
+        if (arg) {
+          checkThrowArgument(arg, true);
+        }
+      }
+    }
+
     return {
-      'CallExpression[callee.name=\'throwError\']': (node: es.CallExpression) => {
-        checkNode(node);
-      },
-      'CallExpression[callee.property.name=\'throwError\']': (node: es.CallExpression) => {
-        checkNode(node);
-      },
+      'CallExpression[callee.name=\'throwError\']':
+        checkThrowError,
+      'CallExpression[callee.property.name=\'throwError\']':
+        checkThrowError,
+      'CallExpression[callee.property.name=\'error\']':
+        checkSubjectError,
     };
   },
 });

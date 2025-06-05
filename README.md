@@ -120,6 +120,6 @@ The package includes the following rules.
 | [prefer-observer](docs/rules/prefer-observer.md)                       | Disallow passing separate handlers to `subscribe` and `tap`.                                              | ✅ 🔒 | 🔧 | 💡 | 💭 |    |
 | [prefer-root-operators](docs/rules/prefer-root-operators.md)           | Disallow importing operators from `rxjs/operators`.                                                       | ✅ 🔒 | 🔧 | 💡 |    |    |
 | [suffix-subjects](docs/rules/suffix-subjects.md)                       | Enforce the use of a suffix in subject identifiers.                                                       |      |    |    | 💭 |    |
-| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to `throwError`.                                                      | ✅ 🔒 |    |    | 💭 |    |
+| [throw-error](docs/rules/throw-error.md)                               | Enforce passing only `Error` values to `throwError` or `Subject.error`.                                   | ✅ 🔒 |    |    | 💭 |    |
 
 <!-- end auto-generated rules list -->
