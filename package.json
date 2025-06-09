@@ -84,7 +84,7 @@
     "eslint": "^9.28.0",
     "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-doc-generator": "^2.1.2",
-    "eslint-import-resolver-typescript": "^4.4.2",
+    "eslint-import-resolver-typescript": "^4.4.3",
     "eslint-plugin-eslint-plugin": "^6.4.0",
     "eslint-plugin-import-x": "^4.15.0",
     "eslint-plugin-n": "^17.19.0",
