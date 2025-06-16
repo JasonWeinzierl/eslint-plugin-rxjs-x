@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.6 (2025-06-16)
+
+### Fixes
+
+- **no-implicit-any-catch**: proper parenthesis for two-param `catchError` ([#230](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/230)) ([ea0f36a](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ea0f36ab050daa7511cd16db1b07aa0bc314e7c4))
+
 ## v0.7.5 (2025-06-05)
 
 ### Features
