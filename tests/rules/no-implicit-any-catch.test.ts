@@ -97,6 +97,26 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
     },
     {
       code: stripIndent`
+        // arrow; explicit unknown and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).pipe(
+          catchError((error: unknown, caught: Observable<unknown>) => console.error(error)),
+        );
+      `,
+    },
+    {
+      code: stripIndent`
+        // non-arrow; explicit unknown and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).pipe(
+          catchError(function (error: unknown, caught: Observable<unknown>) { console.error(error); }),
+        );
+      `,
+    },
+    {
+      code: stripIndent`
         // subscribe; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
 
@@ -119,6 +139,28 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
     },
     {
       code: stripIndent`
+        // subscribe; arrow; explicit unknown and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).subscribe(
+          undefined,
+          (error: unknown, caught: Observable<unknown>) => console.error(error)
+        );
+      `,
+    },
+    {
+      code: stripIndent`
+        // subscribe; arrow; explicit any and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).subscribe(
+          undefined,
+          (error: any, caught: Observable<unknown>) => console.error(error)
+        );
+      `,
+    },
+    {
+      code: stripIndent`
         // subscribe observer; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
 
@@ -134,6 +176,26 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
 
         throwError("Kaboom!").subscribe({
           error: (error: any) => console.error(error)
+        });
+      `,
+    },
+    {
+      code: stripIndent`
+        // subscribe observer; arrow; explicit unknown and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).subscribe({
+          error: (error: unknown, caught: Observable<unknown>) => console.error(error)
+        });
+      `,
+    },
+    {
+      code: stripIndent`
+        // subscribe observer; arrow; explicit any and caught; default option
+        import { throwError, catchError, Observable } from "rxjs";
+
+        throwError(new Error("Kaboom!")).subscribe({
+          error: (error: any, caught: Observable<unknown>) => console.error(error)
         });
       `,
     },
@@ -274,6 +336,40 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
     ),
     fromFixture(
       stripIndent`
+        // arrow; implicit any and caught
+        import { throwError, catchError } from "rxjs";
+
+        throwError(new Error("Kaboom!")).pipe(
+          catchError((error, caught) => console.error(error)),
+                      ~~~~~ [implicitAny suggest]
+        );
+      `,
+      {
+        output: stripIndent`
+          // arrow; implicit any and caught
+          import { throwError, catchError } from "rxjs";
+
+          throwError(new Error("Kaboom!")).pipe(
+            catchError((error: unknown, caught) => console.error(error)),
+          );
+        `,
+        suggestions: [
+          {
+            messageId: 'suggestExplicitUnknown',
+            output: stripIndent`
+              // arrow; implicit any and caught
+              import { throwError, catchError } from "rxjs";
+
+              throwError(new Error("Kaboom!")).pipe(
+                catchError((error: unknown, caught) => console.error(error)),
+              );
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
         // non-arrow; implicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
@@ -303,6 +399,40 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
 
               throwError("Kaboom!").pipe(
                 catchError(function (error: unknown) { console.error(error); })
+              );
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // non-arrow; implicit any and caught
+        import { throwError, catchError } from "rxjs";
+
+        throwError(new Error("Kaboom!")).pipe(
+          catchError(function (error, caught) { console.error(error); })
+                               ~~~~~ [implicitAny suggest]
+        );
+      `,
+      {
+        output: stripIndent`
+          // non-arrow; implicit any and caught
+          import { throwError, catchError } from "rxjs";
+
+          throwError(new Error("Kaboom!")).pipe(
+            catchError(function (error: unknown, caught) { console.error(error); })
+          );
+        `,
+        suggestions: [
+          {
+            messageId: 'suggestExplicitUnknown',
+            output: stripIndent`
+              // non-arrow; implicit any and caught
+              import { throwError, catchError } from "rxjs";
+
+              throwError(new Error("Kaboom!")).pipe(
+                catchError(function (error: unknown, caught) { console.error(error); })
               );
             `,
           },
