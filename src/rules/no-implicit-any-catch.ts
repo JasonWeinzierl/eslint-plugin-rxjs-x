@@ -84,7 +84,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
         isArrowFunctionExpression(callback)
         || isFunctionExpression(callback)
       ) {
-        const [param] = callback.params;
+        const [param, ...restParams] = callback.params;
         if (!param) {
           return;
         }
@@ -128,7 +128,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
           }
         } else {
           function fix(fixer: eslint.RuleFixer) {
-            if (isParenthesised(sourceCode, param)) {
+            if (isParenthesised(sourceCode, param) || restParams.length > 0) {
               return fixer.insertTextAfter(param, ': unknown');
             }
             return [
