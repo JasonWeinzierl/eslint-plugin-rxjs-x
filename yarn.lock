@@ -2108,15 +2108,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-eslint-plugin@npm:^6.4.0":
-  version: 6.4.0
-  resolution: "eslint-plugin-eslint-plugin@npm:6.4.0"
+"eslint-plugin-eslint-plugin@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "eslint-plugin-eslint-plugin@npm:6.5.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.4.0"
     estraverse: "npm:^5.3.0"
   peerDependencies:
     eslint: ">=8.23.0"
-  checksum: 10c0/c34a976d70e3d8ef91f6adb7ff6a89d149531c8624da07b2ef2696c44d4a0184c4c5baf8a63e18f53fd13468b2b491c72bcbb1832178e96a18bce54ad385dca5
+  checksum: 10c0/00821d99d842ce5dd19731f2806da344074c689c5e2d2977afd1dac94dac98f53a9a743a48515017beb91390fded003eaee7a9309673b424f2dba9695091a3ee
   languageName: node
   linkType: hard
 
@@ -2187,7 +2187,7 @@ __metadata:
     eslint-config-flat-gitignore: "npm:^2.1.0"
     eslint-doc-generator: "npm:^2.2.2"
     eslint-import-resolver-typescript: "npm:^4.4.3"
-    eslint-plugin-eslint-plugin: "npm:^6.4.0"
+    eslint-plugin-eslint-plugin: "npm:^6.5.0"
     eslint-plugin-import-x: "npm:^4.15.2"
     eslint-plugin-n: "npm:^17.20.0"
     markdownlint-cli2: "npm:^0.18.1"
