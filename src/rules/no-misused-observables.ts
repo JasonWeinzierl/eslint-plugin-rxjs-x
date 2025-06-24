@@ -204,7 +204,7 @@ export const noMisusedObservablesRule = ruleCreator({
       for (const element of node.body.body) {
         const tsElement = esTreeNodeToTSNodeMap.get(element);
         const memberName = tsElement?.name?.getText();
-        if (memberName === undefined) {
+        if (memberName == null) {
           // See comment in typescript-eslint no-misused-promises for why.
           continue;
         }
@@ -219,7 +219,7 @@ export const noMisusedObservablesRule = ruleCreator({
 
         for (const heritageType of heritageTypes) {
           const heritageMember = getMemberIfExists(heritageType, memberName);
-          if (heritageMember === undefined) {
+          if (heritageMember == null) {
             continue;
           }
           const memberType = checker.getTypeOfSymbolAtLocation(heritageMember, tsElement);
@@ -240,7 +240,7 @@ export const noMisusedObservablesRule = ruleCreator({
       const tsNode = esTreeNodeToTSNodeMap.get(node);
 
       const contextualType = getPropertyContextualType(checker, tsNode);
-      if (contextualType === undefined) {
+      if (contextualType == null) {
         return;
       }
 
@@ -259,7 +259,7 @@ export const noMisusedObservablesRule = ruleCreator({
 
     function checkReturnStatement(node: es.ReturnStatement): void {
       const tsNode = esTreeNodeToTSNodeMap.get(node);
-      if (tsNode.expression === undefined || !node.argument) {
+      if (tsNode.expression == null || !node.argument) {
         return;
       }
 
@@ -285,7 +285,7 @@ export const noMisusedObservablesRule = ruleCreator({
       }
 
       const contextualType = checker.getContextualType(tsNode.expression);
-      if (contextualType === undefined) {
+      if (contextualType == null) {
         return;
       }
       if (!isVoidReturningFunctionType(contextualType)) {
@@ -318,7 +318,7 @@ export const noMisusedObservablesRule = ruleCreator({
     function checkVariableDeclaration(node: es.VariableDeclarator): void {
       const tsNode = esTreeNodeToTSNodeMap.get(node);
       if (
-        tsNode.initializer === undefined
+        tsNode.initializer == null
         || !node.init
         || !node.id.typeAnnotation
       ) {
@@ -440,11 +440,11 @@ function getPropertyContextualType(
       return;
     }
     const objType = checker.getContextualType(obj);
-    if (objType === undefined) {
+    if (objType == null) {
       return;
     }
     const propertySymbol = checker.getPropertyOfType(objType, tsNode.name.text);
-    if (propertySymbol === undefined) {
+    if (propertySymbol == null) {
       return;
     }
     return checker.getTypeOfSymbolAtLocation(propertySymbol, tsNode.name);
