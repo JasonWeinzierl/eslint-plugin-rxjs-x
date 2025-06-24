@@ -1,4 +1,5 @@
 import { AST_NODE_TYPES, TSESTree as es, TSESLint as eslint, ESLintUtils } from '@typescript-eslint/utils';
+import { getFunctionHeadLocation, isFunction } from '@typescript-eslint/utils/ast-utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import {
@@ -251,10 +252,25 @@ export const noMisusedObservablesRule = ruleCreator({
         return;
       }
 
-      context.report({
-        messageId: 'forbiddenVoidReturnProperty',
-        node: node.value,
-      });
+      if (isFunction(node.value)) {
+        const functionNode = node.value;
+        if (functionNode.returnType) {
+          context.report({
+            messageId: 'forbiddenVoidReturnProperty',
+            node: functionNode.returnType.typeAnnotation,
+          });
+        } else {
+          context.report({
+            messageId: 'forbiddenVoidReturnProperty',
+            loc: getFunctionHeadLocation(functionNode, context.sourceCode),
+          });
+        }
+      } else {
+        context.report({
+          messageId: 'forbiddenVoidReturnProperty',
+          node: node.value,
+        });
+      }
     }
 
     function checkReturnStatement(node: es.ReturnStatement): void {
@@ -277,6 +293,7 @@ export const noMisusedObservablesRule = ruleCreator({
         return current;
       }
       const functionNode = getFunctionNode();
+
       if (
         functionNode?.returnType
         && !isPossiblyFunctionType(functionNode.returnType)

@@ -740,7 +740,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         type Foo = { bar: () => void };
         const foo: Foo = {
           bar: () => of(42),
-               ~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
+                  ~~ [forbiddenVoidReturnProperty]
         };
       `,
     ),
@@ -752,7 +752,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         type Foo = { bar: () => void };
         const foo: Foo = {
           bar(): Observable<number> { return of(42); },
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
+                 ~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
         };
       `,
     ),
