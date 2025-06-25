@@ -137,6 +137,29 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       }
     `,
     stripIndent`
+      // void return inherited method; static accessor properties
+      import { Observable, of } from "rxjs";
+
+      class Foo {
+        public foo = (): void => {};
+      }
+
+      class Bar extends Foo {
+        public static accessor foo = (): Observable<number> => of(42);
+      }
+    `,
+    stripIndent`
+      // void return inherited method; static accessor properties; unrelated
+
+      class Foo {
+        public foo = (): void => {};
+      }
+
+      class Bar extends Foo {
+        public static accessor foo = (): void => {};
+      }
+    `,
+    stripIndent`
       // void return inherited method; unrelated
       class Foo {
         foo(): void {}

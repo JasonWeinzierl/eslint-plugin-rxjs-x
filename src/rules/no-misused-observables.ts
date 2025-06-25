@@ -4,6 +4,7 @@ import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import {
   getTypeServices,
+  isAccessorProperty,
   isArrowFunctionExpression,
   isFunctionDeclaration,
   isFunctionExpression,
@@ -443,8 +444,10 @@ function getMemberIfExists(
 }
 
 function isStaticMember(node: es.Node): boolean {
-  return (isMethodDefinition(node) || isPropertyDefinition(node))
-    && node.static;
+  return (isMethodDefinition(node)
+    || isPropertyDefinition(node)
+    || isAccessorProperty(node))
+  && node.static;
 }
 
 function getPropertyContextualType(
