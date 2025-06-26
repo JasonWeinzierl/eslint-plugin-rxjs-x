@@ -49,30 +49,43 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     {
       code: stripIndent`
         // void return attribute; explicitly allowed
-        import { Observable, of } from "rxjs";
-        import React, { FC } from "react";
+        import { of } from "rxjs";
 
-        const Component: FC<{ foo: () => void }> = () => <div />;
-        const App = () => {
-          return (
-            <Component foo={() => of(42)} />
-          );
-        };
+        interface Props {
+          foo: () => void;
+        }
+        declare function Component(props: Props): any;
+
+        const _ = <Component foo={() => of(42)} />;
       `,
       options: [{ checksVoidReturn: { attributes: false } }],
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
     {
       code: stripIndent`
-        // void return attribute; unrelated
-        import React, { FC } from "react";
+        // void return attribute; not void
+        import { Observable, of } from "rxjs";
 
-        const Component: FC<{ foo: () => void, bar: boolean }> = () => <div />;
-        const App = () => {
-          return (
-            <Component foo={() => 42} bar />
-          );
-        };
+        interface Props {
+          foo: () => Observable<number>;
+        }
+        declare function Component(props: Props): any;
+
+        const _ = <Component foo={() => of(42)} />;
+      `,
+      languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+    },
+    {
+      code: stripIndent`
+        // void return attribute; unrelated
+
+        interface Props {
+          foo: () => void;
+          bar: boolean;
+        }
+        declare function Component(props: Props): any;
+
+        const _ = <Component foo={() => 42} bar />;
       `,
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
@@ -339,15 +352,14 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       stripIndent`
         // void return attribute; block body
         import { Observable, of } from "rxjs";
-        import React, { FC } from "react";
 
-        const Component: FC<{ foo: () => void }> = () => <div />;
-        const App = () => {
-          return (
-            <Component foo={(): Observable<number> => { return of(42); }} />
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
-          );
-        };
+        interface Props {
+          foo: () => void;
+        }
+        declare function Component(props: Props): any;
+
+        const _ = <Component foo={(): Observable<number> => { return of(42); }} />;
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
       `,
       {
         languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -357,15 +369,14 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       stripIndent`
         // void return attribute; inline body
         import { Observable, of } from "rxjs";
-        import React, { FC } from "react";
 
-        const Component: FC<{ foo: () => void }> = () => <div />;
-        const App = () => {
-          return (
-            <Component foo={() => of(42)} />
-                           ~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
-          );
-        };
+        interface Props {
+          foo: () => void;
+        }
+        declare function Component(props: Props): any;
+
+        const _ = <Component foo={() => of(42)} />;
+                                 ~~~~~~~~~~~~~~ [forbiddenVoidReturnAttribute]
       `,
       {
         languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },

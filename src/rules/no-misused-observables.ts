@@ -180,11 +180,21 @@ export const noMisusedObservablesRule = ruleCreator({
     }
 
     function checkJSXAttribute(node: es.JSXAttribute): void {
-      if (!node.value || !isJSXExpressionContainer(node.value)) {
+      if (
+        node.value == null
+        || !isJSXExpressionContainer(node.value)
+      ) {
         return;
       }
-
-      if (couldReturnObservable(node.value.expression)) {
+      const expressionContainer = esTreeNodeToTSNodeMap.get(
+        node.value,
+      );
+      const contextualType = checker.getContextualType(expressionContainer);
+      if (
+        contextualType != null
+        && isVoidReturningFunctionType(contextualType)
+        && couldReturnObservable(node.value.expression)
+      ) {
         context.report({
           messageId: 'forbiddenVoidReturnAttribute',
           node: node.value,
@@ -336,8 +346,8 @@ export const noMisusedObservablesRule = ruleCreator({
       const tsNode = esTreeNodeToTSNodeMap.get(node);
       if (
         tsNode.initializer == null
-        || !node.init
-        || !node.id.typeAnnotation
+        || node.init == null
+        || node.id.typeAnnotation == null
       ) {
         return;
       }
