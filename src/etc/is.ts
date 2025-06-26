@@ -6,6 +6,12 @@ export function hasTypeAnnotation<T extends TSESTree.Node>(
   return 'typeAnnotation' in node && !!node.typeAnnotation;
 }
 
+export function isAccessorProperty(
+  node: TSESTree.Node,
+): node is TSESTree.AccessorProperty {
+  return node.type === AST_NODE_TYPES.AccessorProperty;
+}
+
 export function isArrayExpression(node: TSESTree.Node): node is TSESTree.ArrayExpression {
   return node.type === AST_NODE_TYPES.ArrayExpression;
 }
