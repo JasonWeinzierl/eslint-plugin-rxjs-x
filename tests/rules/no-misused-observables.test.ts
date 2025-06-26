@@ -233,6 +233,18 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         bar,
       };
     `,
+    stripIndent`
+      // void return property; union type
+      import { Observable, of } from "rxjs";
+
+      interface Hook {
+        onInit?: ((field: string) => void) | ((field: string) => Observable<any>);
+      }
+
+      const hook: Hook = {
+        onInit: field => of(field),
+      };
+    `,
     // #endregion valid; void return property
     // #region valid; void return return value
     {

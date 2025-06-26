@@ -11,6 +11,7 @@ import {
   isJSXExpressionContainer,
   isMethodDefinition,
   isPropertyDefinition,
+  couldBeType as tsutilsEtcCouldBeType,
 } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -417,6 +418,12 @@ function isVoidReturningFunctionType(
   for (const subType of tsutils.unionTypeParts(type)) {
     for (const signature of subType.getCallSignatures()) {
       const returnType = signature.getReturnType();
+
+      // If a certain positional argument accepts both Observable and void returns,
+      // an Observable-returning function is valid.
+      if (tsutilsEtcCouldBeType(returnType, 'Observable')) {
+        return false;
+      }
 
       hasVoidReturn ||= tsutils.isTypeFlagSet(returnType, ts.TypeFlags.Void);
     }
