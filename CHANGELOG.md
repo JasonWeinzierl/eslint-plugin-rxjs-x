@@ -2,6 +2,18 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.7.7 (2025-07-07)
+
+### Features
+
+- **no-misused-observables**: improve report location for functions: reports their return type or the function head ([#238](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/238)) ([8e06ed9](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/8e06ed97b683c40e93260fc0fef795e8443e2958))
+
+### Fixes
+
+- **no-misused-observables**: false positive for JSX attributes ([#239](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/239)) ([636c922](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/636c922668ccd4cd7add9e4a2fd2e437268318a9))
+- **no-misused-observables**: don't report on static accessor properties ([#240](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/240)) ([eee86ce](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/eee86cef74c5a279aa1039c5f93d849775169cde))
+- **no-misused-observables**: allow Observable-returning functions for union types ([#236](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/236)) ([93c6dab](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/93c6dabcea81ea6e579c62fcd9ad5dceecef8d57))
+
 ## v0.7.6 (2025-06-16)
 
 ### Fixes
