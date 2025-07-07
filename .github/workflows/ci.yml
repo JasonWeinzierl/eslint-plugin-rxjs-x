@@ -18,7 +18,11 @@ jobs:
   check:
     strategy:
       matrix:
-        node-version: [18, 20, 22]
+        node-version:
+          - 18
+          - 20
+          - 22
+          - 24
 
     runs-on: ubuntu-latest
 
