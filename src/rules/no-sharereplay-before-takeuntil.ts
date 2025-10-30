@@ -1,6 +1,7 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { isCallExpression, isIdentifier, isLiteral, isMemberExpression, isObjectExpression, isProperty } from '../etc';
-import { ruleCreator } from '../utils';
+import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
+import { isIdentifier, isLiteral, isMemberExpression, isObjectExpression, isProperty } from '../etc';
+import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
 export const noSharereplayBeforeTakeuntilRule = ruleCreator({
   defaultOptions: [],
@@ -27,18 +28,18 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         return;
       }
 
-      const takeUntilIndex = pipeCallExpression.arguments.findIndex(arg =>
-        isCallExpression(arg)
-        && (
-          (isIdentifier(arg.callee)
-            && arg.callee.name === 'takeUntil')
-          || (isMemberExpression(arg.callee)
-            && isIdentifier(arg.callee.property)
-            && arg.callee.property.name === 'takeUntil')
-        ),
+      const { isOrderValid, operatorNode: takeUntilNode } = findIsLastOperatorOrderValid(
+        pipeCallExpression,
+        /^takeUntil$/,
+        DEFAULT_VALID_POST_COMPLETION_OPERATORS,
       );
+      if (!isOrderValid || !takeUntilNode) {
+        // takeUntil is not present or in an unsafe position itself.
+        return;
+      }
 
-      if (takeUntilIndex === -1) {
+      if (takeUntilNode.range[0] < node.range[0]) {
+        // takeUntil is before shareReplay.
         return;
       }
 

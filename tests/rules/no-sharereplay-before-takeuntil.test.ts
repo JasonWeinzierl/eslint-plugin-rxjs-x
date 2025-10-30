@@ -45,6 +45,15 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
       a.pipe(sr, takeUntil(b));
     `,
     stripIndent`
+      // shareReplay after takeUntil
+      import { of, takeUntil, shareReplay } from "rxjs";
+
+      const a = of("a");
+      const b = of("b");
+
+      a.pipe(takeUntil(b), shareReplay({ refCount: false }));
+    `,
+    stripIndent`
       // unrelated
       import { of, takeUntil, toArray } from "rxjs";
 
