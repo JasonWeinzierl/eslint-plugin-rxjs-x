@@ -8,10 +8,6 @@ import tseslint from 'typescript-eslint';
 import vitest from '@vitest/eslint-plugin';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
-/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.Config} */
-// @ts-expect-error -- eslint-plugin does not provide types.
-const eslintPluginConfig = eslintPlugin.configs['flat/recommended'];
-
 export default tseslint.config(gitignore(), {
   files: [
     'src/**/*.ts',
@@ -33,7 +29,7 @@ export default tseslint.config(gitignore(), {
     n.configs['flat/recommended-module'],
     importX.flatConfigs.recommended,
     importX.flatConfigs.typescript,
-    eslintPluginConfig,
+    eslintPlugin.configs.recommended,
   ],
   languageOptions: {
     parserOptions: {
@@ -74,6 +70,11 @@ export default tseslint.config(gitignore(), {
     ],
     'eslint-plugin/prefer-placeholders': 'error',
     'eslint-plugin/require-meta-schema-description': 'error',
+    // TODO(https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/51):
+    // fixing these may require bumping the minimum ESLint version.
+    'eslint-plugin/require-meta-default-options': 'off',
+    'eslint-plugin/no-meta-schema-default': 'off',
+    'eslint-plugin/no-meta-replaced-by': 'off',
 
     '@typescript-eslint/no-unnecessary-condition': 'off',
     '@typescript-eslint/restrict-template-expressions': [
