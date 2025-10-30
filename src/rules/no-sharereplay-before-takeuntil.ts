@@ -8,6 +8,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow using `shareReplay({ refCount: false })` before `takeUntil`.',
+      recommended: 'strict',
     },
     messages: {
       forbidden: 'shareReplay before takeUntil is forbidden unless \'refCount: true\' is specified.',

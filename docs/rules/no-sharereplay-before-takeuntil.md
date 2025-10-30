@@ -1,5 +1,7 @@
 # Disallow using `shareReplay({ refCount: false })` before `takeUntil` (`rxjs-x/no-sharereplay-before-takeuntil`)
 
+💼 This rule is enabled in the 🔒 `strict` config.
+
 <!-- end auto-generated rule header -->
 
 This rule effects failures if the `shareReplay` operator is used without its reference counting behavior
