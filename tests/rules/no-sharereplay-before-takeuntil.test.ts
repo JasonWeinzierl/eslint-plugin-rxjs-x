@@ -25,7 +25,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
       a.pipe(shareReplay({ refCount: t }), takeUntil(b));
     `,
     stripIndent`
-      // refCount variable not supported
+      // refCount as variable not supported
       import { of, takeUntil, shareReplay } from "rxjs";
 
       const a = of("a");
@@ -52,6 +52,32 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
       const b = of("b");
 
       a.pipe(takeUntil(b), shareReplay({ refCount: false }));
+    `,
+    stripIndent`
+      // shareReplay after takeUntil with operators in between
+      import { of, takeUntil, shareReplay, map, filter } from "rxjs";
+
+      const a = of("a");
+      const b = of("b");
+
+      a.pipe(takeUntil(b), map(x => x), filter(x => !!x), shareReplay());
+    `,
+    stripIndent`
+      // namespace import with refCount true
+      import * as Rx from "rxjs";
+
+      const a = Rx.of("a");
+      const b = Rx.of("b");
+
+      a.pipe(Rx.shareReplay({ refCount: true }), Rx.takeUntil(b));
+    `,
+    stripIndent`
+      // shareReplay by itself
+      import { of, shareReplay } from "rxjs";
+
+      const a = of("a");
+
+      a.pipe(shareReplay());
     `,
     stripIndent`
       // unrelated
