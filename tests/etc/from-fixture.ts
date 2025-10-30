@@ -20,7 +20,7 @@ export function fromFixture<
     'code' | 'errors'
   > & {
     suggestions?: readonly SuggestionOutput<TMessageIds>[] | null;
-  }
+  },
 ): InvalidTestCase<TMessageIds, TOptions>;
 export function fromFixture<
   TMessageIds extends string,

@@ -11,7 +11,7 @@ const messageBase
     + 'or be explicitly marked as ignored with the `void` operator.';
 
 const messageBaseNoVoid
-    = 'Observables must be subscribed to, returned, or converted to a promise and awaited.';
+  = 'Observables must be subscribed to, returned, or converted to a promise and awaited.';
 
 export const noFloatingObservablesRule = ruleCreator({
   defaultOptions,

@@ -94,7 +94,7 @@ function isExpressionObserver(
   couldBeType: (
     node: es.Node,
     name: string | RegExp,
-    qualified?: { name: RegExp }
+    qualified?: { name: RegExp },
   ) => boolean,
 ): boolean {
   if (!isCallExpression(expressionStatement.expression)) {
