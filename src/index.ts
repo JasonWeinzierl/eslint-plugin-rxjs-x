@@ -1,4 +1,4 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import type * as eslint from 'eslint';
 import { name, version } from '../package.json';
 import { createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
@@ -98,7 +98,7 @@ const plugin = {
     'suffix-subjects': suffixSubjectsRule,
     'throw-error': throwErrorRule,
   },
-} satisfies TSESLint.FlatConfig.Plugin;
+} satisfies eslint.ESLint.Plugin;
 
 const rxjsX = {
   ...plugin,
@@ -106,6 +106,6 @@ const rxjsX = {
     recommended: createRecommendedConfig(plugin),
     strict: createStrictConfig(plugin),
   },
-} satisfies TSESLint.FlatConfig.Plugin;
+} satisfies eslint.ESLint.Plugin;
 
 export default rxjsX;

@@ -1,11 +1,11 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import type * as eslint from 'eslint';
 
 export const createRecommendedConfig = (
-  plugin: TSESLint.FlatConfig.Plugin,
+  plugin: eslint.ESLint.Plugin,
 ) => ({
   name: 'rxjs-x/recommended' as const,
   plugins: {
-    'rxjs-x': plugin,
+    'rxjs-x': plugin as unknown as eslint.ESLint.Plugin,
   },
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
@@ -29,4 +29,4 @@ export const createRecommendedConfig = (
     'rxjs-x/prefer-root-operators': 'error',
     'rxjs-x/throw-error': 'error',
   },
-} satisfies TSESLint.FlatConfig.Config);
+} satisfies eslint.Linter.Config);
