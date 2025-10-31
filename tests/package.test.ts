@@ -1,7 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import plugin from '../src';
-import { RxjsXRuleDocs } from '../src/utils';
 
 function isSourceFile(value: string): boolean {
   const ext = path.extname(value);
@@ -52,7 +51,7 @@ describe('package', () => {
     const namespace = 'rxjs-x';
     const fullRuleName = `${namespace}/${ruleName}`;
 
-    const ruleRec = (rule.meta.docs as RxjsXRuleDocs<unknown[], string>)?.recommended;
+    const ruleRec = rule.meta.docs?.recommended;
 
     if (!ruleRec) {
       // Rule is not included in any configuration.
@@ -70,9 +69,12 @@ describe('package', () => {
       // Strict configuration always includes all recommended rules.
       // Not allowed to specify non-default options since rule only specifies a configuration name.
       expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
+    } else if (typeof ruleRec !== 'object' || !('strict' in ruleRec && Array.isArray(ruleRec.strict))) {
+      // Rule has invalid recommended configuration.
+      expect.fail(`Unexpected type for 'rule.meta.docs.recommended': '${typeof ruleRec}'.`);
     } else {
       // Rule specifies non-default options for strict.
-      if (ruleRec.recommended) {
+      if ('recommended' in ruleRec) {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
