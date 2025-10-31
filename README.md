@@ -83,7 +83,6 @@ export default defineConfig({
 });
 ```
 
-
 ## Configs
 
 <!-- begin auto-generated configs list -->
