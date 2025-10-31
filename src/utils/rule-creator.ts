@@ -1,20 +1,19 @@
-import { ESLintUtils } from '@typescript-eslint/utils';
-import type { Rule } from 'eslint';
+import { ESLintUtils, TSESLint } from '@typescript-eslint/utils';
 import { version } from '../../package.json';
 
-export interface RxjsXRuleDocs<Options extends readonly unknown[] = []> {
+export interface RxjsXRuleDocs<Options extends readonly unknown[]> {
   description: string;
-  recommended?: 'recommended' | 'strict' | {
-    recommended?: true;
-    strict: Partial<Options>;
-  };
+  recommended?: TSESLint.RuleRecommendation | TSESLint.RuleRecommendationAcrossConfigs<Options>;
   requiresTypeChecking?: boolean;
 }
 
 const REPO_URL = 'https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x';
 
-export const ruleCreator = ESLintUtils.RuleCreator<RxjsXRuleDocs>(
+export const ruleCreator = ESLintUtils.RuleCreator<RxjsXRuleDocs<unknown[]>>(
   (name) =>
     `${REPO_URL}/blob/v${version}/docs/rules/${name}.md`,
-// Compatibility until https://github.com/typescript-eslint/typescript-eslint/issues/11543 is addressed.
-) as unknown as <Options extends readonly unknown[], MessageIds extends string>({ meta, name, ...rule }: Readonly<ESLintUtils.RuleWithMetaAndName<Options, MessageIds, RxjsXRuleDocs<Options>>>) => Rule.RuleModule;
+// Ensure the Options type is passed to RxjsXRuleDocs.
+) as <
+  Options extends readonly unknown[],
+  MessageIds extends string,
+>({ meta, name, ...rule }: Readonly<ESLintUtils.RuleWithMetaAndName<Options, MessageIds, RxjsXRuleDocs<Options>>>) => TSESLint.RuleModule<MessageIds, Options, RxjsXRuleDocs<Options>>;
