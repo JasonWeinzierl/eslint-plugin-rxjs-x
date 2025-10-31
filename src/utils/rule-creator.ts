@@ -12,7 +12,7 @@ const REPO_URL = 'https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x';
 export const ruleCreator = ESLintUtils.RuleCreator<RxjsXRuleDocs<unknown[], string>>(
   (name) =>
     `${REPO_URL}/blob/v${version}/docs/rules/${name}.md`,
-// Ensure the Options type is passed to RxjsXRuleDocs.
+// Ensure the resulting types are narrowed to exactly what each rule declares.
 ) as <
   Options extends readonly unknown[],
   MessageIds extends string,
