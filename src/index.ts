@@ -1,4 +1,4 @@
-import type * as eslint from 'eslint';
+import type { ESLint } from 'eslint';
 import { name, version } from '../package.json';
 import { createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
@@ -98,7 +98,7 @@ const plugin = {
     'suffix-subjects': suffixSubjectsRule,
     'throw-error': throwErrorRule,
   },
-} satisfies eslint.ESLint.Plugin;
+} satisfies ESLint.Plugin;
 
 const rxjsX = {
   ...plugin,
@@ -106,6 +106,6 @@ const rxjsX = {
     recommended: createRecommendedConfig(plugin),
     strict: createStrictConfig(plugin),
   },
-} satisfies eslint.ESLint.Plugin;
+} satisfies ESLint.Plugin;
 
 export default rxjsX;

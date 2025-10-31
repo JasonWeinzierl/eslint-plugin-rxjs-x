@@ -1,11 +1,12 @@
-import type * as eslint from 'eslint';
+import type { ESLint, Linter } from 'eslint';
 
 export const createRecommendedConfig = (
-  plugin: eslint.ESLint.Plugin,
+  plugin: ESLint.Plugin,
 ) => ({
   name: 'rxjs-x/recommended' as const,
   plugins: {
-    'rxjs-x': plugin as unknown as eslint.ESLint.Plugin,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- "A type annotation is necessary."
+    'rxjs-x': plugin as ESLint.Plugin,
   },
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
@@ -29,4 +30,4 @@ export const createRecommendedConfig = (
     'rxjs-x/prefer-root-operators': 'error',
     'rxjs-x/throw-error': 'error',
   },
-} satisfies eslint.Linter.Config);
+} satisfies Linter.Config);
