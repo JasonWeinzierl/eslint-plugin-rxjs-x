@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import plugin from '../src';
+import { RxjsXRuleDocs } from '../src/utils';
 
 function isSourceFile(value: string): boolean {
   const ext = path.extname(value);
@@ -51,14 +52,16 @@ describe('package', () => {
     const namespace = 'rxjs-x';
     const fullRuleName = `${namespace}/${ruleName}`;
 
-    if (!rule.meta.docs?.recommended) {
+    const ruleRec = (rule.meta.docs as RxjsXRuleDocs<unknown[], string>)?.recommended;
+
+    if (!ruleRec) {
       // Rule is not included in any configuration.
       expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       expect(plugin.configs.strict.rules).not.toHaveProperty(fullRuleName);
-    } else if (typeof rule.meta.docs.recommended === 'string') {
+    } else if (typeof ruleRec === 'string') {
       // Rule specifies only a configuration name.
-      expect(rule.meta.docs.recommended).toMatch(/^(recommended|strict)$/);
-      if (rule.meta.docs.recommended === 'recommended') {
+      expect(ruleRec).toMatch(/^(recommended|strict)$/);
+      if (ruleRec === 'recommended') {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
@@ -69,12 +72,12 @@ describe('package', () => {
       expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
     } else {
       // Rule specifies non-default options for strict.
-      if (rule.meta.docs.recommended.recommended) {
+      if (ruleRec.recommended) {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       }
-      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), rule.meta.docs.recommended.strict[0]]);
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), ruleRec.strict[0]]);
     }
   });
 });
