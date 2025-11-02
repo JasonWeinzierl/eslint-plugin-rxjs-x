@@ -1,9 +1,9 @@
 import { stripIndent } from 'common-tags';
-import { noUnnecessaryCombineRule } from '../../src/rules/no-unnecessary-combine';
+import { noUnnecessaryCollectionRule } from '../../src/rules/no-unnecessary-collection';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: true }).run('no-unnecessary-combine', noUnnecessaryCombineRule, {
+ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollectionRule, {
   valid: [
     // #region valid; multiple observables in array
     stripIndent`

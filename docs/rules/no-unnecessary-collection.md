@@ -1,14 +1,14 @@
-# Disallow unnecessary usage of combining operators with single values (`rxjs-x/no-unnecessary-combine`)
+# Disallow unnecessary usage of collection arguments with single values (`rxjs-x/no-unnecessary-collection`)
 
 💼 This rule is enabled in the 🔒 `strict` config.
 
 <!-- end auto-generated rule header -->
 
-This rule effects failures when static observable creators that accept multiple observables
-(`combineLatest`, `forkJoin`, `merge`, `zip`, `concat`, `race`)
-are passed only a single observable.
+This rule effects failures when passing a collection (object or array) containing a single observable
+to the static observable creators that accept multiple observables
+(`combineLatest`, `forkJoin`, `merge`, `zip`, `concat`, `race`).
 Use of these creator functions with only a single observable
-can be replace with direct usage of the observable itself.
+can be replaced with direct usage of the observable itself.
 
 ## Rule details
 
@@ -50,10 +50,10 @@ const h$ = of(1);
 
 ## When Not To Use It
 
-If you don't care about unnecessary use of static observable creators,
+If you don't care about unnecessary usage of static observable creators,
 then you don't need this rule.
 
 ## Resources
 
-- [Rule source](/src/rules/no-unnecessary-combine.ts)
-- [Test source](/tests/rules/no-unnecessary-combine.test.ts)
+- [Rule source](/src/rules/no-unnecessary-collection.ts)
+- [Test source](/tests/rules/no-unnecessary-collection.test.ts)

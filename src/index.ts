@@ -41,7 +41,7 @@ import { noSubscribeInPipeRule } from './rules/no-subscribe-in-pipe';
 import { noTapRule } from './rules/no-tap';
 import { noTopromiseRule } from './rules/no-topromise';
 import { noUnboundMethodsRule } from './rules/no-unbound-methods';
-import { noUnnecessaryCombineRule } from './rules/no-unnecessary-combine';
+import { noUnnecessaryCollectionRule } from './rules/no-unnecessary-collection';
 import { noUnsafeCatchRule } from './rules/no-unsafe-catch';
 import { noUnsafeFirstRule } from './rules/no-unsafe-first';
 import { noUnsafeSubjectNext } from './rules/no-unsafe-subject-next';
@@ -90,7 +90,7 @@ const allRules = {
   'no-tap': noTapRule,
   'no-topromise': noTopromiseRule,
   'no-unbound-methods': noUnboundMethodsRule,
-  'no-unnecessary-combine': noUnnecessaryCombineRule,
+  'no-unnecessary-collection': noUnnecessaryCollectionRule,
   'no-unsafe-catch': noUnsafeCatchRule,
   'no-unsafe-first': noUnsafeFirstRule,
   'no-unsafe-subject-next': noUnsafeSubjectNext,

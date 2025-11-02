@@ -5,11 +5,11 @@ import { MULTIPLE_OBSERVABLE_ACCEPTING_STATIC_OBSERVABLE_CREATORS, SOURCES_OBJEC
 import { getTypeServices, isArrayExpression, isObjectExpression, isProperty } from '../etc';
 import { ruleCreator } from '../utils';
 
-export const noUnnecessaryCombineRule = ruleCreator({
+export const noUnnecessaryCollectionRule = ruleCreator({
   defaultOptions: [],
   meta: {
     docs: {
-      description: 'Disallow unnecessary usage of combining operators with single values.',
+      description: 'Disallow unnecessary usage of collection arguments with single values.',
       recommended: 'strict',
       requiresTypeChecking: false,
     },
@@ -19,7 +19,7 @@ export const noUnnecessaryCombineRule = ruleCreator({
     schema: [],
     type: 'suggestion',
   },
-  name: 'no-unnecessary-combine',
+  name: 'no-unnecessary-collection',
   create: (context) => {
     const { couldBeType, couldBeObservable } = getTypeServices(context);
 
