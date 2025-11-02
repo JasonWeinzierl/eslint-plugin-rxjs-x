@@ -51,14 +51,16 @@ describe('package', () => {
     const namespace = 'rxjs-x';
     const fullRuleName = `${namespace}/${ruleName}`;
 
-    if (!rule.meta.docs?.recommended) {
+    const ruleRec = rule.meta.docs?.recommended;
+
+    if (!ruleRec) {
       // Rule is not included in any configuration.
       expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       expect(plugin.configs.strict.rules).not.toHaveProperty(fullRuleName);
-    } else if (typeof rule.meta.docs.recommended === 'string') {
+    } else if (typeof ruleRec === 'string') {
       // Rule specifies only a configuration name.
-      expect(rule.meta.docs.recommended).toMatch(/^(recommended|strict)$/);
-      if (rule.meta.docs.recommended === 'recommended') {
+      expect(ruleRec).toMatch(/^(recommended|strict)$/);
+      if (ruleRec === 'recommended') {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
@@ -67,14 +69,17 @@ describe('package', () => {
       // Strict configuration always includes all recommended rules.
       // Not allowed to specify non-default options since rule only specifies a configuration name.
       expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
+    } else if (typeof ruleRec !== 'object' || !('strict' in ruleRec && Array.isArray(ruleRec.strict))) {
+      // Rule has invalid recommended configuration.
+      expect.fail(`Unexpected type for 'rule.meta.docs.recommended': '${typeof ruleRec}'.`);
     } else {
       // Rule specifies non-default options for strict.
-      if (rule.meta.docs.recommended.recommended) {
+      if ('recommended' in ruleRec) {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {
         expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       }
-      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), rule.meta.docs.recommended.strict[0]]);
+      expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), ruleRec.strict[0]]);
     }
   });
 });

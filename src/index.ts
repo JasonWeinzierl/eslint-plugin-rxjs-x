@@ -1,4 +1,5 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import type { TSESLint } from '@typescript-eslint/utils';
+import type { ESLint, Rule } from 'eslint';
 import { name, version } from '../package.json';
 import { createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
@@ -49,56 +50,59 @@ import { preferRootOperatorsRule } from './rules/prefer-root-operators';
 import { suffixSubjectsRule } from './rules/suffix-subjects';
 import { throwErrorRule } from './rules/throw-error';
 
+const allRules = {
+  'ban-observables': banObservablesRule,
+  'ban-operators': banOperatorsRule,
+  'finnish': finnishRule,
+  'just': justRule,
+  'macro': macroRule,
+  'no-async-subscribe': noAsyncSubscribeRule,
+  'no-compat': noCompatRule,
+  'no-connectable': noConnectableRule,
+  'no-create': noCreateRule,
+  'no-cyclic-action': noCyclicActionRule,
+  'no-explicit-generics': noExplicitGenericsRule,
+  'no-exposed-subjects': noExposedSubjectsRule,
+  'no-finnish': noFinnishRule,
+  'no-floating-observables': noFloatingObservablesRule,
+  'no-ignored-default-value': noIgnoredDefaultValueRule,
+  'no-ignored-error': noIgnoredErrorRule,
+  'no-ignored-notifier': noIgnoredNotifierRule,
+  'no-ignored-replay-buffer': noIgnoredReplayBufferRule,
+  'no-ignored-subscribe': noIgnoredSubscribeRule,
+  'no-ignored-subscription': noIgnoredSubscriptionRule,
+  'no-ignored-takewhile-value': noIgnoredTakewhileValueRule,
+  'no-implicit-any-catch': noImplicitAnyCatchRule,
+  'no-index': noIndexRule,
+  'no-internal': noInternalRule,
+  'no-misused-observables': noMisusedObservablesRule,
+  'no-nested-subscribe': noNestedSubscribeRule,
+  'no-redundant-notify': noRedundantNotifyRule,
+  'no-sharereplay': noSharereplayRule,
+  'no-subclass': noSubclassRule,
+  'no-subject-unsubscribe': noSubjectUnsubscribeRule,
+  'no-subject-value': noSubjectValueRule,
+  'no-subscribe-handlers': noSubscribeHandlersRule,
+  'no-subscribe-in-pipe': noSubscribeInPipeRule,
+  'no-tap': noTapRule,
+  'no-topromise': noTopromiseRule,
+  'no-unbound-methods': noUnboundMethodsRule,
+  'no-unsafe-catch': noUnsafeCatchRule,
+  'no-unsafe-first': noUnsafeFirstRule,
+  'no-unsafe-subject-next': noUnsafeSubjectNext,
+  'no-unsafe-switchmap': noUnsafeSwitchmapRule,
+  'no-unsafe-takeuntil': noUnsafeTakeuntilRule,
+  'prefer-observer': preferObserverRule,
+  'prefer-root-operators': preferRootOperatorsRule,
+  'suffix-subjects': suffixSubjectsRule,
+  'throw-error': throwErrorRule,
+} satisfies TSESLint.FlatConfig.Plugin['rules'];
+
 const plugin = {
   meta: { name, version },
-  rules: {
-    'ban-observables': banObservablesRule,
-    'ban-operators': banOperatorsRule,
-    'finnish': finnishRule,
-    'just': justRule,
-    'macro': macroRule,
-    'no-async-subscribe': noAsyncSubscribeRule,
-    'no-compat': noCompatRule,
-    'no-connectable': noConnectableRule,
-    'no-create': noCreateRule,
-    'no-cyclic-action': noCyclicActionRule,
-    'no-explicit-generics': noExplicitGenericsRule,
-    'no-exposed-subjects': noExposedSubjectsRule,
-    'no-finnish': noFinnishRule,
-    'no-floating-observables': noFloatingObservablesRule,
-    'no-ignored-default-value': noIgnoredDefaultValueRule,
-    'no-ignored-error': noIgnoredErrorRule,
-    'no-ignored-notifier': noIgnoredNotifierRule,
-    'no-ignored-replay-buffer': noIgnoredReplayBufferRule,
-    'no-ignored-subscribe': noIgnoredSubscribeRule,
-    'no-ignored-subscription': noIgnoredSubscriptionRule,
-    'no-ignored-takewhile-value': noIgnoredTakewhileValueRule,
-    'no-implicit-any-catch': noImplicitAnyCatchRule,
-    'no-index': noIndexRule,
-    'no-internal': noInternalRule,
-    'no-misused-observables': noMisusedObservablesRule,
-    'no-nested-subscribe': noNestedSubscribeRule,
-    'no-redundant-notify': noRedundantNotifyRule,
-    'no-sharereplay': noSharereplayRule,
-    'no-subclass': noSubclassRule,
-    'no-subject-unsubscribe': noSubjectUnsubscribeRule,
-    'no-subject-value': noSubjectValueRule,
-    'no-subscribe-handlers': noSubscribeHandlersRule,
-    'no-subscribe-in-pipe': noSubscribeInPipeRule,
-    'no-tap': noTapRule,
-    'no-topromise': noTopromiseRule,
-    'no-unbound-methods': noUnboundMethodsRule,
-    'no-unsafe-catch': noUnsafeCatchRule,
-    'no-unsafe-first': noUnsafeFirstRule,
-    'no-unsafe-subject-next': noUnsafeSubjectNext,
-    'no-unsafe-switchmap': noUnsafeSwitchmapRule,
-    'no-unsafe-takeuntil': noUnsafeTakeuntilRule,
-    'prefer-observer': preferObserverRule,
-    'prefer-root-operators': preferRootOperatorsRule,
-    'suffix-subjects': suffixSubjectsRule,
-    'throw-error': throwErrorRule,
-  },
-} satisfies TSESLint.FlatConfig.Plugin;
+  /** Compatibility with `defineConfig` until https://github.com/typescript-eslint/typescript-eslint/issues/11543 is addressed. */
+  rules: allRules as { [K in keyof typeof allRules]: (typeof allRules)[K] & Rule.RuleModule },
+} satisfies ESLint.Plugin;
 
 const rxjsX = {
   ...plugin,
@@ -106,6 +110,6 @@ const rxjsX = {
     recommended: createRecommendedConfig(plugin),
     strict: createStrictConfig(plugin),
   },
-} satisfies TSESLint.FlatConfig.Plugin;
+} satisfies ESLint.Plugin;
 
 export default rxjsX;

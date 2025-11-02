@@ -1,14 +1,15 @@
 // @ts-check
 import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
+import vitest from '@vitest/eslint-plugin';
 import gitignore from 'eslint-config-flat-gitignore';
+import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import importX from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
-import vitest from '@vitest/eslint-plugin';
-import eslintPlugin from 'eslint-plugin-eslint-plugin';
 
-export default tseslint.config(gitignore(), {
+export default defineConfig(gitignore(), {
   files: [
     'src/**/*.ts',
     'tests/**/*.ts',

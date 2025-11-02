@@ -312,12 +312,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/config-helpers@npm:^0.4.1":
-  version: 0.4.2
-  resolution: "@eslint/config-helpers@npm:0.4.2"
+"@eslint/config-helpers@npm:0.4.1, @eslint/config-helpers@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "@eslint/config-helpers@npm:0.4.1"
   dependencies:
-    "@eslint/core": "npm:^0.17.0"
-  checksum: 10c0/92efd7a527b2d17eb1a148409d71d80f9ac160b565ac73ee092252e8bf08ecd08670699f46b306b94f13d22e88ac88a612120e7847570dd7cdc72f234d50dcb4
+    "@eslint/core": "npm:^0.16.0"
+  checksum: 10c0/bb7dd534019a975320ac0f8e0699b37433cee9a3731354c1ee941648e6651032386e7848792060fb53a0fd603ea6cf7a101ed3bd5b82ee2f641598986d1e080a
   languageName: node
   linkType: hard
 
@@ -886,7 +886,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:8.46.2, @typescript-eslint/scope-manager@npm:^8.19.1":
+"@typescript-eslint/scope-manager@npm:8.46.2, @typescript-eslint/scope-manager@npm:^8.19.1, @typescript-eslint/scope-manager@npm:^8.46.1":
   version: 8.46.2
   resolution: "@typescript-eslint/scope-manager@npm:8.46.2"
   dependencies:
@@ -948,7 +948,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.46.2, @typescript-eslint/utils@npm:^8.0.0, @typescript-eslint/utils@npm:^8.19.1, @typescript-eslint/utils@npm:^8.24.1":
+"@typescript-eslint/utils@npm:8.46.2, @typescript-eslint/utils@npm:^8.0.0, @typescript-eslint/utils@npm:^8.19.1, @typescript-eslint/utils@npm:^8.46.1":
   version: 8.46.2
   resolution: "@typescript-eslint/utils@npm:8.46.2"
   dependencies:
@@ -1146,21 +1146,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/eslint-plugin@npm:^1.2.7":
-  version: 1.2.7
-  resolution: "@vitest/eslint-plugin@npm:1.2.7"
+"@vitest/eslint-plugin@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@vitest/eslint-plugin@npm:1.4.0"
   dependencies:
-    "@typescript-eslint/utils": "npm:^8.24.1"
+    "@typescript-eslint/scope-manager": "npm:^8.46.1"
+    "@typescript-eslint/utils": "npm:^8.46.1"
   peerDependencies:
-    eslint: ">= 8.57.0"
-    typescript: ">= 5.0.0"
+    eslint: ">=8.57.0"
+    typescript: ">=5.0.0"
     vitest: "*"
   peerDependenciesMeta:
     typescript:
       optional: true
     vitest:
       optional: true
-  checksum: 10c0/85f71e977ed898345fbe32aaa3c149a5ec62b447a021978c002ce8c10494249f5d47f84eee7e5ee68df323fe893dd7a5fe2a04dab8daa6bd3e3f898196bdc340
+  checksum: 10c0/6958ce071d4118560c126077e2aae7b628a3dd26bf586511ed168ec833f5aaf3981cc43ba8783b1b0db5f8517e7d8ed4e7b54b616b4beee43a4bc957d2b1a076
   languageName: node
   linkType: hard
 
@@ -2181,6 +2182,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eslint-plugin-rxjs-x@workspace:."
   dependencies:
+    "@eslint/config-helpers": "npm:0.4.1"
     "@eslint/js": "npm:^9.38.0"
     "@stylistic/eslint-plugin": "npm:^5.5.0"
     "@types/common-tags": "npm:^1.8.4"
@@ -2190,7 +2192,7 @@ __metadata:
     "@typescript-eslint/utils": "npm:^8.19.1"
     "@typescript/vfs": "npm:^1.6.1"
     "@vitest/coverage-v8": "npm:^3.2.4"
-    "@vitest/eslint-plugin": "npm:^1.2.7"
+    "@vitest/eslint-plugin": "npm:^1.4.0"
     bumpp: "npm:^10.3.1"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"

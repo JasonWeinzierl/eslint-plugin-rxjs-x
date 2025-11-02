@@ -1,11 +1,12 @@
-import { TSESLint } from '@typescript-eslint/utils';
+import type { ESLint, Linter } from 'eslint';
 
 export const createStrictConfig = (
-  plugin: TSESLint.FlatConfig.Plugin,
+  plugin: ESLint.Plugin,
 ) => ({
   name: 'rxjs-x/strict' as const,
   plugins: {
-    'rxjs-x': plugin,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- "A type annotation is necessary."
+    'rxjs-x': plugin as ESLint.Plugin,
   },
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
@@ -40,4 +41,4 @@ export const createStrictConfig = (
       allowThrowingUnknown: false as const,
     }],
   },
-} satisfies TSESLint.FlatConfig.Config);
+} satisfies Linter.Config);
