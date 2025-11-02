@@ -2,6 +2,13 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.8.0 (2025-11-02)
+
+### Fixes
+
+- Add compatibility with eslint's `defineConfig()` ([#283](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/283)) ([ea87c86](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ea87c86d6b0b020d2eb2818f126f208556950543))
+- README has been updated with a more detailed migration guide.
+
 ## v0.7.7 (2025-07-07)
 
 ### Features
