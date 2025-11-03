@@ -11,7 +11,7 @@ export const SOURCES_OBJECT_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
 
 /**
  * The names of static observable creators
- * that accept multiple observables as input.
+ * that accept a collection (array or object) of multiple observables as input.
  */
 export const MULTIPLE_OBSERVABLE_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
   'combineLatest',
