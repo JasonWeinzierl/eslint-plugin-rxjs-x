@@ -33,6 +33,7 @@ export const createStrictConfig = (
     'rxjs-x/no-subscribe-in-pipe': 'error',
     'rxjs-x/no-topromise': 'error',
     'rxjs-x/no-unbound-methods': 'error',
+    'rxjs-x/no-unnecessary-collection': 'error',
     'rxjs-x/no-unsafe-subject-next': 'error',
     'rxjs-x/no-unsafe-takeuntil': 'error',
     'rxjs-x/prefer-observer': 'error',

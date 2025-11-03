@@ -10,6 +10,19 @@ export const SOURCES_OBJECT_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
 ];
 
 /**
+ * The names of static observable creators
+ * that accept a collection (array or object) of multiple observables as input.
+ */
+export const MULTIPLE_OBSERVABLE_ACCEPTING_STATIC_OBSERVABLE_CREATORS = [
+  'combineLatest',
+  'forkJoin',
+  'merge',
+  'zip',
+  'concat',
+  'race',
+];
+
+/**
  * The names of types that are allowed to be passed unbound.
  */
 export const DEFAULT_UNBOUND_ALLOWED_TYPES = [
