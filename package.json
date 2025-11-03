@@ -84,7 +84,7 @@
     "bumpp": "^10.3.1",
     "eslint": "^9.38.0",
     "eslint-config-flat-gitignore": "^2.1.0",
-    "eslint-doc-generator": "~2.2.2",
+    "eslint-doc-generator": "~2.3.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-eslint-plugin": "^7.2.0",
     "eslint-plugin-import-x": "^4.16.1",
