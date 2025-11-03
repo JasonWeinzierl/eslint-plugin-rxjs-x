@@ -2,6 +2,14 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.8.1 (2025-11-03)
+
+### Features
+
+- **no-sharereplay-before-takeuntil**: new rule to forbid putting `shareReplay` with `refCount: false` before `takeUntil`. ([#241](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/241)) ([dafc378](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/dafc37854ab2ae16b9de7c545d69581256e12793))
+- **no-unnecessary-collection**: new rule to forbid unnecessary passing a single observable to functions expecting multiple, like `combineLatest` or `forkJoin`. ([#281](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/281)) ([61abe24](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/61abe24d1e3e3cd40f60d36433ff1541d3b4af59))
+- **no-sharereplay-before-takeuntil** and **no-unnecessary-collection** added to strict config.
+
 ## v0.8.0 (2025-11-02)
 
 ### Fixes
