@@ -32,6 +32,7 @@ import { noMisusedObservablesRule } from './rules/no-misused-observables';
 import { noNestedSubscribeRule } from './rules/no-nested-subscribe';
 import { noRedundantNotifyRule } from './rules/no-redundant-notify';
 import { noSharereplayRule } from './rules/no-sharereplay';
+import { noSharereplayBeforeTakeuntilRule } from './rules/no-sharereplay-before-takeuntil';
 import { noSubclassRule } from './rules/no-subclass';
 import { noSubjectUnsubscribeRule } from './rules/no-subject-unsubscribe';
 import { noSubjectValueRule } from './rules/no-subject-value';
@@ -79,6 +80,7 @@ const allRules = {
   'no-nested-subscribe': noNestedSubscribeRule,
   'no-redundant-notify': noRedundantNotifyRule,
   'no-sharereplay': noSharereplayRule,
+  'no-sharereplay-before-takeuntil': noSharereplayBeforeTakeuntilRule,
   'no-subclass': noSubclassRule,
   'no-subject-unsubscribe': noSubjectUnsubscribeRule,
   'no-subject-value': noSubjectValueRule,

@@ -26,6 +26,7 @@ export const createStrictConfig = (
     'rxjs-x/no-misused-observables': 'error',
     'rxjs-x/no-nested-subscribe': 'error',
     'rxjs-x/no-redundant-notify': 'error',
+    'rxjs-x/no-sharereplay-before-takeuntil': 'error',
     'rxjs-x/no-sharereplay': 'error',
     'rxjs-x/no-subclass': 'error',
     'rxjs-x/no-subject-unsubscribe': 'error',
