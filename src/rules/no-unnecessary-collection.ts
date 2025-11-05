@@ -2,7 +2,7 @@ import {
   TSESTree as es,
 } from '@typescript-eslint/utils';
 import { MULTIPLE_OBSERVABLE_ACCEPTING_STATIC_OBSERVABLE_CREATORS, SOURCES_OBJECT_ACCEPTING_STATIC_OBSERVABLE_CREATORS } from '../constants';
-import { getTypeServices, isArrayExpression, isObjectExpression, isProperty } from '../etc';
+import { getTypeServices, isArrayExpression, isObjectExpression, isProperty, isSpreadElement } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noUnnecessaryCollectionRule = ruleCreator({
@@ -71,7 +71,7 @@ export const noUnnecessaryCollectionRule = ruleCreator({
       }
 
       // Single rest parameter argument.
-      if (args.length === 1 && couldBeObservable(firstArg)) {
+      if (args.length === 1 && !isSpreadElement(firstArg) && couldBeObservable(firstArg)) {
         context.report({
           messageId: 'forbidden',
           node: node.callee,

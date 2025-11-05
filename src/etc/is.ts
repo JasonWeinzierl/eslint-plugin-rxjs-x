@@ -134,6 +134,10 @@ export function isRestElement(node: TSESTree.Node): node is TSESTree.RestElement
   return node.type === AST_NODE_TYPES.RestElement;
 }
 
+export function isSpreadElement(node: TSESTree.Node): node is TSESTree.SpreadElement {
+  return node.type === AST_NODE_TYPES.SpreadElement;
+}
+
 export function isThisExpression(node: TSESTree.Node): node is TSESTree.ThisExpression {
   return node.type === AST_NODE_TYPES.ThisExpression;
 }

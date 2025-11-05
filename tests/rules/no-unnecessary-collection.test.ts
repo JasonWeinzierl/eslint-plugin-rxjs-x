@@ -39,6 +39,13 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       const merged$ = merge(a$, b$);
     `,
     stripIndent`
+      // merge with spread
+      import { merge, of } from "rxjs";
+
+      const arr = [of(1), of(2)];
+      const merged$ = merge(...arr);
+    `,
+    stripIndent`
       // zip with multiple observables
       import { zip, of } from "rxjs";
 
