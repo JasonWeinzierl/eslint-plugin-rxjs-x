@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.8.2 (2024-11-04)
+
+### Fixes
+
+- **no-unnecessary-collection**: fix spread element being incorrectly flagged. ([#289](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/289)) ([754b932](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/754b93264c44892e230d57e6f4932da7c2ac7f59))
+
 ## v0.8.1 (2025-11-03)
 
 ### Features
