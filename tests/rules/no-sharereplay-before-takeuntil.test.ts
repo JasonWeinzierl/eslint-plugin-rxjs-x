@@ -88,6 +88,28 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
 
       a.pipe(takeUntil(b), toArray());
     `,
+    {
+      code: stripIndent`
+      // default config takeUntilAlias (takeUntilDestroyed)
+      import { of, shareReplay } from "rxjs";
+      import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+
+      const a = of("a");
+
+      a.pipe(takeUntilDestroyed(), shareReplay());
+    `,
+    },
+    {
+      code: stripIndent`
+      // custom config takeUntilAlias
+      import { of, shareReplay, takeUntil as tu } from "rxjs";
+
+      const a = of("a");
+
+      a.pipe(tu(), shareReplay());
+    `,
+      options: [{ takeUntilAlias: ['tu'] }],
+    },
   ],
   invalid: [
     fromFixture(
@@ -137,6 +159,32 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         a.pipe(Rx.shareReplay(), Rx.takeUntil(b));
                ~~~~~~~~~~~~~~ [forbidden]
       `,
+    ),
+    fromFixture(
+      stripIndent`
+        // default config takeUntilAlias (takeUntilDestroyed)
+        import { of, shareReplay } from "rxjs";
+        import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+
+        const a = of("a");
+        const b = of("b");
+
+        a.pipe(shareReplay(), takeUntilDestroyed());
+               ~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // custom config takeUntilAlias
+        import { of, shareReplay, takeUntil as tu } from "rxjs";
+
+        const a = of("a");
+        const b = of("b");
+
+        a.pipe(shareReplay(), tu());
+               ~~~~~~~~~~~ [forbidden]
+      `,
+      { options: [{ takeUntilAlias: ['tu'] }] },
     ),
   ],
 });
