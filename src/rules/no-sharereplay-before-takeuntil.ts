@@ -3,8 +3,12 @@ import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import { isIdentifier, isLiteral, isMemberExpression, isObjectExpression, isProperty } from '../etc';
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
+const defaultOptions: readonly {
+  takeUntilAlias?: string[];
+}[] = [];
+
 export const noSharereplayBeforeTakeuntilRule = ruleCreator({
-  defaultOptions: [],
+  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow using `shareReplay({ refCount: false })` before `takeUntil`.',
@@ -12,12 +16,20 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
     },
     messages: {
       forbidden: 'shareReplay before takeUntil is forbidden unless \'refCount: true\' is specified.',
+      forbiddenWithTakeUntilAlias: 'shareReplay before takeUntil (or its alias) is forbidden unless \'refCount: true\' is specified.',
     },
-    schema: [],
+    schema: [{
+      properties: {
+        takeUntilAlias: { type: 'array', description: 'List of operators to treat as takeUntil.', default: ['takeUntilDestroyed'] },
+      },
+      type: 'object',
+    }],
     type: 'problem',
   },
   name: 'no-sharereplay-before-takeuntil',
   create: (context) => {
+    const [config = {}] = context.options;
+    const { takeUntilAlias = ['takeUntilDestroyed'] } = config;
     function checkCallExpression(node: es.CallExpression) {
       const pipeCallExpression = node.parent as es.CallExpression;
       if (
@@ -29,9 +41,11 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         return;
       }
 
+      const takeUntilRegex = new RegExp(`^(takeUntil$|${takeUntilAlias.join('$|')}$)`);
+
       const { isOrderValid, operatorNode: takeUntilNode } = findIsLastOperatorOrderValid(
         pipeCallExpression,
-        /^takeUntil$/,
+        takeUntilRegex,
         DEFAULT_VALID_POST_COMPLETION_OPERATORS,
       );
       if (!isOrderValid || !takeUntilNode) {
@@ -68,7 +82,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
           && refCountElement.value.value === false)
       ) {
         context.report({
-          messageId: 'forbidden',
+          messageId: takeUntilAlias.length > 0 ? 'forbiddenWithTakeUntilAlias' : 'forbidden',
           node: node.callee,
         });
       }
