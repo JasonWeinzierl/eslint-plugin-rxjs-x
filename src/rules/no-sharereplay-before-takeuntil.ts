@@ -15,8 +15,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
       recommended: 'strict',
     },
     messages: {
-      forbidden: 'shareReplay before takeUntil is forbidden unless \'refCount: true\' is specified.',
-      forbiddenWithTakeUntilAlias: 'shareReplay before takeUntil (or its alias) is forbidden unless \'refCount: true\' is specified.',
+      forbidden: 'shareReplay before {{takeUntilAliases}} is forbidden unless \'refCount: true\' is specified.',
     },
     schema: [{
       properties: {
@@ -41,7 +40,9 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         return;
       }
 
-      const takeUntilRegex = new RegExp(`^(takeUntil$|${takeUntilAlias.join('$|')}$)`);
+      const allTakeUntilAlias = ['takeUntil', ...takeUntilAlias];
+
+      const takeUntilRegex = new RegExp(`^(${allTakeUntilAlias.join('|')})$`);
 
       const { isOrderValid, operatorNode: takeUntilNode } = findIsLastOperatorOrderValid(
         pipeCallExpression,
@@ -58,6 +59,18 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         return;
       }
 
+      /** `['takeUntil', 'a', 'b']` => `'takeUntil, a, or b'` */
+      function takeUntilAliasesString() {
+        if (allTakeUntilAlias.length === 1) {
+          return allTakeUntilAlias[0];
+        } else if (allTakeUntilAlias.length === 2) {
+          return allTakeUntilAlias.join(' or ');
+        } else {
+          const last = allTakeUntilAlias.pop();
+          return `${allTakeUntilAlias.join(', ')}, or ${last}`;
+        }
+      }
+
       const shareReplayConfig = node.arguments[0];
       if (
         !shareReplayConfig
@@ -66,6 +79,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         // refCount defaults to false if no config is provided.
         context.report({
           messageId: 'forbidden',
+          data: { takeUntilAliases: takeUntilAliasesString() },
           node: node.callee,
         });
         return;
@@ -82,7 +96,8 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
           && refCountElement.value.value === false)
       ) {
         context.report({
-          messageId: takeUntilAlias.length > 0 ? 'forbiddenWithTakeUntilAlias' : 'forbidden',
+          messageId: 'forbidden',
+          data: { takeUntilAliases: takeUntilAliasesString() },
           node: node.callee,
         });
       }

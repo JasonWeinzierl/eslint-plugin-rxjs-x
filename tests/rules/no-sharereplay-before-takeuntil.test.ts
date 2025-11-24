@@ -121,7 +121,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or takeUntilDestroyed" }]
       `,
     ),
     fromFixture(
@@ -133,7 +133,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay({ refCount: false }), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or takeUntilDestroyed" }]
       `,
     ),
     fromFixture(
@@ -145,7 +145,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), map(x => x), filter(x => !!x), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or takeUntilDestroyed" }]
       `,
     ),
     fromFixture(
@@ -157,7 +157,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = Rx.of("b");
 
         a.pipe(Rx.shareReplay(), Rx.takeUntil(b));
-               ~~~~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or takeUntilDestroyed" }]
       `,
     ),
     fromFixture(
@@ -170,7 +170,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), takeUntilDestroyed());
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or takeUntilDestroyed" }]
       `,
     ),
     fromFixture(
@@ -182,7 +182,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), tu());
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAliases": "takeUntil or tu" }]
       `,
       { options: [{ takeUntilAlias: ['tu'] }] },
     ),
