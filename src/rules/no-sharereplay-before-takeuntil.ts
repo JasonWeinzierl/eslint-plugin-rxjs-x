@@ -15,7 +15,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
       recommended: 'strict',
     },
     messages: {
-      forbidden: 'shareReplay before {{takeUntilAliases}} is forbidden unless \'refCount: true\' is specified.',
+      forbidden: 'shareReplay before \'{{takeUntilAlias}}\' is forbidden unless \'refCount: true\' is specified.',
     },
     schema: [{
       properties: {
@@ -59,18 +59,6 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         return;
       }
 
-      /** `['takeUntil', 'a', 'b']` => `'takeUntil, a, or b'` */
-      function takeUntilAliasesString() {
-        if (allTakeUntilAlias.length === 1) {
-          return allTakeUntilAlias[0];
-        } else if (allTakeUntilAlias.length === 2) {
-          return allTakeUntilAlias.join(' or ');
-        } else {
-          const last = allTakeUntilAlias.pop();
-          return `${allTakeUntilAlias.join(', ')}, or ${last}`;
-        }
-      }
-
       const shareReplayConfig = node.arguments[0];
       if (
         !shareReplayConfig
@@ -79,7 +67,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
         // refCount defaults to false if no config is provided.
         context.report({
           messageId: 'forbidden',
-          data: { takeUntilAliases: takeUntilAliasesString() },
+          data: { takeUntilAlias: isIdentifier(takeUntilNode) ? takeUntilNode.name : 'takeUntil' },
           node: node.callee,
         });
         return;
@@ -97,7 +85,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
       ) {
         context.report({
           messageId: 'forbidden',
-          data: { takeUntilAliases: takeUntilAliasesString() },
+          data: { takeUntilAlias: isIdentifier(takeUntilNode) ? takeUntilNode.name : 'takeUntil' },
           node: node.callee,
         });
       }
