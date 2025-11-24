@@ -37,7 +37,7 @@ source.pipe(
 
 <!-- end auto-generated rule options list -->
 
-This rule accepts a single option which allows specifying any potential aliases for `takeUntil`. The purpose of this is to enforce the "no `shareReplay` before" rule on other operators that are used as `takeUntil()`. The default configuration is Angular friendly by specifying 
+This rule accepts a single option which allows specifying any potential aliases for `takeUntil`. The purpose of this is to enforce the "no `shareReplay` before" rule on other operators that are used as `takeUntil()`. The default configuration is Angular friendly by specifying
 [`takeUntilDestroyed`](https://angular.dev/api/core/rxjs-interop/takeUntilDestroyed)
 as an alias.
 
