@@ -162,7 +162,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
     ),
     fromFixture(
       stripIndent`
-        // default config takeUntilAlias (takeUntilDestroyed)
+        // using default alias (takeUntilDestroyed)
         import { of, shareReplay } from "rxjs";
         import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
