@@ -16,7 +16,7 @@ jobs:
 
     permissions:
       contents: read
-      id-token: write
+      id-token: write # Required for OIDC
 
     steps:
       - name: Checkout
@@ -37,9 +37,8 @@ jobs:
       - name: Build
         run: yarn build
 
-      - name: Publish
-        run: |
-          npm install -g npm@latest
-          npm publish --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Update npm
+        run: npm install -g npm@latest
+
+      - name: Trusted Publish with Provenance
+        run: npm publish
