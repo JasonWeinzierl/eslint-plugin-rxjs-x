@@ -9,7 +9,7 @@
   "homepage": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
+    "url": "git+https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
   },
   "bugs": {
     "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues"
