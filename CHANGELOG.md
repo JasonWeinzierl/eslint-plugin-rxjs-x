@@ -2,7 +2,13 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
-## v0.8.2 (2024-11-04)
+## v0.8.3 (2025-11-25)
+
+### Features
+
+- **no-sharereplay-before-takeuntil**: add takeUntilAlias option ([#294](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/294)) ([7c3d53a](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/7c3d53a5018c45fa4397a8129b861bc512508883))
+
+## v0.8.2 (2025-11-04)
 
 ### Fixes
 
