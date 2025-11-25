@@ -11,6 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
   },
+  "publishConfig": {
+    "provenance": true,
+    "registry": "https://registry.npmjs.com"
+  },
   "bugs": {
     "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues"
   },
