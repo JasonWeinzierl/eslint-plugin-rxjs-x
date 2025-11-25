@@ -40,4 +40,4 @@ jobs:
         run: npm install -g npm@latest
 
       - name: Trusted Publish with Provenance
-        run: NODE_AUTH_TOKEN="" npm publish # Empty token, see actions/setup-node#1440
+        run: npm publish
