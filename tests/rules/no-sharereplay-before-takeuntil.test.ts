@@ -88,6 +88,28 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
 
       a.pipe(takeUntil(b), toArray());
     `,
+    {
+      code: stripIndent`
+      // default config takeUntilAlias (takeUntilDestroyed)
+      import { of, shareReplay } from "rxjs";
+      import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+
+      const a = of("a");
+
+      a.pipe(takeUntilDestroyed(), shareReplay());
+    `,
+    },
+    {
+      code: stripIndent`
+      // custom config takeUntilAlias
+      import { of, shareReplay, takeUntil as tu } from "rxjs";
+
+      const a = of("a");
+
+      a.pipe(tu(), shareReplay());
+    `,
+      options: [{ takeUntilAlias: ['tu'] }],
+    },
   ],
   invalid: [
     fromFixture(
@@ -99,7 +121,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAlias": "takeUntil" }]
       `,
     ),
     fromFixture(
@@ -111,7 +133,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay({ refCount: false }), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAlias": "takeUntil" }]
       `,
     ),
     fromFixture(
@@ -123,7 +145,7 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = of("b");
 
         a.pipe(shareReplay(), map(x => x), filter(x => !!x), takeUntil(b));
-               ~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~ [forbidden { "takeUntilAlias": "takeUntil" }]
       `,
     ),
     fromFixture(
@@ -135,8 +157,34 @@ ruleTester({ types: false }).run('no-sharereplay-before-takeuntil', noSharerepla
         const b = Rx.of("b");
 
         a.pipe(Rx.shareReplay(), Rx.takeUntil(b));
-               ~~~~~~~~~~~~~~ [forbidden]
+               ~~~~~~~~~~~~~~ [forbidden { "takeUntilAlias": "takeUntil" }]
       `,
+    ),
+    fromFixture(
+      stripIndent`
+        // using default alias (takeUntilDestroyed)
+        import { of, shareReplay } from "rxjs";
+        import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+
+        const a = of("a");
+        const b = of("b");
+
+        a.pipe(shareReplay(), takeUntilDestroyed());
+               ~~~~~~~~~~~ [forbidden { "takeUntilAlias": "takeUntilDestroyed" }]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // custom config takeUntilAlias
+        import { of, shareReplay, takeUntil as tu } from "rxjs";
+
+        const a = of("a");
+        const b = of("b");
+
+        a.pipe(shareReplay(), tu());
+               ~~~~~~~~~~~ [forbidden { "takeUntilAlias": "tu" }]
+      `,
+      { options: [{ takeUntilAlias: ['tu'] }] },
     ),
   ],
 });
