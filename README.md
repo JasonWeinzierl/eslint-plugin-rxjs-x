@@ -21,12 +21,12 @@ but has since introduced new features which involve breaking changes.
     + import rxjsX from 'eslint-plugin-rxjs-x';
     ```
 
-3. If you previously used the `plugin:rxjs/recommended` shared config, add `rxjsX.configs.recommended` to your `configs` block:
+3. If you previously used the `plugin:rxjs/recommended` shared config, add `rxjsX.configs.recommended` to your `extends` block:
 
     ```diff
-    configs: {
+    extends: [
     +   rxjsX.configs.recommended,
-    },
+    ],
     ```
 
     - Note: `eslint-plugin-rxjs-x` provides a `strict` shared config, so consider using `rxjsX.configs.strict` instead.
