@@ -1,6 +1,7 @@
 {
   "line-length": false,
-  "MD024": {
+  "no-duplicate-heading": {
     "siblings_only": true
-  }
+  },
+  "table-column-style": false
 }
