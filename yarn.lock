@@ -541,10 +541,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@one-ini/wasm@npm:0.1.1":
-  version: 0.1.1
-  resolution: "@one-ini/wasm@npm:0.1.1"
-  checksum: 10c0/54700e055037f1a63bfcc86d24822203b25759598c2c3e295d1435130a449108aebc119c9c2e467744767dbe0b6ab47a182c61aa1071ba7368f5e20ab197ba65
+"@one-ini/wasm@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@one-ini/wasm@npm:0.2.0"
+  checksum: 10c0/be3b8693230a4bd4c88bbf4679bcd5c9d9e4a26816dec2cf581453ce45aeaa6011fc310a056562549a1e1eb4f5a4b169aec9b6ae3636b8659a0b39049f07b672
   languageName: node
   linkType: hard
 
@@ -1629,13 +1629,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:^11.0.0":
-  version: 11.1.0
-  resolution: "commander@npm:11.1.0"
-  checksum: 10c0/13cc6ac875e48780250f723fb81c1c1178d35c5decb1abb1b628b3177af08a8554e76b2c0f29de72d69eef7c864d12613272a71fabef8047922bc622ab75a179
-  languageName: node
-  linkType: hard
-
 "commander@npm:^14.0.0":
   version: 14.0.0
   resolution: "commander@npm:14.0.0"
@@ -1836,17 +1829,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"editorconfig@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "editorconfig@npm:2.0.0"
+"editorconfig@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "editorconfig@npm:3.0.1"
   dependencies:
-    "@one-ini/wasm": "npm:0.1.1"
-    commander: "npm:^11.0.0"
-    minimatch: "npm:9.0.2"
-    semver: "npm:^7.5.3"
+    "@one-ini/wasm": "npm:0.2.0"
+    commander: "npm:^14.0.0"
+    minimatch: "npm:10.0.1"
+    semver: "npm:^7.7.2"
   bin:
     editorconfig: bin/editorconfig
-  checksum: 10c0/a722d5dbed61c5a29f33dd2ed4730d4284358e6b286768fd2e9d35ae3595252038d7ce1e1093fdfb08fcbedc15a93a5394d6892af4fc6ca93a9618f045b653c6
+  checksum: 10c0/b265b0dbff36a1c67942735746c22b81d56477bb1b86014c93025873ea8460cfe64a21406742239dfdf0c65488c319d9ddb16759716ccf4a98e5911494f83cac
   languageName: node
   linkType: hard
 
@@ -2042,9 +2035,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-doc-generator@npm:~2.2.2":
-  version: 2.2.2
-  resolution: "eslint-doc-generator@npm:2.2.2"
+"eslint-doc-generator@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "eslint-doc-generator@npm:2.4.0"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.0.0"
     ajv: "npm:^8.11.2"
@@ -2053,7 +2046,7 @@ __metadata:
     cosmiconfig: "npm:^9.0.0"
     deepmerge: "npm:^4.2.2"
     dot-prop: "npm:^9.0.0"
-    editorconfig: "npm:^2.0.0"
+    editorconfig: "npm:^3.0.1"
     jest-diff: "npm:^29.2.1"
     json-schema: "npm:^0.4.0"
     json-schema-traverse: "npm:^1.0.0"
@@ -2061,9 +2054,13 @@ __metadata:
     type-fest: "npm:^4.0.0"
   peerDependencies:
     eslint: ">= 8.57.1"
+    prettier: ">= 3.0.0"
+  peerDependenciesMeta:
+    prettier:
+      optional: true
   bin:
     eslint-doc-generator: dist/bin/eslint-doc-generator.js
-  checksum: 10c0/6a201707298dce5adca12f29aa6cdee5c57aa2dd9155af897ca2f9254b021b778001a7bfdf716357ac03c56d613d52541c02a6bbc5f64a5f8879bbadb3485ead
+  checksum: 10c0/a914c44200cd6e273980b83c0e5d9f929fe99d78a8d9768dd894428aaa195a12bc18e09fcbe8fea455403344feb72542819f657b39c9f8a1fd37b8bdf89ab236
   languageName: node
   linkType: hard
 
@@ -2195,7 +2192,7 @@ __metadata:
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.39.2"
     eslint-config-flat-gitignore: "npm:^2.1.0"
-    eslint-doc-generator: "npm:~2.2.2"
+    eslint-doc-generator: "npm:^2.4.0"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-eslint-plugin: "npm:^7.2.0"
     eslint-plugin-import-x: "npm:^4.16.1"
@@ -3525,12 +3522,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:9.0.2":
-  version: 9.0.2
-  resolution: "minimatch@npm:9.0.2"
+"minimatch@npm:10.0.1, minimatch@npm:^9.0.3 || ^10.0.1":
+  version: 10.0.1
+  resolution: "minimatch@npm:10.0.1"
   dependencies:
     brace-expansion: "npm:^2.0.1"
-  checksum: 10c0/39157d5fd831a7981f7c0c5b22a0e0c2ae8a987ec4a4aeaacc21d3e85da24ce812808cbf7c07cde0d63ad1cf307f73be581131a7a84eeda65f00be1f51972471
+  checksum: 10c0/e6c29a81fe83e1877ad51348306be2e8aeca18c88fdee7a99df44322314279e15799e41d7cb274e4e8bb0b451a3bc622d6182e157dfa1717d6cda75e9cd8cd5d
   languageName: node
   linkType: hard
 
@@ -3540,15 +3537,6 @@ __metadata:
   dependencies:
     brace-expansion: "npm:^1.1.7"
   checksum: 10c0/0262810a8fc2e72cca45d6fd86bd349eee435eb95ac6aa45c9ea2180e7ee875ef44c32b55b5973ceabe95ea12682f6e3725cbb63d7a2d1da3ae1163c8b210311
-  languageName: node
-  linkType: hard
-
-"minimatch@npm:^9.0.3 || ^10.0.1":
-  version: 10.0.1
-  resolution: "minimatch@npm:10.0.1"
-  dependencies:
-    brace-expansion: "npm:^2.0.1"
-  checksum: 10c0/e6c29a81fe83e1877ad51348306be2e8aeca18c88fdee7a99df44322314279e15799e41d7cb274e4e8bb0b451a3bc622d6182e157dfa1717d6cda75e9cd8cd5d
   languageName: node
   linkType: hard
 
