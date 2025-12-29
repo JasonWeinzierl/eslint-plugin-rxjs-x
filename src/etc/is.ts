@@ -53,7 +53,7 @@ export function isExportNamedDeclaration(
 export function isExpressionStatement(
   node: TSESTree.Node,
 ): node is TSESTree.ExpressionStatement {
-  return node && node.type === AST_NODE_TYPES.ExpressionStatement;
+  return node?.type === AST_NODE_TYPES.ExpressionStatement;
 }
 
 export function isFunctionDeclaration(
