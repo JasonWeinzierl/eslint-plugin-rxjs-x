@@ -2197,7 +2197,7 @@ __metadata:
     eslint-plugin-eslint-plugin: "npm:^7.2.0"
     eslint-plugin-import-x: "npm:^4.16.1"
     eslint-plugin-n: "npm:^17.23.1"
-    markdownlint-cli2: "npm:^0.20.0"
+    markdownlint-cli2: "npm:~0.19.0"
     rxjs: "npm:^7.8.2"
     ts-api-utils: "npm:^2.0.0"
     tslib: "npm:^2.1.0"
@@ -2524,13 +2524,6 @@ __metadata:
   dependencies:
     node-gyp: "npm:latest"
   conditions: os=darwin
-  languageName: node
-  linkType: hard
-
-"get-east-asian-width@npm:^1.3.0":
-  version: 1.4.0
-  resolution: "get-east-asian-width@npm:1.4.0"
-  checksum: 10c0/4e481d418e5a32061c36fbb90d1b225a254cc5b2df5f0b25da215dcd335a3c111f0c2023ffda43140727a9cafb62dac41d022da82c08f31083ee89f714ee3b83
   languageName: node
   linkType: hard
 
@@ -3177,26 +3170,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdownlint-cli2@npm:^0.20.0":
-  version: 0.20.0
-  resolution: "markdownlint-cli2@npm:0.20.0"
+"markdownlint-cli2@npm:~0.19.0":
+  version: 0.19.1
+  resolution: "markdownlint-cli2@npm:0.19.1"
   dependencies:
     globby: "npm:15.0.0"
     js-yaml: "npm:4.1.1"
     jsonc-parser: "npm:3.3.1"
     markdown-it: "npm:14.1.0"
-    markdownlint: "npm:0.40.0"
+    markdownlint: "npm:0.39.0"
     markdownlint-cli2-formatter-default: "npm:0.0.6"
     micromatch: "npm:4.0.8"
   bin:
     markdownlint-cli2: markdownlint-cli2-bin.mjs
-  checksum: 10c0/6c5dfc16b93db4adb39a890a745e71eda91e43e0abbd3e70f9f96057bf2c07de9df982c0be2868be170dbfa59e162c9b8632849096a177cf164f9dbd9c5f67b4
+  checksum: 10c0/fdac00f87a0a4ad155a332f5926d6ce4be153f4fac0362722d9620821bb638f2def29991ede102d245975a62084323f1a3032dfc4f39f17899b38f11f79619e5
   languageName: node
   linkType: hard
 
-"markdownlint@npm:0.40.0":
-  version: 0.40.0
-  resolution: "markdownlint@npm:0.40.0"
+"markdownlint@npm:0.39.0":
+  version: 0.39.0
+  resolution: "markdownlint@npm:0.39.0"
   dependencies:
     micromark: "npm:4.0.2"
     micromark-core-commonmark: "npm:2.0.3"
@@ -3206,8 +3199,7 @@ __metadata:
     micromark-extension-gfm-table: "npm:2.1.1"
     micromark-extension-math: "npm:3.1.0"
     micromark-util-types: "npm:2.0.2"
-    string-width: "npm:8.1.0"
-  checksum: 10c0/1543fcf4a433bc54e0e565cb1c8111e5e3d0df3742df0cc840d470bced21a1e3b5593e4e380ad0d8d5e490d9b399699d48aeabed33719f3fbdc6d00128138f20
+  checksum: 10c0/aaa079902fa1585e3769a0f699478cdcca0e2bf205916e5cc90a362746548b5530aa8e0a762e255b5e05dc481d86f9e8859780d4e5943e3ace8a5fb48023b6af
   languageName: node
   linkType: hard
 
@@ -4373,16 +4365,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-width@npm:8.1.0":
-  version: 8.1.0
-  resolution: "string-width@npm:8.1.0"
-  dependencies:
-    get-east-asian-width: "npm:^1.3.0"
-    strip-ansi: "npm:^7.1.0"
-  checksum: 10c0/749b5d0dab2532b4b6b801064230f4da850f57b3891287023117ab63a464ad79dd208f42f793458f48f3ad121fe2e1f01dd525ff27ead957ed9f205e27406593
-  languageName: node
-  linkType: hard
-
 "string-width@npm:^5.0.1, string-width@npm:^5.1.2":
   version: 5.1.2
   resolution: "string-width@npm:5.1.2"
@@ -4403,7 +4385,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-ansi@npm:^7.0.1, strip-ansi@npm:^7.1.0":
+"strip-ansi@npm:^7.0.1":
   version: 7.1.2
   resolution: "strip-ansi@npm:7.1.2"
   dependencies:
