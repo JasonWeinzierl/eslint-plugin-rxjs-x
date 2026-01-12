@@ -53,7 +53,7 @@ jobs:
 
       - name: Report Coverage
         if: ${{ matrix.node-version == 22 && github.event_name == 'pull_request' }}
-        uses: zgosalvez/github-actions-report-lcov@v5
+        uses: zgosalvez/github-actions-report-lcov@v6
         with:
           coverage-files: coverage/lcov.info
           minimum-coverage: 90
