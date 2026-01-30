@@ -6,7 +6,7 @@ import { ruleTester } from '../rule-tester';
 
 type Tests = RunTests<
   keyof typeof noUnboundMethodsRule['meta']['messages'],
-  typeof noUnboundMethodsRule['defaultOptions']
+  NonNullable<typeof noUnboundMethodsRule['defaultOptions']>
 >;
 
 const arrowTests: Tests = {
