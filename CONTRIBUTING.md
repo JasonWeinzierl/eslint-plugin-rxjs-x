@@ -38,7 +38,7 @@ We recommend you use the VS Code plugins for ESLint and markdownlint during deve
 
 ### Testing
 
-Use `yarn test` to run the tests in watch mode.
+Use `yarn test` to run the tests in watch mode or `yarn test --run` for a single run.
 We use [vitest](https://vitest.dev) for unit testing.
 
 All unit tests must pass for a pull request to be accepted.
