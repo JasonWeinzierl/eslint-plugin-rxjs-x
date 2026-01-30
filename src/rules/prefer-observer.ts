@@ -28,6 +28,7 @@ export const preferObserverRule = ruleCreator({
     messages: {
       forbidden:
         'Passing separate handlers is forbidden; pass an observer instead.',
+      suggest: 'Replace with observer object.',
     },
     schema: [
       {
@@ -104,7 +105,7 @@ export const preferObserverRule = ruleCreator({
           fix,
           suggest: [
             {
-              messageId: 'forbidden',
+              messageId: 'suggest',
               fix,
             },
           ],
@@ -122,7 +123,7 @@ export const preferObserverRule = ruleCreator({
             fix,
             suggest: [
               {
-                messageId: 'forbidden',
+                messageId: 'suggest',
                 fix,
               },
             ],
