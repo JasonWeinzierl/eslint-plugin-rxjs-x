@@ -214,7 +214,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; next, error
               import { of } from "rxjs";
@@ -256,7 +256,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; next, error, complete
               import { of } from "rxjs";
@@ -298,7 +298,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; next, complete
               import { of } from "rxjs";
@@ -339,7 +339,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; error
               import { of } from "rxjs";
@@ -381,7 +381,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; error, complete
               import { of } from "rxjs";
@@ -423,7 +423,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // default; complete
               import { of } from "rxjs";
@@ -466,7 +466,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; next, error
               import { of } from "rxjs";
@@ -511,7 +511,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; next, error, complete
               import { of } from "rxjs";
@@ -556,7 +556,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; next, complete
               import { of } from "rxjs";
@@ -600,7 +600,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; error
               import { of } from "rxjs";
@@ -645,7 +645,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; error, complete
               import { of } from "rxjs";
@@ -690,7 +690,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // tap; complete
               import { of } from "rxjs";
@@ -743,7 +743,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next
               import { of } from "rxjs";
@@ -761,7 +761,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
             `,
           },
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next
               import { of } from "rxjs";
@@ -805,7 +805,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; named; next arrow
               import { of } from "rxjs";
@@ -843,7 +843,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; named; next named
               import { of } from "rxjs";
@@ -883,7 +883,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; named; next non-arrow
               import { of } from "rxjs";
@@ -924,7 +924,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; tap; named; next arrow
               import { of } from "rxjs";
@@ -965,7 +965,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; tap; named; next named
               import { of } from "rxjs";
@@ -1008,7 +1008,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // disallow-next; tap; named; next non-arrow
               import { of } from "rxjs";
@@ -1050,7 +1050,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; next, error
               import { of } from "rxjs";
@@ -1092,7 +1092,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; next, error, complete
               import { of } from "rxjs";
@@ -1134,7 +1134,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; next, complete
               import { of } from "rxjs";
@@ -1175,7 +1175,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; error
               import { of } from "rxjs";
@@ -1217,7 +1217,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; error, complete
               import { of } from "rxjs";
@@ -1259,7 +1259,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; complete
               import { of } from "rxjs";
@@ -1302,7 +1302,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; next, error
               import { of } from "rxjs";
@@ -1347,7 +1347,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; next, error, complete
               import { of } from "rxjs";
@@ -1392,7 +1392,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; next, complete
               import { of } from "rxjs";
@@ -1436,7 +1436,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; error
               import { of } from "rxjs";
@@ -1481,7 +1481,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; error, complete
               import { of } from "rxjs";
@@ -1526,7 +1526,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
               // non-arrow functions; tap; complete
               import { of } from "rxjs";
@@ -1559,7 +1559,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1587,7 +1587,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1615,7 +1615,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1643,7 +1643,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1671,7 +1671,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1701,7 +1701,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of } from "rxjs";
                 const fn = () => {};
@@ -1732,7 +1732,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
@@ -1760,7 +1760,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
@@ -1788,7 +1788,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
@@ -1816,7 +1816,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
@@ -1844,7 +1844,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
@@ -1874,7 +1874,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         `,
         suggestions: [
           {
-            messageId: 'forbidden',
+            messageId: 'suggest',
             output: stripIndent`
                 import { of, tap } from "rxjs";
                 const fn = () => {};
