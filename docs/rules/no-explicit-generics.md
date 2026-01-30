@@ -1,5 +1,7 @@
 # Disallow unnecessary explicit generic type arguments (`rxjs-x/no-explicit-generics`)
 
+💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
+
 <!-- end auto-generated rule header -->
 
 This rule prevents the use of explicit type arguments when the type arguments can be inferred.

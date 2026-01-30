@@ -3,7 +3,7 @@ import { noExplicitGenericsRule } from '../../src/rules/no-explicit-generics';
 import { fromFixture } from '../etc';
 import { ruleTester } from '../rule-tester';
 
-ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule, {
+ruleTester({ types: true }).run('no-explicit-generics', noExplicitGenericsRule, {
   valid: [
     {
       code: stripIndent`
@@ -22,7 +22,8 @@ ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule,
         const e = of(42, 54);
         const f = new Notification("N", 42);
         const g = new Notification<number>("E", undefined, "Kaboom!");
-        const h = new Notification<number>("C");`,
+        const h = new Notification<number>("C");
+      `,
     },
     {
       code: stripIndent`
@@ -40,7 +41,7 @@ ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule,
     },
     {
       code: stripIndent`
-        // with union types
+        // with explicit (AST) union types
         import { BehaviorSubject, Notification } from "rxjs";
         const a = new BehaviorSubject<number | null>(null);
         const b = new BehaviorSubject<number | null>(42);
@@ -54,11 +55,27 @@ ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule,
         const j = new Notification<{ answer?: number } | null>("N", null);
       `,
     },
+    {
+      code: stripIndent`
+        // with ALIASED union types (TypeChecker required)
+        import { BehaviorSubject } from "rxjs";
+        
+        type Foo = 1 | 2;
+        // Should be valid because '1' infers generic type 'number', 
+        // but we explicitly want the narrower 'Foo' union.
+        const fooSubject$ = new BehaviorSubject<Foo>(1);
+
+        type ComplexUnion = { a: string } | null;
+        const complex$ = new BehaviorSubject<ComplexUnion>(null);
+      `,
+    },
   ],
   invalid: [
     fromFixture(
       stripIndent`
         // scan with type arguments
+        import { of } from "rxjs";
+        import { scan } from "rxjs/operators";
         const a = of(42, 54);
         const b = a.pipe(
           scan<number, string>((acc, value) => acc + value, "")
@@ -68,26 +85,39 @@ ruleTester({ types: false }).run('no-explicit-generics', noExplicitGenericsRule,
     ),
     fromFixture(
       stripIndent`
+        import { BehaviorSubject } from "rxjs";
         const b = new BehaviorSubject<number>(42);
                       ~~~~~~~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
+        // Simple aliases (not unions) should be forbidden
+        import { BehaviorSubject } from "rxjs";
+        type Bar = number; 
+        const b = new BehaviorSubject<Bar>(42);
+                      ~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        import { from } from "rxjs";
         const f = from<number>([42, 54]);
                   ~~~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
-      const o = of<number>(42, 54);
-                ~~ [forbidden]
+        import { of } from "rxjs";
+        const o = of<number>(42, 54);
+                  ~~ [forbidden]
       `,
     ),
     fromFixture(
       stripIndent`
-      const n = new Notification<number>("N", 42);
-                    ~~~~~~~~~~~~ [forbidden]
+        import { Notification } from "rxjs";
+        const n = new Notification<number>("N", 42);
+                      ~~~~~~~~~~~~ [forbidden]
       `,
     ),
   ],

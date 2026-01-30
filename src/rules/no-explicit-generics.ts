@@ -1,4 +1,5 @@
-import { TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import * as tsutils from 'ts-api-utils';
 import { isArrayExpression, isObjectExpression, isUnionType } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -7,6 +8,7 @@ export const noExplicitGenericsRule = ruleCreator({
   meta: {
     docs: {
       description: 'Disallow unnecessary explicit generic type arguments.',
+      requiresTypeChecking: true,
     },
     messages: {
       forbidden: 'Explicit generic type arguments are forbidden.',
@@ -23,6 +25,24 @@ export const noExplicitGenericsRule = ruleCreator({
       });
     }
 
+    /**
+     * Checks if a node is a union type, either explicitly (AST) or implicitly (TypeChecker).
+     */
+    function isUnion(node: es.Node | undefined): boolean {
+      if (!node) {
+        return false;
+      }
+
+      if (isUnionType(node)) {
+        return true;
+      }
+
+      const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
+      const type = getTypeAtLocation(node);
+
+      return tsutils.isUnionOrIntersectionType(type);
+    }
+
     function checkBehaviorSubjects(node: es.Node) {
       const parent = node.parent as es.NewExpression;
       const {
@@ -30,9 +50,11 @@ export const noExplicitGenericsRule = ruleCreator({
       } = parent;
 
       const typeArgs = parent.typeArguments?.params[0];
-      if (isArrayExpression(value) || isObjectExpression(value) || (typeArgs && isUnionType(typeArgs))) {
+
+      if (isArrayExpression(value) || isObjectExpression(value) || isUnion(typeArgs)) {
         return;
       }
+
       report(node);
     }
 
@@ -43,9 +65,11 @@ export const noExplicitGenericsRule = ruleCreator({
       } = parent;
 
       const typeArgs = parent.typeArguments?.params[0];
-      if (isArrayExpression(value) || isObjectExpression(value) || (typeArgs && isUnionType(typeArgs))) {
+
+      if (isArrayExpression(value) || isObjectExpression(value) || isUnion(typeArgs)) {
         return;
       }
+
       report(node);
     }
 
