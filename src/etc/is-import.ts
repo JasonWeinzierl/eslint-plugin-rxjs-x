@@ -1,8 +1,8 @@
 import { DefinitionType } from '@typescript-eslint/scope-manager';
-import { AST_NODE_TYPES, TSESLint } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, TSESLint as eslint } from '@typescript-eslint/utils';
 
 export function isImport(
-  scope: TSESLint.Scope.Scope,
+  scope: eslint.Scope.Scope,
   name: string,
   source: string | RegExp,
 ): boolean {

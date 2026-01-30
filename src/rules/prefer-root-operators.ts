@@ -1,4 +1,4 @@
-import { TSESTree as es, TSESLint } from '@typescript-eslint/utils';
+import { TSESTree as es, TSESLint as eslint } from '@typescript-eslint/utils';
 import { isIdentifier, isImportSpecifier, isLiteral } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -81,7 +81,7 @@ export const preferRootOperatorsRule = ruleCreator({
     }
 
     function createFix(source: es.Node, replacement: string, specifiers: es.ImportSpecifier[] | es.ExportSpecifier[]) {
-      return function* fix(fixer: TSESLint.RuleFixer) {
+      return function* fix(fixer: eslint.RuleFixer) {
         // Rename the module name.
         yield fixer.replaceText(source, replacement);
 

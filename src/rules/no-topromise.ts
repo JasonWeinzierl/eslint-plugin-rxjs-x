@@ -1,4 +1,4 @@
-import { TSESTree as es, TSESLint } from '@typescript-eslint/utils';
+import { TSESTree as es, TSESLint as eslint } from '@typescript-eslint/utils';
 import { getTypeServices, isIdentifier, isImportDeclaration, isImportNamespaceSpecifier, isImportSpecifier } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -40,7 +40,7 @@ export const noTopromiseRule = ruleCreator({
       importDeclarations: es.ImportDeclaration[],
       { withDefault }: { withDefault?: boolean } = {},
     ) {
-      return function* fix(fixer: TSESLint.RuleFixer) {
+      return function* fix(fixer: eslint.RuleFixer) {
         let namespace = '';
         let functionName: string = conversion;
 

@@ -1,4 +1,4 @@
-import { ESLintUtils, TSESLint, TSESTree } from '@typescript-eslint/utils';
+import { TSESLint as eslint, ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import ts from 'typescript';
 import { couldBeFunction } from './could-be-function';
 import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
@@ -7,7 +7,7 @@ import { isArrowFunctionExpression, isFunctionDeclaration } from './is';
 export function getTypeServices<
   TMessageIds extends string,
   TOptions extends readonly unknown[],
->(context: TSESLint.RuleContext<TMessageIds, Readonly<TOptions>>) {
+>(context: eslint.RuleContext<TMessageIds, Readonly<TOptions>>) {
   const services = ESLintUtils.getParserServices(context);
   const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = services;
   const typeChecker = program.getTypeChecker();
