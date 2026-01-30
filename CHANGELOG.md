@@ -2,6 +2,13 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.8.5 (2026-01-30)
+
+### Fixes
+
+- **no-explicit-generics**: resolve false positives with aliased unions ([#321](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/321)) ([0d6d241](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/0d6d24139a5b9c06b3b148f56ff04781ccc14c45))
+- **prefer-observer**: separate suggest message ([#322](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/322)) ([105933c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/105933c588c3299355b0eb626c148e40bc9ed19f))
+
 ## v0.8.4 (2025-12-19)
 
 ### Features
