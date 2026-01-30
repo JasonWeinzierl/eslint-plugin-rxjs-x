@@ -118,28 +118,39 @@ export const finnishRule = ruleCreator({
             });
           }
         : () => { /* noop */ };
+
+      const nameWithoutDollar = text.endsWith('$') ? text.slice(0, -1) : text;
+      for (const name of names) {
+        const { regExp, validate } = name;
+        if (regExp.test(text) || regExp.test(nameWithoutDollar)) {
+          if (validate) {
+            shouldBeFinnish();
+          } else {
+            shouldNotBeFinnish();
+          }
+          return;
+        }
+      }
+
+      for (const type of types) {
+        const { regExp, validate } = type;
+        if (
+          couldBeType(typeNode ?? nameNode, regExp)
+          || couldReturnType(typeNode ?? nameNode, regExp)
+        ) {
+          if (validate) {
+            shouldBeFinnish();
+          } else {
+            shouldNotBeFinnish();
+          }
+          return;
+        }
+      }
+
       if (
         couldBeObservable(typeNode ?? nameNode)
         || couldReturnObservable(typeNode ?? nameNode)
       ) {
-        for (const name of names) {
-          const { regExp, validate } = name;
-          if (regExp.test(text) && !validate) {
-            shouldNotBeFinnish();
-            return;
-          }
-        }
-        for (const type of types) {
-          const { regExp, validate } = type;
-          if (
-            (couldBeType(typeNode ?? nameNode, regExp)
-              || couldReturnType(typeNode ?? nameNode, regExp))
-            && !validate
-          ) {
-            shouldNotBeFinnish();
-            return;
-          }
-        }
         shouldBeFinnish();
       } else {
         shouldNotBeFinnish();

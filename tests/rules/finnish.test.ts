@@ -127,6 +127,62 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     },
     {
       code: stripIndent`
+        // strict with names allowing specific non-observables
+        const IS_MOBILE_MODE$ = 'some string value';
+        const ALLOWED_PATTERN$ = 42;
+        const ALLOWED_WITH_DOLLAR$ = true;
+      `,
+      options: [
+        {
+          strict: true,
+          names: {
+            '^(IS_MOBILE_MODE|ALLOWED_PATTERN)$': true,
+            '^(ALLOWED_WITH_DOLLAR\\$)$': true,
+          },
+        },
+      ],
+    },
+    {
+      code: stripIndent`
+        // strict with types allowing specific non-observables
+        class ObsClass<T> { }
+        class EventEmitter<T> { }
+
+        const token$ = new ObsClass<string>();
+        const emitter$ = new EventEmitter<number>();
+      `,
+      options: [
+        {
+          strict: true,
+          types: {
+            '^Obs': true,
+            '^EventEmitter$': true,
+          },
+        },
+      ],
+    },
+    {
+      code: stripIndent`
+        // strict with both names and types configurations
+        class CustomToken<T> { }
+
+        const SPECIAL_TOKEN$ = new CustomToken<string>();
+        const ALLOWED_NAME$ = 'some string';
+      `,
+      options: [
+        {
+          strict: true,
+          names: {
+            '^ALLOWED_NAME$': true,
+          },
+          types: {
+            '^CustomToken$': true,
+          },
+        },
+      ],
+    },
+    {
+      code: stripIndent`
         // functions without $, but not enforced
         import { Observable, of } from "rxjs";
 
@@ -487,6 +543,45 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
               ~~~~~~~ [shouldNotBeFinnish]
       `,
       { options: [{ strict: true }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // strict with names but non-matching patterns should still error
+        const NOT_ALLOWED$ = 42;
+              ~~~~~~~~~~~~ [shouldNotBeFinnish]
+        const IS_MOBILE_MODE$ = 'some string value';
+      `,
+      {
+        options: [
+          {
+            strict: true,
+            names: {
+              '^IS_MOBILE_MODE$': true,
+            },
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // strict with types but non-matching types should error
+        class AllowedType<T> { }
+        class NotAllowedType<T> { }
+
+        const ALLOWED_TOKEN$ = new AllowedType<string>();
+        const NOT_ALLOWED$ = new NotAllowedType<string>();
+              ~~~~~~~~~~~~ [shouldNotBeFinnish]
+      `,
+      {
+        options: [
+          {
+            strict: true,
+            types: {
+              '^AllowedType$': true,
+            },
+          },
+        ],
+      },
     ),
   ],
 });
