@@ -145,6 +145,14 @@ import { ESLintUtils } from '@typescript-eslint/utils';
 const parserServices = ESLintUtils.getParserServices(context);
 ```
 
+### Other Import Aliases
+
+Alias `typescript` as `ts`:
+
+```ts
+import * as ts from 'typescript';
+```
+
 ### Internal Utilities (`src/utils/`)
 
 - **`ruleCreator`**: Consistent rule creation with proper TypeScript types and package URLs
@@ -196,6 +204,10 @@ export const ruleName = ruleCreator({
   },
 });
 ```
+
+Note that the above example will be very costly, performance-wise,
+because `CallExpression` will check every single call expression in a codebase.
+Prefer using more specific CSS selectors to narrow what ESLint checks.
 
 ### Testing Utilities
 
@@ -322,6 +334,9 @@ This project uses `eslint-doc-generator`, so some portions are automatically mai
 
 This project uses `yarn` for scripts.
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for documentation.
+
+- Use `yarn test --run` to run tests once; optionally add a filename for filtered tests.
+- Use `yarn lint-js --fix` to automatically fix lint issues in code.
 
 ## Semantic Commit Messages
 
