@@ -46,7 +46,7 @@ but has since introduced new features which involve breaking changes.
     +   'rxjs-x/no-subject-value': 'error',
     ```
 
-6. If you previously used `rxjs/no-ignored-observable`, replace it with `rxjs-x/no-floating-observables`.
+6. If you previously used `rxjs/no-ignored-observable`, consider replacing it with `rxjs-x/no-floating-observables`.
 
     ```diff
     -   'rxjs/no-ignored-observable': 'error',
@@ -127,6 +127,7 @@ The package includes the following rules.
 | [no-ignored-default-value](docs/rules/no-ignored-default-value.md)               | Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value. | 🔒   |    |    | 💭 |    |
 | [no-ignored-error](docs/rules/no-ignored-error.md)                               | Disallow calling `subscribe` without specifying an error handler.                                         | 🔒   |    |    | 💭 |    |
 | [no-ignored-notifier](docs/rules/no-ignored-notifier.md)                         | Disallow observables not composed from the `repeatWhen` or `retryWhen` notifier.                          | ✅ 🔒 |    |    | 💭 |    |
+| [no-ignored-observable](docs/rules/no-ignored-observable.md)                     | Disallow ignoring of observables returned by functions.                                                   |      |    |    |    | ❌  |
 | [no-ignored-replay-buffer](docs/rules/no-ignored-replay-buffer.md)               | Disallow using `ReplaySubject`, `publishReplay` or `shareReplay` without specifying the buffer size.      | ✅ 🔒 |    |    |    |    |
 | [no-ignored-subscribe](docs/rules/no-ignored-subscribe.md)                       | Disallow calling `subscribe` without specifying arguments.                                                |      |    |    | 💭 |    |
 | [no-ignored-subscription](docs/rules/no-ignored-subscription.md)                 | Disallow ignoring the subscription returned by `subscribe`.                                               |      |    |    | 💭 |    |
