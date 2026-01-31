@@ -391,8 +391,7 @@ function voidFunctionArguments(
   const voidReturnIndices = new Set<number>();
   const type = checker.getTypeAtLocation(tsNode.expression);
 
-  // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
-  for (const subType of tsutils.unionTypeParts(type)) {
+  for (const subType of tsutils.unionConstituents(type)) {
     const signatures = ts.isCallExpression(tsNode)
       ? subType.getCallSignatures()
       : subType.getConstructSignatures();
@@ -414,8 +413,7 @@ function isVoidReturningFunctionType(
 ): boolean {
   let hasVoidReturn = false;
 
-  // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
-  for (const subType of tsutils.unionTypeParts(type)) {
+  for (const subType of tsutils.unionConstituents(type)) {
     for (const signature of subType.getCallSignatures()) {
       const returnType = signature.getReturnType();
 
@@ -481,8 +479,7 @@ function getPropertyContextualType(
       return;
     }
     const propertySymbol = tsutils
-      // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
-      .unionTypeParts(objType)
+      .unionConstituents(objType)
       .map(t => checker.getPropertyOfType(t, tsNode.name.getText()))
       .find(p => p);
     if (propertySymbol == null) {

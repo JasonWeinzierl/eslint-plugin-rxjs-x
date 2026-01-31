@@ -901,7 +901,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/scope-manager@npm:8.54.0, @typescript-eslint/scope-manager@npm:^8.19.1, @typescript-eslint/scope-manager@npm:^8.46.1":
+"@typescript-eslint/scope-manager@npm:8.54.0, @typescript-eslint/scope-manager@npm:^8.32.0, @typescript-eslint/scope-manager@npm:^8.46.1":
   version: 8.54.0
   resolution: "@typescript-eslint/scope-manager@npm:8.54.0"
   dependencies:
@@ -962,7 +962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.54.0, @typescript-eslint/utils@npm:^8.0.0, @typescript-eslint/utils@npm:^8.19.1, @typescript-eslint/utils@npm:^8.46.1":
+"@typescript-eslint/utils@npm:8.54.0, @typescript-eslint/utils@npm:^8.0.0, @typescript-eslint/utils@npm:^8.32.0, @typescript-eslint/utils@npm:^8.46.1":
   version: 8.54.0
   resolution: "@typescript-eslint/utils@npm:8.54.0"
   dependencies:
@@ -2189,8 +2189,8 @@ __metadata:
     "@types/common-tags": "npm:^1.8.4"
     "@types/node": "npm:~18.18.0"
     "@typescript-eslint/rule-tester": "npm:^8.54.0"
-    "@typescript-eslint/scope-manager": "npm:^8.19.1"
-    "@typescript-eslint/utils": "npm:^8.19.1"
+    "@typescript-eslint/scope-manager": "npm:^8.32.0"
+    "@typescript-eslint/utils": "npm:^8.32.0"
     "@typescript/vfs": "npm:^1.6.2"
     "@vitest/coverage-v8": "npm:^3.2.4"
     "@vitest/eslint-plugin": "npm:^1.4.0"
@@ -2206,7 +2206,7 @@ __metadata:
     eslint-plugin-n: "npm:^17.23.2"
     markdownlint-cli2: "npm:~0.19.0"
     rxjs: "npm:^7.8.2"
-    ts-api-utils: "npm:^2.0.0"
+    ts-api-utils: "npm:^2.1.0"
     tslib: "npm:^2.1.0"
     tsup: "npm:8.5.0"
     typescript: "npm:~5.9.3"
@@ -4566,7 +4566,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-api-utils@npm:^2.0.0, ts-api-utils@npm:^2.4.0":
+"ts-api-utils@npm:^2.1.0, ts-api-utils@npm:^2.4.0":
   version: 2.4.0
   resolution: "ts-api-utils@npm:2.4.0"
   peerDependencies:
