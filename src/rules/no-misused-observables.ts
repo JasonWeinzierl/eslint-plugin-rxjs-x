@@ -480,7 +480,11 @@ function getPropertyContextualType(
     if (objType == null) {
       return;
     }
-    const propertySymbol = checker.getPropertyOfType(objType, tsNode.name.text);
+    const propertySymbol = tsutils
+      // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed until we require ts-api-utils 2.1.0
+      .unionTypeParts(objType)
+      .map(t => checker.getPropertyOfType(t, tsNode.name.getText()))
+      .find(p => p);
     if (propertySymbol == null) {
       return;
     }
