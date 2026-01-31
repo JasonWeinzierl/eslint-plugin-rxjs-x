@@ -793,7 +793,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     ),
     fromFixture(
       stripIndent`
-        // void return property; object initializer with unions
+        // void return property; union variable
         import { Observable, of } from "rxjs";
 
         type Foo = {
@@ -807,6 +807,20 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           ~~~ [forbiddenVoidReturnProperty]
           baz: baz,
                ~~~ [forbiddenVoidReturnProperty]
+        };
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return property; union signature
+        import { Observable, of } from "rxjs";
+
+        type Foo = {
+          bar: () => void,
+        } | undefined;
+        const foo: Foo = {
+          bar() { return of(42); },
+          ~~~ [forbiddenVoidReturnProperty]
         };
       `,
     ),
