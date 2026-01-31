@@ -23,6 +23,19 @@ const answer$ = of(42, 54);
 combineLatest({ answer: of(42, 54) });
 ```
 
+Examples of **incorrect** code with `strict` enabled:
+
+```ts
+const answer$ = 'green';
+```
+
+Examples of **correct** code with `strict` enabled but a specific name allowed:
+
+```ts
+/* eslint rxjs-x/finnish: ["error", { "strict": true, "names": { "^answer$": true } }] */
+const answer$ = 'green';
+```
+
 ## Options
 
 <!-- begin auto-generated rule options list -->
