@@ -224,16 +224,6 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       };
     `,
     stripIndent`
-      // couldReturnType is bugged for variables (#66)
-      import { Observable, of } from "rxjs";
-
-      type Foo = { bar: () => void };
-      const bar: () => Observable<number> = () => of(42);
-      const foo: Foo = {
-        bar,
-      };
-    `,
-    stripIndent`
       // void return property; union type
       import { Observable, of } from "rxjs";
 
@@ -771,8 +761,7 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Qux" }]
           doRxThing(): Observable<void>;
           syncMethodProperty: () => Observable<void>;
-          //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Qux" }]
-          // TODO(#66): couldReturnType doesn't work for properties.
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnInheritedMethod { "heritageTypeName": "Qux" }]
         }
       `,
     ),
@@ -799,6 +788,25 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         const foo: Foo = {
           bar(): Observable<number> { return of(42); },
                  ~~~~~~~~~~~~~~~~~~ [forbiddenVoidReturnProperty]
+        };
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // void return property; object initializer with unions
+        import { Observable, of } from "rxjs";
+
+        type Foo = {
+          bar: () => void,
+          baz: () => void,
+        };
+        const bar = (() => of(42)) as (() => Observable<number>) | (() => string);
+        const baz: (() => Observable<number>) | (() => string) = () => of(42);
+        const foo: Foo = {
+          bar,
+          ~~~ [forbiddenVoidReturnProperty]
+          baz: baz,
+               ~~~ [forbiddenVoidReturnProperty]
         };
       `,
     ),

@@ -1,5 +1,5 @@
-import { TSESLint as eslint, ESLintUtils, TSESTree } from '@typescript-eslint/utils';
-import ts from 'typescript';
+import { TSESTree as es, TSESLint as eslint, ESLintUtils } from '@typescript-eslint/utils';
+import * as tsutils from 'ts-api-utils';
 import { couldBeFunction } from './could-be-function';
 import { couldBeType as tsutilsEtcCouldBeType } from './could-be-type';
 import { isArrowFunctionExpression, isFunctionDeclaration } from './is';
@@ -9,11 +9,11 @@ export function getTypeServices<
   TOptions extends readonly unknown[],
 >(context: eslint.RuleContext<TMessageIds, Readonly<TOptions>>) {
   const services = ESLintUtils.getParserServices(context);
-  const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = services;
+  const { program, getTypeAtLocation } = services;
   const typeChecker = program.getTypeChecker();
 
   const couldBeType = (
-    node: TSESTree.Node,
+    node: es.Node,
     name: string | RegExp,
     qualified?: { name: RegExp },
   ): boolean => {
@@ -26,64 +26,41 @@ export function getTypeServices<
   };
 
   const couldReturnType = (
-    node: TSESTree.Node,
+    node: es.Node,
     name: string | RegExp,
     qualified?: { name: RegExp },
   ): boolean => {
-    let tsTypeNode: ts.Node | undefined;
-    const tsNode = esTreeNodeToTSNodeMap.get(node);
-    if (
-      ts.isArrowFunction(tsNode)
-      || ts.isFunctionDeclaration(tsNode)
-      || ts.isMethodDeclaration(tsNode)
-      || ts.isFunctionExpression(tsNode)
-    ) {
-      if (tsNode.type) {
-        tsTypeNode = tsNode.type;
-      } else if (tsNode.body && ts.isBlock(tsNode.body)) {
-        const returnStatement = tsNode.body.statements.find(ts.isReturnStatement);
-        if (returnStatement?.expression) {
-          tsTypeNode = returnStatement.expression;
-        }
-      } else {
-        tsTypeNode = tsNode.body;
-      }
-    } else if (
-      ts.isCallSignatureDeclaration(tsNode)
-      || ts.isMethodSignature(tsNode)
-    ) {
-      tsTypeNode = tsNode.type;
-    } else if (
-      ts.isPropertySignature(tsNode)
-    ) {
-      // TODO(#66): this doesn't work for functions assigned to class properties, variables, params.
-    }
-    return Boolean(
-      tsTypeNode
-      && tsutilsEtcCouldBeType(
-        typeChecker.getTypeAtLocation(tsTypeNode),
+    const type = getTypeAtLocation(node);
+
+    for (const signature of tsutils.getCallSignaturesOfType(type)) {
+      const returnType = signature.getReturnType();
+      if (tsutilsEtcCouldBeType(
+        returnType,
         name,
         qualified ? { ...qualified, typeChecker } : undefined,
-      ),
-    );
+      )) {
+        return true;
+      }
+    }
+    return false;
   };
 
   return {
-    couldBeBehaviorSubject: (node: TSESTree.Node) =>
+    couldBeBehaviorSubject: (node: es.Node) =>
       couldBeType(node, 'BehaviorSubject'),
-    couldBeFunction: (node: TSESTree.Node) => {
+    couldBeFunction: (node: es.Node) => {
       if (isArrowFunctionExpression(node) || isFunctionDeclaration(node)) {
         return true;
       }
       return couldBeFunction(getTypeAtLocation(node));
     },
-    couldBeMonoTypeOperatorFunction: (node: TSESTree.Node) =>
+    couldBeMonoTypeOperatorFunction: (node: es.Node) =>
       couldBeType(node, 'MonoTypeOperatorFunction'),
-    couldBeObservable: (node: TSESTree.Node) => couldBeType(node, 'Observable'),
-    couldBeSubject: (node: TSESTree.Node) => couldBeType(node, 'Subject'),
-    couldBeSubscription: (node: TSESTree.Node) => couldBeType(node, 'Subscription'),
+    couldBeObservable: (node: es.Node) => couldBeType(node, 'Observable'),
+    couldBeSubject: (node: es.Node) => couldBeType(node, 'Subject'),
+    couldBeSubscription: (node: es.Node) => couldBeType(node, 'Subscription'),
     couldBeType,
-    couldReturnObservable: (node: TSESTree.Node) =>
+    couldReturnObservable: (node: es.Node) =>
       couldReturnType(node, 'Observable'),
     couldReturnType,
   };
