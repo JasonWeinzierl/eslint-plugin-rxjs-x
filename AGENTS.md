@@ -318,6 +318,7 @@ This project uses `eslint-doc-generator`, so some portions are automatically mai
 1. Write documentation at: `docs/rules/{rule-name}.md`.
     1. Insert `<!-- end auto-generated rule header -->` for the header.
         - Note that a "start" tag is not required for this; the document's first line is considered the "start".
+        - The first line must start with a pound sign (`#`) character.
     2. After the header, describe the rule.
     3. The "Rule details" section contains examples of **incorrect** and **correct** code. Add comments sparingly.
     4. The "Options" section is only allowed if the rule has options.
