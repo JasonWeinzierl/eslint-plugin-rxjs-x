@@ -58,11 +58,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@typescript-eslint/scope-manager": "^8.19.1",
-    "@typescript-eslint/utils": "^8.19.1",
+    "@typescript-eslint/scope-manager": "^8.32.0",
+    "@typescript-eslint/utils": "^8.32.0",
     "common-tags": "^1.8.0",
     "decamelize": "^5.0.1",
-    "ts-api-utils": "^2.0.0",
+    "ts-api-utils": "^2.1.0",
     "tslib": "^2.1.0"
   },
   "peerDependencies": {
