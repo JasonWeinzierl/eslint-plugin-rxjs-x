@@ -8,9 +8,10 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     {
       code: stripIndent`
         // with $
-        import { Observable, of } from "rxjs";
+        import { Observable, of, EMPTY } from "rxjs";
 
         const someObservable$ = of(0);
+        const someExpressionObservable$ = (): Observable<never> => EMPTY;
 
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey$: someObservable$ };
@@ -22,16 +23,16 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         someArray.forEach(function (element$: Observable<any>): void {});
         someArray.forEach((element$: Observable<any>) => {});
 
-        function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam; }
-        function someImplicitReturnFunction$(someParam$: Observable<any>) { return someParam; }
+        function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam$; }
+        function someImplicitReturnFunction$(someParam$: Observable<any>) { return someParam$; }
 
         class SomeClass {
           someProperty$: Observable<any>;
           constructor (someParam$: Observable<any>) {}
           get someGetter$(): Observable<any> { throw new Error("Some error."); }
           set someSetter$(someParam$: Observable<any>) {}
-          someMethod$(someParam$: Observable<any>): Observable<any> { return someParam; }
-          someImplicitReturnMethod$(someParam$: Observable<any>) { return someParam; }
+          someMethod$(someParam$: Observable<any>): Observable<any> { return someParam$; }
+          someImplicitReturnMethod$(someParam$: Observable<any>) { return someParam$; }
         }
 
         interface SomeInterface {
@@ -71,6 +72,45 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         }
       `,
       options: [{}],
+    },
+    {
+      code: stripIndent`
+        // strict no false positives
+        import { Observable, of } from "rxjs";
+
+        const someObservable$ = of(0);
+        const someExpressionObservable$ = (): Observable<never> => EMPTY;
+
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey$: someObservable$ };
+        const { someKey$ } = someObject;
+        const { someKey$: someRenamedKey$ } = someObject;
+
+        const someArray = [someObservable$];
+        const [someElement$] = someArray;
+        someArray.forEach(function (element$: Observable<any>): void {});
+        someArray.forEach((element$: Observable<any>) => {});
+
+        function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam$; }
+        function someImplicitReturnFunction$(someParam$: Observable<any>) { return someParam$; }
+
+        class SomeClass {
+          someProperty$: Observable<any>;
+          constructor (someParam$: Observable<any>) {}
+          get someGetter$(): Observable<any> { throw new Error("Some error."); }
+          set someSetter$(someParam$: Observable<any>) {}
+          someMethod$(someParam$: Observable<any>): Observable<any> { return someParam$; }
+          someImplicitReturnMethod$(someParam$: Observable<any>) { return someParam$; }
+        }
+
+        interface SomeInterface {
+          someProperty$: Observable<any>;
+          someMethod$(someParam$: Observable<any>): Observable<any>;
+          new (someParam$: Observable<any>);
+          (someParam$: Observable<any>): void;
+        }
+      `,
+      options: [{ strict: true }],
     },
     {
       code: stripIndent`
@@ -582,6 +622,49 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
           },
         ],
       },
+    ),
+    fromFixture(
+      stripIndent`
+        // functions assigned to variables should be detected
+        import { Observable, EMPTY } from "rxjs";
+
+        function fun$(): Observable<never> { return EMPTY; }
+
+        const var1 = (): Observable<never> => EMPTY;
+              ~~~~ [shouldBeFinnish]
+        const var2 = fun$;
+              ~~~~ [shouldBeFinnish]
+        const var3: (() => Observable<never>) | string = fun$;
+              ~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // functions assigned to properties should be detected
+        import { Observable, EMPTY } from "rxjs";
+
+        function fun$(): Observable<never> { return EMPTY; }
+
+        class Cls {
+          prop = (): Observable<never> => EMPTY;
+          ~~~~ [shouldBeFinnish]
+          mthd$(): Observable<never> { return EMPTY; }
+        }
+
+        const var3 = new Cls().mthd$;
+              ~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // function parameters should be detected
+        import { Observable, EMPTY } from "rxjs";
+
+        class Cls {
+          mthd2(par: () => Observable<never>): void {}
+                ~~~ [shouldBeFinnish]
+        }
+      `,
     ),
   ],
 });
