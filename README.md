@@ -8,81 +8,90 @@ This ESLint plugin is intended to prevent issues with [RxJS](https://github.com/
 
 Most of these rules require TypeScript typed linting and are indicated as such below.
 
-## Migration Guide from `eslint-plugin-rxjs`
+## Installation Guide (Flat Configuration)
 
-This project started as a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
-but has since introduced new features which involve breaking changes.
+See [typescript-eslint's Getting Started](https://typescript-eslint.io/getting-started) for a full ESLint setup guide.
 
-1. Migrate your config from the old `.eslintrc` format to `eslint.config.mjs` (or similar), and uninstall `eslint-plugin-rxjs`.
-    - See ESLint's guide here: [https://eslint.org/docs/latest/use/configure/migration-guide].
-    - If you need to continue using the deprecated format, use the original `eslint-plugin-rxjs` or a different fork.
-2. Install `eslint-plugin-rxjs-x`, and import it into your config.
+1. Install `eslint-plugin-rxjs-x` using your preferred package manager.
+2. Enable typed linting.
+    - See [Linting with Type Information](https://typescript-eslint.io/getting-started/typed-linting/) for more information.
+3. Import this plugin into your config.
+   Add the `rxjsX.configs.recommended` shared config to your configuration like so:
 
     ```diff
+    // @ts-check
+    import { defineConfig } from 'eslint/config';
+    import tseslint from 'typescript-eslint';
     + import rxjsX from 'eslint-plugin-rxjs-x';
+
+    export default defineConfig({
+        extends: [
+            tseslint.configs.recommended,
+    +       rxjsX.configs.recommended,
+        ],
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+            },
+        },
+    });
     ```
 
-3. If you previously used the `plugin:rxjs/recommended` shared config, add `rxjsX.configs.recommended` to your `extends` block:
+Additionally, consider if the `rxjsX.configs.strict` shared config is right for your project.
+
+## Legacy Migration Guide from `eslint-plugin-rxjs`
+
+> [!TIP]
+> A complete description of all changes from `eslint-plugin-rxjs` are documented in the [CHANGELOG](CHANGELOG.md) file.
+
+This project started as a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
+but is still compatible with the eslintrc configuration format.
+
+> [!WARNING]
+> eslintrc compatibility will be removed in v1.
+> Users are highly encouraged to upgrade to ESLint's flat configuration format.
+> See: [https://eslint.org/docs/latest/use/configure/migration-guide]
+
+1. Install `eslint-plugin-rxjs-x` using your preferred package manager.
+2. If you previously used the `plugin:rxjs/recommended` shared config,
+   replace it with `plugin:rxjs-x/recommended-legacy`:
 
     ```diff
-    extends: [
-    +   rxjsX.configs.recommended,
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+    -   "plugin:rxjs/recommended",
+    +   "plugin:rxjs-x/recommended-legacy",
     ],
     ```
 
-    - Note: `eslint-plugin-rxjs-x` provides a `strict` shared config, so consider using `rxjsX.configs.strict` instead.
-4. If you previously did _not_ use a shared config, add the plugin to your `plugins` block with the new namespace:
+3. If you previously did _not_ use a shared config,
+   then replace the `rxjs` plugin to your `plugins` block:
 
     ```diff
-    plugins: {
-    +   'rxjs-x': rxjsX,
+    "plugins": [
+        "@typescript-eslint",
+    -   "rxjs",
+    +   "rxjs-x",
+    ],
+    ```
+
+    - Note: this is unnecessary if you are using the `recommended-legacy` shared config.
+4. In your `rules` blocks, replace the namespace `rxjs` with `rxjs-x` for all rules:
+
+    ```diff
+    "rules": {
+    -   "rxjs/no-subject-value": "error",
+    +   "rxjs-x/no-subject-value": "error",
     },
     ```
 
-    - Note: this is unnecessary if you are using a shared config.
-5. In your `rules` block, replace the namespace `rxjs` with `rxjs-x`:
-
-    ```diff
-    -   'rxjs/no-subject-value': 'error',
-    +   'rxjs-x/no-subject-value': 'error',
-    ```
-
-6. If you previously used `rxjs/no-ignored-observable`, consider replacing it with `rxjs-x/no-floating-observables`.
+    - Note: if your project has inline comments (e.g. `eslint-disable-next-line`) referencing `rxjs` rules, you must update the namespace there too.
+5. If you previously used `rxjs/no-ignored-observable`, consider replacing it with `rxjs-x/no-floating-observables`. `no-ignored-observable` will be removed in v1.
 
     ```diff
     -   'rxjs/no-ignored-observable': 'error',
     +   'rxjs-x/no-floating-observables': 'error',
     ```
-
-> [!TIP]
-> A complete description of all changes are documented in the [CHANGELOG](CHANGELOG.md) file.
-
-## Installation Guide
-
-See [typescript-eslint's Getting Started](https://typescript-eslint.io/getting-started) for a full ESLint setup guide.
-
-1. Enable typed linting.
-    - See [Linting with Type Information](https://typescript-eslint.io/getting-started/typed-linting/) for more information.
-2. Start with the `recommended` shared config in your `eslint.config.mjs`.
-
-```js
-// @ts-check
-import { defineConfig } from 'eslint/config';
-import tseslint from 'typescript-eslint';
-import rxjsX from 'eslint-plugin-rxjs-x';
-
-export default defineConfig({
-    extends: [
-        ...tseslint.configs.recommended,
-        rxjsX.configs.recommended,
-    ],
-    languageOptions: {
-        parserOptions: {
-            projectService: true,
-        },
-    },
-});
-```
 
 ## Configs
 
