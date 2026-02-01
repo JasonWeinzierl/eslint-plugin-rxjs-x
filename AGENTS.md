@@ -189,6 +189,7 @@ export const ruleName = ruleCreator({
     ],
     type: 'problem' | 'suggestion' | 'layout', // "problem" identifies code that causes errors or unexpected behavior; "suggestion" identifies something that could be done better; "layout" is stylistic outside the AST
     fixable: 'code' | 'whitespace', // if auto-fixable
+    hasSuggestions: true, // if reported issues have suggestions
   },
   name: 'rule-name',
   create: (context) => {

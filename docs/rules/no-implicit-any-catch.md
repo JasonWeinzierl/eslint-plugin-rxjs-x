@@ -18,8 +18,7 @@ but is for observables - not `try`/`catch` statements.
 Examples of **incorrect** code for this rule:
 
 ```ts
-import { throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, throwError } from "rxjs";
 
 throwError(() => new Error("Kaboom!")).pipe(
   catchError((error) => console.error(error))
@@ -35,19 +34,19 @@ throwError(() => new Error("Kaboom!")).subscribe({
 ```
 
 ```ts
-import { throwError } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, throwError } from "rxjs";
 
 throwError(() => new Error("Kaboom!")).pipe(
-  tap(undefined, (error) => console.error(error))
+  tap({
+    error: (error) => console.error(error),
+  }),
 );
 ```
 
 Examples of **correct** code for this rule:
 
 ```ts
-import { throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, throwError } from "rxjs";
 
 throwError(() => new Error("Kaboom!")).pipe(
   catchError((error: unknown) => console.error(error))
@@ -63,11 +62,12 @@ throwError(() => new Error("Kaboom!")).subscribe({
 ```
 
 ```ts
-import { throwError } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, throwError } from "rxjs";
 
 throwError(() => new Error("Kaboom!")).pipe(
-  tap(undefined, (error: unknown) => console.error(error))
+  tap({
+    error: (error: unknown) => console.error(error),
+  }),
 );
 ```
 
