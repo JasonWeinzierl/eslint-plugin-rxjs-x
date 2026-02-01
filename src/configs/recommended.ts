@@ -3,11 +3,20 @@ import type { ESLint, Linter } from 'eslint';
 export const createRecommendedConfig = (
   plugin: ESLint.Plugin,
 ) => ({
+  ...baseConfig,
   name: 'rxjs-x/recommended' as const,
   plugins: {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion -- "A type annotation is necessary."
     'rxjs-x': plugin as ESLint.Plugin,
   },
+} satisfies Linter.Config);
+
+export const createLegacyRecommendedConfig = () => ({
+  ...baseConfig,
+  plugins: ['rxjs-x'] as const,
+} satisfies Linter.LegacyConfig);
+
+const baseConfig = {
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
     'rxjs-x/no-create': 'error',
@@ -29,5 +38,5 @@ export const createRecommendedConfig = (
     'rxjs-x/prefer-observer': 'error',
     'rxjs-x/prefer-root-operators': 'error',
     'rxjs-x/throw-error': 'error',
-  },
-} satisfies Linter.Config);
+  } satisfies Linter.RulesRecord,
+};
