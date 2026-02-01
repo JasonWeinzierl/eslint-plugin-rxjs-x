@@ -10,4 +10,4 @@
 ## Reporting a Vulnerability
 
 To report a vulnerability, please open a private vulnerability report at
-https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/security .
+[https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/security].
