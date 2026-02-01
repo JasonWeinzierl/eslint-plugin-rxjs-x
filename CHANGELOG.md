@@ -2,6 +2,33 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.0 (2026-02-01)
+
+This is the last major version before v1.
+
+### Features
+
+- **recommended-legacy**: add eslintrc-compatible configuration ([#329](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/329)) ([c30ce9b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c30ce9b435d643db201f233617e52e7032d6ab3c))
+  - will be removed in v1; migrate to flag config
+- **no-ignored-observables**: rule re–implemented for backward compatibility ([#329](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/329)) ([c30ce9b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c30ce9b435d643db201f233617e52e7032d6ab3c))
+  - will be removed in v1; prefer `no-floating-observables`
+
+### Fixes
+
+- **finnish**: fix "strict" ignoring some variables, parameters, and properties ([#324](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/324)) ([434d48d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/434d48df3dccfe919695b499c52be33c7e033534))
+  - Note: this may cause `finnish` to detect a lot more violations than previous versions; submit an issue in GitHub if you believe a violation is a false positive
+- **finnish**: fix "strict" ignoring the "names" and "types" options ([#323](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/323)) ([2cd99fc](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/2cd99fc72b37e83ac1f3bc235ea272243fb5e097))
+- **no-misused-observables**: detect void return properties implemented as methods ([#324](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/324)) ([434d48d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/434d48df3dccfe919695b499c52be33c7e033534))
+- **no-misused-observables**: expand property constituents ([#326](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/326)) ([2e9e8ec](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/2e9e8ec284a0a373279830b046880d6d195b0129))
+- **no-implicit-any-catch**: stop automatically adding `unknown` ([#336](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/336)) ([c4c8715](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c4c87158c0206ee27812c4b798a4b09fea23f407))
+- typescript-eslint ^8.32.0 is required ([#327](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/327)) ([746081e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/746081e97b004f7cd15ed3be19f74133f4d5630c))
+- ts-api-utils ^2.1.0 is required ([#327](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/327)) ([746081e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/746081e97b004f7cd15ed3be19f74133f4d5630c))
+
+### Chores
+
+- added OpenSSF Scorecard scanning ([#334](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/334)) ([fa8a55c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/fa8a55ceb8e0647fedebf616266b7e3244309e19))
+- added an AGENTS.md to improve LLM behavior in this repository
+
 ## v0.8.5 (2026-01-30)
 
 ### Fixes
