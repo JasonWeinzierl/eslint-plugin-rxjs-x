@@ -11,7 +11,8 @@ import {
   isIdentifier,
   isMemberExpression,
   isObjectExpression,
-  isProperty } from '../etc';
+  isProperty,
+} from '../etc';
 import { ruleCreator } from '../utils';
 
 function isParenthesised(
@@ -51,11 +52,13 @@ export const noImplicitAnyCatchRule = ruleCreator({
     fixable: 'code',
     hasSuggestions: true,
     messages: {
-      explicitAny: 'Explicit `any` in `catchError`.',
-      implicitAny: 'Implicit `any` in `catchError`.',
+      explicitAny: 'Explicit `any` in error callback.',
+      implicitAny: 'Implicit `any` in error callback.',
       narrowed: 'Error type must be `unknown` or `any`.',
       suggestExplicitUnknown:
-        'Use `unknown` instead, this will force you to explicitly and safely assert the type is correct.',
+        'Use `unknown` instead to explicitly and safely assert the type is correct.',
+      suggestExplicitAny:
+        'Use `any` instead to explicitly opt out of type safety.',
     },
     schema: [
       {
@@ -79,6 +82,31 @@ export const noImplicitAnyCatchRule = ruleCreator({
     const { couldBeObservable } = getTypeServices(context);
     const sourceCode = context.sourceCode;
 
+    function createReplacerFix(
+      typeAnnotation: es.TSTypeAnnotation,
+      replaceWith: string,
+    ) {
+      return function fix(fixer: eslint.RuleFixer) {
+        return fixer.replaceText(typeAnnotation, `: ${replaceWith}`);
+      };
+    }
+
+    function createInserterFix(
+      param: es.Parameter,
+      annotateWith: string,
+      { hasRestParams = false } = {},
+    ) {
+      return function fix(fixer: eslint.RuleFixer) {
+        if (hasRestParams || isParenthesised(sourceCode, param)) {
+          return fixer.insertTextAfter(param, `: ${annotateWith}`);
+        }
+        return [
+          fixer.insertTextBefore(param, '('),
+          fixer.insertTextAfter(param, `: ${annotateWith})`),
+        ];
+      };
+    }
+
     function checkCallback(callback: es.Node) {
       if (
         isArrowFunctionExpression(callback)
@@ -93,59 +121,54 @@ export const noImplicitAnyCatchRule = ruleCreator({
           const {
             typeAnnotation: { type },
           } = typeAnnotation;
+
           if (type === AST_NODE_TYPES.TSAnyKeyword) {
             if (allowExplicitAny) {
               return;
             }
-            function fix(fixer: eslint.RuleFixer) {
-              return fixer.replaceText(typeAnnotation, ': unknown');
-            }
             context.report({
-              fix,
               messageId: 'explicitAny',
               node: param,
               suggest: [
                 {
                   messageId: 'suggestExplicitUnknown',
-                  fix,
+                  fix: createReplacerFix(typeAnnotation, 'unknown'),
                 },
               ],
             });
           } else if (type !== AST_NODE_TYPES.TSUnknownKeyword) {
-            function fix(fixer: eslint.RuleFixer) {
-              return fixer.replaceText(typeAnnotation, ': unknown');
-            }
             context.report({
               messageId: 'narrowed',
               node: param,
               suggest: [
                 {
-                  messageId: 'suggestExplicitUnknown',
-                  fix,
+                  messageId: 'suggestExplicitUnknown' as const,
+                  fix: createReplacerFix(typeAnnotation, 'unknown'),
                 },
-              ],
+                allowExplicitAny ? {
+                  messageId: 'suggestExplicitAny' as const,
+                  fix: createReplacerFix(typeAnnotation, 'any'),
+                } : null,
+              ].filter(x => !!x),
             });
           }
         } else {
-          function fix(fixer: eslint.RuleFixer) {
-            if (isParenthesised(sourceCode, param) || restParams.length > 0) {
-              return fixer.insertTextAfter(param, ': unknown');
-            }
-            return [
-              fixer.insertTextBefore(param, '('),
-              fixer.insertTextAfter(param, ': unknown)'),
-            ];
-          }
+          const hasRestParams = restParams.length > 0;
+
           context.report({
-            fix,
+            fix: allowExplicitAny ? createInserterFix(param, 'any', { hasRestParams }) : undefined,
             messageId: 'implicitAny',
             node: param,
             suggest: [
               {
-                messageId: 'suggestExplicitUnknown',
-                fix,
+                messageId: 'suggestExplicitUnknown' as const,
+                fix: createInserterFix(param, 'unknown', { hasRestParams }),
               },
-            ],
+              allowExplicitAny ? {
+                messageId: 'suggestExplicitAny' as const,
+                fix: createInserterFix(param, 'any', { hasRestParams }),
+              } : null,
+            ].filter(x => !!x),
           });
         }
       }

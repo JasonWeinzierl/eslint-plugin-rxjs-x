@@ -11,8 +11,6 @@ export const noSubscribeInPipeRule = ruleCreator({
       recommended: 'recommended',
       requiresTypeChecking: true,
     },
-    fixable: undefined,
-    hasSuggestions: false,
     messages: {
       forbidden: 'Subscribe calls within pipe operators are forbidden.',
     },
