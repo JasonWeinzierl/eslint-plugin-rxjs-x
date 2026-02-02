@@ -10,7 +10,7 @@ This is the last major version before v1.
 
 - **recommended-legacy**: add eslintrc-compatible configuration ([#329](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/329)) ([c30ce9b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c30ce9b435d643db201f233617e52e7032d6ab3c))
   - will be removed in v1; migrate to flat config
-- **no-ignored-observables**: rule re–implemented for backward compatibility ([#329](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/329)) ([c30ce9b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c30ce9b435d643db201f233617e52e7032d6ab3c))
+- **no-ignored-observable**: rule re–implemented for backward compatibility ([#329](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/329)) ([c30ce9b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c30ce9b435d643db201f233617e52e7032d6ab3c))
   - will be removed in v1; prefer `no-floating-observables`
 
 ### Fixes
