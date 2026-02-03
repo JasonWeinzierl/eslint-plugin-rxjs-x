@@ -282,7 +282,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         const someObservable$ = of(0);
         const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable$ };
 
         class SomeClass {
           someProperty: Observable<any>;
@@ -298,6 +297,38 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     },
     {
       code: stripIndent`
+        // object literal keys without $, but not enforced
+        import { of } from "rxjs";
+
+        const routes = [
+          {
+            path: 'some-path',
+            redirectTo: () => of('/home'),
+            resolve: {
+              data: of('some data'),
+            },
+          },
+        ];
+      `,
+      options: [{ objects: false }],
+    },
+    {
+      code: stripIndent`
+        // variables without $, but not enforced
+        import { Observable, of } from "rxjs";
+
+        const someObservable = of(0);
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey$: someObservable };
+        const { someKey$ } = someObject;
+        const { someKey$: someRenamedKey } = someObject;
+        const someArray = [someObservable];
+        const [someElement] = someArray;
+      `,
+      options: [{ variables: false }],
+    },
+    {
+      code: stripIndent`
         // Static observable creators that accept a sources object
         import { of, combineLatest, forkJoin } from "rxjs";
 
@@ -305,8 +336,75 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         forkJoin({ one: of(0), two: of('a') });
       `,
     },
+    stripIndent`
+      // RxJS built-ins
+      import { groupBy, of, retry } from "rxjs";
+
+      const grouped$ = of(1,2,3).pipe(
+        groupBy(x => x % 2 === 0 ? 'even' : 'odd', {
+          duration: () => of(1),
+        }),
+      );
+
+      const retried$ = of(1,2,3).pipe(
+        retry({
+          delay: of(1000),
+        }),
+      );
+    `,
+    stripIndent`
+      // Angular Route config
+      import { Routes } from "@angular/router";
+      import { of } from "rxjs";
+
+      export const routes: Routes = [
+        {
+          path: 'some-path',
+          redirectTo: () => of('/home'),
+          resolve: {
+            data: of('some data'),
+          },
+        },
+      ];
+    `,
   ],
   invalid: [
+    // #region invalid; variables
+    fromFixture(
+      stripIndent`
+        // variables without $
+        import { Observable, of } from "rxjs";
+
+        const someObservable = of(0);
+              ~~~~~~~~~~~~~~ [shouldBeFinnish]
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey: someObservable };
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
+        const { someKey } = someObject;
+                ~~~~~~~ [shouldBeFinnish]
+        const { someKey: someRenamedKey } = someObject;
+                         ~~~~~~~~~~~~~~ [shouldBeFinnish]
+        const someArray = [someObservable];
+        const [someElement] = someArray;
+               ~~~~~~~~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // variables without $, but not enforced
+        import { Observable, of } from "rxjs";
+
+        const someObservable = of(0);
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey: someObservable };
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
+        const { someKey } = someObject;
+        const { someKey: someRenamedKey } = someObject;
+        const someArray = [someObservable];
+        const [someElement] = someArray;
+      `,
+      { options: [{ variables: false }] },
+    ),
     fromFixture(
       stripIndent`
         // optional variable without $
@@ -371,213 +469,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     ),
     fromFixture(
       stripIndent`
-        // functions without $
-        import { Observable, of } from "rxjs";
-
-        const someObservable$ = of(0);
-        const someArray = [someObservable$];
-        function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
-                 ~~~~~~~~~~~~ [shouldBeFinnish]
-        function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // methods without $
-        import { Observable } from "rxjs";
-
-        class SomeClass {
-          someMethod(someParam$: Observable<any>): Observable<any> { return someParam$; }
-          ~~~~~~~~~~ [shouldBeFinnish]
-          someImplicitReturnMethod(someParam$: Observable<any>) { return someParam$; }
-          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
-        }
-
-        interface SomeInterface {
-          someMethod(someParam$: Observable<any>): Observable<any>;
-          ~~~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // parameters without $
-        import { Observable, of } from "rxjs";
-
-        const someObservable$ = of(0);
-        const someArray = [someObservable$];
-        someArray.forEach(function (element: Observable<any>): void {});
-                                    ~~~~~~~ [shouldBeFinnish]
-        someArray.forEach((element: Observable<any>) => {});
-                           ~~~~~~~ [shouldBeFinnish]
-
-        function someFunction$(someParam: Observable<any>): Observable<any> { return someParam; }
-                               ~~~~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          constructor(someParam: Observable<any>) {}
-                      ~~~~~~~~~ [shouldBeFinnish]
-          set someSetter$(someParam: Observable<any>) {}
-                          ~~~~~~~~~ [shouldBeFinnish]
-          someMethod$(someParam: Observable<any>): Observable<any> { return someParam; }
-                      ~~~~~~~~~ [shouldBeFinnish]
-        }
-
-        interface SomeInterface {
-          someMethod$(someParam: Observable<any>): Observable<any>;
-                      ~~~~~~~~~ [shouldBeFinnish]
-          new (someParam: Observable<any>);
-               ~~~~~~~~~ [shouldBeFinnish]
-          (someParam: Observable<any>): void;
-           ~~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // properties without $
-        import { Observable, of } from "rxjs";
-
-        const someObservable$ = of(0);
-        const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable$ };
-                                                 ~~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          someProperty: Observable<any>;
-          ~~~~~~~~~~~~ [shouldBeFinnish]
-          get someGetter(): Observable<any> { throw new Error("Some error."); }
-              ~~~~~~~~~~ [shouldBeFinnish]
-          set someSetter(someParam$: Observable<any>) {}
-              ~~~~~~~~~~ [shouldBeFinnish]
-        }
-
-        interface SomeInterface {
-          someProperty: Observable<any>;
-          ~~~~~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // variables without $
-        import { Observable, of } from "rxjs";
-
-        const someObservable = of(0);
-              ~~~~~~~~~~~~~~ [shouldBeFinnish]
-        const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
-        const { someKey } = someObject;
-                ~~~~~~~ [shouldBeFinnish]
-        const { someKey: someRenamedKey } = someObject;
-                         ~~~~~~~~~~~~~~ [shouldBeFinnish]
-        const someArray = [someObservable];
-        const [someElement] = someArray;
-               ~~~~~~~~~~~ [shouldBeFinnish]
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // variables without $, but not enforced
-        import { Observable, of } from "rxjs";
-
-        const someObservable = of(0);
-        const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
-        const { someKey } = someObject;
-        const { someKey: someRenamedKey } = someObject;
-        const someArray = [someObservable];
-        const [someElement] = someArray;
-      `,
-      { options: [{ variables: false }] },
-    ),
-    fromFixture(
-      stripIndent`
-        // functions and methods not returning observables
-        import { Observable } from "rxjs";
-
-        function someFunction(someParam: Observable<any>): void {}
-                              ~~~~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          someMethod(someParam: Observable<any>): void {}
-                     ~~~~~~~~~ [shouldBeFinnish]
-        }
-
-        interface SomeInterface {
-          someMethod(someParam: Observable<any>): void;
-                     ~~~~~~~~~ [shouldBeFinnish]
-          (someParam: Observable<any>): void;
-           ~~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // functions and methods with non-observable parameters
-        import { Observable, of } from "rxjs";
-
-        function someFunction(someValue: any): Observable<any> { return of(someValue); }
-                 ~~~~~~~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          someMethod(someValue: any): Observable<any> { return of(someValue); }
-          ~~~~~~~~~~ [shouldBeFinnish]
-          someImplicitReturnMethod(someValue: any) { return of(someValue); }
-          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
-        }
-
-        interface SomeInterface {
-          someMethod(someValue: any): Observable<any>;
-          ~~~~~~~~~~ [shouldBeFinnish]
-          (someValue: any): Observable<any>;
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // functions and methods with array destructuring
-        import { Observable } from "rxjs";
-
-        function someFunction([someParam]: Observable<any>[]): void {}
-                               ~~~~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          someMethod([someParam]: Observable<any>[]): void {}
-                      ~~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // functions and methods with object destructuring
-        import { Observable } from "rxjs";
-
-        function someFunction({ source }: Record<string, Observable<any>>): void {}
-                                ~~~~~~ [shouldBeFinnish]
-
-        class SomeClass {
-          someMethod({ source }: Record<string, Observable<any>>): void {}
-                       ~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
-        // parameter property
-        import { Observable } from "rxjs";
-
-        class SomeClass {
-          constructor(public someProp: Observable<any>) {}
-                             ~~~~~~~~ [shouldBeFinnish]
-        }
-      `,
-    ),
-    fromFixture(
-      stripIndent`
         // non-Observable variable with $
         const answer$ = 42;
               ~~~~~~~ [shouldNotBeFinnish]
@@ -638,6 +529,195 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
               ~~~~ [shouldBeFinnish]
       `,
     ),
+    // #endregion invalid; variables
+    // #region invalid; functions and methods
+    fromFixture(
+      stripIndent`
+        // functions without $
+        import { Observable, of } from "rxjs";
+
+        const someObservable$ = of(0);
+        const someArray = [someObservable$];
+        function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
+                 ~~~~~~~~~~~~ [shouldBeFinnish]
+        function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // methods without $
+        import { Observable } from "rxjs";
+
+        class SomeClass {
+          someMethod(someParam$: Observable<any>): Observable<any> { return someParam$; }
+          ~~~~~~~~~~ [shouldBeFinnish]
+          someImplicitReturnMethod(someParam$: Observable<any>) { return someParam$; }
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          someMethod(someParam$: Observable<any>): Observable<any>;
+          ~~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // functions and methods with non-observable parameters
+        import { Observable, of } from "rxjs";
+
+        function someFunction(someValue: any): Observable<any> { return of(someValue); }
+                 ~~~~~~~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          someMethod(someValue: any): Observable<any> { return of(someValue); }
+          ~~~~~~~~~~ [shouldBeFinnish]
+          someImplicitReturnMethod(someValue: any) { return of(someValue); }
+          ~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          someMethod(someValue: any): Observable<any>;
+          ~~~~~~~~~~ [shouldBeFinnish]
+          (someValue: any): Observable<any>;
+        }
+      `,
+    ),
+    // #endregion invalid; functions and methods
+    // #region invalid; parameters
+    fromFixture(
+      stripIndent`
+        // parameters without $
+        import { Observable, of } from "rxjs";
+
+        const someObservable$ = of(0);
+        const someArray = [someObservable$];
+        someArray.forEach(function (element: Observable<any>): void {});
+                                    ~~~~~~~ [shouldBeFinnish]
+        someArray.forEach((element: Observable<any>) => {});
+                           ~~~~~~~ [shouldBeFinnish]
+
+        function someFunction$(someParam: Observable<any>): Observable<any> { return someParam; }
+                               ~~~~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          constructor(someParam: Observable<any>) {}
+                      ~~~~~~~~~ [shouldBeFinnish]
+          set someSetter$(someParam: Observable<any>) {}
+                          ~~~~~~~~~ [shouldBeFinnish]
+          someMethod$(someParam: Observable<any>): Observable<any> { return someParam; }
+                      ~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          someMethod$(someParam: Observable<any>): Observable<any>;
+                      ~~~~~~~~~ [shouldBeFinnish]
+          new (someParam: Observable<any>);
+               ~~~~~~~~~ [shouldBeFinnish]
+          (someParam: Observable<any>): void;
+           ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // functions and methods not returning observables
+        import { Observable } from "rxjs";
+
+        function someFunction(someParam: Observable<any>): void {}
+                              ~~~~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          someMethod(someParam: Observable<any>): void {}
+                     ~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          someMethod(someParam: Observable<any>): void;
+                     ~~~~~~~~~ [shouldBeFinnish]
+          (someParam: Observable<any>): void;
+           ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // functions and methods with array destructuring
+        import { Observable } from "rxjs";
+
+        function someFunction([someParam]: Observable<any>[]): void {}
+                               ~~~~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          someMethod([someParam]: Observable<any>[]): void {}
+                      ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // functions and methods with object destructuring
+        import { Observable } from "rxjs";
+
+        function someFunction({ source }: Record<string, Observable<any>>): void {}
+                                ~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          someMethod({ source }: Record<string, Observable<any>>): void {}
+                       ~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // function parameters should be detected
+        import { Observable, EMPTY } from "rxjs";
+
+        class Cls {
+          method2(par: () => Observable<never>): void {}
+                  ~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    // #endregion invalid; parameters
+    // #region invalid; properties (and objects)
+    fromFixture(
+      stripIndent`
+        // properties without $
+        import { Observable, of } from "rxjs";
+
+        const someObservable$ = of(0);
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey: someObservable$ };
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
+
+        class SomeClass {
+          someProperty: Observable<any>;
+          ~~~~~~~~~~~~ [shouldBeFinnish]
+          get someGetter(): Observable<any> { throw new Error("Some error."); }
+              ~~~~~~~~~~ [shouldBeFinnish]
+          set someSetter(someParam$: Observable<any>) {}
+              ~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          someProperty: Observable<any>;
+          ~~~~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // parameter property
+        import { Observable } from "rxjs";
+
+        class SomeClass {
+          constructor(public someProp: Observable<any>) {}
+                             ~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
     fromFixture(
       stripIndent`
         // functions assigned to properties should be detected
@@ -657,14 +737,119 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     ),
     fromFixture(
       stripIndent`
-        // function parameters should be detected
-        import { Observable, EMPTY } from "rxjs";
+        // skip object literals passed to functions and methods
+        import { of, Observable } from "rxjs";
 
-        class Cls {
-          mthd2(par: () => Observable<never>): void {}
-                ~~~ [shouldBeFinnish]
+        interface SomeOptions {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
         }
+
+        function someFunction(options: SomeOptions): void {}
+        const someArrowFunction = (options: SomeOptions): void => {};
+        function someInlineOptionsFunction(options: { foo: () => Observable<number> }): void {}
+                                                      ~~~ [shouldBeFinnish]
+
+        someFunction({
+          foo: () => of(1),
+          // should not error
+        });
+        someArrowFunction({
+          foo: () => of(1),
+          // should not error
+        });
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent type annotation
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr: SomeArray = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          },
+        ];
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent 'satisfies'
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          } satisfies SomeWrapperObject,
+        ];
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent type assertion
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          } as SomeWrapperObject,
+        ];
+      `,
+    ),
+    // #endregion invalid; properties (and objects)
   ],
 });

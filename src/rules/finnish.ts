@@ -1,10 +1,14 @@
-import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
   getTypeServices,
+  isCallExpression,
+  isTSAsExpression,
+  isTSSatisfiesExpression,
+  isVariableDeclarator,
 } from '../etc';
-import { isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   functions?: boolean;
@@ -12,10 +16,13 @@ const defaultOptions: readonly {
   names?: Record<string, boolean>;
   parameters?: boolean;
   properties?: boolean;
+  objects?: boolean;
   strict?: boolean;
   types?: Record<string, boolean>;
   variables?: boolean;
 }[] = [];
+
+const baseShouldBeFinnish = 'Finnish notation should be used here.';
 
 export const finnishRule = ruleCreator({
   defaultOptions,
@@ -25,7 +32,8 @@ export const finnishRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
-      shouldBeFinnish: 'Finnish notation should be used here.',
+      shouldBeFinnish: baseShouldBeFinnish,
+      shouldBeFinnishProperty: `${baseShouldBeFinnish} Add a type annotation, assertion, or 'satisfies' to silence this rule.`,
       shouldNotBeFinnish: 'Finnish notation should not be used here.',
     },
     schema: [
@@ -35,7 +43,8 @@ export const finnishRule = ruleCreator({
           methods: { type: 'boolean', description: 'Require for methods.' },
           names: { type: 'object', description: 'Enforce for specific names. Keys are a RegExp, values are a boolean.' },
           parameters: { type: 'boolean', description: 'Require for parameters.' },
-          properties: { type: 'boolean', description: 'Require for properties.' },
+          properties: { type: 'boolean', description: 'Require for properties, except object literal keys (see "objects" option).' },
+          objects: { type: 'boolean', description: 'Require for object literal keys.' },
           strict: { type: 'boolean', description: 'Disallow Finnish notation for non-Observables.' },
           types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
           variables: { type: 'boolean', description: 'Require for variables.' },
@@ -62,6 +71,7 @@ export const finnishRule = ruleCreator({
       methods: true,
       parameters: true,
       properties: true,
+      objects: true,
       variables: true,
       ...(config as Record<string, unknown>),
     };
@@ -95,7 +105,11 @@ export const finnishRule = ruleCreator({
       });
     }
 
-    function checkNode(nameNode: es.Node, typeNode?: es.Node) {
+    function checkNode(
+      nameNode: es.Node,
+      typeNode?: es.Node,
+      shouldMessage: 'shouldBeFinnish' | 'shouldBeFinnishProperty' = 'shouldBeFinnish',
+    ) {
       const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
       const text = tsNode.getText();
       const hasFinnish = text.endsWith('$');
@@ -107,7 +121,7 @@ export const finnishRule = ruleCreator({
         : () => {
             context.report({
               loc: getLoc(tsNode),
-              messageId: 'shouldBeFinnish',
+              messageId: shouldMessage,
             });
           };
       const shouldNotBeFinnish = hasFinnish
@@ -169,7 +183,7 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {
@@ -238,11 +252,30 @@ export const finnishRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
-        if (validate.properties) {
-          const parent = node.parent as es.Property;
-          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
-            checkNode(node);
+        if (!validate.objects) {
+          return;
+        }
+
+        const found = findParent(
+          node,
+          'CallExpression',
+          'VariableDeclarator',
+          'TSSatisfiesExpression',
+          'TSAsExpression',
+        );
+        if (found) {
+          if (isCallExpression(found)) {
+            return;
+          } else if (isVariableDeclarator(found) && !!found.id.typeAnnotation) {
+            return;
+          } else if (isTSAsExpression(found) || isTSSatisfiesExpression(found)) {
+            return;
           }
+        }
+
+        const parent = node.parent as es.Property;
+        if (node === parent.key) {
+          checkNode(node, undefined, 'shouldBeFinnishProperty');
         }
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
@@ -256,7 +289,7 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {
