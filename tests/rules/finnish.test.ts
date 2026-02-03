@@ -282,7 +282,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         const someObservable$ = of(0);
         const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable$ };
 
         class SomeClass {
           someProperty: Observable<any>;
@@ -295,6 +294,23 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         }
       `,
       options: [{ properties: false }],
+    },
+    {
+      code: stripIndent`
+        // object literal keys without $, but not enforced
+        import { of } from "rxjs";
+
+        const routes = [
+          {
+            path: 'some-path',
+            redirectTo: () => of('/home'),
+            resolve: {
+              data: of('some data'),
+            },
+          },
+        ];
+      `,
+      options: [{ objects: false }],
     },
     {
       code: stripIndent`
@@ -665,7 +681,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     // #endregion invalid; parameters
-    // #region invalid; properties
+    // #region invalid; properties (and objects)
     fromFixture(
       stripIndent`
         // properties without $
@@ -834,6 +850,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         ];
       `,
     ),
-    // #endregion invalid; properties
+    // #endregion invalid; properties (and objects)
   ],
 });

@@ -16,6 +16,7 @@ const defaultOptions: readonly {
   names?: Record<string, boolean>;
   parameters?: boolean;
   properties?: boolean;
+  objects?: boolean;
   strict?: boolean;
   types?: Record<string, boolean>;
   variables?: boolean;
@@ -39,7 +40,8 @@ export const finnishRule = ruleCreator({
           methods: { type: 'boolean', description: 'Require for methods.' },
           names: { type: 'object', description: 'Enforce for specific names. Keys are a RegExp, values are a boolean.' },
           parameters: { type: 'boolean', description: 'Require for parameters.' },
-          properties: { type: 'boolean', description: 'Require for properties.' },
+          properties: { type: 'boolean', description: 'Require for properties, except object literal keys (see "objects" option).' },
+          objects: { type: 'boolean', description: 'Require for object literal keys.' },
           strict: { type: 'boolean', description: 'Disallow Finnish notation for non-Observables.' },
           types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
           variables: { type: 'boolean', description: 'Require for variables.' },
@@ -66,6 +68,7 @@ export const finnishRule = ruleCreator({
       methods: true,
       parameters: true,
       properties: true,
+      objects: true,
       variables: true,
       ...(config as Record<string, unknown>),
     };
@@ -242,6 +245,10 @@ export const finnishRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
+        if (!validate.objects) {
+          return;
+        }
+
         const found = findParent(
           node,
           'CallExpression',
@@ -259,11 +266,9 @@ export const finnishRule = ruleCreator({
           }
         }
 
-        if (validate.properties) {
-          const parent = node.parent as es.Property;
-          if (node === parent.key) {
-            checkNode(node);
-          }
+        const parent = node.parent as es.Property;
+        if (node === parent.key) {
+          checkNode(node);
         }
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
