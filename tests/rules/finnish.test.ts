@@ -379,7 +379,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
               ~~~~~~~~~~~~~~ [shouldBeFinnish]
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
         const { someKey } = someObject;
                 ~~~~~~~ [shouldBeFinnish]
         const { someKey: someRenamedKey } = someObject;
@@ -397,7 +397,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someObservable = of(0);
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
         const { someKey } = someObject;
         const { someKey: someRenamedKey } = someObject;
         const someArray = [someObservable];
@@ -690,7 +690,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someObservable$ = of(0);
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey: someObservable$ };
-                                                 ~~~~~~~ [shouldBeFinnish]
+                                                 ~~~~~~~ [shouldBeFinnishProperty]
 
         class SomeClass {
           someProperty: Observable<any>;

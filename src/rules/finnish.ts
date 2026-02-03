@@ -22,6 +22,8 @@ const defaultOptions: readonly {
   variables?: boolean;
 }[] = [];
 
+const baseShouldBeFinnish = 'Finnish notation should be used here.';
+
 export const finnishRule = ruleCreator({
   defaultOptions,
   meta: {
@@ -30,7 +32,8 @@ export const finnishRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
-      shouldBeFinnish: 'Finnish notation should be used here.',
+      shouldBeFinnish: baseShouldBeFinnish,
+      shouldBeFinnishProperty: `${baseShouldBeFinnish} Add a type annotation, assertion, or 'satisfies' to silence this rule.`,
       shouldNotBeFinnish: 'Finnish notation should not be used here.',
     },
     schema: [
@@ -102,7 +105,11 @@ export const finnishRule = ruleCreator({
       });
     }
 
-    function checkNode(nameNode: es.Node, typeNode?: es.Node) {
+    function checkNode(
+      nameNode: es.Node,
+      typeNode?: es.Node,
+      shouldMessage: 'shouldBeFinnish' | 'shouldBeFinnishProperty' = 'shouldBeFinnish',
+    ) {
       const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
       const text = tsNode.getText();
       const hasFinnish = text.endsWith('$');
@@ -114,7 +121,7 @@ export const finnishRule = ruleCreator({
         : () => {
             context.report({
               loc: getLoc(tsNode),
-              messageId: 'shouldBeFinnish',
+              messageId: shouldMessage,
             });
           };
       const shouldNotBeFinnish = hasFinnish
@@ -268,7 +275,7 @@ export const finnishRule = ruleCreator({
 
         const parent = node.parent as es.Property;
         if (node === parent.key) {
-          checkNode(node);
+          checkNode(node, undefined, 'shouldBeFinnishProperty');
         }
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
