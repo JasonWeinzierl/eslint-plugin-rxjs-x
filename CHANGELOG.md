@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.1 (2026-02-03)
+
+### Fixes
+
+- **finnish**: smarter object literal handling ([#340](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/340)) ([caf4ea9](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/caf4ea9c8846eb7e676249ba7a950c9cd32693d5))
+
 ## v0.9.0 (2026-02-01)
 
 This is the last major version before v1.
