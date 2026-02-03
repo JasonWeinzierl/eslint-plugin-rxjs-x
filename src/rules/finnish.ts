@@ -1,10 +1,14 @@
-import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
   getTypeServices,
+  isCallExpression,
+  isTSAsExpression,
+  isTSSatisfiesExpression,
+  isVariableDeclarator,
 } from '../etc';
-import { isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
+import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   functions?: boolean;
@@ -169,7 +173,7 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {
@@ -238,9 +242,26 @@ export const finnishRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
+        const found = findParent(
+          node,
+          'CallExpression',
+          'VariableDeclarator',
+          'TSSatisfiesExpression',
+          'TSAsExpression',
+        );
+        if (found) {
+          if (isCallExpression(found)) {
+            return;
+          } else if (isVariableDeclarator(found) && !!found.id.typeAnnotation) {
+            return;
+          } else if (isTSAsExpression(found) || isTSSatisfiesExpression(found)) {
+            return;
+          }
+        }
+
         if (validate.properties) {
           const parent = node.parent as es.Property;
-          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
+          if (node === parent.key) {
             checkNode(node);
           }
         }
@@ -256,7 +277,7 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {

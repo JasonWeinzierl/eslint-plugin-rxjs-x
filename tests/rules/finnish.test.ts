@@ -320,6 +320,37 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         forkJoin({ one: of(0), two: of('a') });
       `,
     },
+    stripIndent`
+      // RxJS built-ins
+      import { groupBy, of, retry } from "rxjs";
+
+      const grouped$ = of(1,2,3).pipe(
+        groupBy(x => x % 2 === 0 ? 'even' : 'odd', {
+          duration: () => of(1),
+        }),
+      );
+
+      const retried$ = of(1,2,3).pipe(
+        retry({
+          delay: of(1000),
+        }),
+      );
+    `,
+    stripIndent`
+      // Angular Route config
+      import { Routes } from "@angular/router";
+      import { of } from "rxjs";
+
+      export const routes: Routes = [
+        {
+          path: 'some-path',
+          redirectTo: () => of('/home'),
+          resolve: {
+            data: of('some data'),
+          },
+        },
+      ];
+    `,
   ],
   invalid: [
     // #region invalid; variables
@@ -686,6 +717,121 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         const var3 = new Cls().mthd$;
               ~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals passed to functions and methods
+        import { of, Observable } from "rxjs";
+
+        interface SomeOptions {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        function someFunction(options: SomeOptions): void {}
+        const someArrowFunction = (options: SomeOptions): void => {};
+        function someInlineOptionsFunction(options: { foo: () => Observable<number> }): void {}
+                                                      ~~~ [shouldBeFinnish]
+
+        someFunction({
+          foo: () => of(1),
+          // should not error
+        });
+        someArrowFunction({
+          foo: () => of(1),
+          // should not error
+        });
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent type annotation
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr: SomeArray = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          },
+        ];
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent 'satisfies'
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          } satisfies SomeWrapperObject,
+        ];
+      `,
+    ),
+    fromFixture(
+      stripIndent`
+        // skip object literals with any parent type assertion
+        import { of, Observable } from "rxjs";
+
+        interface SomeObject {
+          foo: () => Observable<number>;
+          ~~~ [shouldBeFinnish]
+          bar: Observable<string>;
+          ~~~ [shouldBeFinnish]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: () => of(1),
+              // should not error
+              bar: of('a'),
+              // should not error
+            },
+          } as SomeWrapperObject,
+        ];
       `,
     ),
     // #endregion invalid; properties

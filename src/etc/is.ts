@@ -142,6 +142,18 @@ export function isThisExpression(node: TSESTree.Node): node is TSESTree.ThisExpr
   return node.type === AST_NODE_TYPES.ThisExpression;
 }
 
+export function isTSAsExpression(
+  node: TSESTree.Node,
+): node is TSESTree.TSAsExpression {
+  return node.type === AST_NODE_TYPES.TSAsExpression;
+}
+
+export function isTSSatisfiesExpression(
+  node: TSESTree.Node,
+): node is TSESTree.TSSatisfiesExpression {
+  return node.type === AST_NODE_TYPES.TSSatisfiesExpression;
+}
+
 export function isTSTypeLiteral(node: TSESTree.Node): node is TSESTree.TSTypeLiteral {
   return node.type === AST_NODE_TYPES.TSTypeLiteral;
 }
