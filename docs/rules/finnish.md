@@ -45,6 +45,7 @@ const answer$ = 'green';
 | `functions`  | Require for functions.                                               | Boolean |
 | `methods`    | Require for methods.                                                 | Boolean |
 | `names`      | Enforce for specific names. Keys are a RegExp, values are a boolean. | Object  |
+| `objects`    | Require for object literal keys.                                     | Boolean |
 | `parameters` | Require for parameters.                                              | Boolean |
 | `properties` | Require for properties.                                              | Boolean |
 | `strict`     | Disallow Finnish notation for non-Observables.                       | Boolean |

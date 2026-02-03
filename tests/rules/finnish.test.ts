@@ -14,7 +14,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someExpressionObservable$ = (): Observable<never> => EMPTY;
 
         const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey$: someObservable$ };
+        const someObject = { ...someEmptyObject, someKey$: someObservable$ }; 
         const { someKey$ } = someObject;
         const { someKey$: someRenamedKey$ } = someObject;
 
@@ -282,8 +282,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         const someObservable$ = of(0);
         const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable$ };
-
         class SomeClass {
           someProperty: Observable<any>;
           get someGetter(): Observable<any> { throw new Error("Some error."); }
@@ -305,8 +303,77 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         forkJoin({ one: of(0), two: of('a') });
       `,
     },
+    {
+      code: stripIndent`
+        // RxJS retry config (Object literal keys should be ignored by default)
+        import { of, retry } from "rxjs";
+        
+        const source$ = of(1).pipe(
+          retry({ 
+            delay: of(1000) // 'delay' is an object key, NOT a class property. Should be valid.
+          })
+        );
+      `,
+    },
+    {
+      code: stripIndent`
+        // Route config (common in Angular) (Object literal keys ignored)
+        import { of } from "rxjs";
+
+        const route = {
+          path: '',
+          // 'redirectTo' returns an observable, but is a contract key. Should be valid.
+          redirectTo: () => of('home'), 
+          // 'resolve' property holding an observable
+          resolve: {
+            data: of('data') 
+          }
+        };
+      `,
+    },
+    {
+      code: stripIndent`
+        // variables without $, but not enforced
+        import { Observable, of } from "rxjs";
+
+        const someObservable = of(0);
+        const someEmptyObject = {};
+        const someObject = { ...someEmptyObject, someKey: someObservable };
+        const { someKey } = someObject;
+        const { someKey: someRenamedKey } = someObject;
+        const someArray = [someObservable];
+        const [someElement] = someArray;
+      `,
+      options: [{ variables: false }],
+    },
   ],
   invalid: [
+    fromFixture(
+      stripIndent`
+        // If 'objects: true' is passed, we DO expect failures on object keys
+        import { of } from "rxjs";
+
+        const config = {
+          delay: of(10)
+          ~~~~~ [shouldBeFinnish]
+        };
+      `,
+      { options: [{ objects: true }] },
+    ),
+    fromFixture(
+      stripIndent`
+        // If 'objects: true' is passed, nested keys should also fail
+        import { of } from "rxjs";
+
+        const route = {
+           resolve: {
+             data: of('foo')
+             ~~~~ [shouldBeFinnish]
+           }
+        };
+      `,
+      { options: [{ objects: true }] },
+    ),
     fromFixture(
       stripIndent`
         // optional variable without $
@@ -442,7 +509,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someObservable$ = of(0);
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey: someObservable$ };
-                                                 ~~~~~~~ [shouldBeFinnish]
 
         class SomeClass {
           someProperty: Observable<any>;
@@ -468,7 +534,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
               ~~~~~~~~~~~~~~ [shouldBeFinnish]
         const someEmptyObject = {};
         const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
+        
         const { someKey } = someObject;
                 ~~~~~~~ [shouldBeFinnish]
         const { someKey: someRenamedKey } = someObject;
@@ -477,22 +543,6 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const [someElement] = someArray;
                ~~~~~~~~~~~ [shouldBeFinnish]
       `,
-    ),
-    fromFixture(
-      stripIndent`
-        // variables without $, but not enforced
-        import { Observable, of } from "rxjs";
-
-        const someObservable = of(0);
-        const someEmptyObject = {};
-        const someObject = { ...someEmptyObject, someKey: someObservable };
-                                                 ~~~~~~~ [shouldBeFinnish]
-        const { someKey } = someObject;
-        const { someKey: someRenamedKey } = someObject;
-        const someArray = [someObservable];
-        const [someElement] = someArray;
-      `,
-      { options: [{ variables: false }] },
     ),
     fromFixture(
       stripIndent`

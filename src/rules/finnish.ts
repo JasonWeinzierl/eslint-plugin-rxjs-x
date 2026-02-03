@@ -12,6 +12,7 @@ const defaultOptions: readonly {
   names?: Record<string, boolean>;
   parameters?: boolean;
   properties?: boolean;
+  objects?: boolean;
   strict?: boolean;
   types?: Record<string, boolean>;
   variables?: boolean;
@@ -36,6 +37,7 @@ export const finnishRule = ruleCreator({
           names: { type: 'object', description: 'Enforce for specific names. Keys are a RegExp, values are a boolean.' },
           parameters: { type: 'boolean', description: 'Require for parameters.' },
           properties: { type: 'boolean', description: 'Require for properties.' },
+          objects: { type: 'boolean', description: 'Require for object literal keys.' },
           strict: { type: 'boolean', description: 'Disallow Finnish notation for non-Observables.' },
           types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
           variables: { type: 'boolean', description: 'Require for variables.' },
@@ -63,6 +65,7 @@ export const finnishRule = ruleCreator({
       parameters: true,
       properties: true,
       variables: true,
+      objects: false,
       ...(config as Record<string, unknown>),
     };
 
@@ -238,7 +241,7 @@ export const finnishRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
-        if (validate.properties) {
+        if (validate.objects) {
           const parent = node.parent as es.Property;
           if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
             checkNode(node);
