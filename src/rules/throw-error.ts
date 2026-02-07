@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { couldBeFunction, couldBeType, getTypeServices, isMemberExpression } from '../etc';
+import { couldBeFunction, couldBeType, getTypeServices, isLiteral, isMemberExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -23,6 +23,7 @@ export const throwErrorRule = ruleCreator({
     },
     messages: {
       forbidden: 'Passing non-Error values is forbidden.',
+      suggestErrorConstructor: 'Wrap string in Error constructor.',
     },
     schema: [
       {
@@ -34,6 +35,7 @@ export const throwErrorRule = ruleCreator({
       },
     ],
     type: 'problem',
+    hasSuggestions: true,
   },
   name: 'throw-error',
   create: (context) => {
@@ -67,9 +69,23 @@ export const throwErrorRule = ruleCreator({
         return;
       }
 
+      const isStringLiteral = isLiteral(reportNode) && typeof reportNode.value === 'string';
+
       context.report({
         messageId: 'forbidden',
         node: reportNode,
+        ...(isStringLiteral && {
+          suggest: [
+            {
+              messageId: 'suggestErrorConstructor',
+              fix: (fixer) => {
+                const sourceCode = context.sourceCode;
+                const nodeText = sourceCode.getText(reportNode);
+                return fixer.replaceText(reportNode, `new Error(${nodeText})`);
+              },
+            },
+          ],
+        }),
       });
     }
 
