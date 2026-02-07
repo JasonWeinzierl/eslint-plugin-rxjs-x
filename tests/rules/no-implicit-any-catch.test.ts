@@ -258,6 +258,56 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       options: [{}],
     },
+    {
+      code: stripIndent`
+        // catchError; arrow; Error type with allowExplicitError
+        import { throwError } from "rxjs";
+        import { catchError } from "rxjs/operators";
+
+        throwError("Kaboom!").pipe(
+          catchError((error: Error) => console.error(error))
+        );
+      `,
+      options: [{ allowExplicitError: true }],
+    },
+    {
+      code: stripIndent`
+        // catchError; function; Error type with allowExplicitError
+        import { throwError } from "rxjs";
+        import { catchError } from "rxjs/operators";
+
+        throwError("Kaboom!").pipe(
+          catchError(function (error: Error) { console.error(error); })
+        );
+      `,
+      options: [{ allowExplicitError: true }],
+    },
+    {
+      code: stripIndent`
+        // subscribe; Error type with allowExplicitError
+        import { throwError } from "rxjs";
+
+        throwError("Kaboom!").subscribe({
+          error: (error: Error) => console.error(error)
+        });
+      `,
+      options: [{ allowExplicitError: true }],
+    },
+    {
+      code: stripIndent`
+        // tap; Error type with allowExplicitError
+        import { throwError } from "rxjs";
+        import { tap } from "rxjs/operators";
+
+        throwError("Kaboom!").pipe(
+          tap({
+            error: (error: Error) => console.error(error)
+          })
+        );
+      `,
+      options: [{ allowExplicitError: true }],
+    },
+
   ],
   invalid: [
     fromFixture(
@@ -1328,6 +1378,132 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
                 error: (error: any) => console.error(error)
               }));
             `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // catchError; Error type without allowExplicitError option
+        import { throwError } from "rxjs";
+        import { catchError } from "rxjs/operators";
+
+        throwError("Kaboom!").pipe(
+          catchError((error: Error) => console.error(error))
+                      ~~~~~~~~~~~~ [narrowed suggest]
+        );
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestExplicitUnknown',
+            output: stripIndent`
+              // catchError; Error type without allowExplicitError option
+              import { throwError } from "rxjs";
+              import { catchError } from "rxjs/operators";
+
+              throwError("Kaboom!").pipe(
+                catchError((error: unknown) => console.error(error))
+              );
+            `,
+          },
+          {
+            messageId: 'suggestExplicitAny',
+            output: stripIndent`
+              // catchError; Error type without allowExplicitError option
+              import { throwError } from "rxjs";
+              import { catchError } from "rxjs/operators";
+
+              throwError("Kaboom!").pipe(
+                catchError((error: any) => console.error(error))
+              );
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // subscribe; Error type not allowed
+        import { throwError } from "rxjs";
+
+        throwError("Kaboom!").subscribe({
+          error: (error: Error) => console.error(error)
+                  ~~~~~~~~~~~~ [narrowed suggest]
+        });
+      `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestExplicitUnknown',
+            output: stripIndent`
+              // subscribe; Error type not allowed
+              import { throwError } from "rxjs";
+
+              throwError("Kaboom!").subscribe({
+                error: (error: unknown) => console.error(error)
+              });
+            `,
+          },
+          {
+            messageId: 'suggestExplicitAny',
+            output: stripIndent`
+              // subscribe; Error type not allowed
+              import { throwError } from "rxjs";
+
+              throwError("Kaboom!").subscribe({
+                error: (error: any) => console.error(error)
+              });
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      stripIndent`
+        // subscribe; Error type allowed
+        import { throwError } from "rxjs";
+
+        throwError("Kaboom!").subscribe({
+          error: (error: object) => console.error(error),
+                  ~~~~~~~~~~~~~ [narrowedAllowError suggest]
+        });
+      `,
+      {
+        options: [{ allowExplicitError: true }],
+        suggestions: [
+          {
+            messageId: 'suggestExplicitUnknown',
+            output: stripIndent`
+              // subscribe; Error type allowed
+              import { throwError } from "rxjs";
+
+              throwError("Kaboom!").subscribe({
+                error: (error: unknown) => console.error(error),
+              });
+            `,
+          },
+          {
+            messageId: 'suggestExplicitAny',
+            output: stripIndent`
+              // subscribe; Error type allowed
+              import { throwError } from "rxjs";
+
+              throwError("Kaboom!").subscribe({
+                error: (error: any) => console.error(error),
+              });
+            `,
+          },
+          {
+            messageId: 'suggestExplicitError',
+            output: stripIndent`
+              // subscribe; Error type allowed
+              import { throwError } from "rxjs";
+
+              throwError("Kaboom!").subscribe({
+                error: (error: Error) => console.error(error),
+              });
+             `,
           },
         ],
       },
