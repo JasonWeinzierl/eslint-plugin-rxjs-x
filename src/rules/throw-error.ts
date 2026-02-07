@@ -1,7 +1,7 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
-import { couldBeFunction, couldBeType, getTypeServices, isLiteral, isMemberExpression } from '../etc';
+import { couldBeFunction, couldBeType, getTypeServices, isLiteral, isMemberExpression, isTemplateLiteral } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
@@ -69,12 +69,12 @@ export const throwErrorRule = ruleCreator({
         return;
       }
 
-      const isStringLiteral = isLiteral(reportNode) && typeof reportNode.value === 'string';
+      const isString = isTemplateLiteral(reportNode) || (isLiteral(reportNode) && typeof reportNode.value === 'string');
 
       context.report({
         messageId: 'forbidden',
         node: reportNode,
-        ...(isStringLiteral && {
+        ...(isString && {
           suggest: [
             {
               messageId: 'suggestErrorConstructor',
