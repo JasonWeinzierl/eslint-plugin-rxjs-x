@@ -242,8 +242,21 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => "Boom!");
-                                     ~~~~~~~ [forbidden]
+                                     ~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestErrorConstructor',
+            output: stripIndent`
+              // string
+              import { throwError } from "rxjs";
+
+              const ob1 = throwError(() => new Error("Boom!"));
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
@@ -264,8 +277,21 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import { throwError } from "rxjs";
 
         const ob1 = throwError("Boom!");
-                               ~~~~~~~ [forbidden]
+                               ~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestErrorConstructor',
+            output: stripIndent`
+              // string without factory (deprecated)
+              import { throwError } from "rxjs";
+
+              const ob1 = throwError(new Error("Boom!"));
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
@@ -330,8 +356,21 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import * as Rx from "rxjs";
 
         Rx.throwError(() => "Boom!");
-                            ~~~~~~~ [forbidden]
+                            ~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestErrorConstructor',
+            output: stripIndent`
+              // namespace import
+              import * as Rx from "rxjs";
+
+              Rx.throwError(() => new Error("Boom!"));
+            `,
+          },
+        ],
+      },
     ),
     // #endregion invalid; throwError
     // #region invalid; subject.error
@@ -343,8 +382,23 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         const subject = new Subject<void>();
 
         subject.error("Boom!");
-                      ~~~~~~~ [forbidden]
+                      ~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestErrorConstructor',
+            output: stripIndent`
+              // string
+              import { Subject } from "rxjs";
+
+              const subject = new Subject<void>();
+
+              subject.error(new Error("Boom!"));
+            `,
+          },
+        ],
+      },
     ),
     fromFixture(
       stripIndent`
@@ -404,8 +458,21 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
         import * as Rx from "rxjs";
         const subject = new Rx.Subject<void>();
         subject.error("Boom!");
-                      ~~~~~~~ [forbidden]
+                      ~~~~~~~ [forbidden suggest]
       `,
+      {
+        suggestions: [
+          {
+            messageId: 'suggestErrorConstructor',
+            output: stripIndent`
+              // namespace import
+              import * as Rx from "rxjs";
+              const subject = new Rx.Subject<void>();
+              subject.error(new Error("Boom!"));
+            `,
+          },
+        ],
+      },
     ),
     // #endregion invalid; subject.error
   ],
