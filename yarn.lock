@@ -1438,9 +1438,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^10.4.0":
-  version: 10.4.0
-  resolution: "bumpp@npm:10.4.0"
+"bumpp@npm:^10.4.1":
+  version: 10.4.1
+  resolution: "bumpp@npm:10.4.1"
   dependencies:
     ansis: "npm:^4.2.0"
     args-tokenizer: "npm:^0.3.0"
@@ -1455,7 +1455,7 @@ __metadata:
     yaml: "npm:^2.8.2"
   bin:
     bumpp: bin/bumpp.mjs
-  checksum: 10c0/76ee0c4930dbba48b682a5d5cc158716cbc924ae9212f074d4df6fb0bf6fe8dc5b96807bf05106806c9706a81f13b0584cf8fa693c26650bba8b7fdad8ee002f
+  checksum: 10c0/c84c10788970cb99097e0eb10e23ec02fe28ee3d6334f16ed35feca511121a44e3873e0f22dc0ecb2347ddc5c83c8d4a544b7ebb20ed2c6cded5711b34b09cd4
   languageName: node
   linkType: hard
 
@@ -2194,7 +2194,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.2"
     "@vitest/coverage-v8": "npm:^3.2.4"
     "@vitest/eslint-plugin": "npm:^1.4.0"
-    bumpp: "npm:^10.4.0"
+    bumpp: "npm:^10.4.1"
     common-tags: "npm:^1.8.0"
     decamelize: "npm:^5.0.1"
     eslint: "npm:^9.39.2"
