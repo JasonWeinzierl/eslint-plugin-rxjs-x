@@ -92,6 +92,10 @@ export function isLiteral(node: TSESTree.Node): node is TSESTree.Literal {
   return node.type === AST_NODE_TYPES.Literal;
 }
 
+export function isTemplateLiteral(node: TSESTree.Node): node is TSESTree.TemplateLiteral {
+  return node.type === AST_NODE_TYPES.TemplateLiteral;
+}
+
 export function isMemberExpression(node: TSESTree.Node): node is TSESTree.MemberExpression {
   return node.type === AST_NODE_TYPES.MemberExpression;
 }
