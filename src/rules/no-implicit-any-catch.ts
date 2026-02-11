@@ -33,6 +33,7 @@ function isParenthesised(
 
 const defaultOptions: readonly {
   allowExplicitAny?: boolean;
+  allowExplicitError?: boolean;
 }[] = [];
 
 export const noImplicitAnyCatchRule = ruleCreator({
@@ -40,7 +41,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
   meta: {
     docs: {
       description:
-        'Disallow implicit `any` error parameters in `catchError` operators.',
+        'Disallow implicit `any` error parameters in `catchError`, `subscribe`, and `tap`.',
       recommended: {
         recommended: true,
         strict: [{
@@ -55,10 +56,13 @@ export const noImplicitAnyCatchRule = ruleCreator({
       explicitAny: 'Explicit `any` in error callback.',
       implicitAny: 'Implicit `any` in error callback.',
       narrowed: 'Error type must be `unknown` or `any`.',
+      narrowedAllowError: 'Error type must be `unknown`, `any`, or `Error`.',
       suggestExplicitUnknown:
         'Use `unknown` instead to explicitly and safely assert the type is correct.',
       suggestExplicitAny:
         'Use `any` instead to explicitly opt out of type safety.',
+      suggestExplicitError:
+        'Use `Error` instead.',
     },
     schema: [
       {
@@ -69,6 +73,11 @@ export const noImplicitAnyCatchRule = ruleCreator({
             description: 'Allow error variable to be explicitly typed as `any`.',
             default: true,
           },
+          allowExplicitError: {
+            type: 'boolean',
+            description: 'Allow narrowing error type to `Error`.',
+            default: false,
+          },
         },
         type: 'object',
       },
@@ -78,7 +87,7 @@ export const noImplicitAnyCatchRule = ruleCreator({
   name: 'no-implicit-any-catch',
   create: (context) => {
     const [config = {}] = context.options;
-    const { allowExplicitAny = true } = config;
+    const { allowExplicitAny = true, allowExplicitError = false } = config;
     const { couldBeObservable } = getTypeServices(context);
     const sourceCode = context.sourceCode;
 
@@ -137,20 +146,38 @@ export const noImplicitAnyCatchRule = ruleCreator({
               ],
             });
           } else if (type !== AST_NODE_TYPES.TSUnknownKeyword) {
-            context.report({
-              messageId: 'narrowed',
-              node: param,
-              suggest: [
-                {
-                  messageId: 'suggestExplicitUnknown' as const,
-                  fix: createReplacerFix(typeAnnotation, 'unknown'),
-                },
-                allowExplicitAny ? {
-                  messageId: 'suggestExplicitAny' as const,
-                  fix: createReplacerFix(typeAnnotation, 'any'),
-                } : null,
-              ].filter(x => !!x),
-            });
+            // Check if this is Error type and if it's allowed.
+            let isAllowedError = false;
+            if (
+              allowExplicitError
+              && type === AST_NODE_TYPES.TSTypeReference
+            ) {
+              const typeRef = typeAnnotation.typeAnnotation as es.TSTypeReference;
+              if (isIdentifier(typeRef.typeName)) {
+                isAllowedError = typeRef.typeName.name === 'Error';
+              }
+            }
+
+            if (!isAllowedError) {
+              context.report({
+                messageId: allowExplicitError ? 'narrowedAllowError' : 'narrowed',
+                node: param,
+                suggest: [
+                  {
+                    messageId: 'suggestExplicitUnknown' as const,
+                    fix: createReplacerFix(typeAnnotation, 'unknown'),
+                  },
+                  allowExplicitAny ? {
+                    messageId: 'suggestExplicitAny' as const,
+                    fix: createReplacerFix(typeAnnotation, 'any'),
+                  } : null,
+                  allowExplicitError && !isAllowedError ? {
+                    messageId: 'suggestExplicitError' as const,
+                    fix: createReplacerFix(typeAnnotation, 'Error'),
+                  } : null,
+                ].filter(x => !!x),
+              });
+            }
           }
         } else {
           const hasRestParams = restParams.length > 0;
