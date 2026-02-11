@@ -8,7 +8,6 @@ import { banObservablesRule } from './rules/ban-observables';
 import { banOperatorsRule } from './rules/ban-operators';
 import { finnishRule } from './rules/finnish';
 import { justRule } from './rules/just';
-import { macroRule } from './rules/macro';
 import { noAsyncSubscribeRule } from './rules/no-async-subscribe';
 import { noCompatRule } from './rules/no-compat';
 import { noConnectableRule } from './rules/no-connectable';
@@ -58,7 +57,6 @@ const allRules = {
   'ban-operators': banOperatorsRule,
   'finnish': finnishRule,
   'just': justRule,
-  'macro': macroRule,
   'no-async-subscribe': noAsyncSubscribeRule,
   'no-compat': noCompatRule,
   'no-connectable': noConnectableRule,
