@@ -2,6 +2,14 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.2 (2026-02-11)
+
+### Features
+
+- **no-create**: forbid `Subject.create` too ([#342](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/342)) ([36b14f8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/36b14f884f4614fd63d4caa916974707246522ff))
+- **throw-error**: suggest wrapping strings in `Error` ([#343](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/343)) ([4da1f4c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4da1f4c3849dfd26e3c01457747c41fa23cfbeb4))
+- **no-implicit-any-catch**: option to allow explicit `Error` ([#344](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/344)) ([0c4a808](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/0c4a80835a0b083fd722cded656a6b45ff5b28ed))
+
 ## v0.9.1 (2026-02-03)
 
 ### Fixes
