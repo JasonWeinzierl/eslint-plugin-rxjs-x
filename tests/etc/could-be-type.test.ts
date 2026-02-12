@@ -91,6 +91,38 @@ describe('couldBeType', () => {
     expect(couldBeType(type, 'B')).toBe(true);
   });
 
+  it('should match a type alias intersection of type aliases', () => {
+    const { sourceFile, typeChecker } = createSourceFileAndTypeChecker(
+      `
+      type A = { id: number };
+      type B = { name: string };
+      type AB = A & B;
+      let ab: AB;
+      `,
+    );
+    const node = (sourceFile.statements[3] as ts.VariableStatement).declarationList.declarations[0];
+    const type = typeChecker.getTypeAtLocation(node);
+
+    expect(couldBeType(type, 'A')).toBe(true);
+    expect(couldBeType(type, 'B')).toBe(true);
+  });
+
+  it('should not match a type alias that is not preserved', () => {
+    const { sourceFile, typeChecker } = createSourceFileAndTypeChecker(
+      `
+      type A = { id: number };
+      type B = { name: string };
+      type C = B; // TypeScript does not preserve this alias.
+      type AB = A & B;
+      let ab: AB;
+      `,
+    );
+    const node = (sourceFile.statements[4] as ts.VariableStatement).declarationList.declarations[0];
+    const type = typeChecker.getTypeAtLocation(node);
+
+    expect(couldBeType(type, 'C')).toBe(false);
+  });
+
   it('should match a union type', () => {
     const { sourceFile, typeChecker } = createSourceFileAndTypeChecker(
       `
