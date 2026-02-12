@@ -2,6 +2,18 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.3 (2026-02-12)
+
+### Fixes
+
+- **no-unsafe-switchmap**: fix `observable` option ignored when `disallow` and `allow` are both null ([#355](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/355)) ([2f683e4](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/2f683e470e63ced47c32406d6d2dc3e6a6be0031))
+- **no-unbound-methods**: fix `allowTypes` option not working for type aliases (e.g. Angular `Signal`) ([#356](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/356)) ([4b26f1f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4b26f1f6c1a23eb985244c5e44daa8b335109add))
+- **finnish**: fix `types` option not working for type aliases ([#356](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/356)) ([4b26f1f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4b26f1f6c1a23eb985244c5e44daa8b335109add))
+
+### Chores
+
+- specify a `name` for every rule test ([#357](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/357)) ([edef78e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/edef78ef828094428b3ea36d34740046f9198843))
+
 ## v0.9.2 (2026-02-11)
 
 ### Features
