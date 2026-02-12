@@ -283,7 +283,7 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           return "error";
         }
 
-        https://github.com/cartant/rxjs-tslint-rules/issues/85
+        // https://github.com/cartant/rxjs-tslint-rules/issues/85
         try {
           throw new Error("error");
         } catch (error: any) {
