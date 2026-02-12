@@ -39,7 +39,7 @@ export const noUnboundMethodsRule = ruleCreator({
     const { couldBeObservable, couldBeSubscription } = getTypeServices(context);
     const nodeMap = new WeakMap<es.Node, void>();
     const [config = {}] = context.options;
-    const { allowTypes = [] } = config;
+    const { allowTypes = DEFAULT_UNBOUND_ALLOWED_TYPES } = config;
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
       node.arguments.filter(isMemberExpression).forEach((arg) => {

@@ -299,9 +299,6 @@ const allowTypesTests: Tests = {
           }
         }
       `,
-      options: [{
-        allowTypes: ['Signal'],
-      }],
     },
   ],
   invalid: [
@@ -329,6 +326,11 @@ const allowTypesTests: Tests = {
           }
         }
       `,
+      {
+        options: [{
+          allowTypes: [],
+        }],
+      },
     ),
   ],
 };
