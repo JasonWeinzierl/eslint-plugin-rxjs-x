@@ -9,6 +9,17 @@ import {
   isLiteral, isMemberExpression } from '../etc';
 import { createRegExpForWords, ruleCreator } from '../utils';
 
+const DEFAULT_DISALLOW = [
+  'add',
+  'create',
+  'delete',
+  'post',
+  'put',
+  'remove',
+  'set',
+  'update',
+];
+
 const defaultOptions: readonly {
   allow?: string | string[];
   disallow?: string | string[];
@@ -41,6 +52,7 @@ export const noUnsafeSwitchmapRule = ruleCreator({
               { type: 'string', description: 'A regular expression string.' },
               { type: 'array', items: { type: 'string' }, description: 'An array of words.' },
             ],
+            default: DEFAULT_DISALLOW,
           },
           observable: {
             type: 'string',
@@ -62,31 +74,16 @@ export const noUnsafeSwitchmapRule = ruleCreator({
   },
   name: 'no-unsafe-switchmap',
   create: (context) => {
-    const defaultDisallow = [
-      'add',
-      'create',
-      'delete',
-      'post',
-      'put',
-      'remove',
-      'set',
-      'update',
-    ];
-
-    let allowRegExp: RegExp | undefined;
-    let disallowRegExp: RegExp | undefined;
-    let observableRegExp: RegExp;
+    let allowRegExp: RegExp | undefined = undefined;
+    let disallowRegExp: RegExp | undefined = undefined;
 
     const [config = {}] = context.options;
-    if (config.allow || config.disallow) {
+    if (config.allow) {
       allowRegExp = createRegExpForWords(config.allow ?? []);
-      disallowRegExp = createRegExpForWords(config.disallow ?? []);
-      observableRegExp = new RegExp(config.observable ?? defaultObservable);
     } else {
-      allowRegExp = undefined;
-      disallowRegExp = createRegExpForWords(defaultDisallow);
-      observableRegExp = new RegExp(defaultObservable);
+      disallowRegExp = createRegExpForWords(config.disallow ?? DEFAULT_DISALLOW);
     }
+    const observableRegExp = new RegExp(config.observable ?? defaultObservable);
 
     const { couldBeObservable } = getTypeServices(context);
 
