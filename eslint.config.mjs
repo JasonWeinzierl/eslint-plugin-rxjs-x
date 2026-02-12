@@ -71,7 +71,13 @@ export default defineConfig(gitignore(), {
     ],
     'eslint-plugin/prefer-placeholders': 'error',
     'eslint-plugin/require-meta-schema-description': 'error',
-    'eslint-plugin/require-test-case-name': 'error',
+    'eslint-plugin/test-case-shorthand-strings': ['error', 'never'],
+    'eslint-plugin/require-test-case-name': [
+      'error',
+      {
+        require: 'always',
+      },
+    ],
     'eslint-plugin/unique-test-case-names': 'error',
     'eslint-plugin/no-matching-violation-suggest-message-ids': 'error',
     // TODO(https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/51):

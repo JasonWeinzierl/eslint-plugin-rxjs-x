@@ -2123,7 +2123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-eslint-plugin@npm:^7.3.0":
+"eslint-plugin-eslint-plugin@npm:7.3.0":
   version: 7.3.0
   resolution: "eslint-plugin-eslint-plugin@npm:7.3.0"
   dependencies:
@@ -2132,6 +2132,18 @@ __metadata:
   peerDependencies:
     eslint: ">=9.0.0"
   checksum: 10c0/92237e404df29b5199fcb785a9e9e3a98057c76410acc5424644f1781010a239e8db7ee36e6e5450b782db178c5ead504dd9ca9897a1f0dd374c60dd7f9f7289
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-eslint-plugin@patch:eslint-plugin-eslint-plugin@npm%3A7.3.0#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.0-d800475165.patch":
+  version: 7.3.0
+  resolution: "eslint-plugin-eslint-plugin@patch:eslint-plugin-eslint-plugin@npm%3A7.3.0#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.0-d800475165.patch::version=7.3.0&hash=d1f293"
+  dependencies:
+    "@eslint-community/eslint-utils": "npm:^4.4.0"
+    estraverse: "npm:^5.3.0"
+  peerDependencies:
+    eslint: ">=9.0.0"
+  checksum: 10c0/b3006056b3abf3f5d4efd9e8438101c7e6f5ab12ed50a85300fb2646d0aefbd2e3bb93a60713125d5dc632babe50d1c1fb180def03f0901744cabd188751d788
   languageName: node
   linkType: hard
 
@@ -2201,7 +2213,7 @@ __metadata:
     eslint-config-flat-gitignore: "npm:^2.1.0"
     eslint-doc-generator: "npm:^2.4.0"
     eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-eslint-plugin: "npm:^7.3.0"
+    eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.0#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.0-d800475165.patch"
     eslint-plugin-import-x: "npm:^4.16.1"
     eslint-plugin-n: "npm:^17.23.2"
     markdownlint-cli2: "npm:~0.19.0"
