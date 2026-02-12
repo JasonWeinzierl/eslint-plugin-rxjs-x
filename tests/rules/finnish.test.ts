@@ -529,6 +529,23 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
               ~~~~ [shouldBeFinnish]
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // type alias
+        type Foo = { name: string };
+        type Bar = Foo;
+
+        let bar: Bar;
+            ~~~ [shouldBeFinnish]
+      `,
+      {
+        options: [{
+          types: {
+            '^Foo$': true,
+          },
+        }],
+      },
+    ),
     // #endregion invalid; variables
     // #region invalid; functions and methods
     fromFixture(
