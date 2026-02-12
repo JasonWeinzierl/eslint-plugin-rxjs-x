@@ -6,7 +6,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noFinnishRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow Finnish notation.',

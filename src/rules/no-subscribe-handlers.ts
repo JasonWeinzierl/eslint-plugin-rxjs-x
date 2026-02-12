@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noSubscribeHandlersRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow passing handlers to `subscribe`.',

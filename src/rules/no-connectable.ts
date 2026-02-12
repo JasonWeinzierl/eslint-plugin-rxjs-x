@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noConnectableRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow operators that return connectable observables.',

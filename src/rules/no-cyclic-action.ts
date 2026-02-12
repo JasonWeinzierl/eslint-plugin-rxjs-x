@@ -1,21 +1,16 @@
 import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
+import * as tsutils from 'ts-api-utils';
 import ts from 'typescript';
 import { defaultObservable } from '../constants';
 import { isCallExpression, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
-function isTypeReference(type: ts.Type): type is ts.TypeReference {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  return Boolean((type as any).target);
-}
-
-const defaultOptions: readonly {
+type Options = readonly [{
   observable?: string;
-}[] = [];
+}];
 
 export const noCyclicActionRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow cyclic actions in effects and epics.',
@@ -28,7 +23,7 @@ export const noCyclicActionRule = ruleCreator({
     schema: [
       {
         properties: {
-          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.', default: defaultObservable },
+          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.' },
         },
         type: 'object',
         description: stripIndent`
@@ -37,11 +32,13 @@ export const noCyclicActionRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      observable: defaultObservable,
+    }] as Options,
   },
   name: 'no-cyclic-action',
   create: (context) => {
-    const [config = {}] = context.options;
-    const { observable = defaultObservable } = config;
+    const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);
 
     const { getTypeAtLocation, program } = ESLintUtils.getParserServices(context);
@@ -67,7 +64,7 @@ export const noCyclicActionRule = ruleCreator({
       }
       const operatorReturnType
         = typeChecker.getReturnTypeOfSignature(signature);
-      if (!isTypeReference(operatorReturnType)) {
+      if (!tsutils.isTypeReference(operatorReturnType)) {
         return;
       }
       const [operatorElementType]
@@ -77,7 +74,7 @@ export const noCyclicActionRule = ruleCreator({
       }
 
       const pipeType = getTypeAtLocation(pipeCallExpression);
-      if (!isTypeReference(pipeType)) {
+      if (!tsutils.isTypeReference(pipeType)) {
         return;
       }
       const [pipeElementType] = typeChecker.getTypeArguments(pipeType);

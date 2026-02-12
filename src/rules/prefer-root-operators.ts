@@ -18,7 +18,6 @@ const DEPRECATED_OPERATORS = [
 ];
 
 export const preferRootOperatorsRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow importing operators from `rxjs/operators`.',

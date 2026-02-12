@@ -4,12 +4,11 @@ import { defaultObservable } from '../constants';
 import { getTypeServices, isCallExpression, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   observable?: string;
-}[] = [];
+}];
 
 export const noUnsafeFirstRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow unsafe `first`/`take` usage in effects and epics.',
@@ -22,7 +21,7 @@ export const noUnsafeFirstRule = ruleCreator({
     schema: [
       {
         properties: {
-          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.', default: defaultObservable },
+          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.' },
         },
         type: 'object',
         description: stripIndent`
@@ -31,13 +30,15 @@ export const noUnsafeFirstRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      observable: defaultObservable,
+    }] as Options,
   },
   name: 'no-unsafe-first',
   create: (context) => {
     const invalidOperatorsRegExp = /^(take|first)$/;
 
-    const [config = {}] = context.options;
-    const { observable = defaultObservable } = config;
+    const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);
 
     const { couldBeObservable } = getTypeServices(context);

@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noSubclassRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow subclassing RxJS classes.',

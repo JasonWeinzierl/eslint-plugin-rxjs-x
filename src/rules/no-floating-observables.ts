@@ -2,9 +2,9 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import { getTypeServices, isCallExpression, isChainExpression, isUnaryExpression } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   ignoreVoid?: boolean;
-}[] = [];
+}];
 
 const messageBase
   = 'Observables must be subscribed to, returned, converted to a promise and awaited, '
@@ -14,7 +14,6 @@ const messageBaseNoVoid
   = 'Observables must be subscribed to, returned, or converted to a promise and awaited.';
 
 export const noFloatingObservablesRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Require Observables to be handled appropriately.',
@@ -28,18 +27,20 @@ export const noFloatingObservablesRule = ruleCreator({
     schema: [
       {
         properties: {
-          ignoreVoid: { type: 'boolean', default: true, description: 'Whether to ignore `void` expressions.' },
+          ignoreVoid: { type: 'boolean', description: 'Whether to ignore `void` expressions.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      ignoreVoid: true,
+    }] as Options,
   },
   name: 'no-floating-observables',
   create: (context) => {
     const { couldBeObservable } = getTypeServices(context);
-    const [config = {}] = context.options;
-    const { ignoreVoid = true } = config;
+    const [{ ignoreVoid }] = context.options;
 
     function checkNode(node: es.CallExpression) {
       if (couldBeObservable(node)) {
