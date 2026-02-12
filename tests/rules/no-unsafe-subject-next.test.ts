@@ -6,24 +6,24 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
   valid: [
     {
+      name: 'number next',
       code: stripIndent`
-        // number next
         import { Subject } from "rxjs";
         const s = new Subject<number>();
         s.next(42);
       `,
     },
     {
+      name: 'replay number next',
       code: stripIndent`
-        // replay number next
         import { ReplaySubject } from "rxjs";
         const s = new ReplaySubject<number>();
         s.next(42);
       `,
     },
     {
+      name: 'any next',
       code: stripIndent`
-        // any next
         import { Subject } from "rxjs";
         const s = new Subject<any>();
         s.next(42);
@@ -31,8 +31,8 @@ ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
       `,
     },
     {
+      name: 'unknown next',
       code: stripIndent`
-        // unknown next
         import { Subject } from "rxjs";
         const s = new Subject<unknown>();
         s.next(42);
@@ -40,16 +40,16 @@ ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
       `,
     },
     {
+      name: 'void next',
       code: stripIndent`
-        // void next
         import { Subject } from "rxjs";
         const s = new Subject<void>();
         s.next();
       `,
     },
     {
+      name: 'void union next',
       code: stripIndent`
-        // void union next
         import { Subject } from "rxjs";
         const s = new Subject<number | void>();
         s.next(42);
@@ -57,8 +57,8 @@ ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
       `,
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/76',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/76
         import { Subject } from "rxjs";
         const s = new Subject();
         s.next();
@@ -67,8 +67,8 @@ ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
   ],
   invalid: [
     fromFixture(
+      'optional number next',
       stripIndent`
-        // optional number next
         import { Subject } from "rxjs";
         const s = new Subject<number>();
         s.next();
@@ -76,8 +76,8 @@ ruleTester({ types: true }).run('no-unsafe-subject-next', noUnsafeSubjectNext, {
       `,
     ),
     fromFixture(
+      'optional replay number next',
       stripIndent`
-        // optional replay number next
         import { ReplaySubject } from "rxjs";
         const s = new ReplaySubject<number>();
         s.next();

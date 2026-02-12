@@ -24,8 +24,8 @@ const setup = stripIndent`
 ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
   valid: [
     {
+      name: 'effect SOMETHING to SOMETHING_ELSE',
       code: stripIndent`
-        // effect SOMETHING to SOMETHING_ELSE
         ${setup}
         const a = actions.pipe(ofType("SOMETHING"), map(() => ({ type: "SOMETHING_ELSE" as const })));
         const b = actions.pipe(ofType("SOMETHING"), map(() => ({ type: SOMETHING_ELSE }) as const));
@@ -34,8 +34,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
       `,
     },
     {
+      name: 'epic SOMETHING to SOMETHING_ELSE',
       code: stripIndent`
-        // epic SOMETHING to SOMETHING_ELSE
         ${setup}
         const a = (action$: Actions) => action$.pipe(ofType("SOMETHING"), map(() => ({ type: "SOMETHING_ELSE" as const })));
         const b = (action$: Actions) => action$.pipe(ofType("SOMETHING"), map(() => ({ type: SOMETHING_ELSE }) as const));
@@ -44,8 +44,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
       `,
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/54',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/54
         ${setup}
         const a = actions.pipe(ofType("SOMETHING"), map(() => {}));
       `,
@@ -53,8 +53,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
   ],
   invalid: [
     fromFixture(
+      'effect SOMETHING to SOMETHING',
       stripIndent`
-        // effect SOMETHING to SOMETHING
         ${setup}
         const a = actions.pipe(ofType("SOMETHING"), map(() => ({ type: "SOMETHING" as const })));
                   ~~~~~~~~~~~~ [forbidden]
@@ -67,8 +67,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
       `,
     ),
     fromFixture(
+      'epic SOMETHING to SOMETHING',
       stripIndent`
-        // epic SOMETHING to SOMETHING
         ${setup}
         const a = (action$: Actions) => action$.pipe(ofType("SOMETHING"), map(() => ({ type: "SOMETHING" as const })));
                                         ~~~~~~~~~~~~ [forbidden]
@@ -81,8 +81,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
       `,
     ),
     fromFixture(
+      'effect SOMETHING | SOMETHING_ELSE to SOMETHING',
       stripIndent`
-        // effect SOMETHING | SOMETHING_ELSE to SOMETHING
         ${setup}
         const a = actions.pipe(ofType("SOMETHING", "SOMETHING_ELSE"), map(() => ({ type: "SOMETHING" as const })));
                   ~~~~~~~~~~~~ [forbidden]
@@ -95,8 +95,8 @@ ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
       `,
     ),
     fromFixture(
+      'epic SOMETHING | SOMETHING_ELSE to SOMETHING',
       stripIndent`
-        // epic SOMETHING | SOMETHING_ELSE to SOMETHING
         ${setup}
         const a = (action$: Actions) => action$.pipe(ofType("SOMETHING", "SOMETHING_ELSE"), map(() => ({ type: "SOMETHING" as const })));
                                         ~~~~~~~~~~~~ [forbidden]

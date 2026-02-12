@@ -5,47 +5,56 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
   valid: [
-    stripIndent`
-      // noop
-      import { of } from "rxjs";
-      const observable = of([1, 2]);
-      observable.subscribe(() => {}, () => {});
-    `,
-    stripIndent`
-      // observer argument
-      import { of } from "rxjs";
+    {
+      name: 'noop',
+      code: stripIndent`
+        import { of } from "rxjs";
+        const observable = of([1, 2]);
+        observable.subscribe(() => {}, () => {});
+      `,
+    },
+    {
+      name: 'observer argument',
+      code: stripIndent`
+        // observer argument
+        import { of } from "rxjs";
 
-      const observable = of([1, 2]);
-      observable.subscribe({ next: () => {}, error: () => {} });
+        const observable = of([1, 2]);
+        observable.subscribe({ next: () => {}, error: () => {} });
 
-      const observer1 = { next: () => {}, error: () => {} };
-      observable.subscribe(observer1);
+        const observer1 = { next: () => {}, error: () => {} };
+        observable.subscribe(observer1);
 
-      const obj = { observer: observer1 };
-      observable.subscribe(obj.observer);
-    `,
-    stripIndent`
-      // subject
-      import { Subject } from "rxjs";
-      const subject = new Subject<any>();
-      const observable = of([1, 2]);
-      observable.subscribe(subject);
-    `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/61
-      const whatever = {
-        subscribe(
-          next?: (value: unknown) => void,
-          error?: (error: unknown) => void
-        ) {}
-      };
-      whatever.subscribe();
-    `,
+        const obj = { observer: observer1 };
+        observable.subscribe(obj.observer);
+      `,
+    },
+    {
+      name: 'subject',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<any>();
+        const observable = of([1, 2]);
+        observable.subscribe(subject);
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
+      code: stripIndent`
+        const whatever = {
+          subscribe(
+            next?: (value: unknown) => void,
+            error?: (error: unknown) => void
+          ) {}
+        };
+        whatever.subscribe();
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'arrow next ignored error',
       stripIndent`
-        // arrow next ignored error
         import { of } from "rxjs";
         const observable = of([1, 2]);
         observable.subscribe(() => {});
@@ -53,8 +62,8 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       `,
     ),
     fromFixture(
+      'variable next ignored error',
       stripIndent`
-        // variable next ignored error
         import { of } from "rxjs";
         const observable = of([1, 2]);
         const next = () => {};
@@ -63,8 +72,8 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       `,
     ),
     fromFixture(
+      'subject arrow next ignored error',
       stripIndent`
-        // subject arrow next ignored error
         import { Subject } from "rxjs";
         const subject = new Subject<any>();
         subject.subscribe(() => {});
@@ -72,8 +81,8 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       `,
     ),
     fromFixture(
+      'subject variable next ignored error',
       stripIndent`
-        // subject variable next ignored error
         import { Subject } from "rxjs";
         const next = () => {};
         const subject = new Subject<any>();
@@ -82,8 +91,8 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       `,
     ),
     fromFixture(
+      'https://github.com/cartant/eslint-plugin-rxjs/issues/60',
       stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/60
         import { Observable } from "rxjs"
         interface ISomeExtension {
           sayHi(): void
@@ -99,8 +108,8 @@ ruleTester({ types: true }).run('no-ignored-error', noIgnoredErrorRule, {
       `,
     ),
     fromFixture(
+      'observer argument',
       stripIndent`
-        // observer argument
         import { of } from "rxjs";
 
         const observable = of([1, 2]);

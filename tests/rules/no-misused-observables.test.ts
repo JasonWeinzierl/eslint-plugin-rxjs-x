@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRule, {
   valid: [
     {
+      name: 'all checks disabled',
       code: stripIndent`
-        // all checks disabled
         import { of } from "rxjs";
 
         [1, 2, 3].forEach(i => of(i));
@@ -19,8 +19,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     },
     // #region valid; void return argument
     {
+      name: 'void return argument; explicitly allowed',
       code: stripIndent`
-        // void return argument; explicitly allowed
         import { Observable, of } from "rxjs";
 
         [1, 2, 3].forEach((i): Observable<number> => { return of(i); });
@@ -33,22 +33,24 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksVoidReturn: { arguments: false } }],
     },
-    stripIndent`
-      // void return argument; unrelated
-      [1, 2, 3].forEach(i => i);
-      [1, 2, 3].forEach(i => { return i; });
+    {
+      name: 'void return argument; unrelated',
+      code: stripIndent`
+        [1, 2, 3].forEach(i => i);
+        [1, 2, 3].forEach(i => { return i; });
 
-      class Foo {
-        constructor(x: () => void, y: number) {}
-      }
-      new Foo(() => 42, 0);
-      new Foo;
-    `,
+        class Foo {
+          constructor(x: () => void, y: number) {}
+        }
+        new Foo(() => 42, 0);
+        new Foo;
+      `,
+    },
     // #endregion valid; void return argument
     // #region valid; void return attribute
     {
+      name: 'void return attribute; explicitly allowed',
       code: stripIndent`
-        // void return attribute; explicitly allowed
         import { of } from "rxjs";
 
         interface Props {
@@ -62,8 +64,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
     {
+      name: 'void return attribute; not void',
       code: stripIndent`
-        // void return attribute; not void
         import { Observable, of } from "rxjs";
 
         interface Props {
@@ -76,8 +78,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
     {
+      name: 'void return attribute; unrelated',
       code: stripIndent`
-        // void return attribute; unrelated
 
         interface Props {
           foo: () => void;
@@ -92,8 +94,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion valid; void return attribute
     // #region valid; void return inherited method
     {
+      name: 'void return inherited method; explicitly allowed',
       code: stripIndent`
-        // void return inherited method; explicitly allowed
         import { Observable, of } from "rxjs";
 
         class Foo {
@@ -114,66 +116,73 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksVoidReturn: { inheritedMethods: false } }],
     },
-    stripIndent`
-      // void return inherited method; not void
-      import { Observable, of } from "rxjs";
+    {
+      name: 'void return inherited method; not void',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      class Foo {
-        foo(): Observable<number> { return of(42); }
-        s(): void {}
-      }
+        class Foo {
+          foo(): Observable<number> { return of(42); }
+          s(): void {}
+        }
 
-      class Bar extends Foo {
-        foo(): Observable<number> { return of(43); }
-        static s(): Observable<number> { return of(43); }
-      }
+        class Bar extends Foo {
+          foo(): Observable<number> { return of(43); }
+          static s(): Observable<number> { return of(43); }
+        }
 
-      const Baz = class extends Foo {
-        foo(): Observable<number> { return of(44); }
-      }
+        const Baz = class extends Foo {
+          foo(): Observable<number> { return of(44); }
+        }
 
-      interface Qux extends Foo {
-        foo(): Observable<45>;
-      }
-    `,
-    stripIndent`
-      // void return inherited method; static accessor properties
-      import { Observable, of } from "rxjs";
+        interface Qux extends Foo {
+          foo(): Observable<45>;
+        }
+      `,
+    },
+    {
+      name: 'void return inherited method; static accessor properties',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      class Foo {
-        public foo = (): void => {};
-      }
+        class Foo {
+          public foo = (): void => {};
+        }
 
-      class Bar extends Foo {
-        public static accessor foo = (): Observable<number> => of(42);
-      }
-    `,
-    stripIndent`
-      // void return inherited method; static accessor properties; unrelated
+        class Bar extends Foo {
+          public static accessor foo = (): Observable<number> => of(42);
+        }
+      `,
+    },
+    {
+      name: 'void return inherited method; static accessor properties; unrelated',
+      code: stripIndent`
+        class Foo {
+          public foo = (): void => {};
+        }
 
-      class Foo {
-        public foo = (): void => {};
-      }
+        class Bar extends Foo {
+          public static accessor foo = (): void => {};
+        }
+      `,
+    },
+    {
+      name: 'void return inherited method; unrelated',
+      code: stripIndent`
+        class Foo {
+          foo(): void {}
+        }
 
-      class Bar extends Foo {
-        public static accessor foo = (): void => {};
-      }
-    `,
-    stripIndent`
-      // void return inherited method; unrelated
-      class Foo {
-        foo(): void {}
-      }
-
-      class Bar extends Foo {
-        foo(): number { return 42; }
-      }
-    `,
+        class Bar extends Foo {
+          foo(): number { return 42; }
+        }
+      `,
+    },
     // #endregion valid; void return inherited method
     // #region valid; void return property
     {
+      name: 'void return property; explicitly allowed',
       code: stripIndent`
-        // void return property; explicitly allowed
         import { Observable, of } from "rxjs";
 
         type Foo = { a: () => void, b: () => void, c: () => void };
@@ -186,60 +195,68 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksVoidReturn: { properties: false } }],
     },
-    stripIndent`
-      // void return property; not void
-      import { Observable, of } from "rxjs";
+    {
+      name: 'void return property; not void',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      type Foo = { a: () => Observable<number>, b: () => Observable<number>, c: () => Observable<number> };
-      const b: () => Observable<number> = () => of(42);
-      const foo: Foo = {
-        a: () => of(42),
-        b,
-        c(): Observable<number> { return of(42); },
-        d(): Observable<number> { return of(42); },
-      };
-    `,
-    stripIndent`
-      // void return property; unrelated
-      import { Observable, of } from "rxjs";
+        type Foo = { a: () => Observable<number>, b: () => Observable<number>, c: () => Observable<number> };
+        const b: () => Observable<number> = () => of(42);
+        const foo: Foo = {
+          a: () => of(42),
+          b,
+          c(): Observable<number> { return of(42); },
+          d(): Observable<number> { return of(42); },
+        };
+      `,
+    },
+    {
+      name: 'void return property; unrelated',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      type Foo = { a: () => void, b: () => void, c: () => void };
-      const b: () => number = () => 42;
-      const foo: Foo = {
-        a: () => 42,
-        b,
-        ['c'](): number { return 42; },
-      };
-      const bar = {
-        a(): Observable<number> { return of(42); },
-      }
-    `,
-    stripIndent`
-      // computed property name for method declaration is not supported
-      import { Observable, of } from "rxjs";
+        type Foo = { a: () => void, b: () => void, c: () => void };
+        const b: () => number = () => 42;
+        const foo: Foo = {
+          a: () => 42,
+          b,
+          ['c'](): number { return 42; },
+        };
+        const bar = {
+          a(): Observable<number> { return of(42); },
+        }
+      `,
+    },
+    {
+      name: 'computed property name for method declaration is not supported',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      type Foo = { a: () => void };
-      const foo: Foo = {
-        ['a'](): Observable<number> { return of(42); },
-      };
-    `,
-    stripIndent`
-      // void return property; union type
-      import { Observable, of } from "rxjs";
+        type Foo = { a: () => void };
+        const foo: Foo = {
+          ['a'](): Observable<number> { return of(42); },
+        };
+      `,
+    },
+    {
+      name: 'void return property; union type',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      interface Hook {
-        onInit?: ((field: string) => void) | ((field: string) => Observable<any>);
-      }
+        interface Hook {
+          onInit?: ((field: string) => void) | ((field: string) => Observable<any>);
+        }
 
-      const hook: Hook = {
-        onInit: field => of(field),
-      };
-    `,
+        const hook: Hook = {
+          onInit: field => of(field),
+        };
+      `,
+    },
     // #endregion valid; void return property
     // #region valid; void return return value
     {
+      name: 'void return return value; explicitly allowed',
       code: stripIndent`
-        // void return return value; explicitly allowed
         import { Observable, of } from "rxjs";
 
         function foo(): () => void {
@@ -248,31 +265,35 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksVoidReturn: { returns: false } }],
     },
-    stripIndent`
-      // void return return value; not void
-      import { Observable, of } from "rxjs";
+    {
+      name: 'void return return value; not void',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      function foo(): () => Observable<number> {
-        return (): Observable<number> => of(42);
-      }
-    `,
-    stripIndent`
-      // void return return value; unrelated
-      function foo(): () => number {
-        return (): number => 42;
-      }
-      function bar(): () => void {
-        return (): number => 42;
-      }
-      function baz(): () => void {
-        return (): void => { return; };
-      }
-    `,
+        function foo(): () => Observable<number> {
+          return (): Observable<number> => of(42);
+        }
+      `,
+    },
+    {
+      name: 'void return return value; unrelated',
+      code: stripIndent`
+        function foo(): () => number {
+          return (): number => 42;
+        }
+        function bar(): () => void {
+          return (): number => 42;
+        }
+        function baz(): () => void {
+          return (): void => { return; };
+        }
+      `,
+    },
     // #endregion valid; void return return value
     // #region valid; void return variable
     {
+      name: 'void return variable; explicitly allowed',
       code: stripIndent`
-        // void return variable; explicitly allowed
         import { Observable, of } from "rxjs";
 
         let foo: () => void;
@@ -281,23 +302,27 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksVoidReturn: { variables: false } }],
     },
-    stripIndent`
-      // void return variable; not void
-      import { Observable, of } from "rxjs";
+    {
+      name: 'void return variable; not void',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      let foo: () => Observable<number>;
-      foo = () => of(42);
-    `,
-    stripIndent`
-      // void return variable; unrelated
-      let foo: () => void;
-      foo = (): number => 42;
-    `,
+        let foo: () => Observable<number>;
+        foo = () => of(42);
+      `,
+    },
+    {
+      name: 'void return variable; unrelated',
+      code: stripIndent`
+        let foo: () => void;
+        foo = (): number => 42;
+      `,
+    },
     // #endregion valid; void return variable
     // #region valid; spread
     {
+      name: 'spread; explicitly allowed',
       code: stripIndent`
-        // spread; explicitly allowed
         import { of } from "rxjs";
 
         const source = of(42);
@@ -305,18 +330,21 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
       options: [{ checksSpreads: false }],
     },
-    stripIndent`
-      // spread; unrelated
-      const foo = { bar: 42 };
-      const baz = { ...foo };
-    `,
+    {
+      name: 'spread; unrelated',
+      code: stripIndent`
+        // spread; unrelated
+        const foo = { bar: 42 };
+        const baz = { ...foo };
+      `,
+    },
     // #endregion valid; spread
   ],
   invalid: [
     // #region invalid; void return argument
     fromFixture(
+      'void return argument; block body',
       stripIndent`
-        // void return argument; block body
         import { Observable, of } from "rxjs";
 
         [1, 2, 3].forEach((i): Observable<number> => { return of(i); });
@@ -324,8 +352,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return argument; inline body',
       stripIndent`
-        // void return argument; inline body
         import { of } from "rxjs";
 
         [1, 2, 3].forEach(i => of(i));
@@ -333,8 +361,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return argument; block body; implicit return type',
       stripIndent`
-        // void return argument; block body; implicit return type
         import { of } from "rxjs";
 
         [1, 2, 3].forEach(i => { return of(i); });
@@ -342,8 +370,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return argument; block body; union return',
       stripIndent`
-        // void return argument; block body; union return
         import { Observable, of } from "rxjs";
 
         [1, 2, 3].forEach((i): Observable<number> | number => { if (i > 1) { return of(i); } else { return i; } });
@@ -351,8 +379,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return argument; inline body; union return',
       stripIndent`
-        // void return argument; inline body; union return
         import { of } from "rxjs";
 
         [1, 2, 3].forEach(i => i > 1 ? of(i) : i);
@@ -360,8 +388,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return argument; constructor',
       stripIndent`
-        // void return argument; constructor
         import { of } from "rxjs";
 
         class Foo {
@@ -374,8 +402,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return argument
     // #region invalid; void return attribute
     fromFixture(
+      'void return attribute; block body',
       stripIndent`
-        // void return attribute; block body
         import { Observable, of } from "rxjs";
 
         interface Props {
@@ -391,8 +419,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       },
     ),
     fromFixture(
+      'void return attribute; inline body',
       stripIndent`
-        // void return attribute; inline body
         import { Observable, of } from "rxjs";
 
         interface Props {
@@ -410,8 +438,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return attribute
     // #region invalid; void return inherited method
     fromFixture(
+      'void return inherited method; class declaration; extends',
       stripIndent`
-        // void return inherited method; class declaration; extends
         import { Observable, of } from "rxjs";
 
         class Foo {
@@ -425,8 +453,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; abstract extends',
       stripIndent`
-        // void return inherited method; class declaration; abstract extends
         import { Observable } from "rxjs";
 
         class Foo {
@@ -440,8 +468,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; extends abstract',
       stripIndent`
-        // void return inherited method; class declaration; extends abstract
         import { Observable, of } from "rxjs";
 
         abstract class Foo {
@@ -455,8 +483,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; abstract extends abstract',
       stripIndent`
-        // void return inherited method; class declaration; abstract extends abstract
         import { Observable } from "rxjs";
 
         abstract class Foo {
@@ -470,8 +498,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; implements',
       stripIndent`
-        // void return inherited method; class declaration; implements
         import { Observable, of } from "rxjs";
 
         interface Foo {
@@ -485,8 +513,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; abstract implements',
       stripIndent`
-        // void return inherited method; class declaration; abstract implements
         import { Observable } from "rxjs";
 
         interface Foo {
@@ -500,8 +528,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; implements type intersection',
       stripIndent`
-        // void return inherited method; class declaration; implements type intersection
         import { Observable, of } from "rxjs";
 
         type Foo = { foo(): void } & { bar(): void };
@@ -514,8 +542,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; extends and implements',
       stripIndent`
-        // void return inherited method; class declaration; extends and implements
         import { Observable, of } from "rxjs";
 
         interface Foo {
@@ -538,8 +566,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class declaration; extends class expression',
       stripIndent`
-        // void return inherited method; class declaration; extends class expression
         import { Observable, of } from "rxjs";
 
         const Foo = class {
@@ -553,8 +581,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class expression; extends',
       stripIndent`
-        // void return inherited method; class expression; extends
         import { Observable, of } from "rxjs";
 
         const Foo = class {
@@ -568,8 +596,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; class expression; implements',
       stripIndent`
-        // void return inherited method; class expression; implements
         import { Observable, of } from "rxjs";
 
         interface Foo {
@@ -583,8 +611,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends class',
       stripIndent`
-        // void return inherited method; interface; extends class
         import { Observable } from "rxjs";
 
         class Foo {
@@ -598,8 +626,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends abstract',
       stripIndent`
-        // void return inherited method; interface; extends abstract
         import { Observable } from "rxjs";
 
         abstract class Foo {
@@ -613,8 +641,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends interface',
       stripIndent`
-        // void return inherited method; interface; extends interface
         import { Observable } from "rxjs";
 
         interface Foo {
@@ -628,8 +656,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends conditional type',
       stripIndent`
-        // void return inherited method; interface; extends conditional type
         import { Observable } from "rxjs";
 
         type Foo<IsRx extends boolean = true> = IsRx extends true
@@ -643,8 +671,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends multiple',
       stripIndent`
-        // void return inherited method; interface; extends multiple
         import { Observable } from "rxjs";
 
         interface Foo {
@@ -663,8 +691,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends multiple classes',
       stripIndent`
-        // void return inherited method; interface; extends multiple classes
         import { Observable } from "rxjs";
 
         class Foo {
@@ -683,8 +711,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends typeof class',
       stripIndent`
-        // void return inherited method; interface; extends typeof class
         import { Observable } from "rxjs";
 
         const Foo = class {
@@ -700,8 +728,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends function, index, constructor',
       stripIndent`
-        // void return inherited method; interface; extends function, index, constructor
         import { Observable } from "rxjs";
 
         interface Foo {
@@ -725,8 +753,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return inherited method; interface; extends multiple function, index, constructor',
       stripIndent`
-        // void return inherited method; interface; extends multiple function, index, constructor
         import { Observable } from "rxjs";
 
         interface Foo {
@@ -768,8 +796,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return inherited method
     // #region invalid; void return property
     fromFixture(
+      'void return property; arrow function',
       stripIndent`
-        // void return property; arrow function
         import { of } from "rxjs";
 
         type Foo = { bar: () => void };
@@ -780,8 +808,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return property; function',
       stripIndent`
-        // void return property; function
         import { Observable, of } from "rxjs";
 
         type Foo = { bar: () => void };
@@ -792,8 +820,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return property; union variable',
       stripIndent`
-        // void return property; union variable
         import { Observable, of } from "rxjs";
 
         type Foo = {
@@ -811,8 +839,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return property; union signature',
       stripIndent`
-        // void return property; union signature
         import { Observable, of } from "rxjs";
 
         type Foo = {
@@ -827,8 +855,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return property
     // #region invalid; void return return value
     fromFixture(
+      'void return return value; arrow function',
       stripIndent`
-        // void return return value; arrow function
         import { Observable, of } from "rxjs";
 
         function foo(): () => void {
@@ -838,8 +866,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return return value; function',
       stripIndent`
-        // void return return value; function
         import { Observable, of } from "rxjs";
 
         function foo(): () => void {
@@ -851,8 +879,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return return value
     // #region invalid; void return variable
     fromFixture(
+      'void return variable; reassign',
       stripIndent`
-        // void return variable; reassign
         import { of } from "rxjs";
 
         let foo: () => void;
@@ -861,8 +889,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return variable; const',
       stripIndent`
-        // void return variable; const
         import { of } from "rxjs";
 
         const foo: () => void = () => of(42);
@@ -872,8 +900,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return variable; nested',
       stripIndent`
-        // void return variable; nested
         import { of } from "rxjs";
 
         const foo: {
@@ -884,8 +912,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'void return variable; Record',
       stripIndent`
-        // void return variable; Record
         import { of } from "rxjs";
 
         const foo: Record<string, () => void> = {};
@@ -896,8 +924,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
     // #endregion invalid; void return variable
     // #region invalid; spread
     fromFixture(
+      'spread variable',
       stripIndent`
-        // spread variable
         import { of } from "rxjs";
 
         const source = of(42);
@@ -906,8 +934,8 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
       `,
     ),
     fromFixture(
+      'spread call function',
       stripIndent`
-        // spread call function
         import { of } from "rxjs";
 
         function source() {

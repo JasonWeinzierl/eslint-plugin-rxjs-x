@@ -5,36 +5,42 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
   valid: [
-    stripIndent`
-      // no toPromise
-      import { of, Subject } from "rxjs";
-      const a = of("a");
-      a.subscribe(value => console.log(value));
-    `,
-    stripIndent`
-      // non-observable toPromise
-      const a = {
-        toPromise() {
-          return Promise.resolve("a");
+    {
+      name: 'no toPromise',
+      code: stripIndent`
+        import { of, Subject } from "rxjs";
+        const a = of("a");
+        a.subscribe(value => console.log(value));
+      `,
+    },
+    {
+      name: 'non-observable toPromise',
+      code: stripIndent`
+        const a = {
+          toPromise() {
+            return Promise.resolve("a");
+          }
+        };
+        a.toPromise().then(value => console.log(value));
+      `,
+    },
+    {
+      name: 'no imports',
+      code: stripIndent`
+        class Observable {
+          toPromise() {
+            return Promise.resolve("a");
+          }
         }
-      };
-      a.toPromise().then(value => console.log(value));
-    `,
-    stripIndent`
-      // no imports
-      class Observable {
-        toPromise() {
-          return Promise.resolve("a");
-        }
-      }
-      const a = new Observable();
-      a.toPromise().then(value => console.log(value));
-    `,
+        const a = new Observable();
+        a.toPromise().then(value => console.log(value));
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'observable toPromise',
       stripIndent`
-        // observable toPromise
         import { of } from "rxjs";
         const a = of("a");
         a.toPromise().then(value => console.log(value));
@@ -45,7 +51,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // observable toPromise
               import { of, lastValueFrom } from "rxjs";
               const a = of("a");
               lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
@@ -54,7 +59,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // observable toPromise
               import { of, lastValueFrom } from "rxjs";
               const a = of("a");
               lastValueFrom(a).then(value => console.log(value));
@@ -63,7 +67,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // observable toPromise
               import { of, firstValueFrom } from "rxjs";
               const a = of("a");
               firstValueFrom(a).then(value => console.log(value));
@@ -73,8 +76,8 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       },
     ),
     fromFixture(
+      'subject toPromise',
       stripIndent`
-        // subject toPromise
         import { Subject } from "rxjs";
         const a = new Subject<string>();
         a.toPromise().then(value => console.log(value));
@@ -85,7 +88,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // subject toPromise
               import { Subject, lastValueFrom } from "rxjs";
               const a = new Subject<string>();
               lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
@@ -94,7 +96,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // subject toPromise
               import { Subject, lastValueFrom } from "rxjs";
               const a = new Subject<string>();
               lastValueFrom(a).then(value => console.log(value));
@@ -103,7 +104,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // subject toPromise
               import { Subject, firstValueFrom } from "rxjs";
               const a = new Subject<string>();
               firstValueFrom(a).then(value => console.log(value));
@@ -113,8 +113,8 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       },
     ),
     fromFixture(
+      'weird whitespace',
       stripIndent`
-        // weird whitespace
         import { of } from "rxjs";
         const a = { foo$: of("a") };
         a
@@ -128,7 +128,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // weird whitespace
               import { of, lastValueFrom } from "rxjs";
               const a = { foo$: of("a") };
               lastValueFrom(a
@@ -139,7 +138,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // weird whitespace
               import { of, lastValueFrom } from "rxjs";
               const a = { foo$: of("a") };
               lastValueFrom(a
@@ -150,7 +148,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // weird whitespace
               import { of, firstValueFrom } from "rxjs";
               const a = { foo$: of("a") };
               firstValueFrom(a
@@ -162,8 +159,8 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       },
     ),
     fromFixture(
+      'lastValueFrom already imported',
       stripIndent`
-        // lastValueFrom already imported
         import { lastValueFrom as lvf, of } from "rxjs";
         const a = of("a");
         a.toPromise().then(value => console.log(value));
@@ -174,7 +171,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // lastValueFrom already imported
               import { lastValueFrom as lvf, of } from "rxjs";
               const a = of("a");
               lvf(a, { defaultValue: undefined }).then(value => console.log(value));
@@ -183,7 +179,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // lastValueFrom already imported
               import { lastValueFrom as lvf, of } from "rxjs";
               const a = of("a");
               lvf(a).then(value => console.log(value));
@@ -192,7 +187,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // lastValueFrom already imported
               import { lastValueFrom as lvf, of, firstValueFrom } from "rxjs";
               const a = of("a");
               firstValueFrom(a).then(value => console.log(value));
@@ -202,8 +196,8 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       },
     ),
     fromFixture(
+      'rxjs not already imported',
       stripIndent`
-        // rxjs not already imported
         import { fromFetch } from "rxjs/fetch";
 
         const a = fromFetch("https://api.some.com");
@@ -215,7 +209,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // rxjs not already imported
               import { fromFetch } from "rxjs/fetch";
               import { lastValueFrom } from "rxjs";
 
@@ -226,7 +219,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // rxjs not already imported
               import { fromFetch } from "rxjs/fetch";
               import { lastValueFrom } from "rxjs";
 
@@ -237,7 +229,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // rxjs not already imported
               import { fromFetch } from "rxjs/fetch";
               import { firstValueFrom } from "rxjs";
 
@@ -249,8 +240,8 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
       },
     ),
     fromFixture(
+      'namespace import',
       stripIndent`
-        // namespace import
         import * as Rx from "rxjs";
         const a = Rx.of("a");
         a.toPromise().then(value => console.log(value));
@@ -261,7 +252,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFromWithDefault',
             output: stripIndent`
-              // namespace import
               import * as Rx from "rxjs";
               const a = Rx.of("a");
               Rx.lastValueFrom(a, { defaultValue: undefined }).then(value => console.log(value));
@@ -270,7 +260,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestLastValueFrom',
             output: stripIndent`
-              // namespace import
               import * as Rx from "rxjs";
               const a = Rx.of("a");
               Rx.lastValueFrom(a).then(value => console.log(value));
@@ -279,7 +268,6 @@ ruleTester({ types: true }).run('no-topromise', noTopromiseRule, {
           {
             messageId: 'suggestFirstValueFrom',
             output: stripIndent`
-              // namespace import
               import * as Rx from "rxjs";
               const a = Rx.of("a");
               Rx.firstValueFrom(a).then(value => console.log(value));

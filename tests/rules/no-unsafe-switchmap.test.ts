@@ -23,32 +23,32 @@ const setup = stripIndent`
 ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
   valid: [
     {
+      name: 'effect GET string',
       code: stripIndent`
-        // effect GET string
         ${setup}
         const pipedGetEffect = actions.pipe(ofType("GET_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
         const pipedMoreGetEffect = actions.pipe(ofType("DO_SOMETHING", "GET_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
       `,
     },
     {
+      name: 'epic GET string',
       code: stripIndent`
-        // epic GET string
         ${setup}
         const pipedGetEpic = (action$: Actions) => action$.pipe(ofType("GET_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
         const pipedMoreGetEpic = (action$: Actions) => action$.pipe(ofType("DO_SOMETHING", "GET_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
       `,
     },
     {
+      name: 'effect GET symbol',
       code: stripIndent`
-        // effect GET symbol
         ${setup}
         const pipedSymbolGetEffect = actions.pipe(ofType(GET_SOMETHING), tap(() => {}), switchMap(() => EMPTY));
         const pipedOfTypeCamelCaseGetEffect = actions.pipe(ofType(GetSomething), tap(() => {}), switchMap(() => EMPTY));
       `,
     },
     {
+      name: 'matching allow in options',
       code: stripIndent`
-        // matching allow in options
         ${setup}
         const fooEffect = actions.pipe(ofType("FOO"), tap(() => {}), switchMap(() => EMPTY));
       `,
@@ -59,8 +59,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       ],
     },
     {
+      name: 'non-matching disallow in options',
       code: stripIndent`
-        // non-matching disallow in options
         ${setup}
         const barEffect = actions.pipe(ofType("BAR"), tap(() => {}), switchMap(() => EMPTY));
         const bazEffect = actions.pipe(ofType("BAZ"), tap(() => {}), switchMap(() => EMPTY));
@@ -74,8 +74,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
   ],
   invalid: [
     fromFixture(
+      'effect PUT string',
       stripIndent`
-        // effect PUT string
         ${setup}
         const pipedPutEffect = actions.pipe(ofType("PUT_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
                                                                                     ~~~~~~~~~ [forbidden]
@@ -84,8 +84,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       `,
     ),
     fromFixture(
+      'epic PUT string',
       stripIndent`
-        // epic PUT string
         ${setup}
         const pipedPutEpic = (action$: Actions) => action$.pipe(ofType("PUT_SOMETHING"), tap(() => {}), switchMap(() => EMPTY));
                                                                                                         ~~~~~~~~~ [forbidden]
@@ -94,8 +94,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       `,
     ),
     fromFixture(
+      'effect PUT symbol',
       stripIndent`
-        // effect PUT symbol
         ${setup}
         const pipedSymbolPutEffect = actions.pipe(ofType(PUT_SOMETHING), tap(() => {}), switchMap(() => EMPTY));
                                                                                         ~~~~~~~~~ [forbidden]
@@ -104,8 +104,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       `,
     ),
     fromFixture(
+      'non-matching allow in options',
       stripIndent`
-        // non-matching allow in options
         ${setup}
         const barEffect = actions.pipe(ofType("BAR"), tap(() => {}), switchMap(() => EMPTY));
                                                                      ~~~~~~~~~ [forbidden]
@@ -121,8 +121,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       },
     ),
     fromFixture(
+      'matching disallow in options',
       stripIndent`
-        // matching disallow in options
         ${setup}
         const fooEffect = actions.pipe(ofType("FOO"), tap(() => {}), switchMap(() => EMPTY));
                                                                      ~~~~~~~~~ [forbidden]
@@ -136,8 +136,8 @@ ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
       },
     ),
     fromFixture(
+      'https://github.com/cartant/rxjs-tslint-rules/issues/50',
       stripIndent`
-        // https://github.com/cartant/rxjs-tslint-rules/issues/50
         import { EMPTY, Observable, of } from "rxjs";
         import { switchMap, tap } from "rxjs/operators";
 

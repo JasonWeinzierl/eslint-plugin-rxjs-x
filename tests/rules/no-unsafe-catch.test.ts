@@ -19,8 +19,8 @@ const setup = stripIndent`
 ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
   valid: [
     {
+      name: 'actions with caught',
       code: stripIndent`
-        // actions with caught
         ${setup}
         const safePipedOfTypeEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -31,8 +31,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'actions property with caught',
       code: stripIndent`
-        // actions property with caught
         ${setup}
         const safePipedOfTypeEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -43,8 +43,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'epic with caught',
       code: stripIndent`
-        // epic with caught
         ${setup}
         const safePipedOfTypeEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -55,8 +55,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'actions nested',
       code: stripIndent`
-        // actions nested
         ${setup}
         const safePipedOfTypeEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -66,8 +66,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'actions property nested',
       code: stripIndent`
-        // actions property nested
         ${setup}
         const safePipedOfTypeEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -77,8 +77,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'epic nested',
       code: stripIndent`
-        // epic nested
         ${setup}
         const safePipedOfTypeEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -88,8 +88,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     },
     {
+      name: 'non-matching options',
       code: stripIndent`
-        // non-matching options
         ${setup}
         const effect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -102,8 +102,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
   ],
   invalid: [
     fromFixture(
+      'unsafe actions',
       stripIndent`
-        // unsafe actions
         ${setup}
         const unsafePipedOfTypeEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -115,8 +115,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     ),
     fromFixture(
+      'unsafe actions property',
       stripIndent`
-        // unsafe actions property
         ${setup}
         const unsafePipedOfTypeEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -128,8 +128,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     ),
     fromFixture(
+      'unsafe epic',
       stripIndent`
-        // unsafe epic
         ${setup}
         const unsafePipedOfTypeEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -141,8 +141,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       `,
     ),
     fromFixture(
+      'matching options',
       stripIndent`
-        // matching options
         ${setup}
         const unsafePipedOfTypeTakeEpic = (foo: Actions) => foo.pipe(
           ofType("DO_SOMETHING"),
@@ -161,8 +161,8 @@ ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
       },
     ),
     fromFixture(
+      'https://github.com/cartant/rxjs-tslint-rules/issues/96',
       stripIndent`
-        // https://github.com/cartant/rxjs-tslint-rules/issues/96
         import { Observable } from "rxjs";
         import { catchError, map } from "rxjs/operators";
 

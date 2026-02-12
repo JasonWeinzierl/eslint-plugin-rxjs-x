@@ -6,224 +6,273 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollectionRule, {
   valid: [
     // #region valid; multiple observables in array
-    stripIndent`
-      // combineLatest with multiple observables in array
-      import { combineLatest, of } from "rxjs";
+    {
+      name: 'combineLatest with multiple observables in array',
+      code: stripIndent`
+        import { combineLatest, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const combined$ = combineLatest([a$, b$]);
-    `,
-    stripIndent`
-      // combineLatest with multiple observables in sparse array
-      import { combineLatest, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const combined$ = combineLatest([a$, b$]);
+      `,
+    },
+    {
+      name: 'combineLatest with multiple observables in sparse array',
+      code: stripIndent`
+        import { combineLatest, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const combined$ = combineLatest([, a$, b$]);
-    `,
-    stripIndent`
-      // forkJoin with multiple observables in array
-      import { forkJoin, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const combined$ = combineLatest([, a$, b$]);
+      `,
+    },
+    {
+      name: 'forkJoin with multiple observables in array',
+      code: stripIndent`
+        import { forkJoin, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const combined$ = forkJoin([a$, b$]);
-    `,
-    stripIndent`
-      // merge with multiple observables
-      import { merge, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const combined$ = forkJoin([a$, b$]);
+      `,
+    },
+    {
+      name: 'merge with multiple observables',
+      code: stripIndent`
+        import { merge, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const merged$ = merge(a$, b$);
-    `,
-    stripIndent`
-      // merge with spread
-      import { merge, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const merged$ = merge(a$, b$);
+      `,
+    },
+    {
+      name: 'merge with spread',
+      code: stripIndent`
+        // merge with spread
+        import { merge, of } from "rxjs";
 
-      const arr = [of(1), of(2)];
-      const merged$ = merge(...arr);
-    `,
-    stripIndent`
-      // zip with multiple observables
-      import { zip, of } from "rxjs";
+        const arr = [of(1), of(2)];
+        const merged$ = merge(...arr);
+      `,
+    },
+    {
+      name: 'zip with multiple observables',
+      code: stripIndent`
+        import { zip, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const zipped$ = zip(a$, b$);
-    `,
-    stripIndent`
-      // concat with multiple observables
-      import { concat, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const zipped$ = zip(a$, b$);
+      `,
+    },
+    {
+      name: 'concat with multiple observables',
+      code: stripIndent`
+        import { concat, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const concatenated$ = concat(a$, b$);
-    `,
-    stripIndent`
-      // race with multiple observables
-      import { race, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const concatenated$ = concat(a$, b$);
+      `,
+    },
+    {
+      name: 'race with multiple observables',
+      code: stripIndent`
+        import { race, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const raced$ = race(a$, b$);
-    `,
+        const a$ = of(1);
+        const b$ = of(2);
+        const raced$ = race(a$, b$);
+      `,
+    },
     // #endregion
 
     // #region valid; multiple observables in object
-    stripIndent`
-      // combineLatest with multiple observables in object
-      import { combineLatest, of } from "rxjs";
+    {
+      name: 'combineLatest with multiple observables in object',
+      code: stripIndent`
+        import { combineLatest, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const combined$ = combineLatest({ a: a$, b: b$ });
-    `,
-    stripIndent`
-      // forkJoin with multiple observables in object
-      import { forkJoin, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const combined$ = combineLatest({ a: a$, b: b$ });
+      `,
+    },
+    {
+      name: 'forkJoin with multiple observables in object',
+      code: stripIndent`
+        import { forkJoin, of } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const combined$ = forkJoin({ a: a$, b: b$ });
-    `,
-    stripIndent`
-      // forkJoin with spread object properties
-      import { forkJoin, of } from "rxjs";
+        const a$ = of(1);
+        const b$ = of(2);
+        const combined$ = forkJoin({ a: a$, b: b$ });
+      `,
+    },
+    {
+      name: 'forkJoin with spread object properties',
+      code: stripIndent`
+        import { forkJoin, of } from "rxjs";
 
-      const source1$ = of(1);
-      const source2$ = of(2);
-      const sources = { first: source1$, second: source2$ };
-      const combined$ = forkJoin({ ...sources });
-    `,
+        const source1$ = of(1);
+        const source2$ = of(2);
+        const sources = { first: source1$, second: source2$ };
+        const combined$ = forkJoin({ ...sources });
+      `,
+    },
     // #endregion
 
     // #region valid; no arguments or empty
-    stripIndent`
-      // combineLatest with no arguments
-      import { combineLatest } from "rxjs";
+    {
+      name: 'combineLatest with no arguments',
+      code: stripIndent`
+        import { combineLatest } from "rxjs";
 
-      const combined$ = combineLatest();
-    `,
-    stripIndent`
-      // merge with no arguments
-      import { merge } from "rxjs";
+        const combined$ = combineLatest();
+      `,
+    },
+    {
+      name: 'merge with no arguments',
+      code: stripIndent`
+        import { merge } from "rxjs";
 
-      const merged$ = merge();
-    `,
-    stripIndent`
-      // combineLatest with empty array
-      import { combineLatest } from "rxjs";
+        const merged$ = merge();
+      `,
+    },
+    {
+      name: 'combineLatest with empty array',
+      code: stripIndent`
+        import { combineLatest } from "rxjs";
 
-      const combined$ = combineLatest([]);
-    `,
-    stripIndent`
-      // forkJoin with empty object
-      import { forkJoin } from "rxjs";
+        const combined$ = combineLatest([]);
+      `,
+    },
+    {
+      name: 'forkJoin with empty object',
+      code: stripIndent`
+        import { forkJoin } from "rxjs";
 
-      const combined$ = forkJoin({});
-    `,
+        const combined$ = forkJoin({});
+      `,
+    },
     // #endregion
 
     // #region valid; non-rxjs functions with same names
-    stripIndent`
-      // non-RxJS combineLatest function
-      function combineLatest(observables: any[]) {
-        return observables[0];
-      }
+    {
+      name: 'non-RxJS combineLatest function',
+      code: stripIndent`
+        function combineLatest(observables: any[]) {
+          return observables[0];
+        }
 
-      const result = combineLatest([someValue]);
-    `,
-    stripIndent`
-      // method call on different object
-      const someObject = {
-        forkJoin(sources: any) { return sources; }
-      };
+        const result = combineLatest([someValue]);
+      `,
+    },
+    {
+      name: 'method call on different object',
+      code: stripIndent`
+        const someObject = {
+          forkJoin(sources: any) { return sources; }
+        };
 
-      const result = someObject.forkJoin([singleValue]);
-    `,
+        const result = someObject.forkJoin([singleValue]);
+      `,
+    },
     // #endregion
 
     // #region valid; dynamic arrays are not supported
-    stripIndent`
-      // combineLatest with variable array
-      import { combineLatest, of } from "rxjs";
+    {
+      name: 'combineLatest with variable array',
+      code: stripIndent`
+        import { combineLatest, of } from "rxjs";
 
-      const observables = [of(1)];
-      const combined$ = combineLatest(observables);
-    `,
-    stripIndent`
-      // forkJoin with computed array
-      import { forkJoin, of } from "rxjs";
+        const observables = [of(1)];
+        const combined$ = combineLatest(observables);
+      `,
+    },
+    {
+      name: 'forkJoin with computed array',
+      code: stripIndent`
+        import { forkJoin, of } from "rxjs";
 
-      const sources = getSources(); // could return array of any length
-      const combined$ = forkJoin(sources);
-    `,
+        const sources = getSources(); // could return array of any length
+        const combined$ = forkJoin(sources);
+      `,
+    },
     // #endregion
 
     // #region valid; namespace imports
-    stripIndent`
-      // namespace import with multiple observables in array
-      import * as Rx from "rxjs";
+    {
+      name: 'namespace import with multiple observables in array',
+      code: stripIndent`
+        import * as Rx from "rxjs";
 
-      const a$ = Rx.of(1);
-      const b$ = Rx.of(2);
-      const combined$ = Rx.combineLatest([a$, b$]);
-    `,
-    stripIndent`
-      // namespace import with multiple observables in object
-      import * as Rx from "rxjs";
+        const a$ = Rx.of(1);
+        const b$ = Rx.of(2);
+        const combined$ = Rx.combineLatest([a$, b$]);
+      `,
+    },
+    {
+      name: 'namespace import with multiple observables in object',
+      code: stripIndent`
+        import * as Rx from "rxjs";
 
-      const source1$ = Rx.of('a');
-      const source2$ = Rx.of('b');
-      const result$ = Rx.forkJoin({ first: source1$, second: source2$ });
-    `,
+        const source1$ = Rx.of('a');
+        const source2$ = Rx.of('b');
+        const result$ = Rx.forkJoin({ first: source1$, second: source2$ });
+      `,
+    },
     // #endregion
 
     // #region valid; aliased imports are not supported
-    stripIndent`
-      // aliased combineLatest with single observable
-      import { combineLatest as combine, of } from "rxjs";
+    {
+      name: 'aliased combineLatest with single observable',
+      code: stripIndent`
+        import { combineLatest as combine, of } from "rxjs";
 
-      const a$ = of(1);
-      const combined$ = combine([a$]);
-    `,
-    stripIndent`
-      // aliased forkJoin with single observable in object
-      import { forkJoin as fork, of } from "rxjs";
+        const a$ = of(1);
+        const combined$ = combine([a$]);
+      `,
+    },
+    {
+      name: 'aliased forkJoin with single observable in object',
+      code: stripIndent`
+        import { forkJoin as fork, of } from "rxjs";
 
-      const source$ = of('test');
-      const result$ = fork({ single: source$ });
-    `,
+        const source$ = of('test');
+        const result$ = fork({ single: source$ });
+      `,
+    },
     // #endregion
 
     // #region valid; unrelated
-    stripIndent`
-      // unrelated code
-      import { of, map, from, timer, raceWith } from "rxjs";
+    {
+      name: 'unrelated code',
+      code: stripIndent`
+        import { of, map, from, timer, raceWith } from "rxjs";
 
-      const a$ = of(1);
-      const b$ = of(2);
-      const sum$ = a$.pipe(
-        map(x => x + 10),
-      );
-      const raced$ = a$.pipe(
-        raceWith(b$),
-      );
+        const a$ = of(1);
+        const b$ = of(2);
+        const sum$ = a$.pipe(
+          map(x => x + 10),
+        );
+        const raced$ = a$.pipe(
+          raceWith(b$),
+        );
 
-      const c$ = from([1]);
+        const c$ = from([1]);
 
-      const d$ = timer(1000);
-    `,
+        const d$ = timer(1000);
+      `,
+    },
     // #endregion
   ],
 
   invalid: [
     // #region invalid; single observable in array
     fromFixture(
+      'combineLatest with single observable in array',
       stripIndent`
-        // combineLatest with single observable in array
         import { combineLatest, of } from "rxjs";
 
         const a$ = of(1);
@@ -232,8 +281,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin with single observable in array',
       stripIndent`
-        // forkJoin with single observable in array
         import { forkJoin, of } from "rxjs";
 
         const a$ = of(1);
@@ -242,8 +291,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'merge with single observable',
       stripIndent`
-        // merge with single observable
         import { merge, of } from "rxjs";
 
         const a$ = of(1);
@@ -252,8 +301,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'zip with single observable',
       stripIndent`
-        // zip with single observable
         import { zip, of } from "rxjs";
 
         const a$ = of(1);
@@ -262,8 +311,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'concat with single observable',
       stripIndent`
-        // concat with single observable
         import { concat, of } from "rxjs";
 
         const a$ = of(1);
@@ -272,8 +321,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'race with single observable',
       stripIndent`
-        // race with single observable
         import { race, of } from "rxjs";
 
         const a$ = of(1);
@@ -285,8 +334,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; single observable in object
     fromFixture(
+      'combineLatest with single property in object',
       stripIndent`
-        // combineLatest with single property in object
         import { combineLatest, of } from "rxjs";
 
         const a$ = of(1);
@@ -295,8 +344,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin with single property in object',
       stripIndent`
-        // forkJoin with single property in object
         import { forkJoin, of } from "rxjs";
 
         const a$ = of(1);
@@ -308,8 +357,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; inline observables
     fromFixture(
+      'combineLatest with inline single observable',
       stripIndent`
-        // combineLatest with inline single observable
         import { combineLatest, of } from "rxjs";
 
         const combined$ = combineLatest([of(1)]);
@@ -317,8 +366,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin with inline single observable in object',
       stripIndent`
-        // forkJoin with inline single observable in object
         import { forkJoin, of } from "rxjs";
 
         const combined$ = forkJoin({ data: of('hello') });
@@ -329,8 +378,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; sparse arrays
     fromFixture(
+      'combineLatest with sparse array',
       stripIndent`
-        // combineLatest with sparse array
         import { combineLatest, of } from "rxjs";
 
         const a$ = of(1);
@@ -339,8 +388,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin with sparse array',
       stripIndent`
-        // forkJoin with sparse array
         import { forkJoin, of } from "rxjs";
 
         const a$ = of(1);
@@ -352,8 +401,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; getter object member
     fromFixture(
+      'combineLatest with non-property object member',
       stripIndent`
-        // combineLatest with non-property object member
         import { combineLatest, of } from "rxjs";
 
         const combined$ = combineLatest({ get data() { return of(1); } });
@@ -364,8 +413,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; namespace imports
     fromFixture(
+      'combineLatest from namespace import with single observable array',
       stripIndent`
-        // combineLatest from namespace import with single observable array
         import * as Rx from "rxjs";
 
         const a$ = Rx.of(1);
@@ -374,8 +423,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin from namespace import with single observable object',
       stripIndent`
-        // forkJoin from namespace import with single observable object
         import * as Rx from "rxjs";
 
         const source$ = Rx.of('data');
@@ -387,8 +436,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
 
     // #region invalid; complex expressions with single elements
     fromFixture(
+      'combineLatest with single complex expression',
       stripIndent`
-        // combineLatest with single complex expression
         import { combineLatest, of } from "rxjs";
         import { map } from "rxjs/operators";
 
@@ -397,8 +446,8 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
       `,
     ),
     fromFixture(
+      'forkJoin with single method call result',
       stripIndent`
-        // forkJoin with single method call result
         import { forkJoin, Observable } from "rxjs";
 
         function getObservable(): Observable<number> {

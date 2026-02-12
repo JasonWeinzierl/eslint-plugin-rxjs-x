@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
   valid: [
     {
+      name: 'with default suffix',
       code: stripIndent`
-      // with default suffix
       import { Subject } from "rxjs";
 
       const subject = new Subject<any>();
@@ -54,8 +54,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{}],
     },
     {
+      name: 'with default suffix and $',
       code: stripIndent`
-      // with default suffix and $
       import { Subject } from "rxjs";
 
       const subject$ = new Subject<any>();
@@ -102,8 +102,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{}],
     },
     {
+      name: 'with explicit suffix',
       code: stripIndent`
-      // with explicit suffix
       import { Subject } from "rxjs";
 
       const sub = new Subject<any>();
@@ -150,8 +150,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{ suffix: 'Sub' }],
     },
     {
+      name: 'with explicit suffix and $',
       code: stripIndent`
-      // with explicit suffix and $
       import { Subject } from "rxjs";
 
       const sub$ = new Subject<any>();
@@ -199,8 +199,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{ suffix: 'Sub' }],
     },
     {
+      name: 'with EventEmitter',
       code: stripIndent`
-      // with EventEmitter
       import { Subject } from "rxjs";
 
       class EventEmitter<T> extends Subject<T> {}
@@ -209,8 +209,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{}],
     },
     {
+      name: 'with explicit non-enforced type',
       code: stripIndent`
-      // with explicit non-enforced type
       import { Subject } from "rxjs";
 
       class Thing<T> extends Subject<T> {}
@@ -225,8 +225,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       ],
     },
     {
+      name: 'https://github.com/cartant/rxjs-tslint-rules/issues/88',
       code: stripIndent`
-        // https://github.com/cartant/rxjs-tslint-rules/issues/88
         import { RouterStateSerializer } from '@ngrx/router-store';
         import { Params, RouterStateSnapshot } from '@angular/router';
 
@@ -254,8 +254,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     },
     {
+      name: 'variables without suffix, but not enforced',
       code: stripIndent`
-        // variables without suffix, but not enforced
         import { Subject } from "rxjs";
 
         const one = new Subject<any>();
@@ -264,8 +264,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       options: [{ variables: false }],
     },
     {
+      name: 'BehaviorSubject with default suffix',
       code: stripIndent`
-        // BehaviorSubject with default suffix
         import { BehaviorSubject } from "rxjs";
 
         const subject = new BehaviorSubject<number>(42);
@@ -273,8 +273,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     },
     {
+      name: 'MySubject with default suffix',
       code: stripIndent`
-        // MySubject with default suffix
         import { Subject } from "rxjs";
         class MySubject extends Subject {}
 
@@ -283,8 +283,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     },
     {
+      name: 'Static observable creators that accept a sources object',
       code: stripIndent`
-        // Static observable creators that accept a sources object
         import { Subject, BehaviorSubject, combineLatest, forkJoin } from "rxjs";
 
         combineLatest({ one: new Subject<number>(), two: new BehaviorSubject('a') });
@@ -294,8 +294,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
   ],
   invalid: [
     fromFixture(
+      'parameters without suffix',
       stripIndent`
-        // parameters without suffix
         import { Subject } from "rxjs";
 
         function someFunction(
@@ -338,8 +338,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'parameters without suffix, but not enforced',
       stripIndent`
-        // parameters without suffix, but not enforced
         import { Subject } from "rxjs";
 
         function someFunction(
@@ -375,8 +375,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ parameters: false }] },
     ),
     fromFixture(
+      'parameters without explicit suffix',
       stripIndent`
-        // parameters without explicit suffix
         import { Subject } from "rxjs";
 
         function someFunction(
@@ -420,8 +420,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
+      'properties without suffix',
       stripIndent`
-        // properties without suffix
         import { Subject } from "rxjs";
 
         const someObject = {
@@ -457,8 +457,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'properties without suffix, but not enforced',
       stripIndent`
-        // properties without suffix, but not enforced
         import { Subject } from "rxjs";
 
         const someObject = {
@@ -487,8 +487,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ properties: false }] },
     ),
     fromFixture(
+      'properties without explicit suffix',
       stripIndent`
-        // properties without explicit suffix
         import { Subject } from "rxjs";
 
         const someObject = {
@@ -525,8 +525,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
+      'variables without suffix',
       stripIndent`
-        // variables without suffix
         import { Subject } from "rxjs";
 
         const one = new Subject<any>();
@@ -536,8 +536,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'variables without explicit suffix',
       stripIndent`
-        // variables without explicit suffix
         import { Subject } from "rxjs";
 
         const one = new Subject<any>();
@@ -548,8 +548,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ suffix: 'Sub' }] },
     ),
     fromFixture(
+      'functions and methods with array destructuring',
       stripIndent`
-        // functions and methods with array destructuring
         import { Subject } from "rxjs";
 
         function someFunction([someParam]: Subject<any>[]): void {}
@@ -562,8 +562,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with object destructuring',
       stripIndent`
-        // functions and methods with object destructuring
         import { Subject } from "rxjs";
 
         function someFunction({ source }: Record<string, Subject<any>>): void {}
@@ -576,8 +576,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'parameter property',
       stripIndent`
-        // parameter property
         import { Subject } from "rxjs";
 
         class SomeClass {
@@ -587,8 +587,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'BehaviorSubject without suffix',
       stripIndent`
-        // BehaviorSubject without suffix
         import { BehaviorSubject } from "rxjs";
 
         const source = new BehaviorSubject<number>(42);
@@ -596,8 +596,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'BehaviorSubject with $ suffix',
       stripIndent`
-        // BehaviorSubject with $$ suffix
         // https://github.com/cartant/eslint-plugin-rxjs/issues/88
         import { BehaviorSubject } from "rxjs";
 
@@ -609,8 +609,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ suffix: '$$' }] },
     ),
     fromFixture(
+      'Property with $ suffix',
       stripIndent`
-        // Property with $$ suffix
         // https://github.com/cartant/eslint-plugin-rxjs/issues/88#issuecomment-1020645186
         import { Subject } from "rxjs";
 
@@ -622,8 +622,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       { options: [{ suffix: '$$' }] },
     ),
     fromFixture(
+      'MySubject without suffix',
       stripIndent`
-        // MySubject without suffix
         import { Subject } from "rxjs";
         class MySubject<T> extends Subject<T> {}
 
@@ -632,8 +632,8 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
+      'type alias not supported because it gets erased',
       stripIndent`
-        // type alias not supported because it gets erased
         import { Subject } from "rxjs";
 
         type Foo = Subject<any>;

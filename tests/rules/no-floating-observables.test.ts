@@ -5,55 +5,62 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-floating-observables', noFloatingObservablesRule, {
   valid: [
-    stripIndent`
-      // not ignored
-      import { Observable, of } from "rxjs";
+    {
+      name: 'not ignored',
+      code: stripIndent`
+        // not ignored
+        import { Observable, of } from "rxjs";
 
-      function functionSource() {
-        return of(42);
-      }
+        function functionSource() {
+          return of(42);
+        }
 
-      function sink(source: Observable<number>) {
-      }
+        function sink(source: Observable<number>) {
+        }
 
-      functionSource().subscribe();
-      const a = functionSource();
-      const b = [functionSource()];
-      [void functionSource()];
-      sink(functionSource());
-      void functionSource();
-    `,
-    stripIndent`
-      // not ignored arrow
-      import { Observable, of } from "rxjs";
+        functionSource().subscribe();
+        const a = functionSource();
+        const b = [functionSource()];
+        [void functionSource()];
+        sink(functionSource());
+        void functionSource();
+      `,
+    },
+    {
+      name: 'not ignored arrow',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      const arrowSource = () => of(42);
+        const arrowSource = () => of(42);
 
-      function sink(source: Observable<number>) {
-      }
+        function sink(source: Observable<number>) {
+        }
 
-      functionSource().subscribe();
-      const a = arrowSource();
-      const b = [arrowSource()];
-      [void arrowSource()];
-      sink(arrowSource());
-      void functionSource();
-    `,
-    stripIndent`
-      // unrelated
-      function foo() {}
+        functionSource().subscribe();
+        const a = arrowSource();
+        const b = [arrowSource()];
+        [void arrowSource()];
+        sink(arrowSource());
+        void functionSource();
+      `,
+    },
+    {
+      name: 'unrelated',
+      code: stripIndent`
+        function foo() {}
 
-      [1, 2, 3, 'foo'];
-      const a = [1];
-      foo();
-      [foo()];
-      void foo();
-    `,
+        [1, 2, 3, 'foo'];
+        const a = [1];
+        foo();
+        [foo()];
+        void foo();
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'ignored',
       stripIndent`
-        // ignored
         import { Observable, of } from "rxjs";
 
         function functionSource() {
@@ -65,8 +72,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       `,
     ),
     fromFixture(
+      'ignored arrow',
       stripIndent`
-        // ignored arrow
         import { Observable, of } from "rxjs";
 
         const arrowSource = () => of(42);
@@ -76,8 +83,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       `,
     ),
     fromFixture(
+      'chain expression',
       stripIndent`
-        // chain expression
         import { Observable, of } from "rxjs";
 
         const arrowSource: null | (() => Observable<number>) = () => of(42);
@@ -87,8 +94,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       `,
     ),
     fromFixture(
+      'array',
       stripIndent`
-        // array
         import { of } from "rxjs";
 
         [of(42)];
@@ -96,8 +103,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       `,
     ),
     fromFixture(
+      'ignoreVoid false',
       stripIndent`
-        // ignoreVoid false
         import { Observable, of } from "rxjs";
 
         function functionSource() {
@@ -118,8 +125,8 @@ ruleTester({ types: true }).run('no-floating-observables', noFloatingObservables
       },
     ),
     fromFixture(
+      'sequence expression',
       stripIndent`
-        // sequence expression
         import { of } from "rxjs";
 
         of(42), of(42), void of(42);

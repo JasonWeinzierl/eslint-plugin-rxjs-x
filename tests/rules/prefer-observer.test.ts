@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
   valid: [
     {
+      name: 'allow-next',
       code: stripIndent`
-        // allow-next
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -38,8 +38,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       options: [{ allowNext: true }],
     },
     {
+      name: 'default',
       code: stripIndent`
-        // default
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -117,8 +117,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       options: [{}],
     },
     {
+      name: 'disallow-next',
       code: stripIndent`
-        // disallow-next
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -141,8 +141,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       options: [{ allowNext: false }],
     },
     {
+      name: 'named',
       code: stripIndent`
-        // named
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -157,8 +157,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       options: [{}],
     },
     {
+      name: 'non-arrow functions',
       code: stripIndent`
-        // non-arrow functions
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -175,8 +175,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       options: [{}],
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/61
         const whatever = {
           pipe(...value: unknown[]) {},
           subscribe(callback?: (value: unknown) => void) {}
@@ -188,9 +188,10 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
     },
   ],
   invalid: [
+    // #region subscribe arrow
     fromFixture(
+      'default; next, error',
       stripIndent`
-        // default; next, error
         import { of } from "rxjs";
 
         const source = of(42);
@@ -203,7 +204,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; next, error
           import { of } from "rxjs";
 
           const source = of(42);
@@ -216,7 +216,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; next, error
               import { of } from "rxjs";
 
               const source = of(42);
@@ -230,8 +229,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'default; next, error, complete',
       stripIndent`
-        // default; next, error, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -245,7 +244,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; next, error, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -258,7 +256,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; next, error, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -272,8 +269,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'default; next, complete',
       stripIndent`
-        // default; next, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -287,7 +284,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; next, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -300,7 +296,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; next, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -314,8 +309,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'default; error',
       stripIndent`
-        // default; error
         import { of } from "rxjs";
 
         const source = of(42);
@@ -328,7 +323,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; error
           import { of } from "rxjs";
 
           const source = of(42);
@@ -341,7 +335,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; error
               import { of } from "rxjs";
 
               const source = of(42);
@@ -355,8 +348,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'default; error, complete',
       stripIndent`
-        // default; error, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -370,7 +363,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; error, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -383,7 +375,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; error, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -397,8 +388,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'default; complete',
       stripIndent`
-        // default; complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -412,7 +403,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // default; complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -425,7 +415,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // default; complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -438,9 +427,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         ],
       },
     ),
+    // #endregion subscribe arrow
+    // #region tap arrow
     fromFixture(
+      'tap; next, error',
       stripIndent`
-        // tap; next, error
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -454,7 +445,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; next, error
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -468,7 +458,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; next, error
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -483,8 +472,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap; next, error, complete',
       stripIndent`
-        // tap; next, error, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -499,7 +488,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; next, error, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -513,7 +501,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; next, error, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -528,8 +515,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap; next, complete',
       stripIndent`
-        // tap; next, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -544,7 +531,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; next, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -558,7 +544,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; next, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -573,8 +558,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap; error',
       stripIndent`
-        // tap; error
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -588,7 +573,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; error
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -602,7 +586,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; error
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -617,8 +600,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap; error, complete',
       stripIndent`
-        // tap; error, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -633,7 +616,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; error, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -647,7 +629,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; error, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -662,8 +643,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap; complete',
       stripIndent`
-        // tap; complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -678,7 +659,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // tap; complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -692,7 +672,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // tap; complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -706,9 +685,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         ],
       },
     ),
+    // #endregion tap arrow
+    // #region disallow next
     fromFixture(
+      'disallow-next',
       stripIndent`
-        // disallow-next
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -727,7 +708,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -745,7 +725,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -763,7 +742,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -782,8 +760,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; named; next arrow',
       stripIndent`
-        // disallow-next; named; next arrow
         import { of } from "rxjs";
 
         const nextArrow = (value: number) => { console.log(value); };
@@ -795,7 +773,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; named; next arrow
           import { of } from "rxjs";
 
           const nextArrow = (value: number) => { console.log(value); };
@@ -807,7 +784,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; named; next arrow
               import { of } from "rxjs";
 
               const nextArrow = (value: number) => { console.log(value); };
@@ -820,8 +796,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; named; next named',
       stripIndent`
-        // disallow-next; named; next named
         import { of } from "rxjs";
 
         function nextNamed(value: number): void { console.log(value); }
@@ -833,7 +809,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; named; next named
           import { of } from "rxjs";
 
           function nextNamed(value: number): void { console.log(value); }
@@ -845,7 +820,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; named; next named
               import { of } from "rxjs";
 
               function nextNamed(value: number): void { console.log(value); }
@@ -858,8 +832,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; named; next non-arrow',
       stripIndent`
-        // disallow-next; named; next non-arrow
         import { of } from "rxjs";
 
         function nextNamed(value: number): void { console.log(value); }
@@ -872,7 +846,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; named; next non-arrow
           import { of } from "rxjs";
 
           function nextNamed(value: number): void { console.log(value); }
@@ -885,7 +858,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; named; next non-arrow
               import { of } from "rxjs";
 
               function nextNamed(value: number): void { console.log(value); }
@@ -899,8 +871,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; tap; named; next arrow',
       stripIndent`
-        // disallow-next; tap; named; next arrow
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -913,7 +885,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; tap; named; next arrow
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -926,7 +897,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; tap; named; next arrow
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -940,8 +910,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; tap; named; next named',
       stripIndent`
-        // disallow-next; tap; named; next named
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -954,7 +924,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; tap; named; next named
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -967,7 +936,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; tap; named; next named
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -981,8 +949,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'disallow-next; tap; named; next non-arrow',
       stripIndent`
-        // disallow-next; tap; named; next non-arrow
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -996,7 +964,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       {
         options: [{ allowNext: false }],
         output: stripIndent`
-          // disallow-next; tap; named; next non-arrow
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1010,7 +977,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // disallow-next; tap; named; next non-arrow
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1024,9 +990,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         ],
       },
     ),
+    // #endregion disallow next
+    // #region non-arrow functions
     fromFixture(
+      'non-arrow functions; next, error',
       stripIndent`
-        // non-arrow functions; next, error
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1039,7 +1007,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; next, error
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1052,7 +1019,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; next, error
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1066,8 +1032,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; next, error, complete',
       stripIndent`
-        // non-arrow functions; next, error, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1081,7 +1047,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; next, error, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1094,7 +1059,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; next, error, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1108,8 +1072,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; next, complete',
       stripIndent`
-        // non-arrow functions; next, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1123,7 +1087,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; next, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1136,7 +1099,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; next, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1150,8 +1112,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; error',
       stripIndent`
-        // non-arrow functions; error
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1164,7 +1126,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; error
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1177,7 +1138,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; error
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1191,8 +1151,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; error, complete',
       stripIndent`
-        // non-arrow functions; error, complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1206,7 +1166,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; error, complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1219,7 +1178,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; error, complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1233,8 +1191,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; complete',
       stripIndent`
-        // non-arrow functions; complete
         import { of } from "rxjs";
 
         const source = of(42);
@@ -1248,7 +1206,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; complete
           import { of } from "rxjs";
 
           const source = of(42);
@@ -1261,7 +1218,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; complete
               import { of } from "rxjs";
 
               const source = of(42);
@@ -1275,8 +1231,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; tap; next, error',
       stripIndent`
-        // non-arrow functions; tap; next, error
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1290,7 +1246,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; next, error
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1304,7 +1259,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; next, error
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1318,9 +1272,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         ],
       },
     ),
+    // #endregion non-arrow functions
+    // #region tap non-arrow functions
     fromFixture(
+      'non-arrow functions; tap; next, error, complete',
       stripIndent`
-        // non-arrow functions; tap; next, error, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1335,7 +1291,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; next, error, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1349,7 +1304,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; next, error, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1364,8 +1318,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; tap; next, complete',
       stripIndent`
-        // non-arrow functions; tap; next, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1380,7 +1334,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; next, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1394,7 +1347,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; next, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1409,8 +1361,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; tap; error',
       stripIndent`
-        // non-arrow functions; tap; error
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1424,7 +1376,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; error
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1438,7 +1389,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; error
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1453,8 +1403,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; tap; error, complete',
       stripIndent`
-        // non-arrow functions; tap; error, complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1469,7 +1419,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; error, complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1483,7 +1432,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; error, complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1498,8 +1446,8 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'non-arrow functions; tap; complete',
       stripIndent`
-        // non-arrow functions; tap; complete
         import { of } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1514,7 +1462,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       `,
       {
         output: stripIndent`
-          // non-arrow functions; tap; complete
           import { of } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1528,7 +1475,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           {
             messageId: 'suggest',
             output: stripIndent`
-              // non-arrow functions; tap; complete
               import { of } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1542,7 +1488,10 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
         ],
       },
     ),
+    // #endregion tap non-arrow functions
+    // #region identifier
     fromFixture(
+      'subscribe identifier; next, error, complete',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
@@ -1571,6 +1520,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'subscribe identifier; next, complete',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
@@ -1599,6 +1549,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'subscribe identifier; complete',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
@@ -1627,6 +1578,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'subscribe identifier; error',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
@@ -1655,6 +1607,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'subscribe identifier; error, null complete',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
@@ -1683,11 +1636,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'identifier; super wrong',
       stripIndent`
         import { of } from "rxjs";
         const fn = () => {};
 
-        // super wrong
         of(42).subscribe(undefined, fn, fn, fn, fn, fn, fn);
                ~~~~~~~~~ [forbidden suggest 0]
       `,
@@ -1696,7 +1649,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           import { of } from "rxjs";
           const fn = () => {};
 
-          // super wrong
           of(42).subscribe({ error: fn, complete: fn });
         `,
         suggestions: [
@@ -1706,16 +1658,17 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
                 import { of } from "rxjs";
                 const fn = () => {};
 
-                // super wrong
                 of(42).subscribe({ error: fn, complete: fn });
               `,
           },
         ],
       },
     ),
+    // #endregion identifier
 
-    // tap
+    // #region tap identifier
     fromFixture(
+      'tap identifier; next, error, complete',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
@@ -1744,6 +1697,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap identifier; next, complete',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
@@ -1772,6 +1726,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap identifier; complete',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
@@ -1800,6 +1755,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap identifier; error',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
@@ -1828,6 +1784,7 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap identifier; error null, complete',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
@@ -1856,11 +1813,11 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
       },
     ),
     fromFixture(
+      'tap identifier; super wrong',
       stripIndent`
         import { of, tap } from "rxjs";
         const fn = () => {};
 
-        // super wrong
         of(42).pipe(tap(undefined, fn, fn, fn, fn, fn, fn));
                     ~~~ [forbidden suggest 0]
       `,
@@ -1869,7 +1826,6 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
           import { of, tap } from "rxjs";
           const fn = () => {};
 
-          // super wrong
           of(42).pipe(tap({ error: fn, complete: fn }));
         `,
         suggestions: [
@@ -1879,12 +1835,12 @@ ruleTester({ types: true }).run('prefer-observer', preferObserverRule, {
                 import { of, tap } from "rxjs";
                 const fn = () => {};
 
-                // super wrong
                 of(42).pipe(tap({ error: fn, complete: fn }));
               `,
           },
         ],
       },
     ),
+    // #endregion tap identifier
   ],
 });

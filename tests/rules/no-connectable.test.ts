@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
   valid: [
     {
+      name: 'multicast with selector',
       code: stripIndent`
-        // multicast with selector
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const result = of(42).pipe(
@@ -15,8 +15,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
         );`,
     },
     {
+      name: 'multicast with factory and selector',
       code: stripIndent`
-        // multicast with factory and selector
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const result = of(42).pipe(
@@ -24,8 +24,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
         );`,
     },
     {
+      name: 'multicast with selector variable',
       code: stripIndent`
-        // multicast with selector variable
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const selector = p => p;
@@ -34,8 +34,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
         );`,
     },
     {
+      name: 'publish with selector',
       code: stripIndent`
-        // publish with selector
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const result = of(42).pipe(
@@ -43,8 +43,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
         );`,
     },
     {
+      name: 'publishReplay with selector',
       code: stripIndent`
-        // publishReplay with selector
         import { of, Subject } from "rxjs";
         import { publishReplay } from "rxjs/operators";
         const result = of(42).pipe(
@@ -54,8 +54,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
   ],
   invalid: [
     fromFixture(
+      'publish',
       stripIndent`
-        // publish
         import { of, Subject } from "rxjs";
         import { publish } from "rxjs/operators";
         const result = of(42).pipe(
@@ -65,8 +65,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
       `,
     ),
     fromFixture(
+      'publishBehavior',
       stripIndent`
-        // publishBehavior
         import { of, Subject } from "rxjs";
         import { publishBehavior } from "rxjs/operators";
         const result = of(42).pipe(
@@ -76,8 +76,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
       `,
     ),
     fromFixture(
+      'publishLast',
       stripIndent`
-        // publishLast
         import { of, Subject } from "rxjs";
         import { publishLast } from "rxjs/operators";
         const result = of(42).pipe(
@@ -87,8 +87,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
       `,
     ),
     fromFixture(
+      'publishReplay',
       stripIndent`
-        // publishReplay
         import { of, Subject } from "rxjs";
         import { publishReplay } from "rxjs/operators";
         const result = of(42).pipe(
@@ -98,8 +98,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
       `,
     ),
     fromFixture(
+      'multicast',
       stripIndent`
-        // multicast
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const result = of(42).pipe(
@@ -109,8 +109,8 @@ ruleTester({ types: true }).run('no-connectable', noConnectableRule, {
       `,
     ),
     fromFixture(
+      'multicast with factory',
       stripIndent`
-        // multicast with factory
         import { of, Subject } from "rxjs";
         import { multicast } from "rxjs/operators";
         const result = of(42).pipe(

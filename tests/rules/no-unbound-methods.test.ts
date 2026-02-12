@@ -87,8 +87,8 @@ const deepTests: Tests = {
   valid: [],
   invalid: [
     fromFixture(
+      'deep',
       stripIndent`
-        // deep
         import { Observable, of, throwError, NEVER } from "rxjs";
         import { catchError, map, takeUntil } from "rxjs/operators";
 
@@ -125,8 +125,8 @@ const deepTests: Tests = {
       `,
     ),
     fromFixture(
+      'deep teardowns',
       stripIndent`
-        // deep teardowns
         import { Subscription } from "rxjs";
         import { takeUntil } from "rxjs/operators";
 
@@ -202,8 +202,8 @@ const unboundTests: Tests = {
   ],
   invalid: [
     fromFixture(
+      'unbound operator arguments',
       stripIndent`
-        // unbound operator arguments
         import { Observable, of, throwError } from "rxjs";
         import { catchError, map, takeUntil } from "rxjs/operators";
 
@@ -226,8 +226,8 @@ const unboundTests: Tests = {
       `,
     ),
     fromFixture(
+      'unbound subscribe arguments',
       stripIndent`
-        // unbound subscribe arguments
         import { of } from "rxjs";
 
         class Something {
@@ -248,8 +248,8 @@ const unboundTests: Tests = {
       `,
     ),
     fromFixture(
+      'unbound teardowns',
       stripIndent`
-        // unbound teardowns
         import { Subscription } from "rxjs";
 
         class Something {
@@ -269,8 +269,8 @@ const unboundTests: Tests = {
 const allowTypesTests: Tests = {
   valid: [
     {
+      name: 'allowed types',
       code: stripIndent`
-        // allowed types
         import { of, tap } from "rxjs";
 
         declare const SIGNAL: unique symbol;
@@ -304,8 +304,8 @@ const allowTypesTests: Tests = {
   ],
   invalid: [
     fromFixture(
+      'unbound signal without allowed types',
       stripIndent`
-        // unbound signal without allowed types
         import { of, tap } from "rxjs";
 
         declare const SIGNAL: unique symbol;

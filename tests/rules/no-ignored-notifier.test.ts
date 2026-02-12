@@ -5,49 +5,53 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
   valid: [
-    stripIndent`
-      // repeatWhen not ignored
-      import { of } from "rxjs";
-      import { repeatWhen } from "rxjs/operators";
+    {
+      name: 'repeatWhen not ignored',
+      code: stripIndent`
+        import { of } from "rxjs";
+        import { repeatWhen } from "rxjs/operators";
 
-      const source = of(42);
+        const source = of(42);
 
-      const a = source.pipe(
-        repeatWhen(notifications => notifications)
-      );
+        const a = source.pipe(
+          repeatWhen(notifications => notifications)
+        );
 
-      const b = source.pipe(
-        repeatWhen(
-          function (notifications) {
-            return notifications;
-          }
-        )
-      );
-    `,
-    stripIndent`
-      // retryWhen not ignored
-      import { of } from "rxjs";
-      import { retryWhen } from "rxjs/operators";
+        const b = source.pipe(
+          repeatWhen(
+            function (notifications) {
+              return notifications;
+            }
+          )
+        );
+      `,
+    },
+    {
+      name: 'retryWhen not ignored',
+      code: stripIndent`
+        import { of } from "rxjs";
+        import { retryWhen } from "rxjs/operators";
 
-      const source = of(42);
+        const source = of(42);
 
-      const g = source.pipe(
-        retryWhen(errors => errors)
-      );
+        const g = source.pipe(
+          retryWhen(errors => errors)
+        );
 
-      const h = source.pipe(
-        retryWhen(
-          function (errors) {
-            return errors;
-          }
-        )
-      );
-    `,
+        const h = source.pipe(
+          retryWhen(
+            function (errors) {
+              return errors;
+            }
+          )
+        );
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'repeatWhen ignored parameter',
       stripIndent`
-        // repeatWhen ignored parameter
         import { of, range } from "rxjs";
         import { repeatWhen } from "rxjs/operators";
 
@@ -60,8 +64,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'repeatWhen no parameter',
       stripIndent`
-        // repeatWhen no parameter
         import { of, range } from "rxjs";
         import { repeatWhen } from "rxjs/operators";
 
@@ -74,8 +78,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'repeatWhen non-arrow ignored parameter',
       stripIndent`
-        // repeatWhen non-arrow ignored parameter
         import { of, range } from "rxjs";
         import { repeatWhen } from "rxjs/operators";
 
@@ -92,8 +96,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'repeatWhen non-arrow no parameter',
       stripIndent`
-        // repeatWhen non-arrow no parameter
         import { of, range } from "rxjs";
         import { repeatWhen } from "rxjs/operators";
 
@@ -110,8 +114,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'retryWhen ignored parameter',
       stripIndent`
-        // retryWhen ignored parameter
         import { of } from "rxjs";
         import { retryWhen } from "rxjs/operators";
 
@@ -124,8 +128,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'retryWhen no parameter',
       stripIndent`
-        // retryWhen no parameter
         import { of } from "rxjs";
         import { retryWhen } from "rxjs/operators";
 
@@ -138,8 +142,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'retryWhen non-arrow ignored parameter',
       stripIndent`
-        // retryWhen non-arrow ignored parameter
         import { of } from "rxjs";
         import { retryWhen } from "rxjs/operators";
 
@@ -156,8 +160,8 @@ ruleTester({ types: true }).run('no-ignored-notifier', noIgnoredNotifierRule, {
       `,
     ),
     fromFixture(
+      'retryWhen non-arrow no parameter',
       stripIndent`
-        // retryWhen non-arrow no parameter
         import { of } from "rxjs";
         import { retryWhen } from "rxjs/operators";
 

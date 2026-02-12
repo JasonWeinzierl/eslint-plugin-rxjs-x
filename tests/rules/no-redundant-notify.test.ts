@@ -5,100 +5,122 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
   valid: [
-    stripIndent`
-      // observable next + complete
-      import { Observable } from "rxjs";
-      const observable = new Observable<number>(observer => {
-        observer.next(42);
-        observer.complete();
-      })
-    `,
-    stripIndent`
-      // observable next + error
-      import { Observable } from "rxjs";
-      const observable = new Observable<number>(observer => {
-        observer.next(42);
-        observer.error(new Error("Kaboom!"));
-      })
-    `,
-    stripIndent`
-      // observable next + unsubscribe
-      import { Observable } from "rxjs";
-      const observable = new Observable<number>(observer => {
-        observer.next(42);
-        observer.unsubscribe();
-      })
-    `,
-    stripIndent`
-      // subject next + complete
-      import { Subject } from "rxjs";
-      const subject = new Subject<number>();
-      subject.next(42);
-      subject.complete();
-    `,
-    stripIndent`
-      // subject next + error
-      import { Subject } from "rxjs";
-      const subject = new Subject<number>();
-      subject.next(42);
-      subject.error(new Error("Kaboom!"));
-    `,
-    stripIndent`
-      // subject next + unsubscribe
-      import { Subject } from "rxjs";
-      const subject = new Subject<number>();
-      subject.next(42);
-      subject.unsubscribe();
-    `,
-    stripIndent`
-      // different names with error
-      import { Subject } from "rxjs";
-      const a = new Subject<number>();
-      const b = new Subject<number>();
-      a.error(new Error("Kaboom!"));
-      b.error(new Error("Kaboom!"));
-    `,
-    stripIndent`
-      // different names with complete
-      import { Subject } from "rxjs";
-      const a = new Subject<number>();
-      const b = new Subject<number>();
-      a.complete();
-      b.complete();
-    `,
-    stripIndent`
-      // different names with unsubscribe
-      import { Subject } from "rxjs";
-      const a = new Subject<number>();
-      const b = new Subject<number>();
-      a.unsubscribe();
-      b.unsubscribe();
-    `,
-    stripIndent`
-      // non-observer
-      import { Subject } from "rxjs";
-      const subject = new Subject<number>();
-      subject.error(new Error("Kaboom!"));
-      console.error(new Error("Kaboom!"));
-    `,
-    stripIndent`
-      // multiple subjects
-      import { Subject } from "rxjs";
-      class SomeClass {
-        private a = new Subject<number>();
-        private b = new Subject<number>();
-        someMethod() {
-          this.a.complete();
-          this.b.next();
-          this.b.complete();
+    {
+      name: 'observable next + complete',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        const observable = new Observable<number>(observer => {
+          observer.next(42);
+          observer.complete();
+        })
+      `,
+    },
+    {
+      name: 'observable next + error',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        const observable = new Observable<number>(observer => {
+          observer.next(42);
+          observer.error(new Error("Kaboom!"));
+        })
+      `,
+    },
+    {
+      name: 'observable next + unsubscribe',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        const observable = new Observable<number>(observer => {
+          observer.next(42);
+          observer.unsubscribe();
+        })
+      `,
+    },
+    {
+      name: 'subject next + complete',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<number>();
+        subject.next(42);
+        subject.complete();
+      `,
+    },
+    {
+      name: 'subject next + error',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<number>();
+        subject.next(42);
+        subject.error(new Error("Kaboom!"));
+      `,
+    },
+    {
+      name: 'subject next + unsubscribe',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<number>();
+        subject.next(42);
+        subject.unsubscribe();
+      `,
+    },
+    {
+      name: 'different names with error',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const a = new Subject<number>();
+        const b = new Subject<number>();
+        a.error(new Error("Kaboom!"));
+        b.error(new Error("Kaboom!"));
+      `,
+    },
+    {
+      name: 'different names with complete',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const a = new Subject<number>();
+        const b = new Subject<number>();
+        a.complete();
+        b.complete();
+      `,
+    },
+    {
+      name: 'different names with unsubscribe',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const a = new Subject<number>();
+        const b = new Subject<number>();
+        a.unsubscribe();
+        b.unsubscribe();
+      `,
+    },
+    {
+      name: 'non-observer',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<number>();
+        subject.error(new Error("Kaboom!"));
+        console.error(new Error("Kaboom!"));
+      `,
+    },
+    {
+      name: 'multiple subjects',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        class SomeClass {
+          private a = new Subject<number>();
+          private b = new Subject<number>();
+          someMethod() {
+            this.a.complete();
+            this.b.next();
+            this.b.complete();
+          }
         }
-      }
-    `,
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'observable complete + next',
       stripIndent`
-        // observable complete + next
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.complete();
@@ -108,8 +130,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable complete + complete',
       stripIndent`
-        // observable complete + complete
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.complete();
@@ -119,8 +141,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable complete + error',
       stripIndent`
-        // observable complete + error
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.complete();
@@ -130,8 +152,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable error + next',
       stripIndent`
-        // observable error + next
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.error(new Error("Kaboom!"));
@@ -141,8 +163,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable error + complete',
       stripIndent`
-        // observable error + complete
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.error(new Error("Kaboom!"));
@@ -152,8 +174,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable error + error',
       stripIndent`
-        // observable error + error
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.error(new Error("Kaboom!"));
@@ -163,8 +185,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable unsubscribe + next',
       stripIndent`
-        // observable unsubscribe + next
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.unsubscribe();
@@ -174,8 +196,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable unsubscribe + complete',
       stripIndent`
-        // observable unsubscribe + complete
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.unsubscribe();
@@ -185,8 +207,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable unsubscribe + error',
       stripIndent`
-        // observable unsubscribe + error
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.unsubscribe();
@@ -196,8 +218,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'observable unsubscribe + unsubscribe',
       stripIndent`
-        // observable unsubscribe + unsubscribe
         import { Observable } from "rxjs";
         const observable = new Observable<number>(observer => {
           observer.unsubscribe();
@@ -208,8 +230,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
     ),
 
     fromFixture(
+      'subject complete + next',
       stripIndent`
-        // subject complete + next
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.complete();
@@ -218,8 +240,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject complete + complete',
       stripIndent`
-        // subject complete + complete
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.complete();
@@ -228,8 +250,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject complete + error',
       stripIndent`
-        // subject complete + error
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.complete();
@@ -238,8 +260,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject error + next',
       stripIndent`
-        // subject error + next
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.error(new Error("Kaboom!"));
@@ -248,8 +270,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject error + complete',
       stripIndent`
-        // subject error + complete
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.error(new Error("Kaboom!"));
@@ -258,8 +280,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject error + error',
       stripIndent`
-        // subject error + error
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.error(new Error("Kaboom!"));
@@ -268,8 +290,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject unsubscribe + next',
       stripIndent`
-        // subject unsubscribe + next
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.unsubscribe();
@@ -278,8 +300,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject unsubscribe + complete',
       stripIndent`
-        // subject unsubscribe + complete
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.unsubscribe();
@@ -288,8 +310,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject unsubscribe + error',
       stripIndent`
-        // subject unsubscribe + error
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.unsubscribe();
@@ -298,8 +320,8 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
       `,
     ),
     fromFixture(
+      'subject unsubscribe + unsubscribe',
       stripIndent`
-        // subject unsubscribe + unsubscribe
         import { Subject } from "rxjs";
         const subject = new Subject<number>();
         subject.unsubscribe();
