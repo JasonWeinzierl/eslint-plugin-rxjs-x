@@ -6,13 +6,12 @@ import {
 } from '../etc';
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   alias?: string[];
   allow?: string[];
-}[] = [];
+}];
 
 export const noUnsafeTakeuntilRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow applying operators after `takeUntil`.',
@@ -26,7 +25,7 @@ export const noUnsafeTakeuntilRule = ruleCreator({
       {
         properties: {
           alias: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that should be treated similarly to `takeUntil`.' },
-          allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
+          allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.' },
         },
         type: 'object',
         description: stripIndent`
@@ -36,12 +35,14 @@ export const noUnsafeTakeuntilRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      allow: DEFAULT_VALID_POST_COMPLETION_OPERATORS,
+    }] as Options,
   },
   name: 'no-unsafe-takeuntil',
   create: (context) => {
     let checkedOperatorsRegExp = /^takeUntil$/;
-    const [config = {}] = context.options;
-    const { alias, allow = DEFAULT_VALID_POST_COMPLETION_OPERATORS } = config;
+    const [{ alias, allow = [] }] = context.options;
 
     if (alias) {
       checkedOperatorsRegExp = new RegExp(

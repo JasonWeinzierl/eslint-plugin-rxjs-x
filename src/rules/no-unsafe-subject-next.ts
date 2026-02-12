@@ -8,7 +8,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noUnsafeSubjectNext = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow unsafe optional `next` calls.',

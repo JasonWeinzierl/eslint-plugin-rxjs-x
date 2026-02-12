@@ -4,13 +4,12 @@ import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import { getTypeServices, isCallExpression, isIdentifier, isMemberExpression } from '../etc';
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   completers?: string[];
   postCompleters?: string[];
-}[] = [];
+}];
 
 export const noIgnoredSubscriptionRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow ignoring the subscription returned by `subscribe`.',
@@ -22,8 +21,8 @@ export const noIgnoredSubscriptionRule = ruleCreator({
     schema: [
       {
         properties: {
-          completers: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will complete the observable and silence this rule.', default: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'] },
-          postCompleters: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the completion operators.', default: DEFAULT_VALID_POST_COMPLETION_OPERATORS },
+          completers: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that will complete the observable and silence this rule.' },
+          postCompleters: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the completion operators.' },
         },
         type: 'object',
         description: stripIndent`
@@ -34,14 +33,14 @@ export const noIgnoredSubscriptionRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      completers: ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'],
+      postCompleters: DEFAULT_VALID_POST_COMPLETION_OPERATORS,
+    }] as Options,
   },
   name: 'no-ignored-subscription',
   create: (context) => {
-    const [config = {}] = context.options;
-    const {
-      completers = ['takeUntil', 'takeWhile', 'take', 'first', 'last', 'takeUntilDestroyed'],
-      postCompleters = DEFAULT_VALID_POST_COMPLETION_OPERATORS,
-    } = config;
+    const [{ completers = [], postCompleters = [] }] = context.options;
 
     const checkedOperatorsRegExp = new RegExp(
       `^(${completers.join('|')})$`,

@@ -9,12 +9,11 @@ import {
   isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   observable?: string;
-}[] = [];
+}];
 
 export const noUnsafeCatchRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow unsafe `catchError` usage in effects and epics.',
@@ -26,7 +25,7 @@ export const noUnsafeCatchRule = ruleCreator({
     schema: [
       {
         properties: {
-          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.', default: defaultObservable },
+          observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.' },
         },
         type: 'object',
         description: stripIndent`
@@ -35,13 +34,15 @@ export const noUnsafeCatchRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      observable: defaultObservable,
+    }] as Options,
   },
   name: 'no-unsafe-catch',
   create: (context) => {
     const invalidOperatorsRegExp = /^(catchError)$/;
 
-    const [config = {}] = context.options;
-    const { observable = defaultObservable } = config;
+    const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);
 
     const { couldBeObservable } = getTypeServices(context);

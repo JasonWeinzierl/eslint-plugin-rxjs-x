@@ -18,19 +18,9 @@ import { ruleCreator } from '../utils';
 // The implementation of this rule is similar to typescript-eslint's no-misused-promises. MIT License.
 // https://github.com/typescript-eslint/typescript-eslint/blob/fcd6cf063a774f73ea00af23705117a197f826d4/packages/eslint-plugin/src/rules/no-misused-promises.ts
 
-// This is only exported for dts build to work.
-export interface ChecksVoidReturnOptions {
-  arguments?: boolean;
-  attributes?: boolean;
-  inheritedMethods?: boolean;
-  properties?: boolean;
-  returns?: boolean;
-  variables?: boolean;
-}
-
 function parseChecksVoidReturn(
-  checksVoidReturn: boolean | ChecksVoidReturnOptions,
-): ChecksVoidReturnOptions | false {
+  checksVoidReturn: Options[0]['checksVoidReturn'],
+) {
   switch (checksVoidReturn) {
     case false:
       return false;
@@ -58,13 +48,19 @@ function parseChecksVoidReturn(
   }
 }
 
-const defaultOptions: readonly {
-  checksVoidReturn?: boolean | ChecksVoidReturnOptions;
+type Options = readonly [{
+  checksVoidReturn?: boolean | {
+    arguments?: boolean;
+    attributes?: boolean;
+    inheritedMethods?: boolean;
+    properties?: boolean;
+    returns?: boolean;
+    variables?: boolean;
+  };
   checksSpreads?: boolean;
-}[] = [];
+}];
 
 export const noMisusedObservablesRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow Observables in places not designed to handle them.',
@@ -84,11 +80,9 @@ export const noMisusedObservablesRule = ruleCreator({
       {
         properties: {
           checksVoidReturn: {
-            default: true,
             description: 'Disallow returning an Observable from a function typed as returning `void`.',
             oneOf: [
               {
-                default: true,
                 type: 'boolean',
                 description: 'Disallow returning an Observable from all types of functions typed as returning `void`.',
               },
@@ -107,20 +101,23 @@ export const noMisusedObservablesRule = ruleCreator({
               },
             ],
           },
-          checksSpreads: { type: 'boolean', default: true, description: 'Disallow `...` spreading an Observable.' },
+          checksSpreads: { type: 'boolean', description: 'Disallow `...` spreading an Observable.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      checksVoidReturn: true,
+      checksSpreads: true,
+    }] as Options,
   },
   name: 'no-misused-observables',
   create: (context) => {
     const { program, esTreeNodeToTSNodeMap, getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const checker = program.getTypeChecker();
     const { couldBeObservable, couldReturnObservable } = getTypeServices(context);
-    const [config = {}] = context.options;
-    const { checksVoidReturn = true, checksSpreads = true } = config;
+    const [{ checksVoidReturn, checksSpreads }] = context.options;
 
     const parsedChecksVoidReturn = parseChecksVoidReturn(checksVoidReturn);
 

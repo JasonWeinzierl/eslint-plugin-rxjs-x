@@ -20,14 +20,13 @@ const DEFAULT_DISALLOW = [
   'update',
 ];
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allow?: string | string[];
   disallow?: string | string[];
   observable?: string;
-}[] = [];
+}];
 
 export const noUnsafeSwitchmapRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow unsafe `switchMap` usage in effects and epics.',
@@ -52,12 +51,10 @@ export const noUnsafeSwitchmapRule = ruleCreator({
               { type: 'string', description: 'A regular expression string.' },
               { type: 'array', items: { type: 'string' }, description: 'An array of words.' },
             ],
-            default: DEFAULT_DISALLOW,
           },
           observable: {
             type: 'string',
             description: 'A RegExp that matches an effect or epic\'s actions observable.',
-            default: defaultObservable,
           },
         },
         type: 'object',
@@ -71,17 +68,21 @@ export const noUnsafeSwitchmapRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      disallow: DEFAULT_DISALLOW,
+      observable: defaultObservable,
+    }] as Options,
   },
   name: 'no-unsafe-switchmap',
   create: (context) => {
     let allowRegExp: RegExp | undefined = undefined;
     let disallowRegExp: RegExp | undefined = undefined;
 
-    const [config = {}] = context.options;
+    const [config] = context.options;
     if (config.allow) {
       allowRegExp = createRegExpForWords(config.allow ?? []);
     } else {
-      disallowRegExp = createRegExpForWords(config.disallow ?? DEFAULT_DISALLOW);
+      disallowRegExp = createRegExpForWords(config.disallow ?? []);
     }
     const observableRegExp = new RegExp(config.observable ?? defaultObservable);
 

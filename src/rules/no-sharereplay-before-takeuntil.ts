@@ -3,12 +3,11 @@ import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import { isIdentifier, isLiteral, isMemberExpression, isObjectExpression, isProperty } from '../etc';
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   takeUntilAlias?: string[];
-}[] = [];
+}];
 
 export const noSharereplayBeforeTakeuntilRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow using `shareReplay({ refCount: false })` before `takeUntil`.',
@@ -19,16 +18,18 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
     },
     schema: [{
       properties: {
-        takeUntilAlias: { type: 'array', description: 'List of operators to treat as takeUntil.', default: ['takeUntilDestroyed'] },
+        takeUntilAlias: { type: 'array', description: 'List of operators to treat as takeUntil.' },
       },
       type: 'object',
     }],
     type: 'problem',
+    defaultOptions: [{
+      takeUntilAlias: ['takeUntilDestroyed'],
+    }] as Options,
   },
   name: 'no-sharereplay-before-takeuntil',
   create: (context) => {
-    const [config = {}] = context.options;
-    const { takeUntilAlias = ['takeUntilDestroyed'] } = config;
+    const [{ takeUntilAlias = [] }] = context.options;
     function checkCallExpression(node: es.CallExpression) {
       const pipeCallExpression = node.parent as es.CallExpression;
       if (

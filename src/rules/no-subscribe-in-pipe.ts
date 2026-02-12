@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noSubscribeInPipeRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:

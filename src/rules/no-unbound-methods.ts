@@ -8,12 +8,11 @@ import {
 } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allowTypes?: string[];
-}[] = [];
+}];
 
 export const noUnboundMethodsRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow passing unbound methods.',
@@ -26,20 +25,22 @@ export const noUnboundMethodsRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowTypes: { type: 'array', items: { type: 'string' }, description: 'An array of function types that are allowed to be passed unbound.', default: DEFAULT_UNBOUND_ALLOWED_TYPES },
+          allowTypes: { type: 'array', items: { type: 'string' }, description: 'An array of function types that are allowed to be passed unbound.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      allowTypes: DEFAULT_UNBOUND_ALLOWED_TYPES,
+    }] as Options,
   },
   name: 'no-unbound-methods',
   create: (context) => {
     const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable, couldBeSubscription } = getTypeServices(context);
     const nodeMap = new WeakMap<es.Node, void>();
-    const [config = {}] = context.options;
-    const { allowTypes = DEFAULT_UNBOUND_ALLOWED_TYPES } = config;
+    const [{ allowTypes = [] }] = context.options;
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
       node.arguments.filter(isMemberExpression).forEach((arg) => {

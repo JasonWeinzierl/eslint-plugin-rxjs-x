@@ -31,13 +31,12 @@ function isParenthesised(
   );
 }
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allowExplicitAny?: boolean;
   allowExplicitError?: boolean;
-}[] = [];
+}];
 
 export const noImplicitAnyCatchRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description:
@@ -71,23 +70,24 @@ export const noImplicitAnyCatchRule = ruleCreator({
           allowExplicitAny: {
             type: 'boolean',
             description: 'Allow error variable to be explicitly typed as `any`.',
-            default: true,
           },
           allowExplicitError: {
             type: 'boolean',
             description: 'Allow narrowing error type to `Error`.',
-            default: false,
           },
         },
         type: 'object',
       },
     ],
     type: 'suggestion',
+    defaultOptions: [{
+      allowExplicitAny: true,
+      allowExplicitError: false,
+    }] as Options,
   },
   name: 'no-implicit-any-catch',
   create: (context) => {
-    const [config = {}] = context.options;
-    const { allowExplicitAny = true, allowExplicitError = false } = config;
+    const [{ allowExplicitAny, allowExplicitError }] = context.options;
     const { couldBeObservable } = getTypeServices(context);
     const sourceCode = context.sourceCode;
 

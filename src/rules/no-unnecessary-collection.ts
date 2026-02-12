@@ -6,7 +6,6 @@ import { getTypeServices, isArrayExpression, isObjectExpression, isProperty, isS
 import { ruleCreator } from '../utils';
 
 export const noUnnecessaryCollectionRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow unnecessary usage of collection arguments with single values.',

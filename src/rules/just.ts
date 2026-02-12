@@ -2,7 +2,6 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import { ruleCreator } from '../utils';
 
 export const justRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Require the use of `just` instead of `of`.',

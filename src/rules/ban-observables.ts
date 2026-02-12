@@ -2,10 +2,9 @@ import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly Record<string, boolean | string>[] = [];
+type Options = readonly [Record<string, boolean | string>];
 
 export const banObservablesRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow banned observable creators.',
@@ -19,16 +18,27 @@ export const banObservablesRule = ruleCreator({
         description: stripIndent`
           An object containing keys that are names of observable factory functions
           and values that are either booleans or strings containing the explanation for the ban.`,
+        additionalProperties: {
+          anyOf: [
+            {
+              type: 'boolean',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
       },
     ],
     type: 'problem',
+    defaultOptions: [{}] as Options,
   },
   name: 'ban-observables',
   create: (context) => {
     const bans: { explanation: string; regExp: RegExp }[] = [];
 
     const [config] = context.options;
-    if (!config) {
+    if (!config || !Object.keys(config).length) {
       return {};
     }
 
