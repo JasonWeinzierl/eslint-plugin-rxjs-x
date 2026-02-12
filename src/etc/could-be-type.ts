@@ -13,7 +13,10 @@ export function couldBeType(
     type = type.target;
   }
 
-  if (isType(type, name, qualified)) {
+  if (isType(type.symbol, name, qualified)) {
+    return true;
+  }
+  if (type.aliasSymbol && isType(type.aliasSymbol, name, qualified)) {
     return true;
   }
 
@@ -34,27 +37,27 @@ export function couldBeType(
 }
 
 function isType(
-  type: ts.Type,
+  symbol: ts.Symbol | undefined,
   name: string | RegExp,
   qualified?: {
     name: RegExp;
     typeChecker: ts.TypeChecker;
   },
 ): boolean {
-  if (!type.symbol) {
+  if (!symbol) {
     return false;
   }
   if (
     qualified
     && !qualified.name.test(
-      qualified.typeChecker.getFullyQualifiedName(type.symbol),
+      qualified.typeChecker.getFullyQualifiedName(symbol),
     )
   ) {
     return false;
   }
   return typeof name === 'string'
-    ? type.symbol.name === name
-    : Boolean(type.symbol.name.match(name));
+    ? symbol.name === name
+    : Boolean(symbol.name.match(name));
 }
 
 function couldImplement(

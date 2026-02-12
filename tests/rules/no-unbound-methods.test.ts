@@ -273,14 +273,15 @@ const allowTypesTests: Tests = {
         // allowed types
         import { of, tap } from "rxjs";
 
-        interface Signal<T> extends Function {
-          (): T;
-        }
+        declare const SIGNAL: unique symbol;
+        type Signal<T> = (() => T) & {
+          [SIGNAL]: unknown;
+        };
         interface WritableSignal<T> extends Signal<T> {
           set(value: T): void;
         }
 
-        function customLog<T>(signal: Signal<T>) {
+        function customLog<T, S>(signal: Signal<S>) {
           return tap((value: T) => console.log(value, signal()));
         }
         function customSet<T>(signal: WritableSignal<T>) {
@@ -299,9 +300,6 @@ const allowTypesTests: Tests = {
           }
         }
       `,
-      options: [{
-        allowTypes: ['Signal'],
-      }],
     },
   ],
   invalid: [
@@ -310,25 +308,40 @@ const allowTypesTests: Tests = {
         // unbound signal without allowed types
         import { of, tap } from "rxjs";
 
-        interface Signal<T> extends Function {
-          (): T;
+        declare const SIGNAL: unique symbol;
+        type Signal<T> = (() => T) & {
+          [SIGNAL]: unknown;
+        };
+        interface WritableSignal<T> extends Signal<T> {
+          set(value: T): void;
         }
 
-        function customOperator<T>(signal: Signal<T>) {
+        function customOperator<T, S>(signal: Signal<S>) {
           return tap((value: T) => console.log(value, signal()));
+        }
+        function customSetOperator<T>(signal: WritableSignal<T>) {
+          return tap((value: T) => signal.set(value));
         }
 
         class Something {
           private readonly x: Signal<string>;
+          private readonly y: WritableSignal<number>;
 
           constructor() {
             of(1).pipe(
               customOperator(this.x),
                              ~~~~~~ [forbidden]
+              customSetOperator(this.y),
+                                ~~~~~~ [forbidden]
             ).subscribe();
           }
         }
       `,
+      {
+        options: [{
+          allowTypes: [],
+        }],
+      },
     ),
   ],
 };

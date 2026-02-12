@@ -631,5 +631,17 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
               ~~~~~~ [forbidden { "suffix": "Subject" }]
       `,
     ),
+    fromFixture(
+      stripIndent`
+        // type alias not supported because it gets erased
+        import { Subject } from "rxjs";
+
+        type Foo = Subject<any>;
+
+        let foo: Foo;
+            ~~~ [forbidden { "suffix": "Subject" }]
+      `,
+      { options: [{ types: { '^Foo$': false } }] },
+    ),
   ],
 });
