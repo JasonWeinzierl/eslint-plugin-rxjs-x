@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
   valid: [
     {
+      name: 'root import',
       code: stripIndent`
-        // root import
         import { of, concat, merge as m, mergeMap as mm } from "rxjs";
 
         of('a').pipe(concat(of('b')));
@@ -17,8 +17,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       options: [{}],
     },
     {
+      name: 'namespace import',
       code: stripIndent`
-        // namespace import
         import * as Rx from "rxjs";
 
         Rx.of('a').pipe(Rx.concat(Rx.of('b')));
@@ -28,8 +28,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       options: [{}],
     },
     {
+      name: 'operators path import (deprecated)',
       code: stripIndent`
-        // operators path import (deprecated)
         import { of, concat, merge as m, mergeMap as mm } from "rxjs/operators";
 
         of('a').pipe(concat(of('b')));
@@ -38,15 +38,17 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       `,
       options: [{}],
     },
-    stripIndent`
-      // no options
-      import { of, concat } from "rxjs";
-
-      of('a').pipe(concat(of('b')));
-    `,
     {
+      name: 'no options',
       code: stripIndent`
-        // non-RxJS operator
+        import { of, concat } from "rxjs";
+
+        of('a').pipe(concat(of('b')));
+      `,
+    },
+    {
+      name: 'non-RxJS operator',
+      code: stripIndent`
         import { of } from "rxjs";
 
         function concat() {}
@@ -56,8 +58,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       options: [{ concat: true }],
     },
     {
+      name: 'only within pipe',
       code: stripIndent`
-        // only within pipe
         import { of, concat } from "rxjs";
 
         // For performance reasons, we don't lint operators used outside of pipe.
@@ -68,8 +70,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
   ],
   invalid: [
     fromFixture(
+      'root import',
       stripIndent`
-        // root import
         import { of, concat, merge as m, mergeMap as mm } from "rxjs";
 
         of('a').pipe(concat(of('b')));
@@ -89,8 +91,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       },
     ),
     fromFixture(
+      'namespace import',
       stripIndent`
-        // namespace import
         import * as Rx from "rxjs";
 
         Rx.of('a').pipe(Rx.concat(Rx.of('b')));
@@ -110,8 +112,8 @@ ruleTester({ types: true }).run('ban-operators', banOperatorsRule, {
       },
     ),
     fromFixture(
+      'operators path import (deprecated)',
       stripIndent`
-        // operators path import (deprecated)
         import { of, concat, merge as m, mergeMap as mm } from "rxjs/operators";
 
         of('a').pipe(concat(of('b')));

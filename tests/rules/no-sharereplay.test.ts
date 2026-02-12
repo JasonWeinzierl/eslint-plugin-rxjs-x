@@ -6,15 +6,15 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
   valid: [
     {
+      name: 'config allowed refCount',
       code: stripIndent`
-        // config allowed refCount
         const shared = of(42).pipe(
           shareReplay({ refCount: true })
         );`,
     },
     {
+      name: 'config allowed no refCount',
       code: stripIndent`
-        // config allowed no refCount
         const shared = of(42).pipe(
           shareReplay({ refCount: false })
         );`,
@@ -22,8 +22,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
   ],
   invalid: [
     fromFixture(
+      'no arguments',
       stripIndent`
-        // no arguments
         const shared = of(42).pipe(
           shareReplay()
           ~~~~~~~~~~~ [forbidden]
@@ -32,8 +32,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       { options: [{ allowConfig: false }] },
     ),
     fromFixture(
+      'config allowed no arguments',
       stripIndent`
-        // config allowed no arguments
         const shared = of(42).pipe(
           shareReplay()
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
@@ -42,8 +42,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       { options: [{ allowConfig: true }] },
     ),
     fromFixture(
+      'one argument',
       stripIndent`
-        // one argument
         const shared = of(42).pipe(
           shareReplay(1)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
@@ -51,8 +51,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       `,
     ),
     fromFixture(
+      'two arguments',
       stripIndent`
-        // two arguments
         const shared = of(42).pipe(
           shareReplay(1, 100)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
@@ -60,8 +60,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       `,
     ),
     fromFixture(
+      'three arguments',
       stripIndent`
-        // three arguments
         const shared = of(42).pipe(
           shareReplay(1, 100, asapScheduler)
           ~~~~~~~~~~~ [forbiddenWithoutConfig]
@@ -69,8 +69,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       `,
     ),
     fromFixture(
+      'config argument refCount',
       stripIndent`
-        // config argument refCount
         const shared = of(42).pipe(
           shareReplay({ refCount: true })
           ~~~~~~~~~~~ [forbidden]
@@ -79,8 +79,8 @@ ruleTester({ types: false }).run('no-sharereplay', noSharereplayRule, {
       { options: [{ allowConfig: false }] },
     ),
     fromFixture(
+      'config argument no refCount',
       stripIndent`
-        // config argument no refCount
         const shared = of(42).pipe(
           shareReplay({ refCount: false })
           ~~~~~~~~~~~ [forbidden]

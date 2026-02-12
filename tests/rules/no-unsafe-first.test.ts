@@ -20,8 +20,8 @@ const setup = stripIndent`
 ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
   valid: [
     {
+      name: 'actions nested first',
       code: stripIndent`
-        // actions nested first
         ${setup}
         const safePipedOfTypeFirstEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -31,8 +31,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'actions nested take',
       code: stripIndent`
-        // actions nested take
         ${setup}
         const safePipedOfTypeTakeEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -42,8 +42,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'actions property nested first',
       code: stripIndent`
-        // actions property nested first
         ${setup}
         const safePipedOfTypeFirstEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -53,8 +53,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'actions property nested take',
       code: stripIndent`
-        // actions property nested take
         ${setup}
         const safePipedOfTypeTakeEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -64,8 +64,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'epic nested first',
       code: stripIndent`
-        // epic nested first
         ${setup}
         const safePipedOfTypeFirstEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -75,8 +75,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'epic nested take',
       code: stripIndent`
-        // epic nested take
         ${setup}
         const safePipedOfTypeTakeEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -86,8 +86,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'non-matching options',
       code: stripIndent`
-        // non-matching options
         ${setup}
         const safePipedOfTypeFirstEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -98,8 +98,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       options: [{ observable: 'foo' }],
     },
     {
+      name: 'mid-identifier action',
       code: stripIndent`
-        // mid-identifier action
         ${setup}
         const safe = transactionSource.pipe(
           ofType("DO_SOMETHING"),
@@ -110,8 +110,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       options: [{ observable: 'foo' }],
     },
     {
+      name: 'non-matching observable name',
       code: stripIndent`
-        // mid-identifier action
         import { of } from "rxjs";
         import { first, tap } from "rxjs/operators";
         const transactionSource = of();
@@ -122,8 +122,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/89',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/89
         ${setup}
         const safeEffect$ = actions$.pipe(
           ofType("SAVING"),
@@ -141,8 +141,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
   ],
   invalid: [
     fromFixture(
+      'actions first',
       stripIndent`
-        // actions first
         ${setup}
         const unsafePipedOfTypeFirstEffect = actions$.pipe(
           ofType("DO_SOMETHING"),
@@ -154,8 +154,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'actions take',
       stripIndent`
-        // actions take
         ${setup}
         const unsafePipedOfTypeTakeEffect = actions.pipe(
           ofType("DO_SOMETHING"),
@@ -167,8 +167,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'actions property first',
       stripIndent`
-        // actions property first
         ${setup}
         const unsafePipedOfTypeFirstEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -180,8 +180,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'actions property take',
       stripIndent`
-        // actions property take
         ${setup}
         const unsafePipedOfTypeTakeEffect = that.actions.pipe(
           ofType("DO_SOMETHING"),
@@ -193,8 +193,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'epic first',
       stripIndent`
-        // epic first
         ${setup}
         const unsafePipedOfTypeFirstEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -206,8 +206,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'epic take',
       stripIndent`
-        //epic take
         ${setup}
         const unsafePipedOfTypeTakeEpic = (action$: Actions) => action$.pipe(
           ofType("DO_SOMETHING"),
@@ -219,8 +219,8 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     ),
     fromFixture(
+      'matching options',
       stripIndent`
-        // matching options
         ${setup}
         const unsafePipedOfTypeTakeEpic = (foo: Actions) => foo.pipe(
           ofType("DO_SOMETHING"),

@@ -5,25 +5,29 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: false }).run('no-index', noIndexRule, {
   valid: [
-    stripIndent`
-      // no index double quote
-      import { Observable } from "rxjs";
-      import { map } from "rxjs/operators";
-      import { TestScheduler } from "rxjs/testing";
-      import { WebSocketSubject } from "rxjs/webSocket";
-    `,
-    stripIndent`
-      // no index single quote
-      import { Observable } from 'rxjs';
-      import { map } from 'rxjs/operators';
-      import { TestScheduler } from 'rxjs/testing';
-      import { WebSocketSubject } from 'rxjs/webSocket';
-    `,
+    {
+      name: 'no index double quote',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        import { map } from "rxjs/operators";
+        import { TestScheduler } from "rxjs/testing";
+        import { WebSocketSubject } from "rxjs/webSocket";
+      `,
+    },
+    {
+      name: 'no index single quote',
+      code: stripIndent`
+        import { Observable } from 'rxjs';
+        import { map } from 'rxjs/operators';
+        import { TestScheduler } from 'rxjs/testing';
+        import { WebSocketSubject } from 'rxjs/webSocket';
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'index double quote',
       stripIndent`
-        // index double quote
         import { Observable } from "rxjs/index";
                                    ~~~~~~~~~~~~ [forbidden]
         import { map } from "rxjs/operators/index";
@@ -35,8 +39,8 @@ ruleTester({ types: false }).run('no-index', noIndexRule, {
       `,
     ),
     fromFixture(
+      'index single quote',
       stripIndent`
-        // index single quote
         import { Observable } from 'rxjs/index';
                                    ~~~~~~~~~~~~ [forbidden]
         import { map } from 'rxjs/operators/index';

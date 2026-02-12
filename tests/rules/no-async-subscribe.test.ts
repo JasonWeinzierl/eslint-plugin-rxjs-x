@@ -5,64 +5,74 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
   valid: [
-    stripIndent`
-      // sync arrow function
-      import { of } from "rxjs";
-
-      of("a").subscribe(() => {});
-    `,
-    stripIndent`
-      // sync function
-      import { of } from "rxjs";
-
-      of("a").subscribe(function() {});
-    `,
     {
+      name: 'sync arrow function',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/46
+        import { of } from "rxjs";
+
+        of("a").subscribe(() => {});
+      `,
+    },
+    {
+      name: 'sync function',
+      code: stripIndent`
+        import { of } from "rxjs";
+
+        of("a").subscribe(function() {});
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/46',
+      code: stripIndent`
         import React, { FC } from "react";
         const SomeComponent: FC<{}> = () => <span>some component</span>;
         const someElement = <SomeComponent />;
       `,
       languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
     },
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/61
-      const whatever = {
-        subscribe(next?: (value: unknown) => void) {}
-      };
-      whatever.subscribe(async () => { await 42; });
-    `,
-    stripIndent`
-      // observer object
-      import { of } from "rxjs";
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
+      code: stripIndent`
+        const whatever = {
+          subscribe(next?: (value: unknown) => void) {}
+        };
+        whatever.subscribe(async () => { await 42; });
+      `,
+    },
+    {
+      name: 'observer object',
+      code: stripIndent`
+        import { of } from "rxjs";
 
-      of('a').subscribe({
-        next: () => {},
-      });
-      of('a').subscribe({
-        next: function() {},
-      });
-    `,
-    stripIndent`
-      // non-RxJS observer object
-      const whatever = {
-        subscribe: (observer: {
-          next?: (value: unknown) => void;
-        }) => {},
-      };
-      whatever.subscribe({
-        next: () => {},
-      });
-      whatever.subscribe({
-        next: function() {},
-      });
-    `,
+        of('a').subscribe({
+          next: () => {},
+        });
+        of('a').subscribe({
+          next: function() {},
+        });
+      `,
+    },
+    {
+      name: 'non-RxJS observer object',
+      code: stripIndent`
+        const whatever = {
+          subscribe: (observer: {
+            next?: (value: unknown) => void;
+          }) => {},
+        };
+        whatever.subscribe({
+          next: () => {},
+        });
+        whatever.subscribe({
+          next: function() {},
+        });
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'async arrow function',
       stripIndent`
-        // async arrow function
         import { of } from "rxjs";
 
         of("a").subscribe(async () => {
@@ -72,8 +82,8 @@ ruleTester({ types: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
       `,
     ),
     fromFixture(
+      'async arrow function; observer object',
       stripIndent`
-        // async arrow function; observer object
         import { of } from "rxjs";
 
         of("a").subscribe({
@@ -85,8 +95,8 @@ ruleTester({ types: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
       `,
     ),
     fromFixture(
+      'async function',
       stripIndent`
-        // async function
         import { of } from "rxjs";
 
         of("a").subscribe(async function() {
@@ -96,8 +106,8 @@ ruleTester({ types: true }).run('no-async-subscribe', noAsyncSubscribeRule, {
       `,
     ),
     fromFixture(
+      'async function; observer object',
       stripIndent`
-        // async function; observer object
         import { of } from "rxjs";
 
         of("a").subscribe({

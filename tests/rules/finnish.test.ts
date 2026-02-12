@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('finnish', finnishRule, {
   valid: [
     {
+      name: 'with $',
       code: stripIndent`
-        // with $
         import { Observable, of, EMPTY } from "rxjs";
 
         const someObservable$ = of(0);
@@ -45,8 +45,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{}],
     },
     {
+      name: 'optional variable with $',
       code: stripIndent`
-        // optional variable with $
         import { Observable, of } from "rxjs";
 
         const someOptionalObservable$: Observable<any> | undefined = of();
@@ -54,8 +54,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{}],
     },
     {
+      name: 'default angular allowlist',
       code: stripIndent`
-        // default angular whitelist
         import { Observable, of, Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -74,8 +74,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{}],
     },
     {
+      name: 'strict with no false positives',
       code: stripIndent`
-        // strict no false positives
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -113,8 +113,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ strict: true }],
     },
     {
+      name: 'strict default angular allowlist',
       code: stripIndent`
-        // strict default angular whitelist
         import { Observable, of, Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -133,8 +133,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ strict: true }],
     },
     {
+      name: 'explicit allowlist',
       code: stripIndent`
-        // explicit whitelist
         import { Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -149,8 +149,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
+      name: 'strict explicit allowlist',
       code: stripIndent`
-        // strict explicit whitelist
         import { Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -166,8 +166,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
+      name: 'strict with names allowing specific non-observables',
       code: stripIndent`
-        // strict with names allowing specific non-observables
         const IS_MOBILE_MODE$ = 'some string value';
         const ALLOWED_PATTERN$ = 42;
         const ALLOWED_WITH_DOLLAR$ = true;
@@ -183,8 +183,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
+      name: 'strict with types allowing specific non-observables',
       code: stripIndent`
-        // strict with types allowing specific non-observables
         class ObsClass<T> { }
         class EventEmitter<T> { }
 
@@ -202,8 +202,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
+      name: 'strict with names and types configurations',
       code: stripIndent`
-        // strict with both names and types configurations
         class CustomToken<T> { }
 
         const SPECIAL_TOKEN$ = new CustomToken<string>();
@@ -222,8 +222,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
+      name: 'functions without $, but not enforced',
       code: stripIndent`
-        // functions without $, but not enforced
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -234,8 +234,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ functions: false }],
     },
     {
+      name: 'methods without $, but not enforced',
       code: stripIndent`
-        // methods without $, but not enforced
         import { Observable } from "rxjs";
 
         class SomeClass {
@@ -250,8 +250,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ methods: false }],
     },
     {
+      name: 'parameters without $, but not enforced',
       code: stripIndent`
-        // parameters without $, but not enforced
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -276,8 +276,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ parameters: false }],
     },
     {
+      name: 'properties without $, but not enforced',
       code: stripIndent`
-        // properties without $, but not enforced
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -296,8 +296,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ properties: false }],
     },
     {
+      name: 'object literal keys without $, but not enforced',
       code: stripIndent`
-        // object literal keys without $, but not enforced
         import { of } from "rxjs";
 
         const routes = [
@@ -313,8 +313,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ objects: false }],
     },
     {
+      name: 'variables without $, but not enforced',
       code: stripIndent`
-        // variables without $, but not enforced
         import { Observable, of } from "rxjs";
 
         const someObservable = of(0);
@@ -328,51 +328,55 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       options: [{ variables: false }],
     },
     {
+      name: 'Static observable creators that accept a sources object',
       code: stripIndent`
-        // Static observable creators that accept a sources object
         import { of, combineLatest, forkJoin } from "rxjs";
 
         combineLatest({ one: of(0), two: of('a') });
         forkJoin({ one: of(0), two: of('a') });
       `,
     },
-    stripIndent`
-      // RxJS built-ins
-      import { groupBy, of, retry } from "rxjs";
+    {
+      name: 'RxJS built-ins',
+      code: stripIndent`
+        import { groupBy, of, retry } from "rxjs";
 
-      const grouped$ = of(1,2,3).pipe(
-        groupBy(x => x % 2 === 0 ? 'even' : 'odd', {
-          duration: () => of(1),
-        }),
-      );
+        const grouped$ = of(1,2,3).pipe(
+          groupBy(x => x % 2 === 0 ? 'even' : 'odd', {
+            duration: () => of(1),
+          }),
+        );
 
-      const retried$ = of(1,2,3).pipe(
-        retry({
-          delay: of(1000),
-        }),
-      );
-    `,
-    stripIndent`
-      // Angular Route config
-      import { Routes } from "@angular/router";
-      import { of } from "rxjs";
+        const retried$ = of(1,2,3).pipe(
+          retry({
+            delay: of(1000),
+          }),
+        );
+      `,
+    },
+    {
+      name: 'Angular Route config',
+      code: stripIndent`
+        import { Routes } from "@angular/router";
+        import { of } from "rxjs";
 
-      export const routes: Routes = [
-        {
-          path: 'some-path',
-          redirectTo: () => of('/home'),
-          resolve: {
-            data: of('some data'),
+        export const routes: Routes = [
+          {
+            path: 'some-path',
+            redirectTo: () => of('/home'),
+            resolve: {
+              data: of('some data'),
+            },
           },
-        },
-      ];
-    `,
+        ];
+      `,
+    },
   ],
   invalid: [
     // #region invalid; variables
     fromFixture(
+      'variables without $',
       stripIndent`
-        // variables without $
         import { Observable, of } from "rxjs";
 
         const someObservable = of(0);
@@ -390,8 +394,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'variables without $, but not enforced',
       stripIndent`
-        // variables without $, but not enforced
         import { Observable, of } from "rxjs";
 
         const someObservable = of(0);
@@ -406,8 +410,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       { options: [{ variables: false }] },
     ),
     fromFixture(
+      'optional variable without $',
       stripIndent`
-        // optional variable without $
         import { Observable, of } from "rxjs";
 
         const someOptionalObservable: Observable<any> | undefined = of();
@@ -415,8 +419,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'explicit allowlist',
       stripIndent`
-        // explicit whitelist
         import { of, Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -445,8 +449,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       },
     ),
     fromFixture(
+      'explicit allowlist optional variable',
       stripIndent`
-        // explicit whitelist optional variable
         import { Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -468,16 +472,16 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       },
     ),
     fromFixture(
+      'non-Observable variable with $',
       stripIndent`
-        // non-Observable variable with $
         const answer$ = 42;
               ~~~~~~~ [shouldNotBeFinnish]
       `,
       { options: [{ strict: true }] },
     ),
     fromFixture(
+      'strict with names but non-matching patterns should still error',
       stripIndent`
-        // strict with names but non-matching patterns should still error
         const NOT_ALLOWED$ = 42;
               ~~~~~~~~~~~~ [shouldNotBeFinnish]
         const IS_MOBILE_MODE$ = 'some string value';
@@ -494,8 +498,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       },
     ),
     fromFixture(
+      'strict with types but non-matching types should error',
       stripIndent`
-        // strict with types but non-matching types should error
         class AllowedType<T> { }
         class NotAllowedType<T> { }
 
@@ -515,8 +519,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       },
     ),
     fromFixture(
+      'functions assigned to variables should be detected',
       stripIndent`
-        // functions assigned to variables should be detected
         import { Observable, EMPTY } from "rxjs";
 
         function fun$(): Observable<never> { return EMPTY; }
@@ -530,8 +534,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'type alias',
       stripIndent`
-        // type alias
         type Foo = { name: string };
         type Bar = Foo;
 
@@ -549,8 +553,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     // #endregion invalid; variables
     // #region invalid; functions and methods
     fromFixture(
+      'functions without $',
       stripIndent`
-        // functions without $
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -562,8 +566,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'methods without $',
       stripIndent`
-        // methods without $
         import { Observable } from "rxjs";
 
         class SomeClass {
@@ -580,8 +584,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with non-observable parameters',
       stripIndent`
-        // functions and methods with non-observable parameters
         import { Observable, of } from "rxjs";
 
         function someFunction(someValue: any): Observable<any> { return of(someValue); }
@@ -604,8 +608,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     // #endregion invalid; functions and methods
     // #region invalid; parameters
     fromFixture(
+      'parameters without $',
       stripIndent`
-        // parameters without $
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -638,8 +642,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods not returning observables',
       stripIndent`
-        // functions and methods not returning observables
         import { Observable } from "rxjs";
 
         function someFunction(someParam: Observable<any>): void {}
@@ -659,8 +663,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with array destructuring',
       stripIndent`
-        // functions and methods with array destructuring
         import { Observable } from "rxjs";
 
         function someFunction([someParam]: Observable<any>[]): void {}
@@ -673,8 +677,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with object destructuring',
       stripIndent`
-        // functions and methods with object destructuring
         import { Observable } from "rxjs";
 
         function someFunction({ source }: Record<string, Observable<any>>): void {}
@@ -687,8 +691,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'function parameters should be detected',
       stripIndent`
-        // function parameters should be detected
         import { Observable, EMPTY } from "rxjs";
 
         class Cls {
@@ -700,8 +704,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
     // #endregion invalid; parameters
     // #region invalid; properties (and objects)
     fromFixture(
+      'properties without $',
       stripIndent`
-        // properties without $
         import { Observable, of } from "rxjs";
 
         const someObservable$ = of(0);
@@ -725,8 +729,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'parameter property',
       stripIndent`
-        // parameter property
         import { Observable } from "rxjs";
 
         class SomeClass {
@@ -736,8 +740,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'functions assigned to properties should be detected',
       stripIndent`
-        // functions assigned to properties should be detected
         import { Observable, EMPTY } from "rxjs";
 
         function fun$(): Observable<never> { return EMPTY; }
@@ -753,8 +757,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'skip object literals passed to functions and methods',
       stripIndent`
-        // skip object literals passed to functions and methods
         import { of, Observable } from "rxjs";
 
         interface SomeOptions {
@@ -778,8 +782,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'skip object literals with any parent type annotation',
       stripIndent`
-        // skip object literals with any parent type annotation
         import { of, Observable } from "rxjs";
 
         interface SomeObject {
@@ -808,8 +812,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'skip object literals with any parent satisfies',
       stripIndent`
-        // skip object literals with any parent 'satisfies'
         import { of, Observable } from "rxjs";
 
         interface SomeObject {
@@ -838,8 +842,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       `,
     ),
     fromFixture(
+      'skip object literals with any parent type assertion',
       stripIndent`
-        // skip object literals with any parent type assertion
         import { of, Observable } from "rxjs";
 
         interface SomeObject {

@@ -5,16 +5,18 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
   valid: [
-    stripIndent`
-      // non-RxJS Observable
-      class Observable<T> { t: T; }
-      class StringObservable extends Observable<string> {}
-    `,
+    {
+      name: 'non-RxJS Observable',
+      code: stripIndent`
+        class Observable<T> { t: T; }
+        class StringObservable extends Observable<string> {}
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'Observable',
       stripIndent`
-        // Observable
         import { Observable } from "rxjs";
         class GenericObservable<T> extends Observable<T> {}
                                            ~~~~~~~~~~ [forbidden]
@@ -23,8 +25,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'Subject',
       stripIndent`
-        // Subject
         import { Subject } from "rxjs";
         class GenericSubject<T> extends Subject<T> {}
                                         ~~~~~~~ [forbidden]
@@ -33,8 +35,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'Subscriber',
       stripIndent`
-        // Subscriber
         import { Subscriber } from "rxjs";
         class GenericSubscriber<T> extends Subscriber<T> {}
                                            ~~~~~~~~~~ [forbidden]
@@ -43,8 +45,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'AsyncSubject',
       stripIndent`
-        // AsyncSubject
         import { AsyncSubject } from "rxjs";
         class GenericAsyncSubject<T> extends AsyncSubject<T> {}
                                              ~~~~~~~~~~~~ [forbidden]
@@ -53,8 +55,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'BehaviorSubject',
       stripIndent`
-        // BehaviorSubject
         import { BehaviorSubject } from "rxjs";
         class GenericBehaviorSubject<T> extends BehaviorSubject<T> {}
                                                 ~~~~~~~~~~~~~~~ [forbidden]
@@ -63,8 +65,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'ReplaySubject',
       stripIndent`
-        // ReplaySubject
         import { ReplaySubject } from "rxjs";
         class GenericReplaySubject<T> extends ReplaySubject<T> {}
                                               ~~~~~~~~~~~~~ [forbidden]
@@ -73,8 +75,8 @@ ruleTester({ types: true }).run('no-subclass', noSubclassRule, {
       `,
     ),
     fromFixture(
+      'Scheduler',
       stripIndent`
-        // Scheduler
         import { Scheduler } from "rxjs/internal/Scheduler";
         class AnotherScheduler extends Scheduler {}
                                        ~~~~~~~~~ [forbidden]

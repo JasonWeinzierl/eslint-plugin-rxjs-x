@@ -5,16 +5,18 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-subject-value', noSubjectValueRule, {
   valid: [
-    stripIndent`
-      // no value
-      import { BehaviorSubject } from "rxjs";
-      const subject = new BehaviorSubject<number>(1);
-    `,
+    {
+      name: 'no value',
+      code: stripIndent`
+        import { BehaviorSubject } from "rxjs";
+        const subject = new BehaviorSubject<number>(1);
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'value property',
       stripIndent`
-        // value property
         import { BehaviorSubject } from "rxjs";
         const subject = new BehaviorSubject<number>(1);
         console.log(subject.value);
@@ -22,8 +24,8 @@ ruleTester({ types: true }).run('no-subject-value', noSubjectValueRule, {
       `,
     ),
     fromFixture(
+      'getValue method',
       stripIndent`
-        // getValue method
         import { BehaviorSubject } from "rxjs";
         const subject = new BehaviorSubject<number>(1);
         console.log(subject.getValue());

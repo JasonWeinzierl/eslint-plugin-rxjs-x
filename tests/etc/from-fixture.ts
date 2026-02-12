@@ -4,6 +4,7 @@ import { TSESLint } from '@typescript-eslint/utils';
 export function fromFixture<
   TMessageIds extends string,
 >(
+  name: string,
   fixture: string,
   invalidTestCase?: {
     output?: string;
@@ -14,6 +15,7 @@ export function fromFixture<
   TMessageIds extends string,
   TOptions extends readonly unknown[],
 >(
+  name: string,
   fixture: string,
   invalidTestCase: Omit<
     InvalidTestCase<TMessageIds, TOptions>,
@@ -26,6 +28,7 @@ export function fromFixture<
   TMessageIds extends string,
   TOptions extends readonly unknown[],
 >(
+  name: string,
   fixture: string,
   invalidTestCase: Omit<
     InvalidTestCase<TMessageIds, TOptions>,
@@ -36,6 +39,7 @@ export function fromFixture<
 ): InvalidTestCase<TMessageIds, TOptions> {
   const { suggestions, ...rest } = invalidTestCase;
   return {
+    name,
     ...rest,
     ...parseFixture(fixture, suggestions),
   };

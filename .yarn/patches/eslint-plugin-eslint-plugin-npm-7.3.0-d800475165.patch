@@ -1,0 +1,56 @@
+diff --git a/dist/rules/require-test-case-name.js b/dist/rules/require-test-case-name.js
+index 74d279129e367ed2a4e6c601f2b596579a690f9e..9aec1f032bea7ae9324e9928b522fc6f386a9c83 100644
+--- a/dist/rules/require-test-case-name.js
++++ b/dist/rules/require-test-case-name.js
+@@ -54,6 +54,12 @@ const rule = {
+ 					hasName: false,
+ 					hasConfig: false
+ 				};
++				if (testCase.type === "TaggedTemplateExpression" && testCase.quasi?.type === "TemplateLiteral") return {
++				    node: testCase.quasi,
++				    isObject: false,
++				    hasName: false,
++				    hasConfig: false
++        		};
+ 				if (testCase.type === "ObjectExpression") {
+ 					let hasName = false;
+ 					let hasConfig = false;
+diff --git a/dist/rules/test-case-shorthand-strings.js b/dist/rules/test-case-shorthand-strings.js
+index 584c6a36a619ab1241b72ce4f8aa199e8023f8bc..b4134b70f1871b1fcb99f0f33c16fa7524cb81a3 100644
+--- a/dist/rules/test-case-shorthand-strings.js
++++ b/dist/rules/test-case-shorthand-strings.js
+@@ -37,6 +37,12 @@ const rule = {
+ 					shorthand: true,
+ 					needsLongform: false
+ 				};
++				if (testCase.type === "TaggedTemplateExpression" && testCase.quasi?.type === "TemplateLiteral") return {
++          			node: testCase.quasi,
++          			fixNode: testCase,
++          			shorthand: true,
++          			needsLongform: false
++        		};
+ 				if (testCase.type === "ObjectExpression") return {
+ 					node: testCase,
+ 					shorthand: false,
+@@ -71,7 +77,8 @@ const rule = {
+ 						actual: badCaseInfo.shorthand ? "a string" : "an object"
+ 					},
+ 					fix(fixer) {
+-						return fixer.replaceText(badCaseInfo.node, badCaseInfo.shorthand ? `{code: ${sourceCode.getText(badCaseInfo.node)}}` : sourceCode.getText(badCaseInfo.node.properties[0].value));
++						const fixNode = badCaseInfo.fixNode || badCaseInfo.node;
++						return fixer.replaceText(fixNode, badCaseInfo.shorthand ? `{code: ${sourceCode.getText(fixNode)}}` : sourceCode.getText(fixNode.properties[0].value));
+ 					}
+ 				});
+ 			});
+diff --git a/dist/utils.js b/dist/utils.js
+index 8ab5f760911fb4441ed9c54272504bb848a1e705..140e1a3cd080905752a6865a775c4bd9ddd70ba7 100644
+--- a/dist/utils.js
++++ b/dist/utils.js
+@@ -22,6 +22,7 @@ function isNormalFunctionExpression(node) {
+ * @returns `true` if the node is probably constructing a RuleTester instance
+ */
+ function isRuleTesterConstruction(node) {
++	if (node.type === "CallExpression" && node.callee.type === "Identifier" && node.callee.name === "ruleTester") return true;
+ 	return node.type === "NewExpression" && (node.callee.type === "Identifier" && node.callee.name === "RuleTester" || node.callee.type === "MemberExpression" && node.callee.property.type === "Identifier" && node.callee.property.name === "RuleTester");
+ }
+ const interestingRuleKeys = ["create", "meta"];

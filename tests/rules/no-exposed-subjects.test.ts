@@ -5,51 +5,57 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
   valid: [
-    stripIndent`
-      // variable
-      import { Subject } from 'rxjs';
-
-      const variable = new Subject<void>();
-    `,
-    stripIndent`
-      // parameter and return type
-      import { Subject } from 'rxjs';
-
-      function foo(a$: Subject<any>): Subject<any> {
-        return a$;
-      }
-    `,
-    stripIndent`
-      // private
-      import { Observable, Subject } from 'rxjs';
-
-      class Mock {
-        private a = new Subject<void>();
-        private readonly b = new Subject<void>();
-        private c: number;
-
-        constructor(
-          private d: Subject<any>,
-          private e: Observable<any>,
-          f: Subject<any>,
-        ) {}
-
-        get g(): number {
-          return this.age;
-        }
-
-        set g(newNum: number) {
-          this._age = newNum;
-        }
-
-        private h(): Subject<any> {
-          return new Subject<any>();
-        }
-      }
-    `,
     {
+      name: 'variable',
       code: stripIndent`
-        // allowed protected
+        import { Subject } from 'rxjs';
+
+        const variable = new Subject<void>();
+      `,
+    },
+    {
+      name: 'parameter and return type',
+      code: stripIndent`
+        import { Subject } from 'rxjs';
+
+        function foo(a$: Subject<any>): Subject<any> {
+          return a$;
+        }
+      `,
+    },
+    {
+      name: 'private',
+      code: stripIndent`
+        import { Observable, Subject } from 'rxjs';
+
+        class Mock {
+          private a = new Subject<void>();
+          private readonly b = new Subject<void>();
+          private c: number;
+
+          constructor(
+            private d: Subject<any>,
+            private e: Observable<any>,
+            f: Subject<any>,
+          ) {}
+
+          get g(): number {
+            return this.age;
+          }
+
+          set g(newNum: number) {
+            this._age = newNum;
+          }
+
+          private h(): Subject<any> {
+            return new Subject<any>();
+          }
+        }
+      `,
+    },
+    {
+      name: 'allowed protected',
+      code: stripIndent`
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -77,8 +83,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
   ],
   invalid: [
     fromFixture(
+      'public and protected',
       stripIndent`
-        // public and protected
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -96,8 +102,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
     ),
     fromFixture(
+      'public and protected via constructor',
       stripIndent`
-        // public and protected via constructor
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -111,8 +117,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
     ),
     fromFixture(
+      'public via getter/setter',
       stripIndent`
-        // public via getter/setter
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -129,8 +135,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
     ),
     fromFixture(
+      'public return type',
       stripIndent`
-        // public return type
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -147,8 +153,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
     ),
     fromFixture(
+      'public but allow protected',
       stripIndent`
-        // public but allow protected
         import { Subject } from 'rxjs';
 
         class Mock {
@@ -179,8 +185,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       { options: [{ allowProtected: true }] },
     ),
     fromFixture(
+      'EventEmitter',
       stripIndent`
-        // EventEmitter
         import { Subject } from "rxjs";
 
         class EventEmitter<T> extends Subject<T> {}
@@ -196,8 +202,8 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
     ),
     fromFixture(
+      'https://github.com/cartant/eslint-plugin-rxjs/issues/91',
       stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/91
         import { Subject } from "rxjs";
 
         class AppComponent {

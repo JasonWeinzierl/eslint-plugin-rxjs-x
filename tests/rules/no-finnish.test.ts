@@ -5,48 +5,50 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
   valid: [
-    stripIndent`
-      // without $
-      import { Observable, of } from "rxjs";
+    {
+      name: 'without $',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      const someObservable = of(0);
-      const someObject = { someKey: someObservable };
-      const { someKey: anotherObservable } = someObject;
-      const [{ someKey: yetAnotherObservable }] = [someObject];
+        const someObservable = of(0);
+        const someObject = { someKey: someObservable };
+        const { someKey: anotherObservable } = someObject;
+        const [{ someKey: yetAnotherObservable }] = [someObject];
 
-      const someEmptyObject = {};
-      const someOtherObject = { ...someEmptyObject, someKey: someObservable };
-      const { someKey } = someOtherObject;
-      const { someKey: someRenamedKey } = someOtherObject;
+        const someEmptyObject = {};
+        const someOtherObject = { ...someEmptyObject, someKey: someObservable };
+        const { someKey } = someOtherObject;
+        const { someKey: someRenamedKey } = someOtherObject;
 
-      const someArray = [someObservable];
-      const [someElement] = someArray;
-      someArray.forEach(function (element: Observable<any>): void {});
-      someArray.forEach((element: Observable<any>) => {});
+        const someArray = [someObservable];
+        const [someElement] = someArray;
+        someArray.forEach(function (element: Observable<any>): void {});
+        someArray.forEach((element: Observable<any>) => {});
 
-      function someFunction(someParam: Observable<any>): Observable<any> { return someParam; }
-      const someArrowFunction = (someParam: Observable<any>): Observable<any> => someParam;
+        function someFunction(someParam: Observable<any>): Observable<any> { return someParam; }
+        const someArrowFunction = (someParam: Observable<any>): Observable<any> => someParam;
 
-      class SomeClass {
-        someProperty: Observable<any>;
-        constructor(someParam: Observable<any>) {}
-        get someGetter(): Observable<any> { throw new Error("Some error."); }
-        set someSetter(someParam: Observable<any>) {}
-        someMethod(someParam: Observable<any>): Observable<any> { return someParam; }
-      }
+        class SomeClass {
+          someProperty: Observable<any>;
+          constructor(someParam: Observable<any>) {}
+          get someGetter(): Observable<any> { throw new Error("Some error."); }
+          set someSetter(someParam: Observable<any>) {}
+          someMethod(someParam: Observable<any>): Observable<any> { return someParam; }
+        }
 
-      interface SomeInterface {
-        someProperty: Observable<any>;
-        someMethod(someParam: Observable<any>): Observable<any>;
-        new (someParam: Observable<any>);
-        (someParam: Observable<any>): void;
-      }
-    `,
+        interface SomeInterface {
+          someProperty: Observable<any>;
+          someMethod(someParam: Observable<any>): Observable<any>;
+          new (someParam: Observable<any>);
+          (someParam: Observable<any>): void;
+        }
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'variables with $',
       stripIndent`
-        // variables with $
         import { Observable, of } from "rxjs";
         const someObservable$ = of(0);
               ~~~~~~~~~~~~~~~ [forbidden]
@@ -61,8 +63,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'objects with $',
       stripIndent`
-        // objects with $
         import { Observable, of } from "rxjs";
         const someObservable$ = of(0);
               ~~~~~~~~~~~~~~~ [forbidden]
@@ -76,8 +78,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'arrays with $',
       stripIndent`
-        // arrays with $
         import { Observable, of } from "rxjs";
         const someObservable$ = of(0);
               ~~~~~~~~~~~~~~~ [forbidden]
@@ -91,8 +93,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'functions with $',
       stripIndent`
-        // functions with $
         import { Observable } from "rxjs";
         function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam$; }
                  ~~~~~~~~~~~~~ [forbidden]
@@ -103,8 +105,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'class with $',
       stripIndent`
-        // class with $
         import { Observable } from "rxjs";
         class SomeClass {
           someProperty$: Observable<any>;
@@ -127,8 +129,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'interface with $',
       stripIndent`
-        // interface with $
         import { Observable } from "rxjs";
         interface SomeInterface {
           someProperty$: Observable<any>;
@@ -144,8 +146,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods not returning observables',
       stripIndent`
-        // functions and methods not returning observables
         import { Observable } from "rxjs";
 
         function someFunction(someParam$: Observable<any>): void {}
@@ -165,8 +167,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with non-observable parameters',
       stripIndent`
-        // functions and methods with non-observable parameters
         import { Observable, of } from "rxjs";
 
         function someFunction$(someValue: any): Observable<any> { return of(someValue); }
@@ -185,8 +187,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with array destructuring',
       stripIndent`
-        // functions and methods with array destructuring
         import { Observable } from "rxjs";
 
         function someFunction([someParam$]: Observable<any>[]): void {}
@@ -199,8 +201,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'functions and methods with object destructuring',
       stripIndent`
-        // functions and methods with object destructuring
         import { Observable } from "rxjs";
 
         function someFunction({ source$ }: Record<string, Observable<any>>): void {}
@@ -212,8 +214,8 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
       `,
     ),
     fromFixture(
+      'parameter property',
       stripIndent`
-        // parameter property
         import { Observable } from "rxjs";
 
         class SomeClass {

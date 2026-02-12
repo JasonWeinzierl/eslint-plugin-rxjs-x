@@ -240,38 +240,41 @@ ruleTester({
 }).run('my-rule', myRule, {
   valid: [
     // Simple test using default options:
-    stripIndent`
-      // test title here
-    `,
-    // Test with custom options:
-    { 
+    {
+      name: 'test title here',
       code: stripIndent`
-        // another test title
+        const foo = 123;
       `,
-      options: [{ setting: true }] ,
+    },
+    // Test with custom options:
+    {
+      name: 'another test title',
+      code: stripIndent`
+        const bar = 456;
+      `,
+      options: [{ allowSomething: true }] ,
       only: true, // development-time flag to focus this rule. Revert before finished
     },
   ],
   invalid: [
     // Simple test using default options:
     fromFixture(
+      'test for error',
       stripIndent`
-        // test for error
         const source = of(42);
                        ~~ [forbidden]
       `,
     ),
     // Test with fixers and suggestions:
     fromFixture(
+      'another test',
       stripIndent`
-        // another test
         const source = of<number>(42);
                        ~~~~~~~~~~ [forbidden suggest]
       `,
       {
         // Expected output after applying the auto-fixer (if any)
         output: stripIndent`
-          // another test
           const source = of(42);
         `,
         // Expected output(s) after applying a suggestion (if any)
@@ -279,7 +282,6 @@ ruleTester({
           {
             messageId: 'mySuggest',
             output: stripIndent`
-              // another test
               const source = of(42);
             `,
           },

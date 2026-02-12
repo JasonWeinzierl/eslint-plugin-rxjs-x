@@ -5,56 +5,72 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscriptionRule, {
   valid: [
-    stripIndent`
-      // const and add
-      import { of } from "rxjs";
-      const a = of(42).subscribe();
-      a.add(of(42).subscribe());
-    `,
-    stripIndent`
-      // let
-      import { Subscription } from "rxjs";
-      let b: Subscription;
-      b = of(42).subscribe();
-    `,
-    stripIndent`
-      // array element
-      import { of } from "rxjs";
-      const c = [of(42).subscribe()];
-    `,
-    stripIndent`
-      // object property
-      import { of } from "rxjs";
-      const d = { subscription: of(42).subscribe() };
-    `,
-    stripIndent`
-      // subscriber
-      import { of, Subscriber } from "rxjs";
-      const subscriber = new Subscriber<number>();
-      of(42).subscribe(subscriber);
-    `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/61
-      const whatever = {
-        subscribe(callback?: (value: unknown) => void) {}
-      };
-      whatever.subscribe(() => {});
-    `,
-    stripIndent`
-      // allowed completers and postCompleters
-      import { of, first, share, switchMap } from "rxjs";
-
-      of(42).pipe(first(), share()).subscribe();
-    `,
-    stripIndent`
-      // allowed completers and postCompleters; namespace import
-      import * as Rx from "rxjs";
-
-      Rx.of(42).pipe(Rx.first(), Rx.share()).subscribe();
-    `,
     {
+      name: 'const and add',
       code: stripIndent`
-        // allowed completers and postCompleters; custom
+        import { of } from "rxjs";
+        const a = of(42).subscribe();
+        a.add(of(42).subscribe());
+      `,
+    },
+    {
+      name: 'let',
+      code: stripIndent`
+        import { Subscription } from "rxjs";
+        let b: Subscription;
+        b = of(42).subscribe();
+      `,
+    },
+    {
+      name: 'array element',
+      code: stripIndent`
+        import { of } from "rxjs";
+        const c = [of(42).subscribe()];
+      `,
+    },
+    {
+      name: 'object property',
+      code: stripIndent`
+        import { of } from "rxjs";
+        const d = { subscription: of(42).subscribe() };
+      `,
+    },
+    {
+      name: 'subscriber',
+      code: stripIndent`
+        import { of, Subscriber } from "rxjs";
+        const subscriber = new Subscriber<number>();
+        of(42).subscribe(subscriber);
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
+      code: stripIndent`
+        const whatever = {
+          subscribe(callback?: (value: unknown) => void) {}
+        };
+        whatever.subscribe(() => {});
+      `,
+    },
+    {
+      name: 'allowed completers and postCompleters',
+      code: stripIndent`
+        import { of, first, share, switchMap } from "rxjs";
+
+        of(42).pipe(first(), share()).subscribe();
+      `,
+    },
+    {
+      name: 'allowed completers and postCompleters; separate subscribe',
+      code: stripIndent`
+        import * as Rx from "rxjs";
+
+        Rx.of(42).pipe(Rx.first(), Rx.share()).subscribe();
+      `,
+    },
+    {
+      name: 'allowed completers and postCompleters; custom',
+      code: stripIndent`
         import { of } from "rxjs";
 
         of(42).pipe(customCompleter(), customPostCompleter()).subscribe();
@@ -67,24 +83,24 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
   ],
   invalid: [
     fromFixture(
+      'ignored',
       stripIndent`
-        // ignored
         import { of } from "rxjs";
         of(42).subscribe();
                ~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
+      'ignored; namespace import',
       stripIndent`
-        // ignored; namespace import
         import * as Rx from "rxjs";
         Rx.of(42).subscribe();
                   ~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
+      'ignored subject',
       stripIndent`
-        // ignored subject
         import { Subject } from "rxjs";
         const s = new Subject<any>()
         s.subscribe();
@@ -92,24 +108,24 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
       `,
     ),
     fromFixture(
+      'takeUntil is completer but not last operator',
       stripIndent`
-        // takeUntil is completer but not last operator
         import { of, takeUntil, switchMap } from "rxjs";
         of(42).pipe(takeUntil(), switchMap(() => of(42))).subscribe();
                                                           ~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
+      'takeUntil is completer but not last operator; namespace import',
       stripIndent`
-        // takeUntil is completer but not last operator; namespace import
         import * as Rx from "rxjs";
         Rx.of(42).pipe(Rx.takeUntil(), Rx.switchMap(() => Rx.of(42))).subscribe();
                                                                       ~~~~~~~~~ [forbidden]
       `,
     ),
     fromFixture(
+      'separate subscribe does not support completers',
       stripIndent`
-        // separate subscribe does not support completers
         import { of, takeUntil } from "rxjs";
 
         const foo$ = of(42).pipe(takeUntil());
@@ -118,8 +134,8 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
       `,
     ),
     fromFixture(
+      'custom completer but not last operator',
       stripIndent`
-        // custom completer but not last operator
         import { of } from "rxjs";
         of(42).pipe(customCompleter(), skip(1)).subscribe();
                                                 ~~~~~~~~~ [forbidden]
@@ -131,8 +147,8 @@ ruleTester({ types: true }).run('no-ignored-subscription', noIgnoredSubscription
       },
     ),
     fromFixture(
+      'custom postCompleter but no completer',
       stripIndent`
-        // custom postCompleter but no completer
         import { of } from "rxjs";
         of(42).pipe(customPostCompleter()).subscribe();
                                            ~~~~~~~~~ [forbidden]

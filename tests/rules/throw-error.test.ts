@@ -6,246 +6,298 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('throw-error', throwErrorRule, {
   valid: [
     // #region valid; throwError
-    stripIndent`
-      // Error
-      import { throwError } from "rxjs";
+    {
+      name: 'Error',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => new Error("Boom!"));
-    `,
-    stripIndent`
-      // RangeError
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => new Error("Boom!"));
+      `,
+    },
+    {
+      name: 'RangeError',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => new RangeError("Boom!"));
-    `,
-    stripIndent`
-      // DOMException
-      /// <reference lib="dom" />
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => new RangeError("Boom!"));
+      `,
+    },
+    {
+      name: 'DOMException',
+      code: stripIndent`
+        /// <reference lib="dom" />
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => new DOMException("Boom!"));
-    `,
-    stripIndent`
-      // custom Error
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => new DOMException("Boom!"));
+      `,
+    },
+    {
+      name: 'custom Error',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      class MyFailure extends Error {}
+        class MyFailure extends Error {}
 
-      const ob1 = throwError(() => new MyFailure("Boom!"));
-    `,
-    stripIndent`
-      // arrow function return
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => new MyFailure("Boom!"));
+      `,
+    },
+    {
+      name: 'arrow function return',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      throwError(() => {
-        return new Error("Boom!");
-      });
-    `,
-    stripIndent`
-      // function return
-      import { throwError } from "rxjs";
+        throwError(() => {
+          return new Error("Boom!");
+        });
+      `,
+    },
+    {
+      name: 'function return',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      throwError(function () {
-        return new Error("Boom!");
-      });
-    `,
-    stripIndent`
-      // any
-      import { throwError } from "rxjs";
+        throwError(function () {
+          return new Error("Boom!");
+        });
+      `,
+    },
+    {
+      name: 'any',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => "Boom!" as any);
-    `,
-    stripIndent`
-      // returned any
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => "Boom!" as any);
+      `,
+    },
+    {
+      name: 'returned any',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => errorMessage());
+        const ob1 = throwError(() => errorMessage());
 
-      function errorMessage(): any {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // unknown
-      import { throwError } from "rxjs";
+        function errorMessage(): any {
+          return "error";
+        }
+      `,
+    },
+    {
+      name: 'unknown',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => "Boom!" as unknown);
-    `,
-    stripIndent`
-      // returned unknown
-      import { throwError } from "rxjs";
+        const ob1 = throwError(() => "Boom!" as unknown);
+      `,
+    },
+    {
+      name: 'returned unknown',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(() => errorMessage());
+        const ob1 = throwError(() => errorMessage());
 
-      function errorMessage(): unknown {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // Error without factory (deprecated)
-      import { throwError } from "rxjs";
+        function errorMessage(): unknown {
+          return "error";
+        }
+      `,
+    },
+    {
+      name: 'Error without factory (deprecated)',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(new Error("Boom!"));
-    `,
-    stripIndent`
-      // DOMException without factory (deprecated)
-      /// <reference lib="dom" />
-      import { throwError } from "rxjs";
+        const ob1 = throwError(new Error("Boom!"));
+      `,
+    },
+    {
+      name: 'DOMException without factory (deprecated)',
+      code: stripIndent`
+        /// <reference lib="dom" />
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(new DOMException("Boom!"));
-    `,
-    stripIndent`
-      // any without factory (deprecated)
-      import { throwError } from "rxjs";
+        const ob1 = throwError(new DOMException("Boom!"));
+      `,
+    },
+    {
+      name: 'any without factory (deprecated)',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError("Boom!" as any);
-    `,
-    stripIndent`
-      // returned any without factory (deprecated)
-      import { throwError } from "rxjs";
+        const ob1 = throwError("Boom!" as any);
+      `,
+    },
+    {
+      name: 'returned any without factory (deprecated)',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const ob1 = throwError(errorMessage());
+        const ob1 = throwError(errorMessage());
 
-      function errorMessage(): any {
-        return "error";
-      }
-    `,
-    stripIndent`
-      // Object.assign
-      // https://github.com/cartant/rxjs-tslint-rules/issues/86
-      import { throwError } from "rxjs";
+        function errorMessage(): any {
+          return "error";
+        }
+      `,
+    },
+    {
+      name: 'Object.assign',
+      code: stripIndent`
+        // https://github.com/cartant/rxjs-tslint-rules/issues/86
+        import { throwError } from "rxjs";
 
-      throwError(() => Object.assign(
-        new Error("Not Found"),
-        { code: "NOT_FOUND" }
-      ));
-    `,
-    stripIndent`
-      // Object.assign arrow function return
-      import { throwError } from "rxjs";
-
-      throwError(() => {
-        return Object.assign(
+        throwError(() => Object.assign(
           new Error("Not Found"),
           { code: "NOT_FOUND" }
-        );
-      });
-    `,
-    stripIndent`
-      // template literal with Error constructor
-      import { throwError } from "rxjs";
+        ));
+      `,
+    },
+    {
+      name: 'Object.assign arrow function return',
+      code: stripIndent`
+        import { throwError } from "rxjs";
 
-      const errorMessage = "Boom!";
-      throwError(() => new Error(\`Error: \${errorMessage}\`));
-    `,
+        throwError(() => {
+          return Object.assign(
+            new Error("Not Found"),
+            { code: "NOT_FOUND" }
+          );
+        });
+      `,
+    },
+    {
+      name: 'template literal with Error constructor',
+      code: stripIndent`
+        import { throwError } from "rxjs";
+
+        const errorMessage = "Boom!";
+        throwError(() => new Error(\`Error: \${errorMessage}\`));
+      `,
+    },
     // #endregion valid; throwError
     // #region valid; subject.error
-    stripIndent`
-      // Error
-      import { Subject } from "rxjs";
+    {
+      name: 'Subject.error; Error',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error(new Error("Boom!"));
-    `,
-    stripIndent`
-      // RangeError
-      import { Subject } from "rxjs";
+        subject.error(new Error("Boom!"));
+      `,
+    },
+    {
+      name: 'Subject.error; RangeError',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error(new RangeError("Boom!"));
-    `,
-    stripIndent`
-      // DOMException
-      /// <reference lib="dom" />
-      import { Subject } from "rxjs";
+        subject.error(new RangeError("Boom!"));
+      `,
+    },
+    {
+      name: 'Subject.error; DOMException',
+      code: stripIndent`
+        /// <reference lib="dom" />
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error(new DOMException("Boom!"));
-    `,
-    stripIndent`
-      // custom Error
-      import { Subject } from "rxjs";
+        subject.error(new DOMException("Boom!"));
+      `,
+    },
+    {
+      name: 'Subject.error; custom Error',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      class MyFailure extends Error {}
+        class MyFailure extends Error {}
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error(new MyFailure("Boom!"));
-    `,
-    stripIndent`
-      // any
-      import { Subject } from "rxjs";
+        subject.error(new MyFailure("Boom!"));
+      `,
+    },
+    {
+      name: 'Subject.error; any',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error("Boom!" as any);
-    `,
-    stripIndent`
-      // unknown
-      import { Subject } from "rxjs";
+        subject.error("Boom!" as any);
+      `,
+    },
+    {
+      name: 'Subject.error; unknown',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error("Boom!" as unknown);
-    `,
-    stripIndent`
-      // Object.assign
-      import { Subject } from "rxjs";
+        subject.error("Boom!" as unknown);
+      `,
+    },
+    {
+      name: 'Subject.error; Object.assign',
+      code: stripIndent`
+        import { Subject } from "rxjs";
 
-      const subject = new Subject<void>();
+        const subject = new Subject<void>();
 
-      subject.error(Object.assign(
-        new Error("Not Found"),
-        { code: "NOT_FOUND" }
-      ));
-    `,
+        subject.error(Object.assign(
+          new Error("Not Found"),
+          { code: "NOT_FOUND" }
+        ));
+      `,
+    },
     // #endregion valid; subject.error
     // #region valid; other
-    stripIndent`
-      // no signature
-      // There will be no signature for callback and
-      // that should not effect an internal error.
-      declare const callback: Function;
-      callback();
-    `,
-    stripIndent`
-      // unrelated throw statements (use @typescript-eslint/only-throw-error instead).
-      const a = () => { throw "error"; };
-      const b = () => { throw new Error("error"); };
+    {
+      name: 'no signature',
+      code: stripIndent`
+        // There will be no signature for callback and
+        // that should not effect an internal error.
+        declare const callback: Function;
+        callback();
+      `,
+    },
+    {
+      name: 'unrelated throw statements (use @typescript-eslint/only-throw-error instead)',
+      code: stripIndent`
+        const a = () => { throw "error"; };
+        const b = () => { throw new Error("error"); };
 
-      const errorMessage = "Boom!";
-      const c = () => { throw errorMessage; };
+        const errorMessage = "Boom!";
+        const c = () => { throw errorMessage; };
 
-      const d = () => { throw errorMessage(); };
-      function errorMessage() {
-        return "error";
-      }
+        const d = () => { throw errorMessage(); };
+        function errorMessage() {
+          return "error";
+        }
 
-      const e = () => { throw new DOMException("error"); };
-      const f = () => { throw "error" as any };
+        const e = () => { throw new DOMException("error"); };
+        const f = () => { throw "error" as any };
 
-      const g = () => { throw errorMessageAny(); };
-      function errorMessageAny(): any {
-        return "error";
-      }
+        const g = () => { throw errorMessageAny(); };
+        function errorMessageAny(): any {
+          return "error";
+        }
 
-      https://github.com/cartant/rxjs-tslint-rules/issues/85
-      try {
-        throw new Error("error");
-      } catch (error: any) {
-        throw error;
-      }
-    `,
+        // https://github.com/cartant/rxjs-tslint-rules/issues/85
+        try {
+          throw new Error("error");
+        } catch (error: any) {
+          throw error;
+        }
+      `,
+    },
     // #endregion valid; other
   ],
   invalid: [
     // #region invalid; throwError
     fromFixture(
+      'string',
       stripIndent`
-        // string
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => "Boom!");
@@ -256,7 +308,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // string
               import { throwError } from "rxjs";
 
               const ob1 = throwError(() => new Error("Boom!"));
@@ -266,8 +317,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       },
     ),
     fromFixture(
+      'returned string',
       stripIndent`
-        // returned string
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => errorMessage());
@@ -279,8 +330,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'string without factory (deprecated)',
       stripIndent`
-        // string without factory (deprecated)
         import { throwError } from "rxjs";
 
         const ob1 = throwError("Boom!");
@@ -291,7 +342,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // string without factory (deprecated)
               import { throwError } from "rxjs";
 
               const ob1 = throwError(new Error("Boom!"));
@@ -301,8 +351,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       },
     ),
     fromFixture(
+      'returned string without factory (deprecated)',
       stripIndent`
-        // returned string without factory (deprecated)
         import { throwError } from "rxjs";
 
         const ob1 = throwError(errorMessage());
@@ -314,8 +364,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'any not allowed',
       stripIndent`
-        // any not allowed
         import { throwError } from "rxjs";
 
         throwError(() => "Boom!" as any);
@@ -324,8 +374,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       { options: [{ allowThrowingAny: false }] },
     ),
     fromFixture(
+      'unknown not allowed',
       stripIndent`
-        // unknown not allowed
         import { throwError } from "rxjs";
 
         throwError(() => "Boom!" as unknown);
@@ -334,8 +384,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       { options: [{ allowThrowingUnknown: false }] },
     ),
     fromFixture(
+      'falsy',
       stripIndent`
-        // falsy
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => 0);
@@ -349,8 +399,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'Object.assign with non-Error',
       stripIndent`
-        // Object.assign with non-Error
         import { throwError } from "rxjs";
 
         throwError(() => Object.assign({ message: "Not Found" }, { code: "NOT_FOUND" }));
@@ -358,8 +408,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'namespace import',
       stripIndent`
-        // namespace import
         import * as Rx from "rxjs";
 
         Rx.throwError(() => "Boom!");
@@ -370,7 +420,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // namespace import
               import * as Rx from "rxjs";
 
               Rx.throwError(() => new Error("Boom!"));
@@ -380,8 +429,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       },
     ),
     fromFixture(
+      'template literal',
       stripIndent`
-        // template literal
         import { throwError } from "rxjs";
 
         const ob1 = throwError(() => \`Boom! \${123}\`);
@@ -392,7 +441,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // template literal
               import { throwError } from "rxjs";
 
               const ob1 = throwError(() => new Error(\`Boom! \${123}\`));
@@ -404,8 +452,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
     // #endregion invalid; throwError
     // #region invalid; subject.error
     fromFixture(
+      'Subject.error; string',
       stripIndent`
-        // string
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -418,7 +466,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // string
               import { Subject } from "rxjs";
 
               const subject = new Subject<void>();
@@ -430,8 +477,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       },
     ),
     fromFixture(
+      'Subject.error; any not allowed',
       stripIndent`
-        // any not allowed
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -442,8 +489,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       { options: [{ allowThrowingAny: false }] },
     ),
     fromFixture(
+      'Subject.error; unknown not allowed',
       stripIndent`
-        // unknown not allowed
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -454,8 +501,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       { options: [{ allowThrowingUnknown: false }] },
     ),
     fromFixture(
+      'Subject.error; falsy',
       stripIndent`
-        // falsy
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -471,8 +518,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'Subject.error; Object.assign with non-Error',
       stripIndent`
-        // Object.assign with non-Error
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -482,8 +529,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       `,
     ),
     fromFixture(
+      'Subject.error; namespace import',
       stripIndent`
-        // namespace import
         import * as Rx from "rxjs";
         const subject = new Rx.Subject<void>();
         subject.error("Boom!");
@@ -494,7 +541,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // namespace import
               import * as Rx from "rxjs";
               const subject = new Rx.Subject<void>();
               subject.error(new Error("Boom!"));
@@ -504,8 +550,8 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
       },
     ),
     fromFixture(
+      'Subject.error; template literal',
       stripIndent`
-        // template literal
         import { Subject } from "rxjs";
 
         const subject = new Subject<void>();
@@ -518,7 +564,6 @@ ruleTester({ types: true }).run('throw-error', throwErrorRule, {
           {
             messageId: 'suggestErrorConstructor',
             output: stripIndent`
-              // template literal
               import { Subject } from "rxjs";
 
               const subject = new Subject<void>();

@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule, {
   valid: [
     {
+      name: 'ignored',
       code: stripIndent`
-        // ignored
         import { of } from "rxjs";
 
         const observable = of([1, 2]);
@@ -15,8 +15,8 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     },
     {
+      name: 'subject ignored',
       code: stripIndent`
-        // subject ignored
         import { Subject } from "rxjs";
 
         const subject = new Subject<any>();
@@ -24,6 +24,7 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     },
     {
+      name: 'subscribable ignored',
       code: stripIndent`
         import { Subscribable } from "rxjs";
         declare const subscribable: Subscribable<unknown>;
@@ -31,6 +32,7 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     },
     {
+      name: 'unrelated',
       code: stripIndent`
         const whatever = {
           subscribe(callback?: (value: unknown) => void) {}
@@ -39,6 +41,7 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     },
     {
+      name: 'unrelated with handler',
       code: stripIndent`
         const whatever = {
           subscribe(callback?: (value: unknown) => void) {}
@@ -49,8 +52,8 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
   ],
   invalid: [
     fromFixture(
+      'not ignored',
       stripIndent`
-        // not ignored
         import { of } from "rxjs";
 
         const observable = of([1, 2]);
@@ -59,8 +62,8 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     ),
     fromFixture(
+      'subject not ignored',
       stripIndent`
-        // subject not ignored
         import { Subject } from "rxjs";
 
         const subject = new Subject<any>();
@@ -69,8 +72,8 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     ),
     fromFixture(
+      'not ignored non-arrow',
       stripIndent`
-        // not ignored non-arrow
         import { of } from "rxjs";
 
         function log(value) {
@@ -83,6 +86,7 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     ),
     fromFixture(
+      'subscribable with callback handler',
       stripIndent`
         import { Subscribable } from "rxjs";
         declare const subscribable: Subscribable<unknown>;
@@ -91,6 +95,7 @@ ruleTester({ types: true }).run('no-subscribe-handlers', noSubscribeHandlersRule
       `,
     ),
     fromFixture(
+      'subscribable with observer handler',
       stripIndent`
         import { Subscribable } from "rxjs";
         declare const subscribable: Subscribable<unknown>;

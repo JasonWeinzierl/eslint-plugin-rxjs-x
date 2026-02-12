@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule, {
   valid: [
     {
+      name: 'arrow; no parameter',
       code: stripIndent`
-        // arrow; no parameter
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -17,8 +17,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'non-arrow; no parameter',
       code: stripIndent`
-        // non-arrow; no parameter
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -28,8 +28,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'arrow; explicit unknown; default option',
       code: stripIndent`
-        // arrow; explicit unknown; default option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -39,8 +39,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'non-arrow; explicit unknown; default option',
       code: stripIndent`
-        // non-arrow; explicit unknown; default option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -50,8 +50,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'arrow; explicit unknown; explicit option',
       code: stripIndent`
-        // arrow; explicit unknown; explicit option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -62,8 +62,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{ allowExplicitAny: true }],
     },
     {
+      name: 'non-arrow; explicit unknown; explicit option',
       code: stripIndent`
-        // non-arrow; explicit unknown; explicit option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -74,8 +74,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{ allowExplicitAny: true }],
     },
     {
+      name: 'arrow; explicit any',
       code: stripIndent`
-        // arrow; explicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -85,8 +85,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'non-arrow; explicit any',
       code: stripIndent`
-        // non-arrow; explicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -96,8 +96,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'arrow; explicit unknown and caught; default option',
       code: stripIndent`
-        // arrow; explicit unknown and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).pipe(
@@ -106,8 +106,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'non-arrow; explicit unknown and caught; default option',
       code: stripIndent`
-        // non-arrow; explicit unknown and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).pipe(
@@ -116,8 +116,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe; arrow; explicit unknown; default option',
       code: stripIndent`
-        // subscribe; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -127,8 +127,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe; arrow; explicit any; default option',
       code: stripIndent`
-        // subscribe; arrow; explicit any; default option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -138,8 +138,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe; arrow; explicit unknown and caught; default option',
       code: stripIndent`
-        // subscribe; arrow; explicit unknown and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).subscribe(
@@ -149,8 +149,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe; arrow; explicit any and caught; default option',
       code: stripIndent`
-        // subscribe; arrow; explicit any and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).subscribe(
@@ -160,8 +160,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe observer; arrow; explicit unknown; default option',
       code: stripIndent`
-        // subscribe observer; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -170,8 +170,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe observer; arrow; explicit any; default option',
       code: stripIndent`
-        // subscribe observer; arrow; explicit any; default option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -180,8 +180,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe observer; arrow; explicit unknown and caught; default option',
       code: stripIndent`
-        // subscribe observer; arrow; explicit unknown and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).subscribe({
@@ -190,8 +190,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'subscribe observer; arrow; explicit any and caught; default option',
       code: stripIndent`
-        // subscribe observer; arrow; explicit any and caught; default option
         import { throwError, catchError, Observable } from "rxjs";
 
         throwError(new Error("Kaboom!")).subscribe({
@@ -200,8 +200,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'tap; arrow; explicit unknown; default option',
       code: stripIndent`
-        // tap; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -212,8 +212,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'tap; arrow; explicit any; default option',
       code: stripIndent`
-        // tap; arrow; explicit any; default option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -224,8 +224,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'tap observer; arrow; explicit unknown; default option',
       code: stripIndent`
-        // tap observer; arrow; explicit unknown; default option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -235,8 +235,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'tap observer; arrow; explicit any; default option',
       code: stripIndent`
-        // tap observer; arrow; explicit any; default option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -246,8 +246,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/61
         const whatever = {
           subscribe(
             next?: (value: unknown) => void,
@@ -259,8 +259,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{}],
     },
     {
+      name: 'catchError; arrow; Error type with allowExplicitError',
       code: stripIndent`
-        // catchError; arrow; Error type with allowExplicitError
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -271,8 +271,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{ allowExplicitError: true }],
     },
     {
+      name: 'catchError; function; Error type with allowExplicitError',
       code: stripIndent`
-        // catchError; function; Error type with allowExplicitError
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -283,8 +283,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{ allowExplicitError: true }],
     },
     {
+      name: 'subscribe; Error type with allowExplicitError',
       code: stripIndent`
-        // subscribe; Error type with allowExplicitError
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -294,8 +294,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       options: [{ allowExplicitError: true }],
     },
     {
+      name: 'tap; Error type with allowExplicitError',
       code: stripIndent`
-        // tap; Error type with allowExplicitError
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -311,8 +311,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
   ],
   invalid: [
     fromFixture(
+      'arrow; implicit any',
       stripIndent`
-        // arrow; implicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -323,7 +323,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // arrow; implicit any
           import { throwError } from "rxjs";
           import { catchError } from "rxjs/operators";
 
@@ -335,7 +334,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -347,7 +345,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // arrow; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -360,8 +357,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'arrow; no parentheses; implicit any',
       stripIndent`
-        // arrow; no parentheses; implicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -372,7 +369,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // arrow; no parentheses; implicit any
           import { throwError } from "rxjs";
           import { catchError } from "rxjs/operators";
 
@@ -384,7 +380,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -396,7 +391,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -409,8 +403,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'arrow; implicit any and caught',
       stripIndent`
-        // arrow; implicit any and caught
         import { throwError, catchError } from "rxjs";
 
         throwError(new Error("Kaboom!")).pipe(
@@ -420,7 +414,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // arrow; implicit any and caught
           import { throwError, catchError } from "rxjs";
 
           throwError(new Error("Kaboom!")).pipe(
@@ -431,7 +424,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; implicit any and caught
               import { throwError, catchError } from "rxjs";
 
               throwError(new Error("Kaboom!")).pipe(
@@ -442,7 +434,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // arrow; implicit any and caught
               import { throwError, catchError } from "rxjs";
 
               throwError(new Error("Kaboom!")).pipe(
@@ -454,8 +445,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'non-arrow; implicit any',
       stripIndent`
-        // non-arrow; implicit any
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -466,7 +457,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // non-arrow; implicit any
           import { throwError } from "rxjs";
           import { catchError } from "rxjs/operators";
 
@@ -478,7 +468,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // non-arrow; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -490,7 +479,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // non-arrow; implicit any
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -503,8 +491,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'non-arrow; implicit any and caught',
       stripIndent`
-        // non-arrow; implicit any and caught
         import { throwError, catchError } from "rxjs";
 
         throwError(new Error("Kaboom!")).pipe(
@@ -514,7 +502,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // non-arrow; implicit any and caught
           import { throwError, catchError } from "rxjs";
 
           throwError(new Error("Kaboom!")).pipe(
@@ -525,7 +512,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // non-arrow; implicit any and caught
               import { throwError, catchError } from "rxjs";
 
               throwError(new Error("Kaboom!")).pipe(
@@ -536,7 +522,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // non-arrow; implicit any and caught
               import { throwError, catchError } from "rxjs";
 
               throwError(new Error("Kaboom!")).pipe(
@@ -548,8 +533,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'arrow; explicit any; explicit option',
       stripIndent`
-        // arrow; explicit any; explicit option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -564,7 +549,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; explicit any; explicit option
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -577,8 +561,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'non-arrow; explicit any; explicit option',
       stripIndent`
-        // non-arrow; explicit any; explicit option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -593,7 +577,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // non-arrow; explicit any; explicit option
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -606,8 +589,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'arrow; narrowed',
       stripIndent`
-        // arrow; narrowed
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -621,7 +604,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; narrowed
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -633,7 +615,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // arrow; narrowed
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -646,8 +627,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'arrow; narrowed; explicit option',
       stripIndent`
-        // arrow; narrowed; explicit option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -662,7 +643,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // arrow; narrowed; explicit option
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -675,8 +655,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'non-arrow; narrowed',
       stripIndent`
-        // non-arrow; narrowed
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -690,7 +670,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // non-arrow; narrowed
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -702,7 +681,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // non-arrow; narrowed
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -715,8 +693,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; arrow; implicit any',
       stripIndent`
-        // subscribe; arrow; implicit any
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -727,7 +705,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // subscribe; arrow; implicit any
           import { throwError } from "rxjs";
 
           throwError("Kaboom!").subscribe(
@@ -739,7 +716,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; arrow; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -751,7 +727,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe; arrow; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -764,8 +739,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; arrow; no parentheses; implicit any',
       stripIndent`
-        // subscribe; arrow; no parentheses; implicit any
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -776,7 +751,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // subscribe; arrow; no parentheses; implicit any
           import { throwError } from "rxjs";
 
           throwError("Kaboom!").subscribe(
@@ -788,7 +762,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -800,7 +773,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -813,8 +785,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; arrow; explicit any; explicit option',
       stripIndent`
-        // subscribe; arrow; explicit any; explicit option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -829,7 +801,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; arrow; explicit any; explicit option
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -842,8 +813,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; arrow; narrowed',
       stripIndent`
-        // subscribe; arrow; narrowed
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe(
@@ -857,7 +828,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; arrow; narrowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -869,7 +839,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe; arrow; narrowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe(
@@ -882,8 +851,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe observer; arrow; implicit any',
       stripIndent`
-        // subscribe observer; arrow; implicit any
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -893,7 +862,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // subscribe observer; arrow; implicit any
           import { throwError } from "rxjs";
 
           throwError("Kaboom!").subscribe({
@@ -904,7 +872,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe observer; arrow; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -915,7 +882,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe observer; arrow; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -927,8 +893,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe observer; arrow; no parentheses; implicit any',
       stripIndent`
-        // subscribe observer; arrow; no parentheses; implicit any
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -938,7 +904,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // subscribe observer; arrow; no parentheses; implicit any
           import { throwError } from "rxjs";
 
           throwError("Kaboom!").subscribe({
@@ -949,7 +914,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe observer; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -960,7 +924,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe observer; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -972,8 +935,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe observer; arrow; explicit any; explicit option',
       stripIndent`
-        // subscribe observer; arrow; explicit any; explicit option
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -987,7 +950,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe observer; arrow; explicit any; explicit option
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -999,8 +961,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe observer; arrow; narrowed',
       stripIndent`
-        // subscribe observer; arrow; narrowed
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -1013,7 +975,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe observer; arrow; narrowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1024,7 +985,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe observer; arrow; narrowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1036,8 +996,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap; arrow; implicit any',
       stripIndent`
-        // tap; arrow; implicit any
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1049,7 +1009,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // tap; arrow; implicit any
           import { throwError } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1062,7 +1021,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap; arrow; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1075,7 +1033,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap; arrow; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1089,8 +1046,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap; arrow; no parentheses; implicit any',
       stripIndent`
-        // tap; arrow; no parentheses; implicit any
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1102,7 +1059,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // tap; arrow; no parentheses; implicit any
           import { throwError } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1115,7 +1071,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1128,7 +1083,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1142,8 +1096,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap; arrow; explicit any; explicit option',
       stripIndent`
-        // tap; arrow; explicit any; explicit option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1159,7 +1113,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap; arrow; explicit any; explicit option
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1173,8 +1126,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap; arrow; narrowed',
       stripIndent`
-        // tap; arrow; narrowed
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1189,7 +1142,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap; arrow; narrowed
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1202,7 +1154,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap; arrow; narrowed
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1216,8 +1167,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap observer; arrow; implicit any',
       stripIndent`
-        // tap observer; arrow; implicit any
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1228,7 +1179,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // tap observer; arrow; implicit any
           import { throwError } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1240,7 +1190,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap observer; arrow; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1252,7 +1201,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap observer; arrow; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1265,8 +1213,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap observer; arrow; no parentheses; implicit any',
       stripIndent`
-        // tap observer; arrow; no parentheses; implicit any
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1277,7 +1225,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       `,
       {
         output: stripIndent`
-          // tap observer; arrow; no parentheses; implicit any
           import { throwError } from "rxjs";
           import { tap } from "rxjs/operators";
 
@@ -1289,7 +1236,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap observer; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1301,7 +1247,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap observer; arrow; no parentheses; implicit any
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1314,8 +1259,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap observer; arrow; explicit any; explicit option',
       stripIndent`
-        // tap observer; arrow; explicit any; explicit option
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1330,7 +1275,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap observer; arrow; explicit any; explicit option
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1343,8 +1287,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'tap observer; arrow; narrowed',
       stripIndent`
-        // tap observer; arrow; narrowed
         import { throwError } from "rxjs";
         import { tap } from "rxjs/operators";
 
@@ -1358,7 +1302,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // tap observer; arrow; narrowed
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1370,7 +1313,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // tap observer; arrow; narrowed
               import { throwError } from "rxjs";
               import { tap } from "rxjs/operators";
 
@@ -1383,8 +1325,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'catchError; Error type without allowExplicitError option',
       stripIndent`
-        // catchError; Error type without allowExplicitError option
         import { throwError } from "rxjs";
         import { catchError } from "rxjs/operators";
 
@@ -1398,7 +1340,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // catchError; Error type without allowExplicitError option
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -1410,7 +1351,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // catchError; Error type without allowExplicitError option
               import { throwError } from "rxjs";
               import { catchError } from "rxjs/operators";
 
@@ -1423,8 +1363,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; Error type not allowed',
       stripIndent`
-        // subscribe; Error type not allowed
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -1437,7 +1377,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; Error type not allowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1448,7 +1387,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe; Error type not allowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1460,8 +1398,8 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
       },
     ),
     fromFixture(
+      'subscribe; Error type allowed',
       stripIndent`
-        // subscribe; Error type allowed
         import { throwError } from "rxjs";
 
         throwError("Kaboom!").subscribe({
@@ -1475,7 +1413,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitUnknown',
             output: stripIndent`
-              // subscribe; Error type allowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1486,7 +1423,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitAny',
             output: stripIndent`
-              // subscribe; Error type allowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({
@@ -1497,7 +1433,6 @@ ruleTester({ types: true }).run('no-implicit-any-catch', noImplicitAnyCatchRule,
           {
             messageId: 'suggestExplicitError',
             output: stripIndent`
-              // subscribe; Error type allowed
               import { throwError } from "rxjs";
 
               throwError("Kaboom!").subscribe({

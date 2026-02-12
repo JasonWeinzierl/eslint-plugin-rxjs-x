@@ -5,37 +5,41 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-ignored-observable', noIgnoredObservableRule, {
   valid: [
-    stripIndent`
-      // not ignored
-      import { Observable, of } from "rxjs";
+    {
+      name: 'not ignored',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      function functionSource() {
-        return of(42);
-      }
+        function functionSource() {
+          return of(42);
+        }
 
-      function sink(source: Observable<number>) {
-      }
+        function sink(source: Observable<number>) {
+        }
 
-      const a = functionSource();
-      sink(functionSource());
-    `,
-    stripIndent`
-      // not ignored arrow
-      import { Observable, of } from "rxjs";
+        const a = functionSource();
+        sink(functionSource());
+      `,
+    },
+    {
+      name: 'not ignored arrow',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
 
-      const arrowSource = () => of(42);
+        const arrowSource = () => of(42);
 
-      function sink(source: Observable<number>) {
-      }
+        function sink(source: Observable<number>) {
+        }
 
-      const a = arrowSource();
-      sink(arrowSource());
-    `,
+        const a = arrowSource();
+        sink(arrowSource());
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'ignored',
       stripIndent`
-        // ignored
         import { Observable, of } from "rxjs";
 
         function functionSource() {
@@ -47,8 +51,8 @@ ruleTester({ types: true }).run('no-ignored-observable', noIgnoredObservableRule
       `,
     ),
     fromFixture(
+      'ignored arrow',
       stripIndent`
-        // ignored arrow
         import { Observable, of } from "rxjs";
 
         const arrowSource = () => of(42);

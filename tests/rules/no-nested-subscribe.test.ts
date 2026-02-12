@@ -5,68 +5,82 @@ import { ruleTester } from '../rule-tester';
 
 ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
   valid: [
-    stripIndent`
-      // not nested in next argument
-      import { Observable } from "rxjs";
-      of(47).subscribe(value => {
-        console.log(value);
-      })
-    `,
-    stripIndent`
-      // not nested in observer properties
-      import { Observable } from "rxjs";
-      of(47).subscribe({
-        next: value => console.log(value),
-        error: value => console.log(value),
-        complete: () => console.log(value)
-      })
-    `,
-    stripIndent`
-      // not nested in observer methods
-      import { Observable } from "rxjs";
-      of(47).subscribe({
-        next(value) { console.log(value); },
-        error(value) { console.log(value); },
-        complete() { console.log(value); }
-      })
-    `,
-    stripIndent`
-      // prototype property
-      import { Observable } from "rxjs";
-      const observableSubscribe = Observable.prototype.subscribe;
-      expect(Observable.prototype.subscribe).to.equal(observableSubscribe);
-    `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/38
-      import {of} from "rxjs";
-      of(3).subscribe(result => {
-        const test = result as boolean;
-        if(test > 1) {
-          console.log(test);
-        }
-      });
-    `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/61
-      const whatever = {
-        subscribe(callback?: (value: unknown) => void) {}
-      };
-      whatever.subscribe(() => {
-        whatever.subscribe(() => {})
-      });
-    `,
-    stripIndent`
-      // https://github.com/cartant/eslint-plugin-rxjs/issues/67
-      import { Observable, of } from "rxjs";
-      new Observable<number>(subscriber => {
-        of(42).subscribe(subscriber);
-      }).subscribe();
-    `,
+    {
+      name: 'not nested in next argument',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        of(47).subscribe(value => {
+          console.log(value);
+        })
+      `,
+    },
+    {
+      name: 'not nested in observer properties',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        of(47).subscribe({
+          next: value => console.log(value),
+          error: value => console.log(value),
+          complete: () => console.log(value)
+        })
+      `,
+    },
+    {
+      name: 'not nested in observer methods',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        of(47).subscribe({
+          next(value) { console.log(value); },
+          error(value) { console.log(value); },
+          complete() { console.log(value); }
+        })
+      `,
+    },
+    {
+      name: 'prototype property',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+        const observableSubscribe = Observable.prototype.subscribe;
+        expect(Observable.prototype.subscribe).to.equal(observableSubscribe);
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/38',
+      code: stripIndent`
+        import {of} from "rxjs";
+        of(3).subscribe(result => {
+          const test = result as boolean;
+          if(test > 1) {
+            console.log(test);
+          }
+        });
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/61',
+      code: stripIndent`
+        const whatever = {
+          subscribe(callback?: (value: unknown) => void) {}
+        };
+        whatever.subscribe(() => {
+          whatever.subscribe(() => {})
+        });
+      `,
+    },
+    {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/67',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
+        new Observable<number>(subscriber => {
+          of(42).subscribe(subscriber);
+        }).subscribe();
+      `,
+    },
   ],
   invalid: [
     fromFixture(
+      'nested in next argument',
       stripIndent`
-        // nested in next argument
         import { of } from "rxjs";
         of("foo").subscribe(
           value => of("bar").subscribe()
@@ -75,8 +89,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in next property',
       stripIndent`
-        // nested in next property
         import { of } from "rxjs";
         of("foo").subscribe({
           next: value => of("bar").subscribe()
@@ -85,8 +99,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in next method',
       stripIndent`
-        // nested in next method
         import { of } from "rxjs";
         of("foo").subscribe({
           next(value) { of("bar").subscribe(); }
@@ -95,8 +109,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in error argument',
       stripIndent`
-        // nested in error argument
         import { of } from "rxjs";
         of("foo").subscribe(
           undefined,
@@ -106,8 +120,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in error property',
       stripIndent`
-        // nested in error property
         import { of } from "rxjs";
         of("foo").subscribe({
           error: error => of("bar").subscribe()
@@ -116,8 +130,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in error method',
       stripIndent`
-        // nested in error method
         import { of } from "rxjs";
         of("foo").subscribe({
           error(error) { of("bar").subscribe(); }
@@ -126,8 +140,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in complete argument',
       stripIndent`
-        // nested in complete argument
         import { of } from "rxjs";
         of("foo").subscribe(
           undefined,
@@ -138,8 +152,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in complete property',
       stripIndent`
-        // nested in complete property
         import { of } from "rxjs";
         of("foo").subscribe({
           complete: () => of("bar").subscribe()
@@ -148,8 +162,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'nested in complete method',
       stripIndent`
-        // nested in complete method
         import { of } from "rxjs";
         of("foo").subscribe({
           complete() { of("bar").subscribe(); }
@@ -158,8 +172,8 @@ ruleTester({ types: true }).run('no-nested-subscribe', noNestedSubscribeRule, {
       `,
     ),
     fromFixture(
+      'https://github.com/cartant/eslint-plugin-rxjs/issues/69',
       stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/69
         import { Subscribable } from "rxjs";
         declare const subscribable: Subscribable<unknown>;
         subscribable.subscribe(

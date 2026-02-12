@@ -6,8 +6,8 @@ import { ruleTester } from '../rule-tester';
 ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
   valid: [
     {
+      name: 'after switchMap',
       code: stripIndent`
-        // after switchMap
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
@@ -19,8 +19,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     },
     {
+      name: 'after combineLatest',
       code: stripIndent`
-        // after combineLatest
         import { combineLatest, of } from "rxjs";
         import { takeUntil } from "rxjs/operators";
 
@@ -33,8 +33,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     },
     {
+      name: 'after switchMap but hidden in pipe',
       code: stripIndent`
-        // after switchMap but hidden in pipe
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
@@ -46,8 +46,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     },
     {
+      name: 'before allowed',
       code: stripIndent`
-        // before allowed
         import { of, Subscription } from "rxjs";
         import {
           count,
@@ -101,8 +101,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     },
     {
+      name: 'before allowed in options',
       code: stripIndent`
-        // before allowed in options
         import { combineLatest, of } from "rxjs";
         import { takeUntil, tap } from "rxjs/operators";
 
@@ -120,8 +120,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       ],
     },
     {
+      name: 'after switchMap as alias',
       code: stripIndent`
-        // after switchMap as alias
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
@@ -140,8 +140,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       ],
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/66',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/66
         import { of, Subscription } from "rxjs";
         import { takeUntil } from "rxjs/operators";
 
@@ -164,8 +164,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       ],
     },
     {
+      name: 'https://github.com/cartant/eslint-plugin-rxjs/issues/79',
       code: stripIndent`
-        // https://github.com/cartant/eslint-plugin-rxjs/issues/79
         import { of } from "rxjs";
         import { repeatWhen, takeUntil } from "rxjs/operators";
 
@@ -183,8 +183,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
   ],
   invalid: [
     fromFixture(
+      'before switchMap',
       stripIndent`
-        // before switchMap
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
@@ -197,8 +197,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     ),
     fromFixture(
+      'before combineLatest',
       stripIndent`
-        // before combineLatest
         import { combineLatest, of } from "rxjs";
         import { takeUntil } from "rxjs/operators";
 
@@ -212,8 +212,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     ),
     fromFixture(
+      'after allowed before switchMap',
       stripIndent`
-        // after allowed before switchMap
         import { combineLatest, of } from "rxjs";
         import { takeUntil, tap, switchMap } from "rxjs/operators";
 
@@ -233,8 +233,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       },
     ),
     fromFixture(
+      'https://github.com/rxjs-tslint-rules/issues/49',
       stripIndent`
-        // https://github.com/rxjs-tslint-rules/issues/49
         import { fromEventPattern, NEVER } from "rxjs";
         import { map, startWith, takeUntil } from "rxjs/operators";
 
@@ -261,8 +261,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       `,
     ),
     fromFixture(
+      'before switchMap as an alias',
       stripIndent`
-        // before switchMap as an alias
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
@@ -284,8 +284,8 @@ ruleTester({ types: true }).run('no-unsafe-takeuntil', noUnsafeTakeuntilRule, {
       },
     ),
     fromFixture(
+      'before switchMap as an alias and a class member',
       stripIndent`
-        // before switchMap as an alias and a class member
         import { of } from "rxjs";
         import { switchMap, takeUntil } from "rxjs/operators";
 
