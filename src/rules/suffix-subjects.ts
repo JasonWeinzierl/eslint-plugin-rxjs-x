@@ -137,6 +137,9 @@ export const suffixSubjectsRule = ruleCreator({
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
         const anyNode = node;
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(anyNode.key);
         }
       },
@@ -160,6 +163,9 @@ export const suffixSubjectsRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -167,7 +173,27 @@ export const suffixSubjectsRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
+        }
+      },
+      'TSAbstractMethodDefinition[computed=false]': (
+        node: es.TSAbstractMethodDefinition,
+      ) => {
+        if (node.override) {
+          return;
+        }
+
+        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+          checkNode(node.key, node);
+        }
+
+        if (validate.parameters) {
+          node.value.params.forEach((param: es.Parameter) => {
+            checkNode(param);
+          });
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (

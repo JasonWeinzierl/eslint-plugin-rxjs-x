@@ -86,6 +86,10 @@ The default (Angular-friendly) configuration looks like this:
 
 The properties in the options object are themselves optional; they do not all have to be specified.
 
+> [!TIP]
+> This rule will skip `method` enforcement if the `override` keyword is present.
+> Users are encouraged to enable `noImplicitOverride` in their `tsconfig.json` to take advantage of this.
+
 ## When Not To Use It
 
 If you don't use Finnish notation in your project or don't care about enforcing Finnish notation in your project, you don't need this rule.

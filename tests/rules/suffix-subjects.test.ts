@@ -303,6 +303,36 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
       options: [{ objects: false }],
     },
+    {
+      name: 'override methods',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+
+        abstract class SomeBase {
+          protected abstract someMethodSubject(someSubject: Subject<any>): Subject<any>;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override someMethodSubject(someSubject: Subject<any>): Subject<any> {
+            return someSubject;
+          }
+        }
+      `,
+    },
+    {
+      name: 'override class fields',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          protected sourceSubject = (valueSubject: Subject<any>): Subject<any> => valueSubject;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override source = (valueSubject: Subject<any>): Subject<any> => valueSubject;
+        }
+      `,
+    },
   ],
   invalid: [
     fromFixture(
@@ -584,6 +614,152 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
         class SomeClass {
           someMethod({ source }: Record<string, Subject<any>>): void {}
                        ~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods enforce identifier parameters',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          someMethodSubject(some: Subject<any>): Subject<any> { return some; }
+                            ~~~~ [forbidden { "suffix": "Subject" }]
+          set someSetterSubject(some: Subject<any>) {}
+                                ~~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethodSubject(some: Subject<any>): Subject<any> { return some; }
+                                     ~~~~ [forbidden { "suffix": "Subject" }]
+          override set someSetterSubject(some: Subject<any>) {}
+                                         ~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods enforce array destructured parameters',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          someMethodSubject([someParam]: Subject<any>[]): void {}
+                             ~~~~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethodSubject([someParam]: Subject<any>[]): void {}
+                                      ~~~~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods enforce object destructured parameters',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          someMethodSubject({ source }: Record<string, Subject<any>>): void {}
+                              ~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethodSubject({ source }: Record<string, Subject<any>>): void {}
+                                       ~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'override class fields enforce parameters',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          protected sourceSubject = (valueSubject: Subject<any>): Subject<any> => valueSubject;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override source = (value: Subject<any>): Subject<any> => value;
+                                       ~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'nested callback parameters in override methods are still enforced',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          someMethodSubject(sourceSubject: Subject<any>): void {}
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethodSubject(sourceSubject: Subject<any>): void {
+            [sourceSubject].forEach(function (item: Subject<any>): void {});
+                                              ~~~~ [forbidden { "suffix": "Subject" }]
+          }
+        }
+      `,
+    ),
+    fromFixture(
+      'abstract methods without suffix',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        abstract class SomeBase {
+          abstract someMethod(some: Subject<any>): Subject<any>;
+                              ~~~~ [forbidden { "suffix": "Subject" }]
+          abstract get some(): Subject<any>;
+                       ~~~~ [forbidden { "suffix": "Subject" }]
+          abstract set some(valueSubject: Subject<any>);
+                       ~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'abstract of abstract',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        abstract class SomeBase {
+          abstract someMethod(some: Subject<any>): Subject<any>;
+                              ~~~~ [forbidden { "suffix": "Subject" }]
+          abstract get some(): Subject<any>;
+                       ~~~~ [forbidden { "suffix": "Subject" }]
+          abstract set some(valueSubject: Subject<any>);
+                       ~~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        abstract class SomeDerived extends SomeBase {
+          abstract override someMethod(some: Subject<any>): Subject<any>;
+          abstract override get some(): Subject<any>;
+          abstract override set some(valueSubject: Subject<any>);
+        }
+      `,
+    ),
+    fromFixture(
+      'override accessors skip property name checks',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          private _someSubject = new Subject<any>();
+
+          get some(): Subject<any> {
+              ~~~~ [forbidden { "suffix": "Subject" }]
+            return this._someSubject;
+          }
+          set some(valueSubject: Subject<any>) {
+              ~~~~ [forbidden { "suffix": "Subject" }]
+            this._someSubject = valueSubject;
+          }
+        }
+
+        class SomeDerived extends SomeBase {
+          override get some(): Subject<any> {
+            return new Subject<any>();
+          }
+          override set some(valueSubject: Subject<any>) {}
         }
       `,
     ),

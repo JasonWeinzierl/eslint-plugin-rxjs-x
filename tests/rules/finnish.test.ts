@@ -371,6 +371,36 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         ];
       `,
     },
+    {
+      name: 'override methods',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+
+        abstract class SomeBase {
+          protected abstract someMethod$(someParam$: Observable<any>): Observable<any>;
+          protected abstract set someSetter$(someParam$: Observable<any>);
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override someMethod$(someParam$: Observable<any>): Observable<any> { return someParam$; }
+          protected override set someSetter$(someParam$: Observable<any>) {}
+        }
+      `,
+    },
+    {
+      name: 'override class fields',
+      code: stripIndent`
+        import { Observable } from "rxjs";
+
+        class SomeBase {
+          protected stream$ = (value$: Observable<any>): Observable<any> => value$;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override stream$ = (value$: Observable<any>): Observable<any> => value$;
+        }
+      `,
+    },
   ],
   invalid: [
     // #region invalid; variables
@@ -605,6 +635,53 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         }
       `,
     ),
+    fromFixture(
+      'abstract methods without $',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        abstract class SomeBase {
+          abstract someMethod(someParam: Observable<any>): Observable<any>;
+                   ~~~~~~~~~~ [shouldBeFinnish]
+                              ~~~~~~~~~ [shouldBeFinnish]
+          abstract get someGetter(): Observable<any>;
+                       ~~~~~~~~~~ [shouldBeFinnish]
+          abstract set someSetter(someParam: Observable<any>);
+                       ~~~~~~~~~~ [shouldBeFinnish]
+                                  ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods skip method definition',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        abstract class SomeBase {
+          protected abstract someMethod(someParam$: Observable<any>): Observable<any>;
+                             ~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override someMethod(someParam$: Observable<any>): Observable<any> { return someParam$; }
+        }
+      `,
+    ),
+    fromFixture(
+      'abstract of abstract',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        abstract class SomeBase {
+          protected abstract someMethod(someParam$: Observable<any>): Observable<any>;
+                             ~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        abstract class SomeDerived extends SomeBase {
+          protected abstract override someMethod(someParam$: Observable<any>): Observable<any>;
+        }
+      `,
+    ),
     // #endregion invalid; functions and methods
     // #region invalid; parameters
     fromFixture(
@@ -701,6 +778,90 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         }
       `,
     ),
+    fromFixture(
+      'override methods enforce identifier parameters',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        class SomeBase {
+          someMethod$(someParam: Observable<any>): Observable<any> { return someParam; }
+                      ~~~~~~~~~ [shouldBeFinnish]
+          set someSetter$(someParam: Observable<any>) {}
+                          ~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethod$(someParam: Observable<any>): Observable<any> { return someParam; }
+                               ~~~~~~~~~ [shouldBeFinnish]
+          override set someSetter$(someParam: Observable<any>) {}
+                                   ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods enforce array destructured parameters',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        class SomeBase {
+          someMethod$([someParam]: Observable<any>[]): void {}
+                       ~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethod$([someParam]: Observable<any>[]): void {}
+                                ~~~~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      'override methods enforce object destructured parameters',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        class SomeBase {
+          someMethod$({ source }: Record<string, Observable<any>>): void {}
+                        ~~~~~~ [shouldBeFinnish]
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethod$({ source }: Record<string, Observable<any>>): void {}
+                                 ~~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      'override class fields enforce parameters',
+      stripIndent`
+        import { Observable } from "rxjs";
+
+        class SomeBase {
+          protected stream$ = (value$: Observable<any>): Observable<any> => value$;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override stream$ = (value: Observable<any>): Observable<any> => value;
+                                        ~~~~~ [shouldBeFinnish]
+        }
+      `,
+    ),
+    fromFixture(
+      'nested callback parameters in override methods are still enforced',
+      stripIndent`
+        import { Observable, of } from "rxjs";
+
+        class SomeBase {
+          someMethod$(source$: Observable<any>): void {}
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethod$(source$: Observable<any>): void {
+            of(source$).forEach(function (item: Observable<any>): void {});
+                                          ~~~~ [shouldBeFinnish]
+          }
+        }
+      `,
+    ),
     // #endregion invalid; parameters
     // #region invalid; properties (and objects)
     fromFixture(
@@ -754,6 +915,24 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
 
         const var3 = new Cls().mthd$;
               ~~~~ [shouldBeFinnish]
+      `,
+    ),
+    fromFixture(
+      'override accessors skip property name checks',
+      stripIndent`
+        import { Observable, of } from "rxjs";
+
+        class SomeBase {
+          get someGetter(): Observable<any> { return of(1); }
+              ~~~~~~~~~~ [shouldBeFinnish]
+          set someSetter(someParam$: Observable<any>) {}
+              ~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        class SomeDerived extends SomeBase {
+          override get someGetter(): Observable<any> { return of(1); }
+          override set someSetter(someParam$: Observable<any>) {}
+        }
       `,
     ),
     fromFixture(

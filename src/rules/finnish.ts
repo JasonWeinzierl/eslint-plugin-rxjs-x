@@ -201,6 +201,9 @@ export const finnishRule = ruleCreator({
       },
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key);
         }
       },
@@ -232,6 +235,9 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -239,6 +245,9 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.methods) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -246,7 +255,31 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
+        }
+      },
+      'TSAbstractMethodDefinition[computed=false]': (
+        node: es.TSAbstractMethodDefinition,
+      ) => {
+        if (node.override) {
+          return;
+        }
+
+        if (validate.methods && node.kind === 'method') {
+          checkNode(node.key, node);
+        }
+
+        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+          checkNode(node.key, node);
+        }
+
+        if (validate.parameters) {
+          node.value.params.forEach((param: es.Parameter) => {
+            checkNode(param);
+          });
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (
