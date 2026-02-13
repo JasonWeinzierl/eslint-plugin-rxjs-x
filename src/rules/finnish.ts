@@ -55,10 +55,16 @@ export const finnishRule = ruleCreator({
     defaultOptions: [{
       functions: true,
       methods: true,
+      names: {
+        '^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$': false,
+      },
       parameters: true,
       properties: true,
       objects: true,
       strict: false,
+      types: {
+        '^EventEmitter$': false,
+      },
       variables: true,
     }] as Options,
   },
@@ -72,7 +78,6 @@ export const finnishRule = ruleCreator({
       couldReturnType,
     } = getTypeServices(context);
     const [config] = context.options;
-
     const { strict } = config;
 
     const names: { regExp: RegExp; validate: boolean }[] = [];
@@ -82,12 +87,6 @@ export const finnishRule = ruleCreator({
           names.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      names.push({
-        regExp:
-          /^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$/,
-        validate: false,
-      });
     }
 
     const types: { regExp: RegExp; validate: boolean }[] = [];
@@ -97,11 +96,6 @@ export const finnishRule = ruleCreator({
           types.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      types.push({
-        regExp: /^EventEmitter$/,
-        validate: false,
-      });
     }
 
     function checkNode(
