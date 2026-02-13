@@ -1,4 +1,4 @@
-import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
@@ -171,18 +171,6 @@ export const finnishRule = ruleCreator({
       }
     }
 
-    function isInOverrideMethod(node: es.Node): boolean {
-      const method = findParent(
-        node,
-        AST_NODE_TYPES.MethodDefinition,
-        AST_NODE_TYPES.TSAbstractMethodDefinition,
-      );
-      if (!method) {
-        return false;
-      }
-      return method.override;
-    }
-
     return {
       'ArrayPattern > Identifier': (node: es.Identifier) => {
         const found = findParent(
@@ -201,9 +189,6 @@ export const finnishRule = ruleCreator({
         if (!validate.parameters) {
           return;
         }
-        if (isInOverrideMethod(node)) {
-          return;
-        }
         checkNode(node);
       },
       'ArrowFunctionExpression > Identifier': (node: es.Identifier) => {
@@ -216,6 +201,9 @@ export const finnishRule = ruleCreator({
       },
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key);
         }
       },
@@ -239,9 +227,6 @@ export const finnishRule = ruleCreator({
           }
         } else {
           if (validate.parameters) {
-            if (isInOverrideMethod(node)) {
-              return;
-            }
             checkNode(node);
           }
         }
@@ -341,9 +326,6 @@ export const finnishRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
-          return;
-        }
-        if (isInOverrideMethod(node)) {
           return;
         }
         const parent = node.parent as es.Property;

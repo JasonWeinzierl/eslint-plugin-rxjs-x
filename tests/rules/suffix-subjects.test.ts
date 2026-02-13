@@ -313,9 +313,23 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
         }
 
         class SomeDerived extends SomeBase {
-          protected override someMethodSubject(some: Subject<any>): Subject<any> {
-            return some;
+          protected override someMethodSubject(someSubject: Subject<any>): Subject<any> {
+            return someSubject;
           }
+        }
+      `,
+    },
+    {
+      name: 'override class fields',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          protected sourceSubject = (valueSubject: Subject<any>): Subject<any> => valueSubject;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override source = (valueSubject: Subject<any>): Subject<any> => valueSubject;
         }
       `,
     },
@@ -604,7 +618,7 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       `,
     ),
     fromFixture(
-      'override methods skip identifier parameters',
+      'override methods enforce identifier parameters',
       stripIndent`
         import { Subject } from "rxjs";
 
@@ -617,12 +631,14 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         class SomeDerived extends SomeBase {
           override someMethodSubject(some: Subject<any>): Subject<any> { return some; }
+                                     ~~~~ [forbidden { "suffix": "Subject" }]
           override set someSetterSubject(some: Subject<any>) {}
+                                         ~~~~ [forbidden { "suffix": "Subject" }]
         }
       `,
     ),
     fromFixture(
-      'override methods skip array destructured parameters',
+      'override methods enforce array destructured parameters',
       stripIndent`
         import { Subject } from "rxjs";
 
@@ -633,11 +649,12 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         class SomeDerived extends SomeBase {
           override someMethodSubject([someParam]: Subject<any>[]): void {}
+                                      ~~~~~~~~~ [forbidden { "suffix": "Subject" }]
         }
       `,
     ),
     fromFixture(
-      'override methods skip object destructured parameters',
+      'override methods enforce object destructured parameters',
       stripIndent`
         import { Subject } from "rxjs";
 
@@ -648,6 +665,39 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         class SomeDerived extends SomeBase {
           override someMethodSubject({ source }: Record<string, Subject<any>>): void {}
+                                       ~~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'override class fields enforce parameters',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          protected sourceSubject = (valueSubject: Subject<any>): Subject<any> => valueSubject;
+        }
+
+        class SomeDerived extends SomeBase {
+          protected override source = (value: Subject<any>): Subject<any> => value;
+                                       ~~~~~ [forbidden { "suffix": "Subject" }]
+        }
+      `,
+    ),
+    fromFixture(
+      'nested callback parameters in override methods are still enforced',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        class SomeBase {
+          someMethodSubject(sourceSubject: Subject<any>): void {}
+        }
+
+        class SomeDerived extends SomeBase {
+          override someMethodSubject(sourceSubject: Subject<any>): void {
+            [sourceSubject].forEach(function (item: Subject<any>): void {});
+                                              ~~~~ [forbidden { "suffix": "Subject" }]
+          }
         }
       `,
     ),

@@ -1,4 +1,4 @@
-import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
@@ -106,18 +106,6 @@ export const suffixSubjectsRule = ruleCreator({
       }
     }
 
-    function isInOverrideMethod(node: es.Node): boolean {
-      const method = findParent(
-        node,
-        AST_NODE_TYPES.MethodDefinition,
-        AST_NODE_TYPES.TSAbstractMethodDefinition,
-      );
-      if (!method) {
-        return false;
-      }
-      return method.override;
-    }
-
     return {
       'ArrayPattern > Identifier': (node: es.Identifier) => {
         const found = findParent(
@@ -136,9 +124,6 @@ export const suffixSubjectsRule = ruleCreator({
         if (!validate.parameters) {
           return;
         }
-        if (isInOverrideMethod(node)) {
-          return;
-        }
         checkNode(node);
       },
       'ArrowFunctionExpression > Identifier': (node: es.Identifier) => {
@@ -152,6 +137,9 @@ export const suffixSubjectsRule = ruleCreator({
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
         const anyNode = node;
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(anyNode.key);
         }
       },
@@ -167,9 +155,6 @@ export const suffixSubjectsRule = ruleCreator({
         if (validate.parameters) {
           const parent = node.parent as es.FunctionExpression;
           if (node !== parent.id) {
-            if (isInOverrideMethod(node)) {
-              return;
-            }
             checkNode(node);
           }
         }
@@ -257,9 +242,6 @@ export const suffixSubjectsRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
-          return;
-        }
-        if (isInOverrideMethod(node)) {
           return;
         }
         const parent = node.parent as es.Property;
