@@ -10,6 +10,10 @@ This rule effects failures if subject variables, properties and parameters don't
 > This rule is designed to be optionally compatible with [`finnish`](./finnish.md).
 > Using Finnish notation (adding a `$` suffix) your subject names will _not_ cause a failure of this rule.
 
+> [!TIP]
+> This rule will skip enforcement if the `override` keyword is present.
+> Users are encouraged to enable `noImplicitOverride` in their `tsconfig.json` to take advantage of this.
+
 ## Rule details
 
 Examples of **incorrect** code for this rule:
