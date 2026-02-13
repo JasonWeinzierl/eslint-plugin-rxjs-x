@@ -6,10 +6,6 @@
 
 This rule enforces the use of Finnish notation - i.e. the `$` suffix.
 
-> [!TIP]
-> This rule will skip enforcement if the `override` keyword is present.
-> Users are encouraged to enable `noImplicitOverride` in their `tsconfig.json` to take advantage of this.
-
 ## Rule details
 
 Examples of **incorrect** code for this rule:
@@ -89,6 +85,10 @@ The default (Angular-friendly) configuration looks like this:
 ```
 
 The properties in the options object are themselves optional; they do not all have to be specified.
+
+> [!TIP]
+> This rule will skip `method` enforcement if the `override` keyword is present.
+> Users are encouraged to enable `noImplicitOverride` in their `tsconfig.json` to take advantage of this.
 
 ## When Not To Use It
 
