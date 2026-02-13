@@ -80,8 +80,6 @@ export default defineConfig(gitignore(), {
     ],
     'eslint-plugin/unique-test-case-names': 'error',
     'eslint-plugin/no-matching-violation-suggest-message-ids': 'error',
-    // TODO: re-enable when we address type asserting `defaultOptions as Options` in each rule, or this rule supports it.
-    'eslint-plugin/require-meta-default-options': 'off',
     // TODO: re-enable when deprecated rules are removed.
     'eslint-plugin/no-meta-replaced-by': 'off',
 
