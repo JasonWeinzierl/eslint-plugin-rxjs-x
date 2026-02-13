@@ -152,12 +152,6 @@ export function isTSAsExpression(
   return node.type === AST_NODE_TYPES.TSAsExpression;
 }
 
-export function isTSAbstractMethodDefinition(
-  node: TSESTree.Node,
-): node is TSESTree.TSAbstractMethodDefinition {
-  return node.type === AST_NODE_TYPES.TSAbstractMethodDefinition;
-}
-
 export function isTSSatisfiesExpression(
   node: TSESTree.Node,
 ): node is TSESTree.TSSatisfiesExpression {
