@@ -1,11 +1,10 @@
-import { TSESTree } from '@typescript-eslint/utils';
+import type { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
 
-type NodeType = TSESTree.Node['type'];
-type ParentMatch<TTypes extends readonly NodeType[]> = Extract<TSESTree.Node, { type: TTypes[number] }>;
+type ParentMatch<TTypes extends readonly AST_NODE_TYPES[]> = Extract<TSESTree.Node, { type: TTypes[number] }>;
 
 type Predicate = (type: string) => 'break' | 'continue' | 'return';
 
-export function findParent<const TTypes extends readonly NodeType[]>(
+export function findParent<const TTypes extends readonly AST_NODE_TYPES[]>(
   node: TSESTree.Node,
   ...types: TTypes
 ): ParentMatch<TTypes> | undefined;
