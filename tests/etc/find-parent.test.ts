@@ -37,10 +37,10 @@ describe('findParent', () => {
     const identifier = makeNode(AST_NODE_TYPES.Identifier, blockStatement);
 
     expect(
-      findParent(identifier, (type) => (type === 'Program' ? 'break' : 'continue')),
+      findParent(identifier, (type) => (type === AST_NODE_TYPES.Program ? 'break' : 'continue')),
     ).toBeUndefined();
     expect(
-      findParent(identifier, (type) => (type === 'FunctionDeclaration' ? 'return' : 'continue')),
+      findParent(identifier, (type) => (type === AST_NODE_TYPES.FunctionDeclaration ? 'return' : 'continue')),
     ).toBe(functionDeclaration);
   });
 
