@@ -1,18 +1,25 @@
-import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
   getTypeServices,
+  isCallExpression,
+  isTSAsExpression,
+  isTSSatisfiesExpression,
+  isVariableDeclarator,
 } from '../etc';
-import { escapeRegExp, isSourcesObjectAcceptingStaticObservableCreator, ruleCreator } from '../utils';
+import { escapeRegExp, ruleCreator } from '../utils';
 
 const defaultOptions: readonly {
   parameters?: boolean;
   properties?: boolean;
+  objects?: boolean;
   suffix?: string;
   types?: Record<string, boolean>;
   variables?: boolean;
 }[] = [];
+
+const baseShouldHaveSuffix = 'Subject identifiers must end with "{{suffix}}".';
 
 export const suffixSubjectsRule = ruleCreator({
   defaultOptions,
@@ -22,13 +29,15 @@ export const suffixSubjectsRule = ruleCreator({
       requiresTypeChecking: true,
     },
     messages: {
-      forbidden: `Subject identifiers must end with "{{suffix}}".`,
+      forbidden: baseShouldHaveSuffix,
+      forbiddenProperty: `${baseShouldHaveSuffix} Add a type annotation, assertion, or 'satisfies' to silence this rule.`,
     },
     schema: [
       {
         properties: {
           parameters: { type: 'boolean', description: 'Require for parameters.' },
-          properties: { type: 'boolean', description: 'Require for properties.' },
+          properties: { type: 'boolean', description: 'Require for properties, except object literal keys (see "objects" option).' },
+          objects: { type: 'boolean', description: 'Require for object literal keys.' },
           suffix: { type: 'string', description: 'The suffix to enforce.' },
           types: { type: 'object', description: 'Enforce for specific types. Keys are a RegExp, values are a boolean.' },
           variables: { type: 'boolean', description: 'Require for variables.' },
@@ -47,6 +56,7 @@ export const suffixSubjectsRule = ruleCreator({
     const validate = {
       parameters: true,
       properties: true,
+      objects: true,
       variables: true,
       ...(config as Record<string, unknown>),
     };
@@ -71,7 +81,11 @@ export const suffixSubjectsRule = ruleCreator({
       'i',
     );
 
-    function checkNode(nameNode: es.Node, typeNode?: es.Node) {
+    function checkNode(
+      nameNode: es.Node,
+      typeNode?: es.Node,
+      shouldMessage: 'forbidden' | 'forbiddenProperty' = 'forbidden',
+    ) {
       const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
       const text = tsNode.getText();
       if (
@@ -87,7 +101,7 @@ export const suffixSubjectsRule = ruleCreator({
         context.report({
           data: { suffix },
           loc: getLoc(tsNode),
-          messageId: 'forbidden',
+          messageId: shouldMessage,
         });
       }
     }
@@ -104,7 +118,7 @@ export const suffixSubjectsRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {
@@ -157,14 +171,35 @@ export const suffixSubjectsRule = ruleCreator({
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (
-        node: es.ObjectExpression,
+        node: es.Identifier,
       ) => {
-        if (validate.properties) {
-          const parent = node.parent as es.Property;
-          if (node === parent.key && !isSourcesObjectAcceptingStaticObservableCreator(parent.parent.parent)) {
-            checkNode(node);
+        if (!validate.objects) {
+          return;
+        }
+
+        const parent = node.parent as es.Property;
+        if (node !== parent.key) {
+          return;
+        }
+
+        const found = findParent(
+          node,
+          'CallExpression',
+          'VariableDeclarator',
+          'TSSatisfiesExpression',
+          'TSAsExpression',
+        );
+        if (found) {
+          if (isCallExpression(found)) {
+            return;
+          } else if (isVariableDeclarator(found) && !!found.id.typeAnnotation) {
+            return;
+          } else if (isTSAsExpression(found) || isTSSatisfiesExpression(found)) {
+            return;
           }
         }
+
+        checkNode(node, undefined, 'forbiddenProperty');
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
         const found = findParent(
@@ -177,7 +212,7 @@ export const suffixSubjectsRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && found.type === AST_NODE_TYPES.VariableDeclarator) {
+        if (!validate.variables && isVariableDeclarator(found)) {
           return;
         }
         if (!validate.parameters) {

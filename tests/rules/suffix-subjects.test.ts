@@ -291,6 +291,18 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
         forkJoin({ one: new Subject<number>(), two: new BehaviorSubject('a') });
       `,
     },
+    {
+      name: 'object literal keys without suffix, but not enforced',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+
+        const someObject = {
+          one: new Subject<any>(),
+          some: new Subject<any>()
+        };
+      `,
+      options: [{ objects: false }],
+    },
   ],
   invalid: [
     fromFixture(
@@ -426,9 +438,9 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         const someObject = {
           one: new Subject<any>(),
-          ~~~ [forbidden { "suffix": "Subject" }]
+          ~~~ [forbiddenProperty { "suffix": "Subject" }]
           some: new Subject<any>()
-          ~~~~ [forbidden { "suffix": "Subject" }]
+          ~~~~ [forbiddenProperty { "suffix": "Subject" }]
         };
 
         class SomeClass {
@@ -484,7 +496,7 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
           some: Subject<any>;
         }
       `,
-      { options: [{ properties: false }] },
+      { options: [{ objects: false, properties: false }] },
     ),
     fromFixture(
       'properties without explicit suffix',
@@ -493,9 +505,9 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         const someObject = {
           one: new Subject<any>(),
-          ~~~ [forbidden { "suffix": "Sub" }]
+          ~~~ [forbiddenProperty { "suffix": "Sub" }]
           some: new Subject<any>()
-          ~~~~ [forbidden { "suffix": "Sub" }]
+          ~~~~ [forbiddenProperty { "suffix": "Sub" }]
         };
 
         class SomeClass {
@@ -629,6 +641,128 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         const source = new MySubject<number>();
               ~~~~~~ [forbidden { "suffix": "Subject" }]
+      `,
+    ),
+    fromFixture(
+      'skip object literals passed to functions and methods',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        interface SomeOptions {
+          foo: Subject<number>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        function someFunction(options: SomeOptions): void {}
+        const someArrowFunction = (options: SomeOptions): void => {};
+        class SomeClass {
+          someMethod(options: SomeOptions): void {}
+        }
+        function someInlineOptionsFunction(options: { foo: Subject<number> }): void {}
+                                                      ~~~ [forbidden { "suffix": "Subject" }]
+
+        someFunction({
+          foo: new Subject<number>(),
+          // should not error
+        });
+        someArrowFunction({
+          foo: new Subject<number>(),
+          // should not error
+        });
+        new SomeClass().someMethod({
+          foo: new Subject<number>(),
+          // should not error
+        });
+      `,
+    ),
+    fromFixture(
+      'skip object literals with any parent type annotation',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        interface SomeObject {
+          foo: Subject<number>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+          bar: Subject<string>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr: SomeArray = [
+          {
+            baz: {
+              foo: new Subject<number>(),
+              // should not error
+              bar: new Subject<string>(),
+              // should not error
+            },
+          },
+        ];
+      `,
+    ),
+    fromFixture(
+      'skip object literals with any parent satisfies',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        interface SomeObject {
+          foo: Subject<number>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+          bar: Subject<string>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: new Subject<number>(),
+              // should not error
+              bar: new Subject<string>(),
+              // should not error
+            },
+          } satisfies SomeWrapperObject,
+        ];
+      `,
+    ),
+    fromFixture(
+      'skip object literals with any parent type assertion',
+      stripIndent`
+        import { Subject } from "rxjs";
+
+        interface SomeObject {
+          foo: Subject<number>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+          bar: Subject<string>;
+          ~~~ [forbidden { "suffix": "Subject" }]
+        }
+
+        interface SomeWrapperObject {
+          baz: SomeObject;
+        }
+
+        type SomeArray = Array<SomeWrapperObject>;
+
+        const arr = [
+          {
+            baz: {
+              foo: new Subject<number>(),
+              // should not error
+              bar: new Subject<string>(),
+              // should not error
+            },
+          } as SomeWrapperObject,
+        ];
       `,
     ),
     fromFixture(
