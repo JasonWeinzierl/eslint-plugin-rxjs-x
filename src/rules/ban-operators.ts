@@ -20,6 +20,16 @@ export const banOperatorsRule = ruleCreator({
         description: stripIndent`
           An object containing keys that are names of operators
           and values that are either booleans or strings containing the explanation for the ban.`,
+        additionalProperties: {
+          anyOf: [
+            {
+              type: 'boolean',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
       },
     ],
     type: 'problem',
