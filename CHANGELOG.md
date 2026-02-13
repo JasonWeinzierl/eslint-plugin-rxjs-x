@@ -2,6 +2,20 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.4 (2026-02-13)
+
+### Fixes
+
+- **suffix-subjects**: smarter object literal handling ([#364](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/364)) ([592918f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/592918ff38d181a149b6382a5b5928f495e171a3))
+- **finnish**: do not enforce naming of `override` methods and properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+- **suffix-subjects**: do not enforce naming of `override` properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+- **finnish**: enforce Finnish on abstract methods, parameters, and properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+- **suffix-subjects**: enforce suffix on abstract properties and abstract method parameters ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+
+### Documentation
+
+- suggest enabling `noImplicitOverride` in your `tsconfig.json` ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+
 ## v0.9.3 (2026-02-12)
 
 ### Fixes
