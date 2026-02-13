@@ -69,11 +69,6 @@ export const suffixSubjectsRule = ruleCreator({
           types.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      types.push({
-        regExp: /^EventEmitter$/,
-        validate: false,
-      });
     }
 
     const { suffix = 'Subject' } = config;
