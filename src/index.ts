@@ -1,6 +1,6 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import type { ESLint, Rule } from 'eslint';
-import { name, version } from '../package.json';
+import packageJson from '../package.json' with { type: 'json' };
 import { createLegacyRecommendedConfig, createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
 
@@ -106,8 +106,8 @@ const allRules = {
 
 const plugin = {
   meta: {
-    name,
-    version,
+    name: packageJson.name,
+    version: packageJson.version,
     namespace: 'rxjs-x',
   },
   /** Compatibility with `defineConfig` until https://github.com/typescript-eslint/typescript-eslint/issues/11543 is addressed. */
