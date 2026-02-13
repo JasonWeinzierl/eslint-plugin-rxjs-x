@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { describe, expect, it } from 'vitest';
 import { couldBeType } from '../../src/etc/could-be-type';
 import { createSourceFileAndTypeChecker } from './create-source-file-and-type-checker';
 

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { createRecommendedConfig } from '../../src/configs/recommended';
 import { createStrictConfig } from '../../src/configs/strict';
 

@@ -225,6 +225,7 @@ Prefer using more specific CSS selectors to narrow what ESLint checks.
     - `{indices}`: optional. If there are multiple suggestions passed into `fromFixture`, these zero-indexed, space-separated indices indicate which suggestion is expected.
     - If no interpolation or suggestions are expected, the annotation may be as simple as `[forbidden]`.
 - **`/tests/rule-tester`**: Consistent test suite creation with parameters for customizing test setup
+- When unit testing utilities, import from Vitest: `describe`, `it`, and `expect`.
 
 ### Testing Pattern
 

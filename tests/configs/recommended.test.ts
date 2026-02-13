@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { createLegacyRecommendedConfig, createRecommendedConfig } from '../../src/configs/recommended';
 
 describe('recommended', () => {

@@ -1,4 +1,5 @@
 import decamelize from 'decamelize';
+import { describe, expect, it } from 'vitest';
 import { createRegExpForWords } from '../src/utils';
 
 describe('utils', () => {

@@ -6,7 +6,9 @@ import * as vitest from 'vitest';
 RuleTester.afterAll = vitest.afterAll;
 RuleTester.it = vitest.it;
 RuleTester.itOnly = vitest.it.only;
+RuleTester.itSkip = vitest.it.skip;
 RuleTester.describe = vitest.describe;
+RuleTester.describeSkip = vitest.describe.skip;
 
 export function ruleTester({ typeScript = true, types = true, jsx = false } = {}) {
   return new RuleTester({
