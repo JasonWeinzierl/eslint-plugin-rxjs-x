@@ -20,7 +20,7 @@ The plugin provides 40+ rules that help developers avoid common pitfalls, memory
 - **TypeScript**: Full TypeScript support with strict type checking
 - **RxJS**: Target library for reactive programming patterns
 - **Vitest**: Modern testing framework for unit tests
-- **tsup**: Build tool for dual ESM/CommonJS output
+- **tsdown**: Build tool using modern Rolldown
 
 ## Historical Context
 
@@ -60,7 +60,7 @@ eslint-plugin-rxjs-x/
 ├── LICENSE
 ├── package.json
 ├── README.md
-├── tsup.config.ts          # Build configuration
+├── tsdown.config.ts        # Build configuration
 ├── vitest.config.mts       # Test configuration
 └── yarn.lock               # Packages lockfile
 ```
