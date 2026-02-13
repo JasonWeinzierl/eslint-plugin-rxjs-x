@@ -32,17 +32,18 @@ combineLatest({ answers: new Subject<number>() });
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Description                                                          | Type    |
-| :----------- | :------------------------------------------------------------------- | :------ |
-| `parameters` | Require for parameters.                                              | Boolean |
-| `properties` | Require for properties.                                              | Boolean |
-| `suffix`     | The suffix to enforce.                                               | String  |
-| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean. | Object  |
-| `variables`  | Require for variables.                                               | Boolean |
+| Name         | Description                                                                | Type    |
+| :----------- | :------------------------------------------------------------------------- | :------ |
+| `objects`    | Require for object literal keys.                                           | Boolean |
+| `parameters` | Require for parameters.                                                    | Boolean |
+| `properties` | Require for properties, except object literal keys (see "objects" option). | Boolean |
+| `suffix`     | The suffix to enforce.                                                     | String  |
+| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean.       | Object  |
+| `variables`  | Require for variables.                                                     | Boolean |
 
 <!-- end auto-generated rule options list -->
 
-This rule accepts a single option which is an object with properties that determine whether subject suffixes are enforced for `parameters`, `properties` and `variables`.
+This rule accepts a single option which is an object with properties that determine whether subject suffixes are enforced for `parameters`, `properties`, `objects`, and `variables`.
 It also contains a `types` property that determine whether or not the naming convention is to be enforced for specific types
 and a `suffix` property.
 
@@ -55,6 +56,7 @@ The default (Angular-friendly) configuration looks like this:
     {
       "parameters": true,
       "properties": true,
+      "objects": true,
       "suffix": "Subject",
       "types": {
         "^EventEmitter$": false
