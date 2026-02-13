@@ -115,6 +115,14 @@ export default defineConfig(gitignore(), {
   extends: [
     vitest.configs.recommended,
   ],
+  rules: {
+    "vitest/no-conditional-expect": [
+      "error",
+      {
+        "expectAssertions": true,
+      },
+    ],
+  },
 }, {
   ignores: [
     '.yarn/**',
