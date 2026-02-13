@@ -1,4 +1,4 @@
-import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
@@ -106,6 +106,18 @@ export const suffixSubjectsRule = ruleCreator({
       }
     }
 
+    function isInOverrideMethod(node: es.Node): boolean {
+      const method = findParent(
+        node,
+        AST_NODE_TYPES.MethodDefinition,
+        AST_NODE_TYPES.TSAbstractMethodDefinition,
+      );
+      if (!method) {
+        return false;
+      }
+      return method.override;
+    }
+
     return {
       'ArrayPattern > Identifier': (node: es.Identifier) => {
         const found = findParent(
@@ -122,6 +134,9 @@ export const suffixSubjectsRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
+          return;
+        }
+        if (isInOverrideMethod(node)) {
           return;
         }
         checkNode(node);
@@ -152,6 +167,9 @@ export const suffixSubjectsRule = ruleCreator({
         if (validate.parameters) {
           const parent = node.parent as es.FunctionExpression;
           if (node !== parent.id) {
+            if (isInOverrideMethod(node)) {
+              return;
+            }
             checkNode(node);
           }
         }
@@ -160,6 +178,9 @@ export const suffixSubjectsRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -167,7 +188,27 @@ export const suffixSubjectsRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
+        }
+      },
+      'TSAbstractMethodDefinition[computed=false]': (
+        node: es.TSAbstractMethodDefinition,
+      ) => {
+        if (node.override) {
+          return;
+        }
+
+        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+          checkNode(node.key, node);
+        }
+
+        if (validate.parameters) {
+          node.value.params.forEach((param: es.Parameter) => {
+            checkNode(param);
+          });
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (
@@ -216,6 +257,9 @@ export const suffixSubjectsRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
+          return;
+        }
+        if (isInOverrideMethod(node)) {
           return;
         }
         const parent = node.parent as es.Property;

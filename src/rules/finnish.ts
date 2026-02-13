@@ -1,4 +1,4 @@
-import { TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, TSESTree as es, ESLintUtils } from '@typescript-eslint/utils';
 import {
   findParent,
   getLoc,
@@ -171,6 +171,18 @@ export const finnishRule = ruleCreator({
       }
     }
 
+    function isInOverrideMethod(node: es.Node): boolean {
+      const method = findParent(
+        node,
+        AST_NODE_TYPES.MethodDefinition,
+        AST_NODE_TYPES.TSAbstractMethodDefinition,
+      );
+      if (!method) {
+        return false;
+      }
+      return method.override;
+    }
+
     return {
       'ArrayPattern > Identifier': (node: es.Identifier) => {
         const found = findParent(
@@ -187,6 +199,9 @@ export const finnishRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
+          return;
+        }
+        if (isInOverrideMethod(node)) {
           return;
         }
         checkNode(node);
@@ -224,6 +239,9 @@ export const finnishRule = ruleCreator({
           }
         } else {
           if (validate.parameters) {
+            if (isInOverrideMethod(node)) {
+              return;
+            }
             checkNode(node);
           }
         }
@@ -232,6 +250,9 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -239,6 +260,9 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.methods) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
         }
       },
@@ -246,7 +270,31 @@ export const finnishRule = ruleCreator({
         node: es.MethodDefinition,
       ) => {
         if (validate.properties) {
+          if (node.override) {
+            return;
+          }
           checkNode(node.key, node);
+        }
+      },
+      'TSAbstractMethodDefinition[computed=false]': (
+        node: es.TSAbstractMethodDefinition,
+      ) => {
+        if (node.override) {
+          return;
+        }
+
+        if (validate.methods && node.kind === 'method') {
+          checkNode(node.key, node);
+        }
+
+        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+          checkNode(node.key, node);
+        }
+
+        if (validate.parameters) {
+          node.value.params.forEach((param: es.Parameter) => {
+            checkNode(param);
+          });
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (
@@ -293,6 +341,9 @@ export const finnishRule = ruleCreator({
           return;
         }
         if (!validate.parameters) {
+          return;
+        }
+        if (isInOverrideMethod(node)) {
           return;
         }
         const parent = node.parent as es.Property;
