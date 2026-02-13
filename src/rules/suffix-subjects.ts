@@ -48,6 +48,7 @@ export const suffixSubjectsRule = ruleCreator({
     defaultOptions: [{
       parameters: true,
       properties: true,
+      objects: true,
       suffix: 'Subject',
       types: {
         '^EventEmitter$': false,
