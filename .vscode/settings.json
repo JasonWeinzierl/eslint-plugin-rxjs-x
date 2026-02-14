@@ -2,5 +2,22 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "explicit"
     },
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "cSpell.words": [
+        "bumpp",
+        "cartant",
+        "dedupe",
+        "franken",
+        "shareReplay",
+        "subclassing",
+        "switchMap",
+        "takeUntil",
+        "takeWhile",
+        "toPromise",
+        "TSESTree",
+        "tsutils",
+        "unsubscription",
+        "Weinzierl",
+        "yarnpkg"
+    ],
 }
