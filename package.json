@@ -40,7 +40,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsdown",
     "lint": "yarn lint-js && yarn lint-docs && yarn lint-eslint-docs",
     "lint-js": "eslint",
     "lint-docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
@@ -88,16 +88,17 @@
     "eslint-plugin-n": "^17.23.2",
     "markdownlint-cli2": "~0.19.0",
     "rxjs": "^7.8.2",
-    "tsup": "8.5.1",
+    "tsdown": "^0.20.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "8.55.1-alpha.4",
-    "vite": "^7.3.1",
+    "vite": "npm:rolldown-vite@~7.3.1",
     "vitest": "^4.0.18"
   },
   "resolutions": {
     "@typescript-eslint/utils": "8.55.1-alpha.4",
     "@typescript-eslint/scope-manager": "8.55.1-alpha.4",
-    "@typescript-eslint/types": "8.55.1-alpha.4"
+    "@typescript-eslint/types": "8.55.1-alpha.4",
+    "vite": "npm:rolldown-vite@~7.3.1"
   },
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
