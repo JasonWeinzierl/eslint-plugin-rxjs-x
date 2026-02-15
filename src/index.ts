@@ -1,7 +1,7 @@
 import type { TSESLint } from '@typescript-eslint/utils';
 import type { ESLint, Rule } from 'eslint';
 import { name, version } from '../package.json';
-import { createLegacyRecommendedConfig, createRecommendedConfig } from './configs/recommended';
+import { createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
 
 import { banObservablesRule } from './rules/ban-observables';
@@ -117,9 +117,8 @@ const plugin = {
 const rxjsX = {
   ...plugin,
   configs: {
-    'recommended': createRecommendedConfig(plugin),
-    'strict': createStrictConfig(plugin),
-    'recommended-legacy': createLegacyRecommendedConfig(),
+    recommended: createRecommendedConfig(plugin),
+    strict: createStrictConfig(plugin),
   },
 } satisfies ESLint.Plugin;
 
