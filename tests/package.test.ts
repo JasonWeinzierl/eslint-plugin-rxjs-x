@@ -33,8 +33,10 @@ describe('package', () => {
 
   it('has configs only for rules included in the plugin', () => {
     if (!plugin.configs) {
+      expect.assertions(1);
       expect.fail('No configs found.');
     }
+    expect.assertions(Object.values(plugin.configs).flatMap(c => Object.keys(c.rules || {})).length);
 
     const namespace = 'rxjs-x';
     for (const config of Object.values(plugin.configs)) {
@@ -56,10 +58,12 @@ describe('package', () => {
 
     if (!ruleRec) {
       // Rule is not included in any configuration.
+      expect.assertions(2);
       expect(plugin.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       expect(plugin.configs.strict.rules).not.toHaveProperty(fullRuleName);
     } else if (typeof ruleRec === 'string') {
       // Rule specifies only a configuration name.
+      expect.assertions(3);
       expect(ruleRec).toMatch(/^(recommended|strict)$/);
       if (ruleRec === 'recommended') {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
@@ -72,9 +76,11 @@ describe('package', () => {
       expect(plugin.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
     } else if (typeof ruleRec !== 'object' || !('strict' in ruleRec && Array.isArray(ruleRec.strict))) {
       // Rule has invalid recommended configuration.
+      expect.assertions(1);
       expect.fail(`Unexpected type for 'rule.meta.docs.recommended': '${typeof ruleRec}'.`);
     } else {
       // Rule specifies non-default options for strict.
+      expect.assertions(2);
       if ('recommended' in ruleRec) {
         expect(plugin.configs.recommended.rules).toHaveProperty(fullRuleName);
       } else {

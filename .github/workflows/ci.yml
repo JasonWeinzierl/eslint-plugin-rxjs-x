@@ -35,6 +35,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
+        with:
+          ref: v1.16
       - name: Setup Yarn
         run: corepack enable
 
