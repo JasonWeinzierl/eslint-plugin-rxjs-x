@@ -34,8 +34,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Setup LCOV
-        uses: hrishikesh-kadam/setup-lcov@v1
       - name: Setup Yarn
         run: corepack enable
 
@@ -51,11 +49,9 @@ jobs:
       - name: Test Coverage
         run: yarn coverage
 
-      - name: Report Coverage
+      - name: Upload Coverage
         if: ${{ matrix.node-version == 22 && github.event_name == 'pull_request' }}
-        uses: zgosalvez/github-actions-report-lcov@v6
+        uses: actions/upload-artifact@v6
         with:
-          coverage-files: coverage/lcov.info
-          minimum-coverage: 90
-          github-token: ${{ github.repository == github.event.pull_request.head.repo.full_name && secrets.GITHUB_TOKEN || '' }} # Only leave a comment if the PR is from the main repo (otherwise it fails due to security restrictions).
-          update-comment: true
+          name: coverage
+          path: coverage
