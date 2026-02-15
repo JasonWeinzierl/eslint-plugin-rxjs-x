@@ -10,7 +10,6 @@ import { finnishRule } from './rules/finnish';
 import { justRule } from './rules/just';
 import { macroRule } from './rules/macro';
 import { noAsyncSubscribeRule } from './rules/no-async-subscribe';
-import { noCompatRule } from './rules/no-compat';
 import { noConnectableRule } from './rules/no-connectable';
 import { noCreateRule } from './rules/no-create';
 import { noCyclicActionRule } from './rules/no-cyclic-action';
@@ -60,7 +59,6 @@ const allRules = {
   'just': justRule,
   'macro': macroRule,
   'no-async-subscribe': noAsyncSubscribeRule,
-  'no-compat': noCompatRule,
   'no-connectable': noConnectableRule,
   'no-create': noCreateRule,
   'no-cyclic-action': noCyclicActionRule,
