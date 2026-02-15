@@ -3,7 +3,7 @@ name: report-coverage
 on:
   workflow_run:
     workflows:
-      - ci.yml
+      - ci
     types:
       - completed
 
