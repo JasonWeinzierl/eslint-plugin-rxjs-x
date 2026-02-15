@@ -2211,7 +2211,7 @@ __metadata:
     vite: "npm:^6.4.1"
     vitest: "npm:^3.2.4"
   peerDependencies:
-    eslint: ^8.57.0 || ^9.0.0
+    eslint: ^10.0.0
     rxjs: ">=7.2.0"
     typescript: ">=4.8.4"
   peerDependenciesMeta:
