@@ -1,3 +1,5 @@
+name: report-coverage
+
 on:
   workflow_run:
     workflows:
