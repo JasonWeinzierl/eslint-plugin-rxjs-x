@@ -32,14 +32,14 @@ combineLatest({ answers: new Subject<number>() });
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Description                                                                | Type    |
-| :----------- | :------------------------------------------------------------------------- | :------ |
-| `objects`    | Require for object literal keys.                                           | Boolean |
-| `parameters` | Require for parameters.                                                    | Boolean |
-| `properties` | Require for properties, except object literal keys (see "objects" option). | Boolean |
-| `suffix`     | The suffix to enforce.                                                     | String  |
-| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean.       | Object  |
-| `variables`  | Require for variables.                                                     | Boolean |
+| Name         | Description                                                                | Type    | Default           |
+| :----------- | :------------------------------------------------------------------------- | :------ | :---------------- |
+| `objects`    | Require for object literal keys.                                           | Boolean | `true`            |
+| `parameters` | Require for parameters.                                                    | Boolean | `true`            |
+| `properties` | Require for properties, except object literal keys (see "objects" option). | Boolean | `true`            |
+| `suffix`     | The suffix to enforce.                                                     | String  | `Subject`         |
+| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean.       | Object  | `[object Object]` |
+| `variables`  | Require for variables.                                                     | Boolean | `true`            |
 
 <!-- end auto-generated rule options list -->
 
