@@ -164,32 +164,34 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = [{
   allowSomething?: boolean;
-}[] = [];
+}];
 
 export const ruleName = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Rule description',
       recommended: 'recommended', // or 'strict' or false or { recommended: true, strict: {...stricterOptions} }
       requiresTypeChecking: true, // if TypeScript info needed (e.g importing getTypeServices)
     },
+    fixable: 'code' | 'whitespace', // if auto-fixable
+    hasSuggestions: true, // if reported issues have suggestions
     messages: {
       messageId: 'Error message with {{interpolation}}',
     },
     schema: [ // JSON schema for options
       {
         properties: {
-          allowSomething: { type: 'boolean', description: 'Allows something.', default: false },
+          allowSomething: { type: 'boolean', description: 'Allows something.' },
         },
         type: 'object',
       },
     ],
     type: 'problem' | 'suggestion' | 'layout', // "problem" identifies code that causes errors or unexpected behavior; "suggestion" identifies something that could be done better; "layout" is stylistic outside the AST
-    fixable: 'code' | 'whitespace', // if auto-fixable
-    hasSuggestions: true, // if reported issues have suggestions
+    defaultOptions: [{
+      allowSomething: false,
+    }] as Options,
   },
   name: 'rule-name',
   create: (context) => {

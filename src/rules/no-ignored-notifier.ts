@@ -7,7 +7,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noIgnoredNotifierRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:

@@ -3,7 +3,6 @@ import { isIdentifier, isObjectExpression, isProperty } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noIgnoredReplayBufferRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:

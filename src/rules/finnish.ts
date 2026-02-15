@@ -10,7 +10,7 @@ import {
 } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   functions?: boolean;
   methods?: boolean;
   names?: Record<string, boolean>;
@@ -20,12 +20,11 @@ const defaultOptions: readonly {
   strict?: boolean;
   types?: Record<string, boolean>;
   variables?: boolean;
-}[] = [];
+}];
 
 const baseShouldBeFinnish = 'Finnish notation should be used here.';
 
 export const finnishRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Enforce Finnish notation.',
@@ -53,6 +52,21 @@ export const finnishRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      functions: true,
+      methods: true,
+      names: {
+        '^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$': false,
+      },
+      parameters: true,
+      properties: true,
+      objects: true,
+      strict: false,
+      types: {
+        '^EventEmitter$': false,
+      },
+      variables: true,
+    }] as Options,
   },
   name: 'finnish',
   create: (context) => {
@@ -63,18 +77,8 @@ export const finnishRule = ruleCreator({
       couldReturnObservable,
       couldReturnType,
     } = getTypeServices(context);
-    const [config = {}] = context.options;
-
-    const { strict = false } = config;
-    const validate = {
-      functions: true,
-      methods: true,
-      parameters: true,
-      properties: true,
-      objects: true,
-      variables: true,
-      ...(config as Record<string, unknown>),
-    };
+    const [config] = context.options;
+    const { strict } = config;
 
     const names: { regExp: RegExp; validate: boolean }[] = [];
     if (config.names) {
@@ -83,12 +87,6 @@ export const finnishRule = ruleCreator({
           names.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      names.push({
-        regExp:
-          /^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$/,
-        validate: false,
-      });
     }
 
     const types: { regExp: RegExp; validate: boolean }[] = [];
@@ -98,11 +96,6 @@ export const finnishRule = ruleCreator({
           types.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      types.push({
-        regExp: /^EventEmitter$/,
-        validate: false,
-      });
     }
 
     function checkNode(
@@ -183,16 +176,16 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && isVariableDeclarator(found)) {
+        if (!config.variables && isVariableDeclarator(found)) {
           return;
         }
-        if (!validate.parameters) {
+        if (!config.parameters) {
           return;
         }
         checkNode(node);
       },
       'ArrowFunctionExpression > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           const parent = node.parent as es.ArrowFunctionExpression;
           if (node !== parent.body) {
             checkNode(node);
@@ -200,7 +193,7 @@ export const finnishRule = ruleCreator({
         }
       },
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -210,11 +203,11 @@ export const finnishRule = ruleCreator({
       'FunctionDeclaration > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.FunctionDeclaration;
         if (node === parent.id) {
-          if (validate.functions) {
+          if (config.functions) {
             checkNode(node, parent);
           }
         } else {
-          if (validate.parameters) {
+          if (config.parameters) {
             checkNode(node);
           }
         }
@@ -222,11 +215,11 @@ export const finnishRule = ruleCreator({
       'FunctionExpression > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.FunctionExpression;
         if (node === parent.id) {
-          if (validate.functions) {
+          if (config.functions) {
             checkNode(node, parent);
           }
         } else {
-          if (validate.parameters) {
+          if (config.parameters) {
             checkNode(node);
           }
         }
@@ -234,7 +227,7 @@ export const finnishRule = ruleCreator({
       'MethodDefinition[kind=\'get\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -244,7 +237,7 @@ export const finnishRule = ruleCreator({
       'MethodDefinition[kind=\'method\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (validate.methods) {
+        if (config.methods) {
           if (node.override) {
             return;
           }
@@ -254,7 +247,7 @@ export const finnishRule = ruleCreator({
       'MethodDefinition[kind=\'set\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -268,15 +261,15 @@ export const finnishRule = ruleCreator({
           return;
         }
 
-        if (validate.methods && node.kind === 'method') {
+        if (config.methods && node.kind === 'method') {
           checkNode(node.key, node);
         }
 
-        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+        if (config.properties && (node.kind === 'get' || node.kind === 'set')) {
           checkNode(node.key, node);
         }
 
-        if (validate.parameters) {
+        if (config.parameters) {
           node.value.params.forEach((param: es.Parameter) => {
             checkNode(param);
           });
@@ -285,7 +278,7 @@ export const finnishRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
-        if (!validate.objects) {
+        if (!config.objects) {
           return;
         }
 
@@ -322,10 +315,10 @@ export const finnishRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && isVariableDeclarator(found)) {
+        if (!config.variables && isVariableDeclarator(found)) {
           return;
         }
-        if (!validate.parameters) {
+        if (!config.parameters) {
           return;
         }
         const parent = node.parent as es.Property;
@@ -334,38 +327,38 @@ export const finnishRule = ruleCreator({
         }
       },
       'TSCallSignatureDeclaration > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           checkNode(node);
         }
       },
       'TSConstructSignatureDeclaration > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           checkNode(node);
         }
       },
       'TSMethodSignature[computed=false]': (node: es.TSMethodSignature) => {
-        if (validate.methods) {
+        if (config.methods) {
           checkNode(node.key, node);
         }
-        if (validate.parameters) {
+        if (config.parameters) {
           node.params.forEach((param: es.Node) => {
             checkNode(param);
           });
         }
       },
       'TSParameterProperty > Identifier': (node: es.Identifier) => {
-        if (validate.parameters || validate.properties) {
+        if (config.parameters || config.properties) {
           checkNode(node);
         }
       },
       'TSPropertySignature[computed=false]': (node: es.TSPropertySignature) => {
-        if (validate.properties) {
+        if (config.properties) {
           checkNode(node.key);
         }
       },
       'VariableDeclarator > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.VariableDeclarator;
-        if (validate.variables && node === parent.id) {
+        if (config.variables && node === parent.id) {
           checkNode(node);
         }
       },

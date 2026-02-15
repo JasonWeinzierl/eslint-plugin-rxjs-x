@@ -80,10 +80,7 @@ export default defineConfig(gitignore(), {
     ],
     'eslint-plugin/unique-test-case-names': 'error',
     'eslint-plugin/no-matching-violation-suggest-message-ids': 'error',
-    // TODO(https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/51):
-    // fixing these may require bumping the minimum ESLint version.
-    'eslint-plugin/require-meta-default-options': 'off',
-    'eslint-plugin/no-meta-schema-default': 'off',
+    // TODO: re-enable when deprecated rules are removed.
     'eslint-plugin/no-meta-replaced-by': 'off',
 
     '@typescript-eslint/no-unnecessary-condition': 'off',

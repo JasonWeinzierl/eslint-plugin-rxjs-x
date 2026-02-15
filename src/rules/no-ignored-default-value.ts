@@ -3,7 +3,6 @@ import { getTypeServices, isIdentifier, isMemberExpression, isObjectExpression, 
 import { ruleCreator } from '../utils';
 
 export const noIgnoredDefaultValueRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow using `firstValueFrom`, `lastValueFrom`, `first`, and `last` without specifying a default value.',

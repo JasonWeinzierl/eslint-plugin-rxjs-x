@@ -40,17 +40,17 @@ const answer$ = 'green';
 
 <!-- begin auto-generated rule options list -->
 
-| Name         | Description                                                                | Type    |
-| :----------- | :------------------------------------------------------------------------- | :------ |
-| `functions`  | Require for functions.                                                     | Boolean |
-| `methods`    | Require for methods.                                                       | Boolean |
-| `names`      | Enforce for specific names. Keys are a RegExp, values are a boolean.       | Object  |
-| `objects`    | Require for object literal keys.                                           | Boolean |
-| `parameters` | Require for parameters.                                                    | Boolean |
-| `properties` | Require for properties, except object literal keys (see "objects" option). | Boolean |
-| `strict`     | Disallow Finnish notation for non-Observables.                             | Boolean |
-| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean.       | Object  |
-| `variables`  | Require for variables.                                                     | Boolean |
+| Name         | Description                                                                | Type    | Default           |
+| :----------- | :------------------------------------------------------------------------- | :------ | :---------------- |
+| `functions`  | Require for functions.                                                     | Boolean | `true`            |
+| `methods`    | Require for methods.                                                       | Boolean | `true`            |
+| `names`      | Enforce for specific names. Keys are a RegExp, values are a boolean.       | Object  | `[object Object]` |
+| `objects`    | Require for object literal keys.                                           | Boolean | `true`            |
+| `parameters` | Require for parameters.                                                    | Boolean | `true`            |
+| `properties` | Require for properties, except object literal keys (see "objects" option). | Boolean | `true`            |
+| `strict`     | Disallow Finnish notation for non-Observables.                             | Boolean | `false`           |
+| `types`      | Enforce for specific types. Keys are a RegExp, values are a boolean.       | Object  | `[object Object]` |
+| `variables`  | Require for variables.                                                     | Boolean | `true`            |
 
 <!-- end auto-generated rule options list -->
 

@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noSubjectValueRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:
