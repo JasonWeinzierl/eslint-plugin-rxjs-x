@@ -84,7 +84,7 @@ ruleTester({ types: false }).run('no-internal', noInternalRule, {
       },
     ),
     fromFixture(
-      'internal ajax',
+      'internal observable ajax',
       stripIndent`
         import { ajax } from "rxjs/internal/observable/ajax/ajax";
                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden suggest]
@@ -98,6 +98,26 @@ ruleTester({ types: false }).run('no-internal', noInternalRule, {
             messageId: 'suggest',
             output: stripIndent`
               import { ajax } from "rxjs";
+            `,
+          },
+        ],
+      },
+    ),
+    fromFixture(
+      'internal ajax',
+      stripIndent`
+        import { ajax } from "rxjs/internal/ajax";
+                             ~~~~~~~~~~~~~~~~~~~~ [forbidden suggest]
+      `,
+      {
+        output: stripIndent`
+          import { ajax } from "rxjs/ajax";
+        `,
+        suggestions: [
+          {
+            messageId: 'suggest',
+            output: stripIndent`
+              import { ajax } from "rxjs/ajax";
             `,
           },
         ],
@@ -242,6 +262,13 @@ ruleTester({ types: false }).run('no-internal', noInternalRule, {
           },
         ],
       },
+    ),
+    fromFixture(
+      'internal unknown',
+      stripIndent`
+        import { getSymbolIterator } from "rxjs/internal/symbol/iterator";
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
     ),
   ],
 });
