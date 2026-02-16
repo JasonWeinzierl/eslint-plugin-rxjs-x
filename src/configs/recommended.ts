@@ -11,11 +11,6 @@ export const createRecommendedConfig = (
   },
 } satisfies Linter.Config);
 
-export const createLegacyRecommendedConfig = () => ({
-  ...baseConfig,
-  plugins: ['rxjs-x'] as const,
-} satisfies Linter.LegacyConfig);
-
 const baseConfig = {
   rules: {
     'rxjs-x/no-async-subscribe': 'error',
