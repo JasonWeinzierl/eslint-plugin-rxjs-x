@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { RuleTester } from '@typescript-eslint/rule-tester';
 import { parser as tseslintParser } from 'typescript-eslint';
 import * as vitest from 'vitest';
@@ -19,7 +20,7 @@ export function ruleTester({ typeScript = true, types = true, jsx = false } = {}
           allowDefaultProject: ['*.ts*'],
           defaultProject: 'tsconfig.json',
         } : undefined,
-        tsconfigRootDir: path.join(__dirname, '..'),
+        tsconfigRootDir: path.join(path.dirname(fileURLToPath(import.meta.url)), '..'),
         ecmaFeatures: {
           jsx,
         },
