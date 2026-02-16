@@ -54,8 +54,7 @@
   "dependencies": {
     "@typescript-eslint/utils": "^8.56.0",
     "decamelize": "^6.0.1",
-    "ts-api-utils": "^2.4.0",
-    "tslib": "^2.1.0"
+    "ts-api-utils": "^2.4.0"
   },
   "peerDependencies": {
     "eslint": "^10.0.0",
