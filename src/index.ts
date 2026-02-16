@@ -9,7 +9,6 @@ import { banOperatorsRule } from './rules/ban-operators';
 import { finnishRule } from './rules/finnish';
 import { justRule } from './rules/just';
 import { noAsyncSubscribeRule } from './rules/no-async-subscribe';
-import { noCompatRule } from './rules/no-compat';
 import { noConnectableRule } from './rules/no-connectable';
 import { noCreateRule } from './rules/no-create';
 import { noCyclicActionRule } from './rules/no-cyclic-action';
@@ -57,7 +56,6 @@ const allRules = {
   'finnish': finnishRule,
   'just': justRule,
   'no-async-subscribe': noAsyncSubscribeRule,
-  'no-compat': noCompatRule,
   'no-connectable': noConnectableRule,
   'no-create': noCreateRule,
   'no-cyclic-action': noCyclicActionRule,
