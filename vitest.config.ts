@@ -6,7 +6,12 @@ export default defineConfig({
     coverage: {
       reporter: process.env.GITHUB_ACTIONS ? ['text-summary', 'json-summary', 'json'] : ['text-summary'],
       reportOnFailure: true,
-      exclude: ['scripts/**', ...coverageConfigDefaults.exclude],
+      exclude: [
+        'scripts/**',
+        'tests/etc/create-source-file-and-type-checker.ts',
+        'tests/etc/from-fixture.ts',
+        ...coverageConfigDefaults.exclude,
+      ],
     },
     testTimeout: 10_000,
   },
