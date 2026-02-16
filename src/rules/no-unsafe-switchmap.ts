@@ -1,5 +1,4 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { stripIndent } from 'common-tags';
 import decamelize from 'decamelize';
 import { defaultObservable } from '../constants';
 import {
@@ -58,13 +57,11 @@ export const noUnsafeSwitchmapRule = ruleCreator({
           },
         },
         type: 'object',
-        description: stripIndent`
-          An optional object with optional \`allow\`, \`disallow\` and \`observable\` properties.
-          The properties can be specified as regular expression strings or as arrays of words.
-          The \`allow\` or \`disallow\` properties are mutually exclusive. Whether or not
-          \`switchMap\` is allowed will depend upon the matching of action types with \`allow\` or \`disallow\`.
-          The \`observable\` property is used to identify the action observables from which effects and epics are composed.
-        `,
+        description: `An optional object with optional \`allow\`, \`disallow\` and \`observable\` properties.
+The properties can be specified as regular expression strings or as arrays of words.
+The \`allow\` or \`disallow\` properties are mutually exclusive. Whether or not
+\`switchMap\` is allowed will depend upon the matching of action types with \`allow\` or \`disallow\`.
+The \`observable\` property is used to identify the action observables from which effects and epics are composed.`,
       },
     ],
     type: 'problem',

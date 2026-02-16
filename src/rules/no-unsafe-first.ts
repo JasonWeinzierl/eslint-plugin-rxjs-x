@@ -1,5 +1,4 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { stripIndent } from 'common-tags';
 import { defaultObservable } from '../constants';
 import { getTypeServices, isCallExpression, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
@@ -24,9 +23,8 @@ export const noUnsafeFirstRule = ruleCreator({
           observable: { type: 'string', description: 'A RegExp that matches an effect or epic\'s actions observable.' },
         },
         type: 'object',
-        description: stripIndent`
-          An optional object with an optional \`observable\` property.
-          The property can be specified as a regular expression string and is used to identify the action observables from which effects and epics are composed.`,
+        description: `An optional object with an optional \`observable\` property.
+The property can be specified as a regular expression string and is used to identify the action observables from which effects and epics are composed.`,
       },
     ],
     type: 'problem',
