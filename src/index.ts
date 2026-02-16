@@ -19,7 +19,6 @@ import { noFloatingObservablesRule } from './rules/no-floating-observables';
 import { noIgnoredDefaultValueRule } from './rules/no-ignored-default-value';
 import { noIgnoredErrorRule } from './rules/no-ignored-error';
 import { noIgnoredNotifierRule } from './rules/no-ignored-notifier';
-import { noIgnoredObservableRule } from './rules/no-ignored-observable';
 import { noIgnoredReplayBufferRule } from './rules/no-ignored-replay-buffer';
 import { noIgnoredSubscribeRule } from './rules/no-ignored-subscribe';
 import { noIgnoredSubscriptionRule } from './rules/no-ignored-subscription';
@@ -66,7 +65,6 @@ const allRules = {
   'no-ignored-default-value': noIgnoredDefaultValueRule,
   'no-ignored-error': noIgnoredErrorRule,
   'no-ignored-notifier': noIgnoredNotifierRule,
-  'no-ignored-observable': noIgnoredObservableRule,
   'no-ignored-replay-buffer': noIgnoredReplayBufferRule,
   'no-ignored-subscribe': noIgnoredSubscribeRule,
   'no-ignored-subscription': noIgnoredSubscriptionRule,
