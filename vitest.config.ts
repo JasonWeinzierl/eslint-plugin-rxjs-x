@@ -10,6 +10,7 @@ export default defineConfig({
         'scripts/**',
         'tests/etc/create-source-file-and-type-checker.ts',
         'tests/etc/from-fixture.ts',
+        'tests/rule-tester.ts',
         ...coverageConfigDefaults.exclude,
       ],
     },
