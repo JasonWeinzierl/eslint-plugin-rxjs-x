@@ -22,6 +22,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
+          name: coverage
+          path: coverage
 
       - name: Report Coverage
         uses: davelosert/vitest-coverage-report-action@v2
