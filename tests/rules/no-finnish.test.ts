@@ -99,6 +99,9 @@ ruleTester({ types: true }).run('no-finnish', noFinnishRule, {
         function someFunction$(someParam$: Observable<any>): Observable<any> { return someParam$; }
                  ~~~~~~~~~~~~~ [forbidden]
                                ~~~~~~~~~~ [forbidden]
+        (function someFunctionExp$(someParam$: Observable<any>): Observable<any> { return someParam$; })();
+                  ~~~~~~~~~~~~~~~~ [forbidden]
+                                   ~~~~~~~~~~ [forbidden]
         const someArrowFunction$ = (someParam$: Observable<any>): Observable<any> => someParam$;
               ~~~~~~~~~~~~~~~~~~ [forbidden]
                                     ~~~~~~~~~~ [forbidden]
