@@ -23,6 +23,34 @@ ruleTester({ types: true }).run('no-subject-unsubscribe', noSubjectUnsubscribeRu
         asub.unsubscribe();
       `,
     },
+    {
+      name: 'unrelated unsubscribe',
+      code: stripIndent`
+        class MyClass {
+          unsubscribe() {}
+        }
+        new MyClass().unsubscribe();
+      `,
+    },
+    {
+      name: 'unrelated add class',
+      code: stripIndent`
+        import { Subscription } from "rxjs";
+        class MyClass {
+          add(sub: Subscription) {}
+        }
+        new MyClass().add(new Subscription());
+      `,
+    },
+    {
+      name: 'unrelated add argument',
+      code: stripIndent`
+        class MyClass {
+          add(name: string) {}
+        }
+        new MySubscription().add('foo');
+      `,
+    },
   ],
   invalid: [
     fromFixture(

@@ -45,5 +45,10 @@ describe('utils', () => {
     it('should create a RegExp from a string', () => {
       expect(createRegExpForWords('.')?.toString()).toEqual('/./i');
     });
+
+    it('should return undefined if config is falsy', () => {
+      expect(createRegExpForWords('')).toBeUndefined();
+      expect(createRegExpForWords([])).toBeUndefined();
+    });
   });
 });

@@ -12,6 +12,26 @@ ruleTester({ types: true }).run('no-subject-value', noSubjectValueRule, {
         const subject = new BehaviorSubject<number>(1);
       `,
     },
+    {
+      name: 'unrelated getValue',
+      code: stripIndent`
+        function getValue() {
+          return 42;
+        }
+
+        getValue();
+      `,
+    },
+    {
+      name: 'unrelated value',
+      code: stripIndent`
+        class MyClass {
+          value = 42;
+        }
+
+        new MyClass().value;
+      `,
+    },
   ],
   invalid: [
     fromFixture(

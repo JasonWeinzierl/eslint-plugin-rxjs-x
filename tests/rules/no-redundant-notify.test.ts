@@ -116,6 +116,31 @@ ruleTester({ types: true }).run('no-redundant-notify', noRedundantNotifyRule, {
         }
       `,
     },
+    {
+      name: 'SwitchCase not supported',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+        const subject = new Subject<number>();
+        switch (true) {
+          case true:
+            subject.complete();
+            subject.next(42);
+            break;
+        }
+      `,
+    },
+    {
+      name: 'unrelated class',
+      code: stripIndent`
+        class MyClass {
+          complete() {}
+          next() {}
+        }
+        const a = new MyClass();
+        a.complete();
+        a.next();
+      `,
+    },
   ],
   invalid: [
     fromFixture(
