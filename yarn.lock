@@ -948,14 +948,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript/vfs@npm:^1.6.2":
-  version: 1.6.2
-  resolution: "@typescript/vfs@npm:1.6.2"
+"@typescript/vfs@npm:^1.6.3":
+  version: 1.6.3
+  resolution: "@typescript/vfs@npm:1.6.3"
   dependencies:
     debug: "npm:^4.1.1"
   peerDependencies:
     typescript: "*"
-  checksum: 10c0/72e9a551337aa5478e39d6e0568bcf00d30fad68eae456a68b7436d2b5c7a35d78dd1d121242433fb6c8dc02ca618dfb5fe09916de88dabe746b3fb6b224793a
+  checksum: 10c0/c5a810bb9e80da9a707201147015634cde94e8073a822f52257c1076e879d9b4c5a625ee099a7e98ac5ccf8c69a9d17124f1a0ef2e79e42a20dd5959f60011b3
   languageName: node
   linkType: hard
 
@@ -1989,7 +1989,7 @@ __metadata:
     "@typescript-eslint/rule-tester": "npm:^8.56.0"
     "@typescript-eslint/scope-manager": "npm:^8.56.0"
     "@typescript-eslint/utils": "npm:^8.56.0"
-    "@typescript/vfs": "npm:^1.6.2"
+    "@typescript/vfs": "npm:^1.6.3"
     "@vitest/coverage-v8": "npm:^4.0.18"
     "@vitest/eslint-plugin": "npm:^1.6.9"
     bumpp: "npm:^10.4.1"
