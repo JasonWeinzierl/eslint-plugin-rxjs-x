@@ -39,7 +39,6 @@ import { noSubjectUnsubscribeRule } from './rules/no-subject-unsubscribe';
 import { noSubjectValueRule } from './rules/no-subject-value';
 import { noSubscribeHandlersRule } from './rules/no-subscribe-handlers';
 import { noSubscribeInPipeRule } from './rules/no-subscribe-in-pipe';
-import { noTapRule } from './rules/no-tap';
 import { noTopromiseRule } from './rules/no-topromise';
 import { noUnboundMethodsRule } from './rules/no-unbound-methods';
 import { noUnnecessaryCollectionRule } from './rules/no-unnecessary-collection';
@@ -89,7 +88,6 @@ const allRules = {
   'no-subject-value': noSubjectValueRule,
   'no-subscribe-handlers': noSubscribeHandlersRule,
   'no-subscribe-in-pipe': noSubscribeInPipeRule,
-  'no-tap': noTapRule,
   'no-topromise': noTopromiseRule,
   'no-unbound-methods': noUnboundMethodsRule,
   'no-unnecessary-collection': noUnnecessaryCollectionRule,
