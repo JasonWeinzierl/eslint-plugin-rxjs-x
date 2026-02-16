@@ -1,5 +1,6 @@
-import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
+import { TSESTree as es } from '@typescript-eslint/utils';
 import { stripIndent } from 'common-tags';
+import { isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
 type Options = readonly [Record<string, boolean | string>];
@@ -70,7 +71,7 @@ export const banObservablesRule = ruleCreator({
         node: es.ImportSpecifier,
       ) => {
         const identifier = node.imported;
-        const name = identifier.type === AST_NODE_TYPES.Identifier ? identifier.name : identifier.value;
+        const name = isIdentifier(identifier) ? identifier.name : identifier.value;
         const failure = getFailure(name);
         if (failure) {
           context.report({
