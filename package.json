@@ -52,7 +52,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@typescript-eslint/scope-manager": "^8.56.0",
     "@typescript-eslint/utils": "^8.56.0",
     "decamelize": "^6.0.1",
     "ts-api-utils": "^2.4.0",

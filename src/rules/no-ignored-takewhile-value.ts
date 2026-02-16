@@ -2,7 +2,6 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import {
   isArrayPattern,
   isIdentifier,
-  isImport,
   isObjectPattern,
 } from '../etc';
 import { ruleCreator } from '../utils';
@@ -25,9 +24,6 @@ export const noIgnoredTakewhileValueRule = ruleCreator({
       expression: es.ArrowFunctionExpression | es.FunctionExpression,
     ) {
       const scope = context.sourceCode.getScope(expression);
-      if (!isImport(scope, 'takeWhile', /^rxjs\/?/)) {
-        return;
-      }
       let ignored = true;
       const [param] = expression.params;
       if (param) {
@@ -53,10 +49,10 @@ export const noIgnoredTakewhileValueRule = ruleCreator({
     }
 
     return {
-      'CallExpression[callee.name=\'takeWhile\'] > ArrowFunctionExpression': (
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name=\'takeWhile\'] > ArrowFunctionExpression': (
         node: es.ArrowFunctionExpression,
       ) => { checkNode(node); },
-      'CallExpression[callee.name=\'takeWhile\'] > FunctionExpression': (
+      'CallExpression[callee.property.name=\'pipe\'] > CallExpression[callee.name=\'takeWhile\'] > FunctionExpression': (
         node: es.FunctionExpression,
       ) => { checkNode(node); },
     };
