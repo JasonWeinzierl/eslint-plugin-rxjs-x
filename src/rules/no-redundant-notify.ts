@@ -13,7 +13,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noRedundantNotifyRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:

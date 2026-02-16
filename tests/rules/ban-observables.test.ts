@@ -10,9 +10,17 @@ ruleTester({ types: false }).run('ban-observables', banObservablesRule, {
       code: `import { of, Observable } from "rxjs";`,
     },
     {
-      name: 'not banned',
+      name: 'banned but not used',
       code: `import { of, Observable } from "rxjs";`,
       options: [{ Subject: true }],
+    },
+    {
+      name: 'not banned',
+      code: stripIndent`
+        import { of } from "rxjs";
+        of(1);
+      `,
+      options: [{ of: false }],
     },
   ],
   invalid: [
@@ -21,6 +29,16 @@ ruleTester({ types: false }).run('ban-observables', banObservablesRule, {
       stripIndent`
         import { of, Observable as o, Subject } from "rxjs";
                  ~~ [forbidden { "name": "of", "explanation": "" }]
+      `,
+      {
+        options: [{ of: true }],
+      },
+    ),
+    fromFixture(
+      'banned literal',
+      stripIndent`
+        import { 'of' as o } from "rxjs";
+                 ~~~~ [forbidden { "name": "of", "explanation": "" }]
       `,
       {
         options: [{ of: true }],

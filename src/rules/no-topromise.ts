@@ -3,7 +3,6 @@ import { getTypeServices, isIdentifier, isImportDeclaration, isImportNamespaceSp
 import { ruleCreator } from '../utils';
 
 export const noTopromiseRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow use of the `toPromise` method.',

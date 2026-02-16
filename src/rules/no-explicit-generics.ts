@@ -4,7 +4,6 @@ import { isArrayExpression, isObjectExpression, isUnionType } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noExplicitGenericsRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow unnecessary explicit generic type arguments.',

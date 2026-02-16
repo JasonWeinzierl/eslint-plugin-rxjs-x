@@ -3,7 +3,6 @@ import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
 export const noCreateRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow the static `Observable.create` and `Subject.create` functions.',

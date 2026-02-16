@@ -3,12 +3,11 @@ import { getTypeServices, isIdentifier } from '../etc';
 import { ruleCreator } from '../utils';
 
 const defaultAllowedTypesRegExp = /^EventEmitter$/;
-const defaultOptions: readonly {
+type Options = readonly [{
   allowProtected?: boolean;
-}[] = [];
+}];
 
 export const noExposedSubjectsRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow public and protected subjects.',
@@ -23,17 +22,19 @@ export const noExposedSubjectsRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowProtected: { type: 'boolean', description: 'Allow protected subjects.', default: false },
+          allowProtected: { type: 'boolean', description: 'Allow protected subjects.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      allowProtected: false,
+    }] as Options,
   },
   name: 'no-exposed-subjects',
   create: (context) => {
-    const [config = {}] = context.options;
-    const { allowProtected = false } = config;
+    const [{ allowProtected }] = context.options;
     const { couldBeSubject, couldBeType } = getTypeServices(context);
 
     const messageId = allowProtected ? 'forbiddenAllowProtected' : 'forbidden';

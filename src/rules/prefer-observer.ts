@@ -10,12 +10,11 @@ import {
 } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allowNext?: boolean;
-}[] = [];
+}];
 
 export const preferObserverRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description:
@@ -33,18 +32,20 @@ export const preferObserverRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowNext: { type: 'boolean', description: 'Allows a single `next` callback.', default: true },
+          allowNext: { type: 'boolean', description: 'Allows a single `next` callback.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      allowNext: true,
+    }] as Options,
   },
   name: 'prefer-observer',
   create: (context) => {
     const { couldBeFunction, couldBeObservable } = getTypeServices(context);
-    const [config = {}] = context.options;
-    const { allowNext = true } = config;
+    const [{ allowNext }] = context.options;
 
     function checkArgs(callExpression: es.CallExpression, reportNode: es.Node) {
       const { arguments: args, callee } = callExpression;

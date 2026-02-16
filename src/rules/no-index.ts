@@ -2,7 +2,6 @@ import { TSESTree as es } from '@typescript-eslint/utils';
 import { ruleCreator } from '../utils';
 
 export const noIndexRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow importing index modules.',

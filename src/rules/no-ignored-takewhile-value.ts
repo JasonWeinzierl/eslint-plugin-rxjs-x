@@ -8,7 +8,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noIgnoredTakewhileValueRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow ignoring the value within `takeWhile`.',

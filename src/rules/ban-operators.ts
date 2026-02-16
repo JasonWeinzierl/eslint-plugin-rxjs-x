@@ -3,10 +3,9 @@ import { stripIndent } from 'common-tags';
 import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly Record<string, boolean | string>[] = [];
+type Options = readonly [Record<string, boolean | string>];
 
 export const banOperatorsRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow banned operators.',
@@ -21,9 +20,20 @@ export const banOperatorsRule = ruleCreator({
         description: stripIndent`
           An object containing keys that are names of operators
           and values that are either booleans or strings containing the explanation for the ban.`,
+        additionalProperties: {
+          anyOf: [
+            {
+              type: 'boolean',
+            },
+            {
+              type: 'string',
+            },
+          ],
+        },
       },
     ],
     type: 'problem',
+    defaultOptions: [{}] as Options,
   },
   name: 'ban-operators',
   create: (context) => {
@@ -31,7 +41,7 @@ export const banOperatorsRule = ruleCreator({
     const bans: { name: string; explanation: string }[] = [];
 
     const [config] = context.options;
-    if (!config) {
+    if (!config || !Object.keys(config).length) {
       return {};
     }
 

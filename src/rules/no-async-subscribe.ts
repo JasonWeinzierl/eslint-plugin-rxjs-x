@@ -3,7 +3,6 @@ import { getTypeServices, isArrowFunctionExpression, isFunctionExpression } from
 import { ruleCreator } from '../utils';
 
 export const noAsyncSubscribeRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow passing `async` functions to `subscribe`.',

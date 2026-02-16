@@ -10,19 +10,18 @@ import {
 } from '../etc';
 import { escapeRegExp, ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   parameters?: boolean;
   properties?: boolean;
   objects?: boolean;
   suffix?: string;
   types?: Record<string, boolean>;
   variables?: boolean;
-}[] = [];
+}];
 
 const baseShouldHaveSuffix = 'Subject identifiers must end with "{{suffix}}".';
 
 export const suffixSubjectsRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Enforce the use of a suffix in subject identifiers.',
@@ -46,20 +45,22 @@ export const suffixSubjectsRule = ruleCreator({
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      parameters: true,
+      properties: true,
+      objects: true,
+      suffix: 'Subject',
+      types: {
+        '^EventEmitter$': false,
+      },
+      variables: true,
+    }] as Options,
   },
   name: 'suffix-subjects',
   create: (context) => {
     const { esTreeNodeToTSNodeMap } = ESLintUtils.getParserServices(context);
     const { couldBeType } = getTypeServices(context);
-    const [config = {}] = context.options;
-
-    const validate = {
-      parameters: true,
-      properties: true,
-      objects: true,
-      variables: true,
-      ...(config as Record<string, unknown>),
-    };
+    const [config] = context.options;
 
     const types: { regExp: RegExp; validate: boolean }[] = [];
     if (config.types) {
@@ -68,11 +69,6 @@ export const suffixSubjectsRule = ruleCreator({
           types.push({ regExp: new RegExp(key), validate });
         },
       );
-    } else {
-      types.push({
-        regExp: /^EventEmitter$/,
-        validate: false,
-      });
     }
 
     const { suffix = 'Subject' } = config;
@@ -118,16 +114,16 @@ export const suffixSubjectsRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && isVariableDeclarator(found)) {
+        if (!config.variables && isVariableDeclarator(found)) {
           return;
         }
-        if (!validate.parameters) {
+        if (!config.parameters) {
           return;
         }
         checkNode(node);
       },
       'ArrowFunctionExpression > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           const parent = node.parent as es.ArrowFunctionExpression;
           if (node !== parent.body) {
             checkNode(node);
@@ -136,7 +132,7 @@ export const suffixSubjectsRule = ruleCreator({
       },
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
         const anyNode = node;
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -144,7 +140,7 @@ export const suffixSubjectsRule = ruleCreator({
         }
       },
       'FunctionDeclaration > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           const parent = node.parent as es.FunctionDeclaration;
           if (node !== parent.id) {
             checkNode(node);
@@ -152,7 +148,7 @@ export const suffixSubjectsRule = ruleCreator({
         }
       },
       'FunctionExpression > Identifier': (node: es.Identifier) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           const parent = node.parent as es.FunctionExpression;
           if (node !== parent.id) {
             checkNode(node);
@@ -162,7 +158,7 @@ export const suffixSubjectsRule = ruleCreator({
       'MethodDefinition[kind=\'get\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -172,7 +168,7 @@ export const suffixSubjectsRule = ruleCreator({
       'MethodDefinition[kind=\'set\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (validate.properties) {
+        if (config.properties) {
           if (node.override) {
             return;
           }
@@ -186,11 +182,11 @@ export const suffixSubjectsRule = ruleCreator({
           return;
         }
 
-        if (validate.properties && (node.kind === 'get' || node.kind === 'set')) {
+        if (config.properties && (node.kind === 'get' || node.kind === 'set')) {
           checkNode(node.key, node);
         }
 
-        if (validate.parameters) {
+        if (config.parameters) {
           node.value.params.forEach((param: es.Parameter) => {
             checkNode(param);
           });
@@ -199,7 +195,7 @@ export const suffixSubjectsRule = ruleCreator({
       'ObjectExpression > Property[computed=false] > Identifier': (
         node: es.Identifier,
       ) => {
-        if (!validate.objects) {
+        if (!config.objects) {
           return;
         }
 
@@ -238,10 +234,10 @@ export const suffixSubjectsRule = ruleCreator({
         if (!found) {
           return;
         }
-        if (!validate.variables && isVariableDeclarator(found)) {
+        if (!config.variables && isVariableDeclarator(found)) {
           return;
         }
-        if (!validate.parameters) {
+        if (!config.parameters) {
           return;
         }
         const parent = node.parent as es.Property;
@@ -250,33 +246,33 @@ export const suffixSubjectsRule = ruleCreator({
         }
       },
       'TSCallSignatureDeclaration > Identifier': (node: es.Node) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           checkNode(node);
         }
       },
       'TSConstructSignatureDeclaration > Identifier': (node: es.Node) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           checkNode(node);
         }
       },
       'TSMethodSignature > Identifier': (node: es.Node) => {
-        if (validate.parameters) {
+        if (config.parameters) {
           checkNode(node);
         }
       },
       'TSParameterProperty > Identifier': (node: es.Identifier) => {
-        if (validate.parameters || validate.properties) {
+        if (config.parameters || config.properties) {
           checkNode(node);
         }
       },
       'TSPropertySignature[computed=false]': (node: es.TSPropertySignature) => {
-        if (validate.properties) {
+        if (config.properties) {
           checkNode(node.key);
         }
       },
       'VariableDeclarator > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.VariableDeclarator;
-        if (validate.variables && node === parent.id) {
+        if (config.variables && node === parent.id) {
           checkNode(node);
         }
       },

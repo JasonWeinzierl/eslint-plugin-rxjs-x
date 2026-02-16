@@ -5,7 +5,6 @@ import {
 import { ruleCreator } from '../utils';
 
 export const noInternalRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description: 'Disallow importing internal modules.',

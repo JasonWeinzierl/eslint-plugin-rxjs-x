@@ -225,6 +225,20 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
       ],
     },
     {
+      name: 'empty types still merges in default EventEmitter',
+      code: stripIndent`
+        import { Subject } from "rxjs";
+
+        class EventEmitter<T> extends Subject<T> {}
+        const emitter = new EventEmitter<any>();
+      `,
+      options: [
+        {
+          types: {},
+        },
+      ],
+    },
+    {
       name: 'https://github.com/cartant/rxjs-tslint-rules/issues/88',
       code: stripIndent`
         import { RouterStateSerializer } from '@ngrx/router-store';
@@ -260,6 +274,7 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
 
         const one = new Subject<any>();
         const some = new Subject<any>();
+        const [x, y] = [new Subject<any>(), new Subject<any>()];
       `,
       options: [{ variables: false }],
     },
@@ -406,6 +421,9 @@ ruleTester({ types: true }).run('suffix-subjects', suffixSubjectsRule, {
               ~~~~~~~ [forbidden { "suffix": "Subject" }]
             this.ctor = some;
           }
+
+          someArrayPatternMethod([someParam]: Subject<any>[]): void {}
+          someObjectPatternMethod({ source }: Record<string, Subject<any>>): void {}
         }
 
         interface SomeInterface {

@@ -1,12 +1,11 @@
 import { AST_NODE_TYPES, TSESTree as es } from '@typescript-eslint/utils';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allowConfig?: boolean;
-}[] = [];
+}];
 
 export const noSharereplayRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description: 'Disallow unsafe `shareReplay` usage.',
@@ -20,17 +19,19 @@ export const noSharereplayRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowConfig: { type: 'boolean', description: 'Allow shareReplay if a config argument is specified.', default: true },
+          allowConfig: { type: 'boolean', description: 'Allow shareReplay if a config argument is specified.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
+    defaultOptions: [{
+      allowConfig: true,
+    }] as Options,
   },
   name: 'no-sharereplay',
   create: (context) => {
-    const [config = {}] = context.options;
-    const { allowConfig = true } = config;
+    const [{ allowConfig }] = context.options;
     return {
       'CallExpression[callee.name=\'shareReplay\']': (
         node: es.CallExpression,

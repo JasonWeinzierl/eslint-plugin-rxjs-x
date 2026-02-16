@@ -4,13 +4,12 @@ import ts from 'typescript';
 import { couldBeFunction, couldBeType, getTypeServices, isLiteral, isMemberExpression, isTemplateLiteral } from '../etc';
 import { ruleCreator } from '../utils';
 
-const defaultOptions: readonly {
+type Options = readonly [{
   allowThrowingAny?: boolean;
   allowThrowingUnknown?: boolean;
-}[] = [];
+}];
 
 export const throwErrorRule = ruleCreator({
-  defaultOptions,
   meta: {
     docs: {
       description:
@@ -21,6 +20,7 @@ export const throwErrorRule = ruleCreator({
       },
       requiresTypeChecking: true,
     },
+    hasSuggestions: true,
     messages: {
       forbidden: 'Passing non-Error values is forbidden.',
       suggestErrorConstructor: 'Wrap string in Error constructor.',
@@ -28,21 +28,23 @@ export const throwErrorRule = ruleCreator({
     schema: [
       {
         properties: {
-          allowThrowingAny: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `any`.' },
-          allowThrowingUnknown: { type: 'boolean', default: true, description: 'Whether to always allow throwing values typed as `unknown`.' },
+          allowThrowingAny: { type: 'boolean', description: 'Whether to always allow throwing values typed as `any`.' },
+          allowThrowingUnknown: { type: 'boolean', description: 'Whether to always allow throwing values typed as `unknown`.' },
         },
         type: 'object',
       },
     ],
     type: 'problem',
-    hasSuggestions: true,
+    defaultOptions: [{
+      allowThrowingAny: true,
+      allowThrowingUnknown: true,
+    }] as Options,
   },
   name: 'throw-error',
   create: (context) => {
     const { esTreeNodeToTSNodeMap, program, getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable, couldBeSubject } = getTypeServices(context);
-    const [config = {}] = context.options;
-    const { allowThrowingAny = true, allowThrowingUnknown = true } = config;
+    const [{ allowThrowingAny, allowThrowingUnknown }] = context.options;
 
     function checkThrowArgument(node: es.Node, noFunction = false) {
       let type = getTypeAtLocation(node);

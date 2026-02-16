@@ -3,7 +3,6 @@ import { getTypeServices, isIdentifier, isMemberExpression, isObjectExpression, 
 import { ruleCreator } from '../utils';
 
 export const noIgnoredErrorRule = ruleCreator({
-  defaultOptions: [],
   meta: {
     docs: {
       description:
