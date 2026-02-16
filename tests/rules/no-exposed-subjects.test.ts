@@ -80,6 +80,28 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
       options: [{ allowProtected: true }],
     },
+    {
+      name: 'implicit return type not supported', // TODO(#376)
+      code: stripIndent`
+        import { Subject } from 'rxjs';
+
+        class Foo {
+          public a() {
+            return new Subject<any>();
+          }
+        }
+      `,
+    },
+    {
+      name: 'unrelated return',
+      code: stripIndent`
+        class Mock {
+          public a(): number {
+            return 1;
+          }
+        }
+      `,
+    },
   ],
   invalid: [
     fromFixture(
