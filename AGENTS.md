@@ -61,7 +61,7 @@ eslint-plugin-rxjs-x/
 ├── package.json
 ├── README.md
 ├── tsdown.config.ts        # Build configuration
-├── vitest.config.mts       # Test configuration
+├── vitest.config.ts        # Test configuration
 └── yarn.lock               # Packages lockfile
 ```
 
