@@ -2,6 +2,16 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.5 (2026-02-16)
+
+No functional changes.
+
+### Chores
+
+- Upper bound on peer dependencies ([#375](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/375)) ([0b76de0](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/0b76de0b5f453b797d08ea6a434dfb83d4fb7efb))
+  - `rxjs` ^7.2.0 (previously was >=7.2.0)
+  - `typescript` >=4.8.4 <6.0.0 (previously was >=4.8.4)
+
 ## v0.9.4 (2026-02-13)
 
 ### Fixes
