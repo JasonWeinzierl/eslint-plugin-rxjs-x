@@ -80,8 +80,6 @@ export default defineConfig(gitignore(), {
     ],
     'eslint-plugin/unique-test-case-names': 'error',
     'eslint-plugin/no-matching-violation-suggest-message-ids': 'error',
-    // TODO: re-enable when deprecated rules are removed.
-    'eslint-plugin/no-meta-replaced-by': 'off',
 
     '@typescript-eslint/no-unnecessary-condition': 'off',
     '@typescript-eslint/restrict-template-expressions': [
