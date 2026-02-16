@@ -4,6 +4,10 @@
 [![NPM version](https://img.shields.io/npm/v/eslint-plugin-rxjs-x.svg)](https://www.npmjs.com/package/eslint-plugin-rxjs-x)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/JasonWeinzierl/eslint-plugin-rxjs-x/badge)](https://scorecard.dev/viewer/?uri=github.com/JasonWeinzierl/eslint-plugin-rxjs-x)
 
+> [!NOTE]
+> Forked from [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
+> as the original repository seems [no longer maintained](https://github.com/cartant/eslint-plugin-rxjs/issues/127).
+
 This ESLint plugin is intended to prevent issues with [RxJS 7](https://github.com/ReactiveX/rxjs/tree/7.x).
 
 Most of these rules require TypeScript typed linting and are indicated as such below.
@@ -39,59 +43,16 @@ See [typescript-eslint's Getting Started](https://typescript-eslint.io/getting-s
 
 Additionally, consider if the `rxjsX.configs.strict` shared config is right for your project.
 
-## Legacy Migration Guide from `eslint-plugin-rxjs`
+## Notable Changes from `eslint-plugin-rxjs`
+
+1. eslintrc is not supported.
+2. The namespace of this plugin is `rxjs-x` instead of `rxjs`.
+    - e.g. if your ESLint config had `"rxjs/no-subject-value": "error"`, replace it with `"rxjs-x/no-subject-value": "error"`.
+    - e.g. if your project had inline comments like `// eslint-disable-next-line rxjs/no-async-subscribe`, replace them with `// eslint-disable-next-line rxjs-x/no-async-subscribe`.
+3. `rxjs/no-ignored-observable` is replaced with `rxjs-x/no-floating-observable`.
 
 > [!TIP]
 > A complete description of all changes from `eslint-plugin-rxjs` are documented in the [CHANGELOG](CHANGELOG.md) file.
-
-This project started as a fork of [`eslint-plugin-rxjs`](https://github.com/cartant/eslint-plugin-rxjs)
-but is still compatible with the eslintrc configuration format.
-
-> [!WARNING]
-> eslintrc compatibility will be removed in v1.
-> Users are highly encouraged to upgrade to ESLint's flat configuration format.
-> See: [https://eslint.org/docs/latest/use/configure/migration-guide]
-
-1. Install `eslint-plugin-rxjs-x` using your preferred package manager.
-2. If you previously used the `plugin:rxjs/recommended` shared config,
-   replace it with `plugin:rxjs-x/recommended-legacy`:
-
-    ```diff
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-    -   "plugin:rxjs/recommended",
-    +   "plugin:rxjs-x/recommended-legacy",
-    ],
-    ```
-
-3. If you previously did _not_ use a shared config,
-   then replace the `rxjs` plugin to your `plugins` block:
-
-    ```diff
-    "plugins": [
-        "@typescript-eslint",
-    -   "rxjs",
-    +   "rxjs-x",
-    ],
-    ```
-
-    - Note: this is unnecessary if you are using the `recommended-legacy` shared config.
-4. In your `rules` blocks, replace the namespace `rxjs` with `rxjs-x` for all rules:
-
-    ```diff
-    "rules": {
-    -   "rxjs/no-subject-value": "error",
-    +   "rxjs-x/no-subject-value": "error",
-    },
-    ```
-
-    - Note: if your project has inline comments (e.g. `eslint-disable-next-line`) referencing `rxjs` rules, you must update the namespace there too.
-5. If you previously used `rxjs/no-ignored-observable`, consider replacing it with `rxjs-x/no-floating-observables`. `no-ignored-observable` will be removed in v1.
-
-    ```diff
-    -   'rxjs/no-ignored-observable': 'error',
-    +   'rxjs-x/no-floating-observables': 'error',
-    ```
 
 ## Configs
 
