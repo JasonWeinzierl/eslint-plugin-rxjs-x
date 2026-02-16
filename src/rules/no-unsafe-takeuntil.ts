@@ -1,5 +1,4 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { stripIndent } from 'common-tags';
 import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import {
   getTypeServices,
@@ -28,10 +27,9 @@ export const noUnsafeTakeuntilRule = ruleCreator({
           allow: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow `takeUntil`.' },
         },
         type: 'object',
-        description: stripIndent`
-          An optional object with optional \`alias\` and \`allow\` properties.
-          The \`alias\` property is an array containing the names of operators that aliases for \`takeUntil\`.
-          The \`allow\` property is an array containing the names of the operators that are allowed to follow \`takeUntil\`.`,
+        description: `An optional object with optional \`alias\` and \`allow\` properties.
+The \`alias\` property is an array containing the names of operators that aliases for \`takeUntil\`.
+The \`allow\` property is an array containing the names of the operators that are allowed to follow \`takeUntil\`.`,
       },
     ],
     type: 'problem',

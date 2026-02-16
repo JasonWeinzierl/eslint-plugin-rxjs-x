@@ -1,5 +1,4 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { stripIndent } from 'common-tags';
 import { DEFAULT_VALID_POST_COMPLETION_OPERATORS } from '../constants';
 import { getTypeServices, isCallExpression, isIdentifier, isMemberExpression } from '../etc';
 import { findIsLastOperatorOrderValid, ruleCreator } from '../utils';
@@ -25,11 +24,9 @@ export const noIgnoredSubscriptionRule = ruleCreator({
           postCompleters: { type: 'array', items: { type: 'string' }, description: 'An array of operator names that are allowed to follow the completion operators.' },
         },
         type: 'object',
-        description: stripIndent`
-          An object with optional \`completers\` and \`postCompleters\` properties.
-          The \`completers\` property is an array containing the names of operators that will complete the observable and silence this rule.
-          The \`postCompleters\` property is an array containing the names of the operators that are allowed to follow the completion operators.
-        `,
+        description: `An object with optional \`completers\` and \`postCompleters\` properties.
+The \`completers\` property is an array containing the names of operators that will complete the observable and silence this rule.
+The \`postCompleters\` property is an array containing the names of the operators that are allowed to follow the completion operators.`,
       },
     ],
     type: 'problem',

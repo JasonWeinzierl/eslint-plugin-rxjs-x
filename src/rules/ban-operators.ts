@@ -1,5 +1,4 @@
 import { TSESTree as es } from '@typescript-eslint/utils';
-import { stripIndent } from 'common-tags';
 import { getTypeServices } from '../etc';
 import { ruleCreator } from '../utils';
 
@@ -17,9 +16,8 @@ export const banOperatorsRule = ruleCreator({
     schema: [
       {
         type: 'object',
-        description: stripIndent`
-          An object containing keys that are names of operators
-          and values that are either booleans or strings containing the explanation for the ban.`,
+        description: `An object containing keys that are names of operators
+and values that are either booleans or strings containing the explanation for the ban.`,
         additionalProperties: {
           anyOf: [
             {
