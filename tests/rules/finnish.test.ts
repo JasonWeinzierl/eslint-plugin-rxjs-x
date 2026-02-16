@@ -229,6 +229,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someObservable$ = of(0);
         const someArray = [someObservable$];
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
+        (function someFunctionExp(someParam$: Observable<any>): Observable<any> { return someParam$; })();
         function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
       `,
       options: [{ functions: false }],
@@ -591,6 +592,9 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         const someArray = [someObservable$];
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
                  ~~~~~~~~~~~~ [shouldBeFinnish]
+        (function someFunctionExp(someParam: Observable<any>): Observable<any> { return someParam; })();
+                  ~~~~~~~~~~~~~~~ [shouldBeFinnish]
+                                  ~~~~~~~~~ [shouldBeFinnish]
         function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
                  ~~~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
       `,
