@@ -11,74 +11,79 @@ type Tests = RunTests<
 
 const arrowTests: Tests = {
   valid: [
-    stripIndent`
-      // arrows
-      import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
-      import { catchError, map, takeUntil } from "rxjs/operators";
+    {
+      name: 'arrows',
+      code: stripIndent`
+        import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
+        import { catchError, map, takeUntil } from "rxjs/operators";
 
-      function userland<T>(selector: (t: T) => T) { return map(selector); }
+        function userland<T>(selector: (t: T) => T) { return map(selector); }
 
-      class Something {
-        someObservable = NEVER;
-        constructor() {
-          const ob = of(1).pipe(
-            map(value => this.map(value)),
-            userland(value => this.map(value)),
-            takeUntil(this.someObservable),
-            catchError(error => this.catchError(error))
-          ).subscribe(
-            value => this.next(value),
-            error => this.error(error),
-            () => this.complete()
-          );
-          const subscription = new Subscription(() => this.tearDown);
-          subscription.add(() => this.tearDown);
+        class Something {
+          someObservable = NEVER;
+          constructor() {
+            const ob = of(1).pipe(
+              map(value => this.map(value)),
+              userland(value => this.map(value)),
+              takeUntil(this.someObservable),
+              catchError(error => this.catchError(error))
+            ).subscribe(
+              value => this.next(value),
+              error => this.error(error),
+              () => this.complete()
+            );
+            const subscription = new Subscription(() => this.tearDown);
+            subscription.add(() => this.tearDown);
+          }
+          catchError(error: any): Observable<never> { return throwError(error); }
+          complete(): void {}
+          error(error: any): void {}
+          map<T>(t: T): T { return t; }
+          next<T>(t: T): void {}
+          tearDown(): void {}
         }
-        catchError(error: any): Observable<never> { return throwError(error); }
-        complete(): void {}
-        error(error: any): void {}
-        map<T>(t: T): T { return t; }
-        next<T>(t: T): void {}
-        tearDown(): void {}
-      }
-    `,
+      `,
+    },
   ],
   invalid: [],
 };
 
 const boundTests: Tests = {
   valid: [
-    stripIndent`
-      // bound
-      import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
-      import { catchError, map, takeUntil } from "rxjs/operators";
+    {
+      name: 'bound',
+      code: stripIndent`
+        // bound
+        import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
+        import { catchError, map, takeUntil } from "rxjs/operators";
 
-      function userland<T>(selector: (t: T) => T) { return map(selector); }
+        function userland<T>(selector: (t: T) => T) { return map(selector); }
 
-      class Something {
-        someObservable = NEVER;
-        constructor() {
-          const ob = of(1).pipe(
-            map(this.map.bind(this)),
-            userland(this.map.bind(this)),
-            takeUntil(this.someObservable),
-            catchError(this.catchError.bind(this))
-          ).subscribe(
-            this.next.bind(this),
-            this.error.bind(this),
-            this.complete.bind(this)
-          );
-          const subscription = new Subscription(this.tearDown.bind(this));
-          subscription.add(this.tearDown.bind(this));
+        class Something {
+          someObservable = NEVER;
+          constructor() {
+            const ob = of(1).pipe(
+              map(this.map.bind(this)),
+              userland(this.map.bind(this)),
+              takeUntil(this.someObservable),
+              catchError(this.catchError.bind(this))
+            ).subscribe(
+              this.next.bind(this),
+              this.error.bind(this),
+              this.complete.bind(this)
+            );
+            const subscription = new Subscription(this.tearDown.bind(this));
+            subscription.add(this.tearDown.bind(this));
+          }
+          catchError(error: any): Observable<never> { return throwError(error); }
+          complete(): void {}
+          error(error: any): void {}
+          map<T>(t: T): T { return t; }
+          next<T>(t: T): void {}
+          tearDown(): void {}
         }
-        catchError(error: any): Observable<never> { return throwError(error); }
-        complete(): void {}
-        error(error: any): void {}
-        map<T>(t: T): T { return t; }
-        next<T>(t: T): void {}
-        tearDown(): void {}
-      }
-    `,
+      `,
+    },
   ],
   invalid: [],
 };
@@ -148,57 +153,63 @@ const deepTests: Tests = {
 
 const staticTests: Tests = {
   valid: [
-    stripIndent`
-      // static
-      import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
-      import { catchError, map, takeUntil } from "rxjs/operators";
+    {
+      name: 'static',
+      code: stripIndent`
+        // static
+        import { NEVER, Observable, of, Subscription, throwError } from "rxjs";
+        import { catchError, map, takeUntil } from "rxjs/operators";
 
-      function userland<T>(selector: (t: T) => T) { return map(selector); }
+        function userland<T>(selector: (t: T) => T) { return map(selector); }
 
-      class Something {
-        someObservable = NEVER;
-        constructor() {
-          const ob = of(1).pipe(
-            map(Something.map),
-            userland(Something.map),
-            takeUntil(this.someObservable),
-            catchError(Something.catchError)
-          ).subscribe(
-            Something.next,
-            Something.error,
-            Something.complete
-          );
-          const subscription = new Subscription(Something.tearDown);
-          subscription.add(Something.tearDown);
+        class Something {
+          someObservable = NEVER;
+          constructor() {
+            const ob = of(1).pipe(
+              map(Something.map),
+              userland(Something.map),
+              takeUntil(this.someObservable),
+              catchError(Something.catchError)
+            ).subscribe(
+              Something.next,
+              Something.error,
+              Something.complete
+            );
+            const subscription = new Subscription(Something.tearDown);
+            subscription.add(Something.tearDown);
+          }
+          static catchError(error: any): Observable<never> { return throwError(error); }
+          static complete(): void {}
+          static error(error: any): void {}
+          static map<T>(t: T): T { return t; }
+          static next<T>(t: T): void {}
+          static tearDown(): void {}
         }
-        static catchError(error: any): Observable<never> { return throwError(error); }
-        static complete(): void {}
-        static error(error: any): void {}
-        static map<T>(t: T): T { return t; }
-        static next<T>(t: T): void {}
-        static tearDown(): void {}
-      }
-    `,
+      `,
+    },
   ],
   invalid: [],
 };
 
 const unboundTests: Tests = {
   valid: [
-    stripIndent`
-      // unbound observable
-      import { NEVER, of } from "rxjs";
-      import { takeUntil } from "rxjs/operators";
+    {
+      name: 'unbound observable',
+      code: stripIndent`
+        // unbound observable
+        import { NEVER, of } from "rxjs";
+        import { takeUntil } from "rxjs/operators";
 
-      class Something {
-        someObservable = NEVER;
-        constructor() {
-          const ob = of(1).pipe(
-            takeUntil(this.someObservable),
-          ).subscribe(console.log);
+        class Something {
+          someObservable = NEVER;
+          constructor() {
+            const ob = of(1).pipe(
+              takeUntil(this.someObservable),
+            ).subscribe(console.log);
+          }
         }
-      }
-    `,
+      `,
+    },
   ],
   invalid: [
     fromFixture(
