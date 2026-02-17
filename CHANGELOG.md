@@ -2,6 +2,171 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v1.0.0 (2026-02-16)
+
+### Breaking Changes
+
+- ESLint v10 is required ([#361](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/361)) ([1602ca6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1602ca64d55209fa5e70bf7eb7ce69c6e8cb7347))
+  - For older versions of ESLint, see [`v0.9.x`](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/tree/0.9.x?tab=readme-ov-file#eslint-plugin-rxjs-x)
+- Node.js ^20.19.0 || ^22.13.0 || >=24 is required; Node.js v18 is no longer supported ([#358](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/358)) ([f439324](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f439324931ad1044720c76d5b20925ef9b6164f4))
+- ESM is required; CommonJS is no longer supported ([#359](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/359)) ([216c1f8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/216c1f80b434d7bcf86381e550e324615544338e))
+- **no-tap**: rule removed ([#348](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/348)) ([ea48db1](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ea48db1939c749d36747d680c3caab70f679cc41))
+- **macro**: rule removed ([#349](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/349)) ([cbc4090](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/cbc409095143a8de089750e638a5c79d31b587a5))
+- **no-compat**: rule removed ([#350](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/350)) ([f914b96](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f914b96a994d4cd645791fd4255a13b29b9ebec1))
+- **no-ignored-observable**: rule removed; use `no-floating-observables` instead ([#351](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/351)) ([484f8b6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/484f8b6e51eeac0969cc4a7ea1366efc04098c3b))
+- **recommended-legacy**: config removed ([#363](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/363)) ([ce0d2b2](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ce0d2b2a22b4c49ed711c262a2e721aab29686aa))
+
+### Chores
+
+- `@typescript-eslint/utils` ^8.56.0 is required ([#361](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/361)) ([1602ca6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1602ca64d55209fa5e70bf7eb7ce69c6e8cb7347))
+- `@typescript-eslint/scope-manager` is no longer a direct dependency ([#379](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/379)) ([3fb7eb6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/3fb7eb6d4bcdf6e790ff83a25bffa2dd504ec81f))
+  - **no-ignored-takewhile-value**: changed to only check within `pipe()`
+- `common-tags` is no longer a direct dependency ([#378](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/378)) ([29d747c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/29d747c6e68a270aa8e4aeb95d36b7369d6a649a))
+- `decamelize` ^6.0.1 is required ([#378](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/378)) ([29d747c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/29d747c6e68a270aa8e4aeb95d36b7369d6a649a))
+- `ts-api-utils` ^2.4.0 is required ([#378](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/378)) ([29d747c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/29d747c6e68a270aa8e4aeb95d36b7369d6a649a))
+- `tslib` is no longer a direct dependency ([#380](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/380)) ([4a175b1](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4a175b15c14836493a751b4307845a9e720ceaa6))
+
+### Summarized Changes from `eslint-plugin-rxjs`
+
+Since this is the first non-v0 release, the following re-states relevant pre-release changes after forking `eslint-plugin-rxjs`:
+
+#### Breaking Changes
+
+- The ESLint plugin namespace for this fork is `rxjs-x`
+- TypeScript >=4.8.4 <6.0.0 is required
+- `rxjs` ^7.2.0 is the minimum supported version of RxJS
+
+#### Plugin Features and Fixes
+
+- :sparkles: New **strict** configuration :sparkles: ([#41](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/41)) ([f2bf3fa](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f2bf3fadcbe72dfec5c69db8ec683dc2b7a62a2a))
+- Enable four more rules in the **recommended** configuration ([#56](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/56)) ([ada5d55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ada5d55ef29aa07ece11a72a0322dc58c686498a))
+  - `no-topromise`
+  - `prefer-observer`
+  - `prefer-root-operators`
+  - `throw-error`
+- Add compatibility with eslint's `defineConfig()` ([#283](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/283)) ([ea87c86](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ea87c86d6b0b020d2eb2818f126f208556950543))
+- Support `plugin.meta.namespace` ([#308](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/308)) ([ac9cdd0](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ac9cdd0e052187c7b6a5f737b1597d925e91c797))
+
+#### Rule Features and Fixes
+
+- **ban-observables**: no changes
+- **ban-operators**:
+  - Improve type-checking of banned operators; report error at usage instead of at `import` statement ([#25](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/25)) ([994ff25](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/994ff25391cc4efbb2f2cfa99c323c7280e9d1b5))
+- **finnish**:
+  - Implicit returns are properly checked ([#185](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/185)) ([b69756e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/b69756e8fc3c27de4e0cc6e244d179a90075601a))
+  - Don't require `$` for `forkJoin` and `combineLatest` overloads that take object expressions as input ([#212](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/212)) ([ee9ec8e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ee9ec8e57ee32d702c6ff44f2b4750110f845182))
+  - Fix `strict` option ignoring the `names` and `types` options ([#323](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/323)) ([2cd99fc](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/2cd99fc72b37e83ac1f3bc235ea272243fb5e097))
+  - Fix `strict` ignoring some variables, parameters, and properties ([#324](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/324)) ([434d48d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/434d48df3dccfe919695b499c52be33c7e033534))
+  - Smarter object literal handling ([#340](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/340)) ([caf4ea9](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/caf4ea9c8846eb7e676249ba7a950c9cd32693d5))
+  - Fix `types` option not working for type aliases ([#356](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/356)) ([4b26f1f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4b26f1f6c1a23eb985244c5e44daa8b335109add))
+  - Enforce Finnish on abstract methods, parameters, and properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+  - Do not enforce naming of `override` methods and properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+- **just**: no changes
+- **no-async-subscribe**:
+  - Report `async` `next` property on observer objects ([#214](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/214)) ([f3ab04d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f3ab04d5d1648d076abc8af40f68befc082f45ae))
+- **no-connectable**: no changes
+- **no-create**:
+  - `Subject.create` is now forbidden too ([#342](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/342)) ([36b14f8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/36b14f884f4614fd63d4caa916974707246522ff))
+- **no-cyclic-action**: no changes
+- **no-explicit-generics**:
+  - Don't incorrectly flag union types ([#210](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/210)) ([5662966](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/5662966caeb655354fceabef0f080aeebf7de4d9))
+  - Resolve false positives with aliased unions ([#321](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/321)) ([0d6d241](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/0d6d24139a5b9c06b3b148f56ff04781ccc14c45))
+- **no-exposed-subjects**: no changes
+- **no-finnish**:
+  - Implicit returns are properly checked ([#185](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/185)) ([b69756e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/b69756e8fc3c27de4e0cc6e244d179a90075601a))
+- **no-floating-observables**:
+  - :sparkles: New rule :sparkles:
+  - Replaces and improves upon `no-ignored-observable`. Adds `ignoreVoid` option which defaults to `true`. ([#55](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/55)) ([1268dc8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1268dc86741a37a71d5b1994b8702a8c3874db4d))
+- **no-ignored-default-value**:
+  - :sparkles: New rule :sparkles:
+  - Enforces use of `defaultValue` to prevent `EmptyError` ([#15](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/15)) ([9bd896e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/9bd896e0acb87cce2931ecda8b683fb5e9a8837c))
+- **no-ignored-error**:
+  - Fix observer objects not getting checked for `error` property ([#27](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/27)) ([46e105f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/46e105fde371a2013713f5e141b2c67ab039bd07))
+- **no-ignored-notifier**: no changes
+- **no-ignored-replay-buffer**:
+  - Check config `bufferSize` ([#12](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/12)) ([ef2f886](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ef2f8866684ed6f918eb8c465e90a1de8982186a))
+- **no-ignored-subscribe**: no changes
+- **no-ignored-subscription**:
+  - Ignore for operators like `takeUntil` and `first` ([#187](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/187)) ([782f823](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/782f8237d67ced2d478ba9351a04d049948ae04a))
+- **no-ignored-takewhile-value**:
+  - Only checks within `pipe()`
+- **no-implicit-any-catch**:
+  - Fix `typeAnnotation` bug breaking linting
+  - Default to allow explicit `any` ([#42](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/42)) ([93ef8e8](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/93ef8e8c7a0d3d93142e901dabb17db78a84a2cd))
+  - Proper parenthesis for two-param `catchError` ([#230](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/230)) ([ea0f36a](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ea0f36ab050daa7511cd16db1b07aa0bc314e7c4))
+  - Stop automatically adding `unknown` ([#336](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/336)) ([c4c8715](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/c4c87158c0206ee27812c4b798a4b09fea23f407))
+  - Option to allow explicit `Error` ([#344](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/344)) ([0c4a808](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/0c4a80835a0b083fd722cded656a6b45ff5b28ed))
+- **no-index**: no changes
+- **no-internal**: no changes
+- **no-misused-observables**:
+  - :sparkles: New Rule :sparkles:
+  - Similar to `@typescript-eslint/no-misused-promises`
+- **no-nested-subscribe**: no changes
+- **no-redundant-notify**:
+  - Also catch `unsubscribe` ([#113](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/113)) ([d42dd58](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/d42dd58bbc6095c1c6a11b3f413e260b091146a4))
+- **no-sharereplay-before-takeuntil**:
+  - :sparkles: New Rule :sparkles:
+  - Forbids putting `shareReplay` with `refCount: false` before `takeUntil` ([#241](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/241)) ([dafc378](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/dafc37854ab2ae16b9de7c545d69581256e12793))
+- **no-sharereplay**: no changes
+- **no-subclass**: no changes
+- **no-subject-unsubscribe**:
+  - Document behavior that bans passing subjects to `Subscription`'s `add` method ([#112](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/112)) ([3ca435b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/3ca435b1f8e70677f0d5d818892ed508189b694a))
+- **no-subject-value**: no changes
+- **no-subscribe-handlers**: no changes
+- **no-subscribe-in-pipe**:
+  - :sparkles: New Rule :sparkles:
+  - Forbid calling `subscribe` within `pipe` ([#59](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/59)) ([26fe38b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/26fe38b38af9dcacc9f5c8d4c5db2c4c2c4480f9))
+- **no-topromise**:
+  - Suggest `lastValueFrom` or `firstValueFrom` ([#38](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/38)) ([cec2d60](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/cec2d604931a2862aff38a3d4354dea8a7b66ada))
+  - Suggest `lastValueFrom(..., { defaultValue: undefined })` ([#184](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/184)) ([940ee0c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/940ee0cbfbe1ff1a94b22e8abf405993a14258b1))
+- **no-unbound-methods**:
+  - Ignore certain types, defaulting to Angular's `Signal` ([#211](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/211)) ([087bf3c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/087bf3cd351fe5cc849c6831a2e0ea0473706177))
+- **no-unnecessary-collection**:
+  - :sparkles: New Rule :sparkles:
+  - Forbid unnecessary passing a single observable to functions expecting multiple, like `combineLatest` or `forkJoin` ([#281](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/281)) ([61abe24](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/61abe24d1e3e3cd40f60d36433ff1541d3b4af59))
+- **no-unsafe-catch**: no changes
+- **no-unsafe-first**: no changes
+- **no-unsafe-subject-next**: no changes
+- **no-unsafe-switchmap**:
+  - Fix `observable` option ignored when `disallow` and `allow` are both null ([#355](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/355)) ([2f683e4](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/2f683e470e63ced47c32406d6d2dc3e6a6be0031))
+- **no-unsafe-takeuntil**: no changes
+- **prefer-observer**:
+  - Enhanced suggestion message ([#322](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/322)) ([105933c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/105933c588c3299355b0eb626c148e40bc9ed19f))
+- **prefer-root-operators**:
+  - :sparkles: New Rule :sparkles:
+  - For migrating from `rxjs/operators` to `rxjs` ([#34](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/34)) ([e3b8090](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/e3b8090a6f2ad346ddeaedb9f5d46543c497f323))
+- **suffix-subjects**:
+  - Don't require `Subject` suffix for `forkJoin` and `combineLatest` overloads that take object expressions as input ([#212](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/212)) ([ee9ec8e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ee9ec8e57ee32d702c6ff44f2b4750110f845182))
+  - Smarter object literal handling ([#364](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/364)) ([592918f](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/592918ff38d181a149b6382a5b5928f495e171a3))
+  - Do not enforce naming of `override` properties ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+  - Enforce suffix on abstract properties and abstract method parameters ([#365](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/365)) ([4f9a6ee](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4f9a6ee986c8d833a676f5ab9b37707b113591e8))
+- **throw-error**:
+  - Stop linting regular `throw` statements ([#22](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/22)) ([02fdffd](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/02fdffde6b9376621b902d2ebbae4fb8080d29f1))
+  - Report subjects throwing non-Errors ([#215](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/215)) ([eb979fb](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/eb979fb9f533e65e0f540af7e986ba4a2fea3fd4))
+  - Suggest wrapping strings in `Error` ([#343](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/343)) ([4da1f4c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4da1f4c3849dfd26e3c01457747c41fa23cfbeb4))
+
+#### Documentation
+
+- Add `requiresTypeChecking` to `meta.docs` of relevant rules
+- Add options documentation to rule docs ([#6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/6)) ([ee705d2](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/ee705d23efe7c779bfabb855e82130c664ba35c4))
+- Add complete documentation on when _not_ to use each rule ([#91](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/91)) ([f4b16eb](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f4b16eb1f4461b3f36eb7c40cadf99d8b60cebf3))
+- The URL for each rule now aligns with the installed version of this plugin, instead of latest main ([bf70419](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/bf704199497eafb7d8e8fe44149489a9b2e88e05))
+- The `docs` folder of Markdown documentation is no longer published to npm ([#186](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/186)) ([cd82f47](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/cd82f474649adcc10cd4f506b88df5b7eebd6d2a))
+
+#### Chores
+
+- Switch from mocha to vitest
+- The following are no longer direct dependencies:
+  - `eslint-etc`
+  - `requireindex`
+  - `tsutils`
+  - `tsutils-etc`
+- Add OpenSSF Scorecard scanning ([#334](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/334)) ([fa8a55c](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/fa8a55ceb8e0647fedebf616266b7e3244309e19))
+- Add an AGENTS.md to improve LLM behavior in this repository ([d094b12](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/d094b123d81f3ecd74fc1fad11df42526341abe2))
+- Specify a `name` for every rule test ([#357](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/357)) ([edef78e](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/edef78ef828094428b3ea36d34740046f9198843))
+
+---
+
 ## v0.9.5 (2026-02-16)
 
 No functional changes.
