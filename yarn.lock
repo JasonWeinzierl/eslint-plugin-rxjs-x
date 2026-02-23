@@ -153,15 +153,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/compat@npm:^1.2.5":
-  version: 1.2.5
-  resolution: "@eslint/compat@npm:1.2.5"
+"@eslint/compat@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@eslint/compat@npm:2.0.2"
+  dependencies:
+    "@eslint/core": "npm:^1.1.0"
   peerDependencies:
-    eslint: ^9.10.0
+    eslint: ^8.40 || 9 || 10
   peerDependenciesMeta:
     eslint:
       optional: true
-  checksum: 10c0/c7cd6c623b850e7507fdaf26298b42b07012a65b57f6abbdd1e968eb281756bb94024f162a661ffcc7ad8b2949832aec5078a9fdefa87081e127d392842d0048
+  checksum: 10c0/176df611bcb54ff7d9c3ac440df6844e552a4ed5de30eba28edbeebb68ccc7f19111fdd4c10780101ee5f871bd03ec0457f38c67834c285751c2bdb37d8ae73c
   languageName: node
   linkType: hard
 
@@ -1817,14 +1819,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-flat-gitignore@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "eslint-config-flat-gitignore@npm:2.1.0"
+"eslint-config-flat-gitignore@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "eslint-config-flat-gitignore@npm:2.2.1"
   dependencies:
-    "@eslint/compat": "npm:^1.2.5"
+    "@eslint/compat": "npm:^2.0.2"
   peerDependencies:
-    eslint: ^9.5.0
-  checksum: 10c0/ed043b2bbbaf14fcc063343888810292bfc3e671d69d9406085a102e4b60b6787a06602da289eb3e71a67ace201b69203a86998f0a3b5de8213706690d8b101b
+    eslint: ^9.5.0 || ^10.0.0
+  checksum: 10c0/e2d9069c87b5355ba8d46e9f3b516eac04bbfd76c73b00aced6eb39834b2973cbabbef3dbb5a80a2b638b50d59fa577b6e058daee8fd60d4b57e0d6b930d9bad
   languageName: node
   linkType: hard
 
@@ -1995,7 +1997,7 @@ __metadata:
     common-tags: "npm:^1.8.2"
     decamelize: "npm:^6.0.1"
     eslint: "npm:^10.0.1"
-    eslint-config-flat-gitignore: "npm:^2.1.0"
+    eslint-config-flat-gitignore: "npm:^2.2.1"
     eslint-doc-generator: "npm:^3.1.0"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch"
