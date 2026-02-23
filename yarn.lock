@@ -934,14 +934,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript/vfs@npm:^1.6.3":
-  version: 1.6.3
-  resolution: "@typescript/vfs@npm:1.6.3"
+"@typescript/vfs@npm:^1.6.4":
+  version: 1.6.4
+  resolution: "@typescript/vfs@npm:1.6.4"
   dependencies:
-    debug: "npm:^4.1.1"
+    debug: "npm:^4.4.3"
   peerDependencies:
     typescript: "*"
-  checksum: 10c0/c5a810bb9e80da9a707201147015634cde94e8073a822f52257c1076e879d9b4c5a625ee099a7e98ac5ccf8c69a9d17124f1a0ef2e79e42a20dd5959f60011b3
+  checksum: 10c0/acb9de42f23fda3f75e3d7900ba106ef323a2f4e7cf0e4a94dbb457e26d353ca63bb35193ed1a32fc8733f3ae59099612b290b06bd6221694861beb9bfb62f62
   languageName: node
   linkType: hard
 
@@ -1610,7 +1610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.1.1, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.4.1, debug@npm:^4.4.3":
+"debug@npm:4, debug@npm:^4.0.0, debug@npm:^4.3.1, debug@npm:^4.3.2, debug@npm:^4.3.4, debug@npm:^4.4.1, debug@npm:^4.4.3":
   version: 4.4.3
   resolution: "debug@npm:4.4.3"
   dependencies:
@@ -1990,7 +1990,7 @@ __metadata:
     "@types/node": "npm:~20.19.33"
     "@typescript-eslint/rule-tester": "npm:^8.56.0"
     "@typescript-eslint/utils": "npm:^8.56.0"
-    "@typescript/vfs": "npm:^1.6.3"
+    "@typescript/vfs": "npm:^1.6.4"
     "@vitest/coverage-v8": "npm:^4.0.18"
     "@vitest/eslint-plugin": "npm:^1.6.9"
     bumpp: "npm:^10.4.1"
