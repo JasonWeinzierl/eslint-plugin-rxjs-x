@@ -1,4 +1,4 @@
-import { InvalidTestCase, SuggestionOutput, TestCaseError } from '@typescript-eslint/rule-tester';
+import type { InvalidTestCase, SuggestionOutput, TestCaseError } from '@typescript-eslint/rule-tester';
 import { TSESLint } from '@typescript-eslint/utils';
 
 export function fromFixture<

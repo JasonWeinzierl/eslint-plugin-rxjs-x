@@ -26,6 +26,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
+    "verbatimModuleSyntax": true,
   },
   "include": [
     "src",
