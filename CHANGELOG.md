@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v1.0.1 (2026-03-20)
+
+### Fixes
+
+- **no-exposed-subjects**: check implicit returns ([#381](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/381)) ([6771385](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/6771385c85aa8fdb4fcf986f5ab819e233ec1aac))
+
 ## v1.0.0 (2026-02-16)
 
 ### Breaking Changes
