@@ -75,7 +75,7 @@
     "@typescript/vfs": "^1.6.4",
     "@vitest/coverage-v8": "^4.0.18",
     "@vitest/eslint-plugin": "^1.6.9",
-    "bumpp": "^10.4.1",
+    "bumpp": "^11.0.1",
     "common-tags": "^1.8.2",
     "eslint": "^10.0.1",
     "eslint-config-flat-gitignore": "^2.2.1",
