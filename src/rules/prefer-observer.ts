@@ -95,7 +95,7 @@ export const preferObserverRule = ruleCreator({
 
         const [, start] = callExpression.arguments[0].range;
         const [, end]
-          = callExpression.arguments[callExpression.arguments.length - 1].range;
+          = callExpression.arguments.at(-1).range;
         yield fixer.removeRange([start, end]);
       }
 

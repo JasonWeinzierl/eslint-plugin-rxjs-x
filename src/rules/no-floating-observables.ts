@@ -77,21 +77,21 @@ export const noFloatingObservablesRule = ruleCreator({
         checkNode(node.expression);
       },
       'ExpressionStatement > SequenceExpression': (node: es.SequenceExpression) => {
-        node.expressions.forEach(expression => {
+        for (const expression of node.expressions) {
           if (isCallExpression(expression)) {
             checkNode(expression);
           }
-        });
+        }
       },
       'ExpressionStatement > ArrayExpression': (node: es.ArrayExpression) => {
-        node.elements.forEach(expression => {
-          if (!expression) return;
+        for (const expression of node.elements) {
+          if (!expression) continue;
           if (isCallExpression(expression)) {
             checkNode(expression);
           } else if (isUnaryExpression(expression)) {
             checkVoid(expression);
           }
-        });
+        }
       },
     };
   },

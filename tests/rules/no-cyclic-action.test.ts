@@ -19,7 +19,7 @@ const setup = stripIndent`
 
   const SOMETHING = "SOMETHING";
   const SOMETHING_ELSE = "SOMETHING_ELSE";
-`.replace(/\n/g, '');
+`.replaceAll('\n', '');
 
 ruleTester({ types: true }).run('no-cyclic-action', noCyclicActionRule, {
   valid: [

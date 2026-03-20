@@ -15,7 +15,7 @@ const setup = stripIndent`
   const actions = of({});
   const actions$ = of({});
   const that = { actions };
-`.replace(/\n/g, '');
+`.replaceAll('\n', '');
 
 ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
   valid: [

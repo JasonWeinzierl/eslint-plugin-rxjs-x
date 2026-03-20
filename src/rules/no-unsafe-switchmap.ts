@@ -72,8 +72,8 @@ The \`observable\` property is used to identify the action observables from whic
   },
   name: 'no-unsafe-switchmap',
   create: (context) => {
-    let allowRegExp: RegExp | undefined = undefined;
-    let disallowRegExp: RegExp | undefined = undefined;
+    let allowRegExp: RegExp | undefined;
+    let disallowRegExp: RegExp | undefined;
 
     const [config] = context.options;
     if (config.allow) {
@@ -131,7 +131,7 @@ The \`observable\` property is used to identify the action observables from whic
         return;
       }
 
-      node.arguments.forEach((arg) => {
+      for (const arg of node.arguments) {
         if (
           isCallExpression(arg)
           && isIdentifier(arg.callee)
@@ -142,7 +142,7 @@ The \`observable\` property is used to identify the action observables from whic
             node: arg.callee,
           });
         }
-      });
+      }
     }
 
     return {

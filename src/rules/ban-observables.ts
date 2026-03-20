@@ -41,14 +41,14 @@ and values that are either booleans or strings containing the explanation for th
       return {};
     }
 
-    Object.entries(config).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(config)) {
       if (value !== false) {
         bans.push({
           explanation: typeof value === 'string' ? value : '',
           regExp: new RegExp(`^${key}$`),
         });
       }
-    });
+    }
 
     function getFailure(name: string) {
       for (let b = 0, length = bans.length; b < length; ++b) {
@@ -61,7 +61,7 @@ and values that are either booleans or strings containing the explanation for th
           } as const;
         }
       }
-      return undefined;
+      return;
     }
 
     return {

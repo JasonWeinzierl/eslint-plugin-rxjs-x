@@ -64,11 +64,9 @@ export const suffixSubjectsRule = ruleCreator({
 
     const types: { regExp: RegExp; validate: boolean }[] = [];
     if (config.types) {
-      Object.entries(config.types).forEach(
-        ([key, validate]: [string, boolean]) => {
-          types.push({ regExp: new RegExp(key), validate });
-        },
-      );
+      for (const [key, validate] of Object.entries(config.types)) {
+        types.push({ regExp: new RegExp(key), validate });
+      }
     }
 
     const { suffix = 'Subject' } = config;
@@ -187,9 +185,9 @@ export const suffixSubjectsRule = ruleCreator({
         }
 
         if (config.parameters) {
-          node.value.params.forEach((param: es.Parameter) => {
+          for (const param of node.value.params) {
             checkNode(param);
-          });
+          }
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (

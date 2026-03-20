@@ -9,6 +9,7 @@ import n from 'eslint-plugin-n';
 import packageJson from 'eslint-plugin-package-json';
 import perfectionist from 'eslint-plugin-perfectionist';
 import regexp from 'eslint-plugin-regexp';
+import unicorn from 'eslint-plugin-unicorn';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
@@ -33,6 +34,7 @@ export default defineConfig(gitignore(), {
     }),
     n.configs['flat/recommended-module'],
     regexp.configs.recommended,
+    unicorn.configs.unopinionated,
   ],
   rules: {
     '@stylistic/arrow-parens': 'off',

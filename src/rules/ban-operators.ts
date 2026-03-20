@@ -43,14 +43,14 @@ and values that are either booleans or strings containing the explanation for th
       return {};
     }
 
-    Object.entries(config).forEach(([key, value]) => {
+    for (const [key, value] of Object.entries(config)) {
       if (value !== false) {
         bans.push({
           name: key,
           explanation: typeof value === 'string' ? value : '',
         });
       }
-    });
+    }
 
     function checkNode(node: es.Node) {
       for (const ban of bans) {

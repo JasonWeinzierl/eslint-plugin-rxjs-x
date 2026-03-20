@@ -77,7 +77,7 @@ function parseFixture<TMessageIds extends string>(
   const lines: string[] = [];
   const errors: TestCaseError<TMessageIds>[] = [];
   let suggestFound = false;
-  fixture.split('\n').forEach((line) => {
+  for (const line of fixture.split('\n')) {
     const match = errorRegExp.exec(line);
     if (match?.groups) {
       const column = match.groups.indent.length + 1;
@@ -107,7 +107,7 @@ function parseFixture<TMessageIds extends string>(
     } else {
       lines.push(line);
     }
-  });
+  }
   if (suggestions && !suggestFound) {
     throw new Error('Suggestions specified but no \'suggest\' annotation found.');
   }

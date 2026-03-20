@@ -13,9 +13,9 @@ const RENAMED_OPERATORS: Record<string, string> = {
   zip: 'zipWith',
 };
 
-const DEPRECATED_OPERATORS = [
+const DEPRECATED_OPERATORS = new Set([
   'partition',
-];
+]);
 
 export const preferRootOperatorsRule = ruleCreator({
   meta: {
@@ -56,7 +56,7 @@ export const preferRootOperatorsRule = ruleCreator({
     }
 
     function hasDeprecatedOperators(specifiers?: es.ImportSpecifier[] | es.ExportSpecifier[]): boolean {
-      return !!specifiers?.some(s => DEPRECATED_OPERATORS.includes(getName(getOperatorNode(s))));
+      return !!specifiers?.some(s => DEPRECATED_OPERATORS.has(getName(getOperatorNode(s))));
     }
 
     function getName(node: es.Identifier | es.StringLiteral): string {

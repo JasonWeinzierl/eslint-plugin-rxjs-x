@@ -47,16 +47,14 @@ The property can be specified as a regular expression string and is used to iden
         return;
       }
 
-      node.arguments.forEach((arg) => {
-        if (isCallExpression(arg) && isIdentifier(arg.callee)) {
-          if (invalidOperatorsRegExp.test(arg.callee.name)) {
-            context.report({
-              messageId: 'forbidden',
-              node: arg.callee,
-            });
-          }
+      for (const arg of node.arguments) {
+        if (isCallExpression(arg) && isIdentifier(arg.callee) && invalidOperatorsRegExp.test(arg.callee.name)) {
+          context.report({
+            messageId: 'forbidden',
+            node: arg.callee,
+          });
         }
-      });
+      }
     }
 
     return {
