@@ -86,6 +86,18 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
       `,
     },
     {
+      name: 'actions takeUntil should not match take or first regex substrings',
+      code: stripIndent`
+        import { EMPTY, of } from "rxjs";
+        import { takeUntil } from "rxjs/operators";
+
+        const actions$ = of({});
+        const safePipedTakeUntilEffect = actions$.pipe(
+          takeUntil(EMPTY)
+        );
+      `,
+    },
+    {
       name: 'non-matching options',
       code: stripIndent`
         ${setup}
