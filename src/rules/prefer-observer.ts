@@ -91,11 +91,12 @@ export const preferObserverRule = ruleCreator({
         }
         observer += ' }';
 
-        yield fixer.replaceText(callExpression.arguments[0], observer);
+        yield fixer.replaceText(args[0], observer);
 
-        const [, start] = callExpression.arguments[0].range;
+        const [, start] = args[0].range;
         const [, end]
-          = callExpression.arguments.at(-1).range;
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know args is not empty since we don't report if it is.
+          = args.at(-1)!.range;
         yield fixer.removeRange([start, end]);
       }
 
