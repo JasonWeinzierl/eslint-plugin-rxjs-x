@@ -12,6 +12,9 @@
     "lib": [
       "ESNext",
     ],
+    "types": [
+      "node",
+    ],
 
     /* Output */
     "noEmit": true,
