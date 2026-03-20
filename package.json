@@ -73,9 +73,9 @@
     "@types/node": "~20.19.37",
     "@typescript-eslint/rule-tester": "^8.57.1",
     "@typescript/vfs": "^1.6.4",
-    "@vitest/coverage-v8": "^4.0.18",
-    "@vitest/eslint-plugin": "^1.6.9",
-    "bumpp": "^10.4.1",
+    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/eslint-plugin": "^1.6.12",
+    "bumpp": "^11.0.1",
     "common-tags": "^1.8.2",
     "eslint": "^10.1.0",
     "eslint-config-flat-gitignore": "^2.2.1",
@@ -86,14 +86,14 @@
     "eslint-plugin-n": "^17.24.0",
     "markdownlint-cli2": "~0.21.0",
     "rxjs": "^7.8.2",
-    "tsdown": "^0.20.3",
+    "tsdown": "^0.21.4",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.57.1",
-    "vite": "npm:rolldown-vite@~7.3.1",
-    "vitest": "^4.0.18"
+    "vite": "^8.0.1",
+    "vitest": "^4.1.0"
   },
   "resolutions": {
-    "vite": "npm:rolldown-vite@~7.3.1"
+    "rolldown": "^1.0.0-rc.10"
   },
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
