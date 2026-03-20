@@ -38,7 +38,7 @@ The property can be specified as a regular expression string and is used to iden
   },
   name: 'no-unsafe-catch',
   create: (context) => {
-    const invalidOperatorsRegExp = /^(catchError)$/;
+    const invalidOperatorsRegExp = /^catchError$/;
 
     const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);
@@ -64,19 +64,17 @@ The property can be specified as a regular expression string and is used to iden
         return;
       }
 
-      node.arguments.forEach((arg) => {
-        if (isCallExpression(arg) && isIdentifier(arg.callee)) {
-          if (
-            invalidOperatorsRegExp.test(arg.callee.name)
-            && isUnsafe(arg.arguments)
-          ) {
-            context.report({
-              messageId: 'forbidden',
-              node: arg.callee,
-            });
-          }
+      for (const arg of node.arguments) {
+        if (isCallExpression(arg) && isIdentifier(arg.callee)
+          && invalidOperatorsRegExp.test(arg.callee.name)
+          && isUnsafe(arg.arguments)
+        ) {
+          context.report({
+            messageId: 'forbidden',
+            node: arg.callee,
+          });
         }
-      });
+      }
     }
 
     return {

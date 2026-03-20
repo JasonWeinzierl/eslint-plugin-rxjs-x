@@ -12,7 +12,7 @@ export function findParent(node: TSESTree.Node, ...args: (string | Predicate)[])
   const predicate: Predicate
     = typeof arg === 'function'
       ? arg
-      : (type: string) => (!args.includes(type) ? 'continue' : 'return');
+      : (type: string) => (args.includes(type) ? 'return' : 'continue');
   let parent = node.parent as TSESTree.Node | undefined;
   while (parent) {
     switch (predicate(parent.type)) {

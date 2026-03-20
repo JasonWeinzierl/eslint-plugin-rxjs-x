@@ -1,23 +1,7 @@
 {
   "name": "eslint-plugin-rxjs-x",
-  "type": "module",
   "version": "1.0.0",
-  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7",
   "description": "Modern ESLint plugin for RxJS",
-  "author": "Jason Weinzierl <weinzierljason@gmail.com>",
-  "license": "MIT",
-  "homepage": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
-  },
-  "publishConfig": {
-    "provenance": true,
-    "registry": "https://registry.npmjs.org"
-  },
-  "bugs": {
-    "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues"
-  },
   "keywords": [
     "lint",
     "rules",
@@ -26,7 +10,18 @@
     "eslint-plugin",
     "rxjs"
   ],
+  "homepage": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x",
+  "bugs": {
+    "url": "https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x.git"
+  },
+  "license": "MIT",
+  "author": "Jason Weinzierl <weinzierljason@gmail.com>",
   "sideEffects": false,
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -41,30 +36,23 @@
   ],
   "scripts": {
     "build": "tsdown",
+    "coverage": "vitest run --coverage",
+    "docs": "eslint-doc-generator",
     "lint": "yarn lint-js && yarn lint-docs && yarn lint-eslint-docs",
-    "lint-js": "eslint",
     "lint-docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-eslint-docs": "yarn build && eslint-doc-generator --check",
-    "docs": "eslint-doc-generator",
+    "lint-js": "eslint",
     "release": "bumpp && echo \"Create a new release in GitHub to trigger the publish workflow.\"",
     "test": "vitest",
-    "coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
+  },
+  "resolutions": {
+    "rolldown": "^1.0.0-rc.10"
   },
   "dependencies": {
     "@typescript-eslint/utils": "^8.56.0",
     "decamelize": "^6.0.1",
     "ts-api-utils": "^2.4.0"
-  },
-  "peerDependencies": {
-    "eslint": "^10.0.1",
-    "rxjs": "^7.2.0",
-    "typescript": ">=4.8.4 <6.0.0"
-  },
-  "peerDependenciesMeta": {
-    "rxjs": {
-      "optional": true
-    }
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -84,6 +72,11 @@
     "eslint-plugin-eslint-plugin": "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch",
     "eslint-plugin-import-x": "^4.16.2",
     "eslint-plugin-n": "^17.24.0",
+    "eslint-plugin-package-json": "^0.91.0",
+    "eslint-plugin-perfectionist": "^5.7.0",
+    "eslint-plugin-regexp": "^3.1.0",
+    "eslint-plugin-unicorn": "^63.0.0",
+    "jsonc-eslint-parser": "^3.1.0",
     "markdownlint-cli2": "~0.21.0",
     "rxjs": "^7.8.2",
     "tsdown": "^0.21.4",
@@ -92,10 +85,22 @@
     "vite": "^8.0.1",
     "vitest": "^4.1.0"
   },
-  "resolutions": {
-    "rolldown": "^1.0.0-rc.10"
+  "peerDependencies": {
+    "eslint": "^10.0.1",
+    "rxjs": "^7.2.0",
+    "typescript": ">=4.8.4 <6.0.0"
   },
+  "peerDependenciesMeta": {
+    "rxjs": {
+      "optional": true
+    }
+  },
+  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7",
   "engines": {
     "node": "^20.19.0 || ^22.13.0 || >=24"
+  },
+  "publishConfig": {
+    "provenance": true,
+    "registry": "https://registry.npmjs.org"
   }
 }

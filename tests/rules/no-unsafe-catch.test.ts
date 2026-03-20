@@ -14,7 +14,7 @@ const setup = stripIndent`
   type Actions = Observable<any>;
   const actions = of({});
   const that = { actions };
-`.replace(/\n/g, '');
+`.replaceAll('\n', '');
 
 ruleTester({ types: true }).run('no-unsafe-catch', noUnsafeCatchRule, {
   valid: [

@@ -478,7 +478,7 @@ function getPropertyContextualType(
     const propertySymbol = tsutils
       .unionConstituents(objType)
       .map(t => checker.getPropertyOfType(t, tsNode.name.getText()))
-      .find(p => p);
+      .find(Boolean);
     if (propertySymbol == null) {
       return;
     }

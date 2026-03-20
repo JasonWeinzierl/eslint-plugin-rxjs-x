@@ -24,7 +24,7 @@ export const noInternalRule = ruleCreator({
     function getReplacement(location: string) {
       const match = /^\s*('|")/.exec(location);
       if (!match) {
-        return undefined;
+        return;
       }
       const [, quote] = match;
       if (/^['"]rxjs\/internal\/ajax/.test(location)) {
@@ -51,7 +51,7 @@ export const noInternalRule = ruleCreator({
       if (/^['"]rxjs\/internal\/testing/.test(location)) {
         return `${quote}rxjs/testing${quote}`;
       }
-      return undefined;
+      return;
     }
 
     return {

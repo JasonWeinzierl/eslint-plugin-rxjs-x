@@ -57,7 +57,7 @@ function isType(
   }
   return typeof name === 'string'
     ? symbol.name === name
-    : Boolean(symbol.name.match(name));
+    : name.test(symbol.name);
 }
 
 function couldImplement(
@@ -109,5 +109,5 @@ function isMatchingNode(
     }
   }
   const text = expression.getText();
-  return typeof name === 'string' ? text === name : Boolean(text.match(name));
+  return typeof name === 'string' ? text === name : name.test(text);
 }

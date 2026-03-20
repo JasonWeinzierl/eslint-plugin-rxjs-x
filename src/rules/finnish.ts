@@ -82,20 +82,16 @@ export const finnishRule = ruleCreator({
 
     const names: { regExp: RegExp; validate: boolean }[] = [];
     if (config.names) {
-      Object.entries(config.names).forEach(
-        ([key, validate]: [string, boolean]) => {
-          names.push({ regExp: new RegExp(key), validate });
-        },
-      );
+      for (const [key, validate] of Object.entries(config.names)) {
+        names.push({ regExp: new RegExp(key), validate });
+      }
     }
 
     const types: { regExp: RegExp; validate: boolean }[] = [];
     if (config.types) {
-      Object.entries(config.types).forEach(
-        ([key, validate]: [string, boolean]) => {
-          types.push({ regExp: new RegExp(key), validate });
-        },
-      );
+      for (const [key, validate] of Object.entries(config.types)) {
+        types.push({ regExp: new RegExp(key), validate });
+      }
     }
 
     function checkNode(
@@ -270,9 +266,9 @@ export const finnishRule = ruleCreator({
         }
 
         if (config.parameters) {
-          node.value.params.forEach((param: es.Parameter) => {
+          for (const param of node.value.params) {
             checkNode(param);
-          });
+          }
         }
       },
       'ObjectExpression > Property[computed=false] > Identifier': (
@@ -341,9 +337,9 @@ export const finnishRule = ruleCreator({
           checkNode(node.key, node);
         }
         if (config.parameters) {
-          node.params.forEach((param: es.Node) => {
+          for (const param of node.params) {
             checkNode(param);
-          });
+          }
         }
       },
       'TSParameterProperty > Identifier': (node: es.Identifier) => {

@@ -33,14 +33,14 @@ export const justRule = ruleCreator({
           });
 
           const [ofImport] = context.sourceCode.getDeclaredVariables(node);
-          ofImport.references.forEach((ref) => {
+          for (const ref of ofImport.references) {
             context.report({
               messageId: 'forbidden',
               node: ref.identifier,
               fix: (fixer) =>
                 fixer.replaceTextRange(ref.identifier.range, 'just'),
             });
-          });
+          }
         },
     };
   },

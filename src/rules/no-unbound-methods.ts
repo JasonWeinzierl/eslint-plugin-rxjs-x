@@ -43,18 +43,18 @@ export const noUnboundMethodsRule = ruleCreator({
     const [{ allowTypes = [] }] = context.options;
 
     function mapArguments(node: es.CallExpression | es.NewExpression) {
-      node.arguments.filter(isMemberExpression).forEach((arg) => {
+      for (const arg of node.arguments.filter(isMemberExpression)) {
         const argType = getTypeAtLocation(arg);
 
         // Skip if the type matches any of the allowed types.
         if (allowTypes.some(t => couldBeType(argType, t))) {
-          return;
+          continue;
         }
 
         if (argType.getCallSignatures().length > 0) {
           nodeMap.set(arg);
         }
-      });
+      }
     }
 
     function isObservableOrSubscription(
@@ -78,7 +78,9 @@ export const noUnboundMethodsRule = ruleCreator({
         node: es.CallExpression,
       ) => {
         isObservableOrSubscription(node, ({ arguments: args }) => {
-          args.filter(isCallExpression).forEach(mapArguments);
+          for (const node of args.filter(isCallExpression)) {
+            mapArguments(node);
+          }
         });
       },
       'CallExpression[callee.property.name=/^(add|subscribe)$/]': (

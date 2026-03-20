@@ -15,7 +15,7 @@ const setup = stripIndent`
   const actions = of({});
   const actions$ = of({});
   const that = { actions };
-`.replace(/\n/g, '');
+`.replaceAll('\n', '');
 
 ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
   valid: [
@@ -82,6 +82,18 @@ ruleTester({ types: true }).run('no-unsafe-first', noUnsafeFirstRule, {
           ofType("DO_SOMETHING"),
           tap(() => {}),
           switchMap(() => EMPTY.pipe(take(1)))
+        );
+      `,
+    },
+    {
+      name: 'actions takeUntil should not match take or first regex substrings',
+      code: stripIndent`
+        import { EMPTY, of } from "rxjs";
+        import { takeUntil } from "rxjs/operators";
+
+        const actions$ = of({});
+        const safePipedTakeUntilEffect = actions$.pipe(
+          takeUntil(EMPTY)
         );
       `,
     },

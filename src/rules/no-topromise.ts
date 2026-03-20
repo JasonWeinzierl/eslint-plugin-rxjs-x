@@ -26,7 +26,7 @@ export const noTopromiseRule = ruleCreator({
     function getQuote(raw: string) {
       const match = /^\s*('|")/.exec(raw);
       if (!match) {
-        return undefined;
+        return;
       }
       const [, quote] = match;
       return quote;
@@ -57,15 +57,17 @@ export const noTopromiseRule = ruleCreator({
             functionName = existingSpecifier.local.name;
           } else {
             // Function not already imported. Add it.
-            const lastSpecifier = specifiers[specifiers.length - 1];
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know specifiers is not empty.
+            const lastSpecifier = specifiers.at(-1)!;
             yield fixer.insertTextAfter(lastSpecifier, `, ${functionName}`);
           }
         } else if (importDeclarations.length) {
           // No rxjs import. Add to end of imports, respecting quotes.
-          const lastImport = importDeclarations[importDeclarations.length - 1];
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know importDeclarations is not empty.
+          const lastImport = importDeclarations.at(-1)!;
           const quote = getQuote(lastImport.source.raw) ?? '"';
           yield fixer.insertTextAfter(
-            importDeclarations[importDeclarations.length - 1],
+            lastImport,
             `\nimport { ${functionName} } from ${quote}rxjs${quote};`,
           );
         } else {

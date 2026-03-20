@@ -39,7 +39,7 @@ export function createSourceFileAndTypeChecker(
     throw new Error(fileIssues
       .map(diag => diag.messageText)
       .map(msg => typeof msg === 'string' ? msg : msg.messageText)
-      .join());
+      .join(','));
   }
 
   return {

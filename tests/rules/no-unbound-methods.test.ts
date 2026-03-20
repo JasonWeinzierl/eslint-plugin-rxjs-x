@@ -1,4 +1,4 @@
-import { RunTests } from '@typescript-eslint/rule-tester';
+import type { RunTests } from '@typescript-eslint/rule-tester';
 import { stripIndent } from 'common-tags';
 import { noUnboundMethodsRule } from '../../src/rules/no-unbound-methods';
 import { fromFixture } from '../etc';

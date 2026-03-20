@@ -18,7 +18,7 @@ const setup = stripIndent`
   const PUT_SOMETHING = "PUT_SOMETHING";
   const GetSomething = GET_SOMETHING;
   const PutSomething = PUT_SOMETHING;
-`.replace(/\n/g, '');
+`.replaceAll('\n', '');
 
 ruleTester({ types: true }).run('no-unsafe-switchmap', noUnsafeSwitchmapRule, {
   valid: [
