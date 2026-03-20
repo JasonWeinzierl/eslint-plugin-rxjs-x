@@ -79,7 +79,7 @@
     "common-tags": "^1.8.2",
     "eslint": "^10.1.0",
     "eslint-config-flat-gitignore": "^2.2.1",
-    "eslint-doc-generator": "^3.1.0",
+    "eslint-doc-generator": "^3.3.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-eslint-plugin": "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch",
     "eslint-plugin-import-x": "^4.16.2",
