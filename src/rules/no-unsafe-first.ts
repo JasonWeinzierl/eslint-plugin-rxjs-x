@@ -34,7 +34,7 @@ The property can be specified as a regular expression string and is used to iden
   },
   name: 'no-unsafe-first',
   create: (context) => {
-    const invalidOperatorsRegExp = /^take|first$/;
+    const invalidOperatorsRegExp = /^(?:take|first)$/;
 
     const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);
