@@ -38,7 +38,7 @@ The property can be specified as a regular expression string and is used to iden
   },
   name: 'no-unsafe-catch',
   create: (context) => {
-    const invalidOperatorsRegExp = /^(catchError)$/;
+    const invalidOperatorsRegExp = /^catchError$/;
 
     const [{ observable = defaultObservable }] = context.options;
     const observableRegExp = new RegExp(observable);

@@ -71,7 +71,9 @@ function parseFixture<TMessageIds extends string>(
   suggestions?: readonly SuggestionOutput<TMessageIds>[] | null,
 ) {
   const errorRegExp
-    = /^(?<indent>\s*)(?<error>~+)\s*\[(?<id>\w+)\s*(?<data>.*?)(?:\s*(?<suggest>suggest)\s*(?<indices>[\d\s]*))?\]\s*$/;
+    = /^(?<indent>\s*)(?<error>~+)\s*\[(?<id>\w+)(?<rest>(?:\s[^\]]*)?)\]\s*$/;
+  const suggestSuffixRegExp
+    = /(?:^|\s)suggest(?:\s+(?<indices>\d+(?:\s+\d+)*))?$/;
   const lines: string[] = [];
   const errors: TestCaseError<TMessageIds>[] = [];
   let suggestFound = false;
@@ -81,20 +83,25 @@ function parseFixture<TMessageIds extends string>(
       const column = match.groups.indent.length + 1;
       const endColumn = column + match.groups.error.length;
       const { length } = lines;
+      const rest = match.groups.rest.trim();
+      const suggestMatch = suggestSuffixRegExp.exec(rest);
+      const data = suggestMatch
+        ? rest.slice(0, suggestMatch.index).trim()
+        : rest;
       errors.push({
         column,
-        data: JSON.parse(match.groups.data || '{}') as TSESLint.ReportDescriptorMessageData,
+        data: JSON.parse(data || '{}') as TSESLint.ReportDescriptorMessageData,
         endColumn,
         endLine: length,
         line: length,
         messageId: match.groups.id as TMessageIds,
         ...getSuggestions(
           suggestions,
-          Boolean(match.groups.suggest),
-          match.groups.indices?.trim(),
+          Boolean(suggestMatch),
+          suggestMatch?.groups?.indices?.trim(),
         ),
       });
-      if (match.groups.suggest) {
+      if (suggestMatch) {
         suggestFound = true;
       }
     } else {

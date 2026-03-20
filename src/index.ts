@@ -3,7 +3,6 @@ import type { ESLint, Rule } from 'eslint';
 import packageJson from '../package.json' with { type: 'json' };
 import { createRecommendedConfig } from './configs/recommended';
 import { createStrictConfig } from './configs/strict';
-
 import { banObservablesRule } from './rules/ban-observables';
 import { banOperatorsRule } from './rules/ban-operators';
 import { finnishRule } from './rules/finnish';

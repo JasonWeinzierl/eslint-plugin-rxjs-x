@@ -6,18 +6,22 @@ import gitignore from 'eslint-config-flat-gitignore';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import importX from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
+import packageJson from 'eslint-plugin-package-json';
+import perfectionist from 'eslint-plugin-perfectionist';
+import regexp from 'eslint-plugin-regexp';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(gitignore(), {
   files: [
-    'src/**/*.ts',
-    'tests/**/*.ts',
+    '**/*.js',
+    '**/*.ts',
   ],
+  plugins: {
+    perfectionist,
+  },
   extends: [
     js.configs.recommended,
-    ...tseslint.configs.strictTypeChecked,
-    ...tseslint.configs.stylisticTypeChecked,
     stylistic.configs['disable-legacy'],
     stylistic.configs.customize({
       quotes: 'single',
@@ -28,6 +32,28 @@ export default defineConfig(gitignore(), {
       commaDangle: 'always-multiline',
     }),
     n.configs['flat/recommended-module'],
+    regexp.configs.recommended,
+  ],
+  rules: {
+    '@stylistic/arrow-parens': 'off',
+    '@stylistic/multiline-ternary': 'off',
+
+    'perfectionist/sort-imports': [
+      'warn',
+      {
+        newlinesBetween: 0,
+      },
+    ],
+    'perfectionist/sort-named-imports': 'warn',
+  },
+}, {
+  files: [
+    'src/**/*.ts',
+    'tests/**/*.ts',
+  ],
+  extends: [
+    ...tseslint.configs.strictTypeChecked,
+    ...tseslint.configs.stylisticTypeChecked,
     importX.flatConfigs.recommended,
     importX.flatConfigs.typescript,
     eslintPlugin.configs.recommended,
@@ -38,28 +64,9 @@ export default defineConfig(gitignore(), {
     },
   },
   rules: {
-    '@stylistic/arrow-parens': 'off',
-    '@stylistic/multiline-ternary': 'off',
-
-    'sort-imports': [
-      'warn',
-      {
-        ignoreCase: true,
-        ignoreDeclarationSort: true,
-      },
-    ],
-    'import-x/order': [
-      'warn',
-      {
-        alphabetize: {
-          order: 'asc',
-          orderImportKind: 'asc',
-          caseInsensitive: true,
-        },
-      },
-    ],
-
     'import-x/no-named-as-default-member': 'off',
+    'import-x/no-rename-default': 'warn',
+    'import-x/no-useless-path-segments': 'warn',
 
     'n/no-missing-import': 'off',
 
@@ -111,15 +118,24 @@ export default defineConfig(gitignore(), {
     vitest.configs.recommended,
   ],
   rules: {
-    "vitest/no-conditional-expect": [
-      "error",
+    'vitest/no-conditional-expect': [
+      'error',
       {
-        "expectAssertions": true,
+        expectAssertions: true,
       },
     ],
   },
 }, {
+  // Don't lint yarn plugins.
   ignores: [
     '.yarn/**',
+  ],
+}, {
+  files: [
+    'package.json',
+  ],
+  extends: [
+    packageJson.configs.recommended,
+    packageJson.configs.stylistic,
   ],
 });

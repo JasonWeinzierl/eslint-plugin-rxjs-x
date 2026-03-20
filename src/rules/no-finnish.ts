@@ -29,7 +29,7 @@ export const noFinnishRule = ruleCreator({
         || couldReturnObservable(typeNode ?? nameNode)
       ) {
         const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
-        if (/[$]+$/.test(tsNode.getText())) {
+        if (/\$+$/.test(tsNode.getText())) {
           context.report({
             loc: getLoc(tsNode),
             messageId: 'forbidden',
