@@ -6,6 +6,10 @@ on:
     types:
       - published
 
+permissions:
+  contents: read
+  id-token: write # Required for OIDC
+
 jobs:
   check:
     uses: ./.github/workflows/ci.yml
@@ -15,10 +19,6 @@ jobs:
     needs: check
 
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write # Required for OIDC
 
     steps:
       - name: Checkout
