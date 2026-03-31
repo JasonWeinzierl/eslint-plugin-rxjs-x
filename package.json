@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-rxjs-x",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Modern ESLint plugin for RxJS",
   "keywords": [
     "lint",
