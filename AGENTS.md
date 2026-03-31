@@ -150,8 +150,11 @@ const parserServices = ESLintUtils.getParserServices(context);
 Alias `typescript` as `ts`:
 
 ```ts
-import * as ts from 'typescript';
+import ts from 'typescript';
 ```
+
+Per [https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/11],
+do not use a wildcard import for `ts`.
 
 ### Internal Utilities (`src/utils/`)
 
