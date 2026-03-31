@@ -2,6 +2,14 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v1.0.2 (2026-03-30)
+
+### Fixes
+
+- Support TypeScript 6 ([#413](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/413)) ([95fdcac](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/95fdcac66fdba7ba1e11c2d406311ea25ae36c0a))
+  - Bump dependency `typescript-eslint` to ^8.58.0
+  - Bump dependency `ts-api-utils` to ^2.5.0
+
 ## v1.0.1 (2026-03-20)
 
 ### Fixes
