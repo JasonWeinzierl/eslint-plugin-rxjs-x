@@ -2055,7 +2055,7 @@ __metadata:
   peerDependencies:
     eslint: ^10.0.1
     rxjs: ^7.2.0
-    typescript: ">=4.8.4 <7.0.0"
+    typescript: ">=4.8.4 <6.1.0"
   peerDependenciesMeta:
     rxjs:
       optional: true
