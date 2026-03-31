@@ -20,6 +20,7 @@ export default defineConfig(gitignore(), {
   ],
   plugins: {
     perfectionist,
+    'import-x': importX,
   },
   extends: [
     js.configs.recommended,
@@ -47,6 +48,13 @@ export default defineConfig(gitignore(), {
       },
     ],
     'perfectionist/sort-named-imports': 'warn',
+
+    'import-x/no-cycle': 'error',
+    'import-x/no-duplicates': 'warn',
+    'import-x/no-self-import': 'error',
+    'import-x/no-useless-path-segments': 'warn',
+    'import-x/newline-after-import': 'warn',
+    'import-x/no-empty-named-blocks': 'warn',
   },
 }, {
   files: [
@@ -65,12 +73,6 @@ export default defineConfig(gitignore(), {
     },
   },
   rules: {
-    'import-x/no-cycle': 'error',
-    'import-x/no-duplicates': 'warn',
-    'import-x/no-self-import': 'error',
-    'import-x/no-useless-path-segments': 'warn',
-    'import-x/newline-after-import': 'warn',
-    'import-x/no-empty-named-blocks': 'warn',
     'import-x/consistent-type-specifier-style': 'warn',
 
     'n/no-missing-import': 'off',
