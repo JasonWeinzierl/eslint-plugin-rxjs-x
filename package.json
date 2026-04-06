@@ -65,7 +65,7 @@
     "@vitest/eslint-plugin": "^1.6.13",
     "bumpp": "^11.0.1",
     "common-tags": "^1.8.2",
-    "eslint": "^10.1.0",
+    "eslint": "^10.2.0",
     "eslint-config-flat-gitignore": "^2.3.0",
     "eslint-doc-generator": "^3.3.2",
     "eslint-import-resolver-typescript": "^4.4.4",
