@@ -49,7 +49,7 @@ Additionally, consider if the `rxjsX.configs.strict` shared config is right for 
 2. The namespace of this plugin is `rxjs-x` instead of `rxjs`.
     - e.g. if your ESLint config had `"rxjs/no-subject-value": "error"`, replace it with `"rxjs-x/no-subject-value": "error"`.
     - e.g. if your project had inline comments like `// eslint-disable-next-line rxjs/no-async-subscribe`, replace them with `// eslint-disable-next-line rxjs-x/no-async-subscribe`.
-3. `rxjs/no-ignored-observable` is replaced with `rxjs-x/no-floating-observable`.
+3. `rxjs/no-ignored-observable` is replaced with `rxjs-x/no-floating-observables`.
 
 > [!TIP]
 > A complete description of all changes from `eslint-plugin-rxjs` are documented in the [CHANGELOG](CHANGELOG.md) file.
