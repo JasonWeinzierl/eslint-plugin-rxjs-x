@@ -687,12 +687,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:~20.19.37":
-  version: 20.19.37
-  resolution: "@types/node@npm:20.19.37"
+"@types/node@npm:~20.19.39":
+  version: 20.19.39
+  resolution: "@types/node@npm:20.19.39"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/8420353aee776ae5c1e9720058949909a0e908fa2af85501e9db2645bb9f9acd7d767890f8aaee34d375e6f8b5f550a9a169e908d2d8cf7d5daf63dce64092a0
+  checksum: 10c0/1d16da7b5f47a7415b827fcf3b94d279febf4c14671afec74a03e47856b5270023d9beb1b9aeab4d3b622fd97d61a60206cfc2cca588663181331bc592468289
   languageName: node
   linkType: hard
 
@@ -2023,7 +2023,7 @@ __metadata:
     "@eslint/js": "npm:^10.0.1"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@types/common-tags": "npm:^1.8.4"
-    "@types/node": "npm:~20.19.37"
+    "@types/node": "npm:~20.19.39"
     "@typescript-eslint/rule-tester": "npm:^8.58.0"
     "@typescript-eslint/utils": "npm:^8.58.0"
     "@typescript/vfs": "npm:^1.6.4"

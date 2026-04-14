@@ -58,7 +58,7 @@
     "@eslint/js": "^10.0.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/common-tags": "^1.8.4",
-    "@types/node": "~20.19.37",
+    "@types/node": "~20.19.39",
     "@typescript-eslint/rule-tester": "^8.58.0",
     "@typescript/vfs": "^1.6.4",
     "@vitest/coverage-v8": "^4.1.2",
