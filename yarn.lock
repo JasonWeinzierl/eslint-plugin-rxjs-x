@@ -1594,10 +1594,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"defu@npm:^6.1.4":
-  version: 6.1.4
-  resolution: "defu@npm:6.1.4"
-  checksum: 10c0/2d6cc366262dc0cb8096e429368e44052fdf43ed48e53ad84cc7c9407f890301aa5fcb80d0995abaaf842b3949f154d060be4160f7a46cb2bc2f7726c81526f5
+"defu@npm:^6.1.4, defu@npm:^6.1.7":
+  version: 6.1.7
+  resolution: "defu@npm:6.1.7"
+  checksum: 10c0/e6635388103c8be3c574ac31302f6930e5e6eeedba32cb1b30cf993c7d9fb571aec2485446dfa23bfa63e55e66156fe109027a9695db82a50f931e91e8d4bedb
   languageName: node
   linkType: hard
 
@@ -2047,7 +2047,7 @@ __metadata:
     markdownlint-cli2: "npm:~0.22.0"
     rxjs: "npm:^7.8.2"
     ts-api-utils: "npm:^2.5.0"
-    tsdown: "npm:^0.21.7"
+    tsdown: "npm:^0.21.10"
     typescript: "npm:~6.0.3"
     typescript-eslint: "npm:^8.58.0"
     vite: "npm:^8.0.5"
@@ -2486,10 +2486,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hookable@npm:^6.1.0":
-  version: 6.1.0
-  resolution: "hookable@npm:6.1.0"
-  checksum: 10c0/5dc4993277ae3eff89a014f42a56498571a0d143cbb2717ed61cfdb0173b8bf98332ed1e1e25eec58edb5b96ebc07e4cedc16fd6bcd4fff6be058f38bec33fb3
+"hookable@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "hookable@npm:6.1.1"
+  checksum: 10c0/bb46cd9ffc0a997af21febd97835da4e59a6989adec73dc3c215fcc44c7ac01de4781f251c3d420bf45862d2592a695f5f0de095b6f5df52db8afb5166938212
   languageName: node
   linkType: hard
 
@@ -2560,10 +2560,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-without-cache@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "import-without-cache@npm:0.2.5"
-  checksum: 10c0/5cf7a00e317a23569f16c87391170270277c073cba498c913bf043af56c56118d023c8d041046535566135c34503c90a9320483448b070a4ab4ae29949547a71
+"import-without-cache@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "import-without-cache@npm:0.3.3"
+  checksum: 10c0/fa9de8a97699549479689c674174879a9ede97e3b74e12921858b82522f727699827c83527c62a7a568a2f997de5938fe34cf9482c93f3f1075d08bef1a242b0
   languageName: node
   linkType: hard
 
@@ -4420,20 +4420,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyexec@npm:^1.0.2, tinyexec@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "tinyexec@npm:1.0.4"
-  checksum: 10c0/d4a5bbcf6bdb23527a4b74c4aa566f41432167112fe76f420ec7e3a90a3ecfd3a7d944383e2719fc3987b69400f7b928daf08700d145fb527c2e80ec01e198bd
+"tinyexec@npm:^1.0.2, tinyexec@npm:^1.0.4, tinyexec@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "tinyexec@npm:1.1.1"
+  checksum: 10c0/48433cb32573a767e2b63bb92343cbbae4240d05a19a63f7869f9447491305e7bd82d11daccb79b2628b596ad703a25798226c50bfd1d8e63477fb42af6a5b35
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15":
-  version: 0.2.15
-  resolution: "tinyglobby@npm:0.2.15"
+"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15, tinyglobby@npm:^0.2.16":
+  version: 0.2.16
+  resolution: "tinyglobby@npm:0.2.16"
   dependencies:
     fdir: "npm:^6.5.0"
-    picomatch: "npm:^4.0.3"
-  checksum: 10c0/869c31490d0d88eedb8305d178d4c75e7463e820df5a9b9d388291daf93e8b1eb5de1dad1c1e139767e4269fe75f3b10d5009b2cc14db96ff98986920a186844
+    picomatch: "npm:^4.0.4"
+  checksum: 10c0/f2e09fd93dd95c41e522113b686ff6f7c13020962f8698a864a257f3d7737599afc47722b7ab726e12f8a813f779906187911ff8ee6701ede65072671a7e934b
   languageName: node
   linkType: hard
 
@@ -4482,30 +4482,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:^0.21.7":
-  version: 0.21.7
-  resolution: "tsdown@npm:0.21.7"
+"tsdown@npm:^0.21.10":
+  version: 0.21.10
+  resolution: "tsdown@npm:0.21.10"
   dependencies:
     ansis: "npm:^4.2.0"
     cac: "npm:^7.0.0"
-    defu: "npm:^6.1.4"
+    defu: "npm:^6.1.7"
     empathic: "npm:^2.0.0"
-    hookable: "npm:^6.1.0"
-    import-without-cache: "npm:^0.2.5"
+    hookable: "npm:^6.1.1"
+    import-without-cache: "npm:^0.3.3"
     obug: "npm:^2.1.1"
     picomatch: "npm:^4.0.4"
-    rolldown: "npm:1.0.0-rc.12"
+    rolldown: "npm:1.0.0-rc.17"
     rolldown-plugin-dts: "npm:^0.23.2"
     semver: "npm:^7.7.4"
-    tinyexec: "npm:^1.0.4"
-    tinyglobby: "npm:^0.2.15"
+    tinyexec: "npm:^1.1.1"
+    tinyglobby: "npm:^0.2.16"
     tree-kill: "npm:^1.2.2"
     unconfig-core: "npm:^7.5.0"
-    unrun: "npm:^0.2.34"
+    unrun: "npm:^0.2.37"
   peerDependencies:
     "@arethetypeswrong/core": ^0.18.1
-    "@tsdown/css": 0.21.7
-    "@tsdown/exe": 0.21.7
+    "@tsdown/css": 0.21.10
+    "@tsdown/exe": 0.21.10
     "@vitejs/devtools": "*"
     publint: ^0.3.0
     typescript: ^5.0.0 || ^6.0.0
@@ -4527,7 +4527,7 @@ __metadata:
       optional: true
   bin:
     tsdown: dist/run.mjs
-  checksum: 10c0/dfb25e50fd64e93bafd2d148eab3bbc6bf2dcdfa7aed47aa875ed12a16202d7b8076e7b9498ef3624bc9dcbc618632bce87a09e70a8afab914079ffe12012cec
+  checksum: 10c0/691b3a9b4ad653b771633929da6a098953297cb46df15bfd62af94a03dfa02cbffac2de7f10a77f079ad75a4c450d21d9310730a85edcf11ef7343b1b4d13c79
   languageName: node
   linkType: hard
 
@@ -4727,11 +4727,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"unrun@npm:^0.2.34":
-  version: 0.2.34
-  resolution: "unrun@npm:0.2.34"
+"unrun@npm:^0.2.37":
+  version: 0.2.37
+  resolution: "unrun@npm:0.2.37"
   dependencies:
-    rolldown: "npm:1.0.0-rc.12"
+    rolldown: "npm:1.0.0-rc.17"
   peerDependencies:
     synckit: ^0.11.11
   peerDependenciesMeta:
@@ -4739,7 +4739,7 @@ __metadata:
       optional: true
   bin:
     unrun: dist/cli.mjs
-  checksum: 10c0/e6c3c9e56598e4f401c3b14afa2a6ef0cc357975390d2246f4f99b4564e6a7ae1613274f57c6c8f77013fc314720e2b8afeedcb8e0fb1bc07a0963eef964e01c
+  checksum: 10c0/0f812a325e2a137b28d5c9c2bb7371a3dcd40712c33ceb06a462d38043117b631daa82d183b69d1cc55b4bec32d8935844d1999b5183ec56c01018950c3962bd
   languageName: node
   linkType: hard
 
