@@ -1330,22 +1330,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^11.0.1":
-  version: 11.0.1
-  resolution: "bumpp@npm:11.0.1"
+"bumpp@npm:^11.1.0":
+  version: 11.1.0
+  resolution: "bumpp@npm:11.1.0"
   dependencies:
     args-tokenizer: "npm:^0.3.0"
     cac: "npm:^7.0.0"
     jsonc-parser: "npm:^3.3.1"
     package-manager-detector: "npm:^1.6.0"
     semver: "npm:^7.7.4"
-    tinyexec: "npm:^1.0.4"
-    tinyglobby: "npm:^0.2.15"
+    tinyexec: "npm:^1.1.2"
+    tinyglobby: "npm:^0.2.16"
     unconfig: "npm:^7.5.0"
-    yaml: "npm:^2.8.2"
+    yaml: "npm:^2.8.4"
   bin:
     bumpp: bin/bumpp.mjs
-  checksum: 10c0/57d0980f2f9809ad512a662f241a33e96d504a0aa39dbcf9d3ee86434e8aac9dc16e3c578b8c8e9a663a047be98a5b47ae5cdf4f6d778c49838537d3baf76a95
+  checksum: 10c0/64b7b9b50816bae06e8f33d0d65b01807439e6e3caa8a9e7e1c52b473887bc9d76670cedeac3139861b39c7bce45bdaa6b0b8cd4ddb298d6e4e78336e10b573a
   languageName: node
   linkType: hard
 
@@ -2029,7 +2029,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.4"
     "@vitest/coverage-v8": "npm:^4.1.2"
     "@vitest/eslint-plugin": "npm:^1.6.13"
-    bumpp: "npm:^11.0.1"
+    bumpp: "npm:^11.1.0"
     common-tags: "npm:^1.8.2"
     decamelize: "npm:^6.0.1"
     eslint: "npm:^10.2.1"
@@ -4420,20 +4420,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyexec@npm:^1.0.2, tinyexec@npm:^1.0.4":
-  version: 1.0.4
-  resolution: "tinyexec@npm:1.0.4"
-  checksum: 10c0/d4a5bbcf6bdb23527a4b74c4aa566f41432167112fe76f420ec7e3a90a3ecfd3a7d944383e2719fc3987b69400f7b928daf08700d145fb527c2e80ec01e198bd
+"tinyexec@npm:^1.0.2, tinyexec@npm:^1.0.4, tinyexec@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "tinyexec@npm:1.1.2"
+  checksum: 10c0/9e0ef6c001ce54688cf16833a02f70a339276219ca947b88930b124267de2cffc764ff44e87e7369384b1d75ab63491465412cbbdf06f2437956b9ab66ab4491
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15":
-  version: 0.2.15
-  resolution: "tinyglobby@npm:0.2.15"
+"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15, tinyglobby@npm:^0.2.16":
+  version: 0.2.16
+  resolution: "tinyglobby@npm:0.2.16"
   dependencies:
     fdir: "npm:^6.5.0"
-    picomatch: "npm:^4.0.3"
-  checksum: 10c0/869c31490d0d88eedb8305d178d4c75e7463e820df5a9b9d388291daf93e8b1eb5de1dad1c1e139767e4269fe75f3b10d5009b2cc14db96ff98986920a186844
+    picomatch: "npm:^4.0.4"
+  checksum: 10c0/f2e09fd93dd95c41e522113b686ff6f7c13020962f8698a864a257f3d7737599afc47722b7ab726e12f8a813f779906187911ff8ee6701ede65072671a7e934b
   languageName: node
   linkType: hard
 
@@ -4957,12 +4957,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.8.2":
-  version: 2.8.2
-  resolution: "yaml@npm:2.8.2"
+"yaml@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "yaml@npm:2.8.4"
   bin:
     yaml: bin.mjs
-  checksum: 10c0/703e4dc1e34b324aa66876d63618dcacb9ed49f7e7fe9b70f1e703645be8d640f68ab84f12b86df8ac960bac37acf5513e115de7c970940617ce0343c8c9cd96
+  checksum: 10c0/0a33a1fa28d4bc79f61a12ec7ef7a2bce0ce5f8e80c6eaecfb4a0c88c08767dd1ede372b6a3bcd70891213b8c9f3169b355c97e77026d3b3459e10d2cccaef1e
   languageName: node
   linkType: hard
 
