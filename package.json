@@ -59,7 +59,7 @@
     "@typescript-eslint/rule-tester": "^8.59.3",
     "@typescript/vfs": "^1.6.4",
     "@vitest/coverage-v8": "^4.1.6",
-    "@vitest/eslint-plugin": "^1.6.13",
+    "@vitest/eslint-plugin": "^1.6.17",
     "bumpp": "^11.1.0",
     "common-tags": "^1.8.2",
     "eslint": "^10.3.0",
