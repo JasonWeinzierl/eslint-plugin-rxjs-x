@@ -2078,6 +2078,7 @@ __metadata:
     tsdown: "npm:^0.22.0"
     typescript: "npm:~6.0.3"
     typescript-eslint: "npm:^8.59.3"
+    unrun: "npm:^0.3.0"
     vite: "npm:^8.0.12"
     vitest: "npm:^4.1.6"
   peerDependencies:
@@ -4775,6 +4776,22 @@ __metadata:
     "@unrs/resolver-binding-win32-x64-msvc":
       optional: true
   checksum: 10c0/c91b112c71a33d6b24e5c708dab43ab80911f2df8ee65b87cd7a18fb5af446708e98c4b415ca262026ad8df326debcc7ca6a801b2935504d87fd6f0b9d70dce1
+  languageName: node
+  linkType: hard
+
+"unrun@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "unrun@npm:0.3.0"
+  dependencies:
+    rolldown: "npm:^1.0.0"
+  peerDependencies:
+    synckit: ^0.11.11
+  peerDependenciesMeta:
+    synckit:
+      optional: true
+  bin:
+    unrun: ./dist/cli.mjs
+  checksum: 10c0/4409082fb602f25f875f067b69d87099d99075b29666d06ae906c24159f07bf66b4488e9c2db8cef92635fefa30cfaf10abd5e00e154d9099ce9bcb5c8383676
   languageName: node
   linkType: hard
 
