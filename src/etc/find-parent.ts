@@ -13,6 +13,7 @@ export function findParent(node: TSESTree.Node, ...args: (string | Predicate)[])
     = typeof arg === 'function'
       ? arg
       : (type: string) => (args.includes(type) ? 'return' : 'continue');
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   let parent = node.parent as TSESTree.Node | undefined;
   while (parent) {
     switch (predicate(parent.type)) {
