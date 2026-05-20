@@ -2,7 +2,7 @@
 # Manual changes might be lost - proceed with caution!
 
 __metadata:
-  version: 9
+  version: 10
   cacheKey: 10c0
 
 "@altano/repository-tools@npm:^2.0.1":
@@ -2085,6 +2085,9 @@ __metadata:
     eslint: ^10.0.1
     rxjs: ^7.2.0
     typescript: ">=4.8.4 <6.1.0"
+  dependenciesMeta:
+    unrs-resolver:
+      built: false
   peerDependenciesMeta:
     rxjs:
       optional: true
