@@ -4,6 +4,8 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: "/"
@@ -31,3 +33,5 @@ updates:
         patterns:
           - "eslint"
           - "@eslint/*"
+    cooldown:
+      default-days: 7

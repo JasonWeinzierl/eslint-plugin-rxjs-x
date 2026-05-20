@@ -8,28 +8,33 @@ on:
 
 permissions:
   contents: read
-  id-token: write # Required for OIDC
 
 jobs:
   check:
     uses: ./.github/workflows/ci.yml
-    secrets: inherit
 
   publish:
     needs: check
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: lts/*
+          node-version: 24
           check-latest: true
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
       - name: Setup Yarn
         run: corepack enable
 
@@ -38,9 +43,6 @@ jobs:
 
       - name: Build
         run: yarn build
-
-      - name: Update npm
-        run: npm install -g npm@latest
 
       - name: Trusted Publish with Provenance
         run: npm publish
