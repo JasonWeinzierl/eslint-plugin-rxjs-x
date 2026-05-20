@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@fast-check/vitest": "^0.4.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/common-tags": "^1.8.4",
     "@types/node": "~20.19.41",
@@ -73,6 +74,7 @@
     "eslint-plugin-perfectionist": "^5.9.0",
     "eslint-plugin-regexp": "^3.1.0",
     "eslint-plugin-unicorn": "^64.0.0",
+    "fast-check": "^4.8.0",
     "jsonc-eslint-parser": "^3.1.0",
     "markdownlint-cli2": "~0.22.1",
     "rxjs": "^7.8.2",
