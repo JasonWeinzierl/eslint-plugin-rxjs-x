@@ -1,6 +1,6 @@
 name: report-coverage
 
-on:
+on: # zizmor: ignore[dangerous-triggers]
   workflow_run:
     workflows:
       - ci
