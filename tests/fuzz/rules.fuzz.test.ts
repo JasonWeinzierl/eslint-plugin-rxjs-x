@@ -29,6 +29,8 @@ const ruleConfig = Object.fromEntries(
   nonTypeCheckRules.map((rule) => [`rxjs-x/${rule}`, 'error'] as const),
 );
 
+// The Linter instance is stateless between verify() calls, so reusing it
+// across test iterations is safe and avoids repeated construction overhead.
 const linter = new Linter();
 
 test.prop([fc.string()])(
