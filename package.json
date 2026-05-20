@@ -2,7 +2,7 @@
   "name": "eslint-plugin-rxjs-x",
   "type": "commonjs",
   "version": "0.9.5",
-  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8",
+  "packageManager": "yarn@4.15.0+sha512.07ec708ac11e2eaa4ea2b04cfbb272812f7e74a753f1595eaef4486c663a98306a30cca3e6fc40f7a0b168dcfb3a2490b6a5e0501e20fb69cc36f563dd161c53",
   "description": "Modern ESLint plugin for RxJS",
   "author": "Jason Weinzierl <weinzierljason@gmail.com>",
   "license": "MIT",
@@ -64,6 +64,14 @@
     "decamelize": "^5.0.1",
     "ts-api-utils": "^2.1.0",
     "tslib": "^2.1.0"
+  },
+  "dependenciesMeta": {
+    "esbuild": {
+      "built": true
+    },
+    "unrs-resolver": {
+      "built": false
+    }
   },
   "peerDependencies": {
     "eslint": "^8.57.0 || ^9.0.0",
