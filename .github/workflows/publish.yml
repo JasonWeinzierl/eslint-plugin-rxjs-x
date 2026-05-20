@@ -32,6 +32,7 @@ jobs:
           node-version: lts/*
           check-latest: true
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
       - name: Setup Yarn
         run: corepack enable
 
