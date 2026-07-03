@@ -1975,6 +1975,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-json-compat-utils@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "eslint-json-compat-utils@npm:0.2.3"
+  dependencies:
+    esquery: "npm:^1.6.0"
+  peerDependencies:
+    eslint: "*"
+    jsonc-eslint-parser: ^2.4.0 || ^3.0.0
+  peerDependenciesMeta:
+    "@eslint/json":
+      optional: true
+  checksum: 10c0/3af895890d72228b157f24a94efaee6ae4fb7ec5e7d9e17b51ae477d0efd03a1938ae810b2ae65fdb8a6d81c68c1b49dc207ee2398883a29ffeb1105ecc169ef
+  languageName: node
+  linkType: hard
+
 "eslint-plugin-es-x@npm:^7.8.0":
   version: 7.8.0
   resolution: "eslint-plugin-es-x@npm:7.8.0"
@@ -2064,23 +2079,28 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-package-json@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "eslint-plugin-package-json@npm:1.1.0"
+"eslint-plugin-package-json@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "eslint-plugin-package-json@npm:1.5.0"
   dependencies:
     "@altano/repository-tools": "npm:^2.0.1"
     change-case: "npm:^5.4.4"
     detect-indent: "npm:^7.0.2"
     detect-newline: "npm:^4.0.1"
     eslint-fix-utils: "npm:~0.4.1"
+    eslint-json-compat-utils: "npm:^0.2.3"
     jsonc-eslint-parser: "npm:^3.1.0"
     package-json-validator: "npm:^1.5.0"
     semver: "npm:^7.7.3"
     sort-object-keys: "npm:^2.0.0"
-    sort-package-json: "npm:^3.4.0"
+    sort-package-json: "npm:^4.0.0"
   peerDependencies:
+    "@eslint/json": ">=1.0.0"
     eslint: ">=9.0.0"
-  checksum: 10c0/bf50099b0b4aa13dc086e023aace1c1c26d2731440e34f4f28bde3c9e27d3964fb9f875a76809302878c1de46eb94fd7860b9869c403de28a87b21b1a9714c84
+  peerDependenciesMeta:
+    "@eslint/json":
+      optional: true
+  checksum: 10c0/b8cef1c2cf1731d1db8d30ff7a50641ad4474a13d7a46d04e6a5c45667e7038c0117e2b3748351f50c04228f3b88b0aa21e3e4ea62b95bce533a4f1852e23b99
   languageName: node
   linkType: hard
 
@@ -2137,7 +2157,7 @@ __metadata:
     eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch"
     eslint-plugin-import-x: "npm:^4.16.2"
     eslint-plugin-n: "npm:^18.0.1"
-    eslint-plugin-package-json: "npm:^1.1.0"
+    eslint-plugin-package-json: "npm:^1.5.0"
     eslint-plugin-perfectionist: "npm:^5.9.0"
     eslint-plugin-regexp: "npm:^3.1.0"
     eslint-plugin-unicorn: "npm:^64.0.0"
@@ -2289,7 +2309,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esquery@npm:^1.7.0":
+"esquery@npm:^1.6.0, esquery@npm:^1.7.0":
   version: 1.7.0
   resolution: "esquery@npm:1.7.0"
   dependencies:
@@ -4357,9 +4377,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sort-package-json@npm:^3.4.0":
-  version: 3.6.1
-  resolution: "sort-package-json@npm:3.6.1"
+"sort-package-json@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "sort-package-json@npm:4.0.0"
   dependencies:
     detect-indent: "npm:^7.0.2"
     detect-newline: "npm:^4.0.1"
@@ -4370,7 +4390,7 @@ __metadata:
     tinyglobby: "npm:^0.2.15"
   bin:
     sort-package-json: cli.js
-  checksum: 10c0/169ea6b8fa233b77ff93f928c73392cbd53573b1faec24692b7b5afdd3487f1b1c3f390467628385dd64e3e01632b7be0c6b380fbb471c70d00c4c7884f44916
+  checksum: 10c0/81173fc152581f0c64846a651b5fc838b3660e422519bda34336845e3111f0d9744e8e24fa0a73e281c1ec9090c793ab25ebd7fdce0bfa404ae3607a2192eb1f
   languageName: node
   linkType: hard
 
