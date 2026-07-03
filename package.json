@@ -69,7 +69,7 @@
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-eslint-plugin": "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch",
     "eslint-plugin-import-x": "^4.17.1",
-    "eslint-plugin-n": "^18.0.1",
+    "eslint-plugin-n": "^18.2.1",
     "eslint-plugin-package-json": "^1.5.0",
     "eslint-plugin-perfectionist": "^5.9.0",
     "eslint-plugin-regexp": "^3.1.0",
