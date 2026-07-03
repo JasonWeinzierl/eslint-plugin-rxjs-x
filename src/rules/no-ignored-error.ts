@@ -28,13 +28,14 @@ export const noIgnoredErrorRule = ruleCreator({
       return couldBeFunction(callExpression.arguments[0]);
     }
 
+    function isErrorProperty(property: es.Node): boolean {
+      return isProperty(property)
+        && isIdentifier(property.key)
+        && property.key.name === 'error';
+    }
+
     function isObjMissingError(arg: es.ObjectExpression): boolean {
-      return !arg.properties.some(
-        property =>
-          isProperty(property)
-          && isIdentifier(property.key)
-          && property.key.name === 'error',
-      );
+      return arg.properties.every(property => !isErrorProperty(property));
     }
 
     function isTypeMissingError(arg: es.Identifier): boolean {

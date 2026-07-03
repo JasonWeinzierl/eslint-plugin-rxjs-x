@@ -17,11 +17,17 @@ export const noIgnoredReplayBufferRule = ruleCreator({
   },
   name: 'no-ignored-replay-buffer',
   create: (context) => {
+    function isBufferSizeProperty(property: es.Node): boolean {
+      return isProperty(property)
+        && isIdentifier(property.key)
+        && property.key.name === 'bufferSize';
+    }
+
     function checkShareReplayConfig(
       node: es.Identifier,
       shareReplayConfigArg: es.ObjectExpression,
     ) {
-      if (!shareReplayConfigArg.properties.some(p => isProperty(p) && isIdentifier(p.key) && p.key.name === 'bufferSize')) {
+      if (shareReplayConfigArg.properties.every(p => !isBufferSizeProperty(p))) {
         context.report({
           messageId: 'forbidden',
           node,

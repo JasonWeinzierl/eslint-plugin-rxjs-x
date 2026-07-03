@@ -28,7 +28,7 @@ export const noConnectableRule = ruleCreator({
       },
       'CallExpression[callee.name=/^(publish|publishBehavior|publishLast|publishReplay)$/]':
         (node: es.CallExpression) => {
-          if (!node.arguments.some((arg) => couldBeFunction(arg))) {
+          if (node.arguments.every(arg => !couldBeFunction(arg))) {
             context.report({
               messageId: 'forbidden',
               node: node.callee,

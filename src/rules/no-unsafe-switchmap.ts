@@ -103,7 +103,7 @@ The \`observable\` property is used to identify the action observables from whic
         .map((name) => decamelize(name));
 
       if (allowRegExp) {
-        return !names.every((name) => allowRegExp?.test(name));
+        return names.some((name) => !allowRegExp?.test(name));
       }
       if (disallowRegExp) {
         return names.some((name) => disallowRegExp?.test(name));

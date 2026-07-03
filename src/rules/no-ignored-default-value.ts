@@ -20,8 +20,14 @@ export const noIgnoredDefaultValueRule = ruleCreator({
     const { getTypeAtLocation } = ESLintUtils.getParserServices(context);
     const { couldBeObservable, couldBeType } = getTypeServices(context);
 
+    function isDefaultValueProperty(property: es.Node): boolean {
+      return isProperty(property)
+        && isIdentifier(property.key)
+        && property.key.name === 'defaultValue';
+    }
+
     function checkConfigObj(configArg: es.ObjectExpression) {
-      if (!configArg.properties.some(p => isProperty(p) && isIdentifier(p.key) && p.key.name === 'defaultValue')) {
+      if (configArg.properties.every(property => !isDefaultValueProperty(property))) {
         context.report({
           messageId: 'forbidden',
           node: configArg,
