@@ -181,20 +181,17 @@ export const finnishRule = ruleCreator({
         checkNode(node);
       },
       'ArrowFunctionExpression > Identifier': (node: es.Identifier) => {
-        if (config.parameters) {
-          const parent = node.parent as es.ArrowFunctionExpression;
-          if (node !== parent.body) {
-            checkNode(node);
-          }
+        if (!config.parameters) return;
+
+        const parent = node.parent as es.ArrowFunctionExpression;
+        if (node !== parent.body) {
+          checkNode(node);
         }
       },
       'PropertyDefinition[computed=false]': (node: es.PropertyDefinition) => {
-        if (config.properties) {
-          if (node.override) {
-            return;
-          }
-          checkNode(node.key);
-        }
+        if (!config.properties) return;
+        if (node.override) return;
+        checkNode(node.key);
       },
       'FunctionDeclaration > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.FunctionDeclaration;
@@ -223,32 +220,23 @@ export const finnishRule = ruleCreator({
       'MethodDefinition[kind=\'get\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (config.properties) {
-          if (node.override) {
-            return;
-          }
-          checkNode(node.key, node);
-        }
+        if (!config.properties) return;
+        if (node.override) return;
+        checkNode(node.key, node);
       },
       'MethodDefinition[kind=\'method\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (config.methods) {
-          if (node.override) {
-            return;
-          }
-          checkNode(node.key, node);
-        }
+        if (!config.methods) return;
+        if (node.override) return;
+        checkNode(node.key, node);
       },
       'MethodDefinition[kind=\'set\'][computed=false]': (
         node: es.MethodDefinition,
       ) => {
-        if (config.properties) {
-          if (node.override) {
-            return;
-          }
-          checkNode(node.key, node);
-        }
+        if (!config.properties) return;
+        if (node.override) return;
+        checkNode(node.key, node);
       },
       'TSAbstractMethodDefinition[computed=false]': (
         node: es.TSAbstractMethodDefinition,

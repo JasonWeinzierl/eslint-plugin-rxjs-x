@@ -117,87 +117,87 @@ export const noImplicitAnyCatchRule = ruleCreator({
     }
 
     function checkCallback(callback: es.Node) {
-      if (
-        isArrowFunctionExpression(callback)
-        || isFunctionExpression(callback)
-      ) {
-        const [param, ...restParams] = callback.params;
-        if (!param) {
-          return;
-        }
-        if (hasTypeAnnotation(param)) {
-          const { typeAnnotation } = param;
-          const {
-            typeAnnotation: { type },
-          } = typeAnnotation;
+      if (!isArrowFunctionExpression(callback)
+        && !isFunctionExpression(callback)) {
+        return;
+      }
 
-          if (type === AST_NODE_TYPES.TSAnyKeyword) {
-            if (allowExplicitAny) {
-              return;
-            }
-            context.report({
-              messageId: 'explicitAny',
-              node: param,
-              suggest: [
-                {
-                  messageId: 'suggestExplicitUnknown',
-                  fix: createReplacerFix(typeAnnotation, 'unknown'),
-                },
-              ],
-            });
-          } else if (type !== AST_NODE_TYPES.TSUnknownKeyword) {
-            // Check if this is Error type and if it's allowed.
-            let isAllowedError = false;
-            if (
-              allowExplicitError
-              && type === AST_NODE_TYPES.TSTypeReference
-            ) {
-              const typeRef = typeAnnotation.typeAnnotation as es.TSTypeReference;
-              if (isIdentifier(typeRef.typeName)) {
-                isAllowedError = typeRef.typeName.name === 'Error';
-              }
-            }
+      const [param, ...restParams] = callback.params;
+      if (!param) {
+        return;
+      }
+      if (hasTypeAnnotation(param)) {
+        const { typeAnnotation } = param;
+        const {
+          typeAnnotation: { type },
+        } = typeAnnotation;
 
-            if (!isAllowedError) {
-              context.report({
-                messageId: allowExplicitError ? 'narrowedAllowError' : 'narrowed',
-                node: param,
-                suggest: [
-                  {
-                    messageId: 'suggestExplicitUnknown' as const,
-                    fix: createReplacerFix(typeAnnotation, 'unknown'),
-                  },
-                  allowExplicitAny ? {
-                    messageId: 'suggestExplicitAny' as const,
-                    fix: createReplacerFix(typeAnnotation, 'any'),
-                  } : null,
-                  allowExplicitError && !isAllowedError ? {
-                    messageId: 'suggestExplicitError' as const,
-                    fix: createReplacerFix(typeAnnotation, 'Error'),
-                  } : null,
-                ].filter(x => !!x),
-              });
-            }
+        if (type === AST_NODE_TYPES.TSAnyKeyword) {
+          if (allowExplicitAny) {
+            return;
           }
-        } else {
-          const hasRestParams = restParams.length > 0;
-
           context.report({
-            fix: allowExplicitAny ? createInserterFix(param, 'any', { hasRestParams }) : undefined,
-            messageId: 'implicitAny',
+            messageId: 'explicitAny',
             node: param,
             suggest: [
               {
-                messageId: 'suggestExplicitUnknown' as const,
-                fix: createInserterFix(param, 'unknown', { hasRestParams }),
+                messageId: 'suggestExplicitUnknown',
+                fix: createReplacerFix(typeAnnotation, 'unknown'),
               },
-              allowExplicitAny ? {
-                messageId: 'suggestExplicitAny' as const,
-                fix: createInserterFix(param, 'any', { hasRestParams }),
-              } : null,
-            ].filter(x => !!x),
+            ],
           });
+        } else if (type !== AST_NODE_TYPES.TSUnknownKeyword) {
+          // Check if this is Error type and if it's allowed.
+          let isAllowedError = false;
+          if (
+            allowExplicitError
+            && type === AST_NODE_TYPES.TSTypeReference
+          ) {
+            const typeRef = typeAnnotation.typeAnnotation as es.TSTypeReference;
+            if (isIdentifier(typeRef.typeName)) {
+              isAllowedError = typeRef.typeName.name === 'Error';
+            }
+          }
+
+          if (!isAllowedError) {
+            context.report({
+              messageId: allowExplicitError ? 'narrowedAllowError' : 'narrowed',
+              node: param,
+              suggest: [
+                {
+                  messageId: 'suggestExplicitUnknown' as const,
+                  fix: createReplacerFix(typeAnnotation, 'unknown'),
+                },
+                allowExplicitAny ? {
+                  messageId: 'suggestExplicitAny' as const,
+                  fix: createReplacerFix(typeAnnotation, 'any'),
+                } : null,
+                allowExplicitError && !isAllowedError ? {
+                  messageId: 'suggestExplicitError' as const,
+                  fix: createReplacerFix(typeAnnotation, 'Error'),
+                } : null,
+              ].filter(x => !!x),
+            });
+          }
         }
+      } else {
+        const hasRestParams = restParams.length > 0;
+
+        context.report({
+          fix: allowExplicitAny ? createInserterFix(param, 'any', { hasRestParams }) : undefined,
+          messageId: 'implicitAny',
+          node: param,
+          suggest: [
+            {
+              messageId: 'suggestExplicitUnknown' as const,
+              fix: createInserterFix(param, 'unknown', { hasRestParams }),
+            },
+            allowExplicitAny ? {
+              messageId: 'suggestExplicitAny' as const,
+              fix: createInserterFix(param, 'any', { hasRestParams }),
+            } : null,
+          ].filter(x => !!x),
+        });
       }
     }
 

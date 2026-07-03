@@ -68,24 +68,26 @@ The \`postCompleters\` property is an array containing the names of the operator
     return {
       'ExpressionStatement > CallExpression > MemberExpression[property.name=\'subscribe\']':
         (node: es.MemberExpression) => {
-          if (couldBeObservable(node.object)) {
-            const callExpression = node.parent as es.CallExpression;
-            if (
-              callExpression.arguments.length === 1
-              && couldBeType(callExpression.arguments[0], 'Subscriber')
-            ) {
-              return;
-            }
-
-            if (hasAllowedOperator(node.object)) {
-              return;
-            }
-
-            context.report({
-              messageId: 'forbidden',
-              node: node.property,
-            });
+          if (!couldBeObservable(node.object)) {
+            return;
           }
+
+          const callExpression = node.parent as es.CallExpression;
+          if (
+            callExpression.arguments.length === 1
+            && couldBeType(callExpression.arguments[0], 'Subscriber')
+          ) {
+            return;
+          }
+
+          if (hasAllowedOperator(node.object)) {
+            return;
+          }
+
+          context.report({
+            messageId: 'forbidden',
+            node: node.property,
+          });
         },
     };
   },

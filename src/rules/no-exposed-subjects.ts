@@ -57,50 +57,50 @@ export const noExposedSubjectsRule = ruleCreator({
       [`PropertyDefinition[accessibility!=${accessibilityRexExp}]`]: (
         node: es.PropertyDefinition,
       ) => {
-        if (isSubject(node)) {
-          const { key } = node;
-          if (isIdentifier(key)) {
-            context.report({
-              messageId,
-              node: key,
-              data: {
-                subject: key.name,
-              },
-            });
-          }
+        if (!isSubject(node)) return;
+
+        const { key } = node;
+        if (isIdentifier(key)) {
+          context.report({
+            messageId,
+            node: key,
+            data: {
+              subject: key.name,
+            },
+          });
         }
       },
       [`MethodDefinition[kind='constructor'] > FunctionExpression > TSParameterProperty[accessibility!=${accessibilityRexExp}] > Identifier`]:
         (node: es.Identifier) => {
-          if (isSubject(node)) {
-            const { loc } = node;
-            context.report({
-              messageId,
-              loc: {
-                ...loc,
-                end: {
-                  ...loc.start,
-                  column: loc.start.column + node.name.length,
-                },
+          if (!isSubject(node)) return;
+
+          const { loc } = node;
+          context.report({
+            messageId,
+            loc: {
+              ...loc,
+              end: {
+                ...loc.start,
+                column: loc.start.column + node.name.length,
               },
-              data: {
-                subject: node.name,
-              },
-            });
-          }
+            },
+            data: {
+              subject: node.name,
+            },
+          });
         },
       [`MethodDefinition[accessibility!=${accessibilityRexExp}][kind=/^(get|set)$/]`]:
         (node: es.MethodDefinition) => {
-          if (isSubject(node)) {
-            const key = node.key as es.Identifier;
-            context.report({
-              messageId,
-              node: key,
-              data: {
-                subject: key.name,
-              },
-            });
-          }
+          if (!isSubject(node)) return;
+
+          const key = node.key as es.Identifier;
+          context.report({
+            messageId,
+            node: key,
+            data: {
+              subject: key.name,
+            },
+          });
         },
       [`MethodDefinition[accessibility!=${accessibilityRexExp}][kind='method']`]:
         (node: es.MethodDefinition) => {

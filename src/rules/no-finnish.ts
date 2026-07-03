@@ -24,17 +24,17 @@ export const noFinnishRule = ruleCreator({
       = getTypeServices(context);
 
     function checkNode(nameNode: es.Node, typeNode?: es.Node) {
-      if (
-        couldBeObservable(typeNode ?? nameNode)
-        || couldReturnObservable(typeNode ?? nameNode)
-      ) {
-        const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
-        if (/\$+$/.test(tsNode.getText())) {
-          context.report({
-            loc: getLoc(tsNode),
-            messageId: 'forbidden',
-          });
-        }
+      if (!couldBeObservable(typeNode ?? nameNode)
+        && !couldReturnObservable(typeNode ?? nameNode)) {
+        return;
+      }
+
+      const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
+      if (/\$+$/.test(tsNode.getText())) {
+        context.report({
+          loc: getLoc(tsNode),
+          messageId: 'forbidden',
+        });
       }
     }
 

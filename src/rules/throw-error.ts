@@ -92,20 +92,25 @@ export const throwErrorRule = ruleCreator({
     }
 
     function checkThrowError(node: es.CallExpression) {
-      if (couldBeObservable(node)) {
-        const [arg] = node.arguments;
-        if (arg) {
-          checkThrowArgument(arg);
-        }
+      if (!couldBeObservable(node)) return;
+
+      const [arg] = node.arguments;
+      if (arg) {
+        checkThrowArgument(arg);
       }
     }
 
     function checkSubjectError(node: es.CallExpression) {
-      if (isMemberExpression(node.callee) && couldBeSubject(node.callee.object)) {
-        const [arg] = node.arguments;
-        if (arg) {
-          checkThrowArgument(arg, true);
-        }
+      if (
+        !isMemberExpression(node.callee)
+        || !couldBeSubject(node.callee.object)
+      ) {
+        return;
+      }
+
+      const [arg] = node.arguments;
+      if (arg) {
+        checkThrowArgument(arg, true);
       }
     }
 

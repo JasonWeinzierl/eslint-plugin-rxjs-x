@@ -40,22 +40,22 @@ export const noIgnoredNotifierRule = ruleCreator({
       'CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]': (
         node: es.CallExpression,
       ) => {
-        if (couldBeMonoTypeOperatorFunction(node)) {
-          const [arg] = node.arguments;
-          if (isArrowFunctionExpression(arg) || isFunctionExpression(arg)) {
-            const [param] = arg.params as es.Identifier[];
-            if (param) {
-              entries.push({
-                node,
-                param,
-                sightings: 0,
-              });
-            } else {
-              context.report({
-                messageId: 'forbidden',
-                node: node.callee,
-              });
-            }
+        if (!couldBeMonoTypeOperatorFunction(node)) return;
+
+        const [arg] = node.arguments;
+        if (isArrowFunctionExpression(arg) || isFunctionExpression(arg)) {
+          const [param] = arg.params as es.Identifier[];
+          if (param) {
+            entries.push({
+              node,
+              param,
+              sightings: 0,
+            });
+          } else {
+            context.report({
+              messageId: 'forbidden',
+              node: node.callee,
+            });
           }
         }
       },

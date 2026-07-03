@@ -29,32 +29,37 @@ export const noUnsafeSubjectNext = ruleCreator({
       [`CallExpression[callee.property.name='next']`]: (
         node: es.CallExpression,
       ) => {
-        if (node.arguments.length === 0 && isMemberExpression(node.callee)) {
-          const type = getTypeAtLocation(node.callee.object);
-          if (tsutils.isTypeReference(type) && couldBeType(type, 'Subject')) {
-            const [typeArg] = typeChecker.getTypeArguments(type);
-            if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
-              return;
-            }
-            if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Unknown)) {
-              return;
-            }
-            if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Void)) {
-              return;
-            }
-            if (
-              tsutils.isUnionType(typeArg)
-              && typeArg.types.some((t) =>
-                tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
-              )
-            ) {
-              return;
-            }
-            context.report({
-              messageId: 'forbidden',
-              node: node.callee.property,
-            });
+        if (
+          node.arguments.length !== 0
+          || !isMemberExpression(node.callee)
+        ) {
+          return;
+        }
+
+        const type = getTypeAtLocation(node.callee.object);
+        if (tsutils.isTypeReference(type) && couldBeType(type, 'Subject')) {
+          const [typeArg] = typeChecker.getTypeArguments(type);
+          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
+            return;
           }
+          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Unknown)) {
+            return;
+          }
+          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Void)) {
+            return;
+          }
+          if (
+            tsutils.isUnionType(typeArg)
+            && typeArg.types.some((t) =>
+              tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
+            )
+          ) {
+            return;
+          }
+          context.report({
+            messageId: 'forbidden',
+            node: node.callee.property,
+          });
         }
       },
     };
