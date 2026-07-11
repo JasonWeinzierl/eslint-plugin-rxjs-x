@@ -2046,9 +2046,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-n@npm:^18.2.1":
-  version: 18.2.1
-  resolution: "eslint-plugin-n@npm:18.2.1"
+"eslint-plugin-n@npm:^18.2.2":
+  version: 18.2.2
+  resolution: "eslint-plugin-n@npm:18.2.2"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.5.0"
     enhanced-resolve: "npm:^5.17.1"
@@ -2067,7 +2067,7 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  checksum: 10c0/cb2087fd6e1193b180583dbb8bef6a61458d3de2769891cb5eb265f89986ca64eada323fe7fefa1d7b911420ea016d55a8ab94fa3d36f6b3814abe79718711ee
+  checksum: 10c0/c1a794d295aaa79a9df1d0aac7e9e5327274e62ec98b05bf6e6797e0f9ed60fd9935d315af36e69ab94ed2947d8307b9cf8ed0dfbbc511f8d994888d568cde20
   languageName: node
   linkType: hard
 
@@ -2148,7 +2148,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^4.4.5"
     eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch"
     eslint-plugin-import-x: "npm:^4.17.1"
-    eslint-plugin-n: "npm:^18.2.1"
+    eslint-plugin-n: "npm:^18.2.2"
     eslint-plugin-package-json: "npm:^1.5.0"
     eslint-plugin-perfectionist: "npm:^5.9.0"
     eslint-plugin-regexp: "npm:^3.1.0"
