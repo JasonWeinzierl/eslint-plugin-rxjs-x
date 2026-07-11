@@ -772,7 +772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:8.63.0, @typescript-eslint/utils@npm:^8.55.1-alpha.4, @typescript-eslint/utils@npm:^8.58.0, @typescript-eslint/utils@npm:^8.58.2":
+"@typescript-eslint/utils@npm:8.63.0, @typescript-eslint/utils@npm:^8.55.1-alpha.4, @typescript-eslint/utils@npm:^8.58.0, @typescript-eslint/utils@npm:^8.62.1":
   version: 8.63.0
   resolution: "@typescript-eslint/utils@npm:8.63.0"
   dependencies:
@@ -2096,15 +2096,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-perfectionist@npm:^5.9.0":
-  version: 5.9.0
-  resolution: "eslint-plugin-perfectionist@npm:5.9.0"
+"eslint-plugin-perfectionist@npm:^5.10.0":
+  version: 5.10.0
+  resolution: "eslint-plugin-perfectionist@npm:5.10.0"
   dependencies:
-    "@typescript-eslint/utils": "npm:^8.58.2"
+    "@typescript-eslint/utils": "npm:^8.62.1"
     natural-orderby: "npm:^5.0.0"
   peerDependencies:
     eslint: ^8.45.0 || ^9.0.0 || ^10.0.0
-  checksum: 10c0/661d4c2b889b87303af17c6249d4ba4536d8c83340faca16e51779e6b54125346ded5af0a8cb6cac9ab0fdd3e5c127ef7ebd0271eedbc680e2dbfdbc68b8b880
+  checksum: 10c0/55ab1c8261f18c75d88d3848b2b19215fba7b6617fa6cae2d118cc3933326d5348681c30f66d36c2f8407f783e899e1baee129a4dee932b312d322658b1ab6e2
   languageName: node
   linkType: hard
 
@@ -2150,7 +2150,7 @@ __metadata:
     eslint-plugin-import-x: "npm:^4.17.1"
     eslint-plugin-n: "npm:^18.2.2"
     eslint-plugin-package-json: "npm:^1.5.0"
-    eslint-plugin-perfectionist: "npm:^5.9.0"
+    eslint-plugin-perfectionist: "npm:^5.10.0"
     eslint-plugin-regexp: "npm:^3.1.1"
     eslint-plugin-unicorn: "npm:^64.0.0"
     fast-check: "npm:^4.8.0"
