@@ -2108,9 +2108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-regexp@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "eslint-plugin-regexp@npm:3.1.0"
+"eslint-plugin-regexp@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "eslint-plugin-regexp@npm:3.1.1"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.11.0"
@@ -2121,7 +2121,7 @@ __metadata:
     scslre: "npm:^0.3.0"
   peerDependencies:
     eslint: ">=9.38.0"
-  checksum: 10c0/7beb01dad1faf1f5fb7ee6d049039187b3a2e262818536f45f1d2b401bb17a7af0703d4c202bbd797d7f2fbda792d2488a44f3644ccfba623588ac787921e965
+  checksum: 10c0/f7617c9daf13ce4ba9d23d6f419cb1c8926df8d178cee3535ade2109df9f7f2fb9df15d3997ba8c634f39067362d897eeba8c8524721eb9ef2f427473461e414
   languageName: node
   linkType: hard
 
@@ -2151,7 +2151,7 @@ __metadata:
     eslint-plugin-n: "npm:^18.2.2"
     eslint-plugin-package-json: "npm:^1.5.0"
     eslint-plugin-perfectionist: "npm:^5.9.0"
-    eslint-plugin-regexp: "npm:^3.1.0"
+    eslint-plugin-regexp: "npm:^3.1.1"
     eslint-plugin-unicorn: "npm:^64.0.0"
     fast-check: "npm:^4.8.0"
     jsonc-eslint-parser: "npm:^3.1.0"
