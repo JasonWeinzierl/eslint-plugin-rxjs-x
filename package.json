@@ -76,7 +76,7 @@
     "eslint-plugin-unicorn": "^64.0.0",
     "fast-check": "^4.9.0",
     "jsonc-eslint-parser": "^3.1.0",
-    "markdownlint-cli2": "~0.22.1",
+    "markdownlint-cli2": "~0.23.0",
     "rxjs": "^7.8.2",
     "tsdown": "^0.22.4",
     "typescript": "~6.0.3",
