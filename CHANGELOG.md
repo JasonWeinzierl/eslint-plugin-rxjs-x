@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v1.0.3 (2026-07-21)
+
+### Fixes
+
+- **no-unnecessary-collection**: spread array literals false-positive ([485](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/485)) ([8cce71a](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/8cce71afcb8a53afd2e65f454e2d810b6f4bff5e))
+
 ## v1.0.2 (2026-03-30)
 
 ### Fixes
