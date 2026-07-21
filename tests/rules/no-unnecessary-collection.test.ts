@@ -199,6 +199,16 @@ ruleTester({ types: true }).run('no-unnecessary-collection', noUnnecessaryCollec
         const combined$ = forkJoin(sources);
       `,
     },
+    {
+      name: 'combineLatest with spread array literal',
+      code: stripIndent`
+        import { combineLatest, Observable } from "rxjs";
+
+        function combineObservables(observables: Observable<unknown>[]) {
+          return combineLatest([...observables]);
+        }
+      `,
+    },
     // #endregion
 
     // #region valid; namespace imports
