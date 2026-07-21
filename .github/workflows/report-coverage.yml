@@ -29,6 +29,6 @@ jobs:
           path: coverage
 
       - name: Report Coverage
-        uses: davelosert/vitest-coverage-report-action@02f3c2e641286b7fa308cd3e430783103ce6103b # v2
+        uses: davelosert/vitest-coverage-report-action@3c054a2d2e2ca45446417ad5d6d5eb33092af8f1 # v2
         with:
           threshold-icons: "{0: '🔴', 80: '🟠', 90: '🟢'}"
