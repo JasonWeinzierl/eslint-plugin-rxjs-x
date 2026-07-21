@@ -38,7 +38,11 @@ export const noUnnecessaryCollectionRule = ruleCreator({
       // Single-valued array.
       if (isArrayExpression(firstArg)) {
         const nonNullElements = firstArg.elements.filter(element => element !== null);
-        if (nonNullElements.length === 1 && couldBeObservable(nonNullElements[0])) {
+        if (
+          nonNullElements.length === 1
+          && !isSpreadElement(nonNullElements[0])
+          && couldBeObservable(nonNullElements[0])
+        ) {
           context.report({
             messageId: 'forbidden',
             node: node.callee,
