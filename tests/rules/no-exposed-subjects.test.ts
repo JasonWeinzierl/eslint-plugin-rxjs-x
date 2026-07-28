@@ -80,6 +80,16 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
       `,
       options: [{ allowProtected: true }],
     },
+    {
+      name: 'unrelated return',
+      code: stripIndent`
+        class Mock {
+          public a(): number {
+            return 1;
+          }
+        }
+      `,
+    },
   ],
   invalid: [
     fromFixture(
@@ -151,6 +161,42 @@ ruleTester({ types: true }).run('no-exposed-subjects', noExposedSubjectsRule, {
           }
         }
       `,
+    ),
+    fromFixture(
+      'public implicit return type',
+      stripIndent`
+        import { Subject } from 'rxjs';
+
+        class Foo {
+          public a() {
+                 ~ [forbidden { "subject": "a" }]
+            return new Subject<number>();
+          }
+
+          b() {
+          ~ [forbidden { "subject": "b" }]
+            return new Subject<number>();
+          }
+        }
+      `,
+    ),
+    fromFixture(
+      'public implicit return type but allow protected',
+      stripIndent`
+        import { Subject } from 'rxjs';
+
+        class Foo {
+          public a() {
+                 ~ [forbiddenAllowProtected { "subject": "a" }]
+            return new Subject<number>();
+          }
+
+          protected b() {
+            return new Subject<number>();
+          }
+        }
+      `,
+      { options: [{ allowProtected: true }] },
     ),
     fromFixture(
       'public but allow protected',

@@ -62,6 +62,8 @@ export function getTypeServices<
     couldBeType,
     couldReturnObservable: (node: es.Node) =>
       couldReturnType(node, 'Observable'),
+    couldReturnSubject: (node: es.Node) =>
+      couldReturnType(node, 'Subject'),
     couldReturnType,
   };
 }

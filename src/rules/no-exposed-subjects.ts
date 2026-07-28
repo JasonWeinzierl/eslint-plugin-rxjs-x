@@ -34,7 +34,7 @@ export const noExposedSubjectsRule = ruleCreator({
   create: (context) => {
     const [config = {}] = context.options;
     const { allowProtected = false } = config;
-    const { couldBeSubject, couldBeType } = getTypeServices(context);
+    const { couldBeSubject, couldReturnSubject, couldBeType, couldReturnType } = getTypeServices(context);
 
     const messageId = allowProtected ? 'forbiddenAllowProtected' : 'forbidden';
     const accessibilityRexExp = allowProtected
@@ -44,6 +44,11 @@ export const noExposedSubjectsRule = ruleCreator({
     function isSubject(node: es.Node) {
       return (
         couldBeSubject(node) && !couldBeType(node, defaultAllowedTypesRegExp)
+      );
+    }
+    function isReturningSubject(node: es.Node) {
+      return (
+        couldReturnSubject(node) && !couldReturnType(node, defaultAllowedTypesRegExp)
       );
     }
 
@@ -99,17 +104,9 @@ export const noExposedSubjectsRule = ruleCreator({
       [`MethodDefinition[accessibility!=${accessibilityRexExp}][kind='method']`]:
         (node: es.MethodDefinition) => {
           const functionExpression = node.value;
-          const returnType = functionExpression.returnType;
-          if (!returnType) {
-            return;
-          }
+          const typeAnnotation = functionExpression.returnType?.typeAnnotation;
 
-          const typeAnnotation = returnType.typeAnnotation;
-          if (!typeAnnotation) {
-            return;
-          }
-
-          if (isSubject(typeAnnotation)) {
+          if ((typeAnnotation && isSubject(typeAnnotation)) || isReturningSubject(functionExpression)) {
             const key = node.key as es.Identifier;
             context.report({
               messageId,
