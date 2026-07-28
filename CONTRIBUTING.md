@@ -106,3 +106,7 @@ Please work with us to address any feedback, which may include but is not limite
 
 Address each requested change and/or respond using line comments, then re-request a review.
 Once your PR is approved, we will merge it and publish the change in a reasonable amount of time.
+
+## Releasing
+
+Maintainers: follow the [release guide](RELEASE.md).
