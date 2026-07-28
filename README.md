@@ -1,7 +1,7 @@
 # eslint-plugin-rxjs-x
 
-[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/master/LICENSE)
-[![NPM version](https://img.shields.io/npm/v/eslint-plugin-rxjs-x.svg)](https://www.npmjs.com/package/eslint-plugin-rxjs-x)
+[![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/blob/0.9.x/LICENSE)
+[![NPM version](https://img.shields.io/npm/v/eslint-plugin-rxjs-x/legacy-0.9.svg)](https://www.npmjs.com/package/eslint-plugin-rxjs-x)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/JasonWeinzierl/eslint-plugin-rxjs-x/badge)](https://scorecard.dev/viewer/?uri=github.com/JasonWeinzierl/eslint-plugin-rxjs-x)
 
 > [!WARNING]
