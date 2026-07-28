@@ -302,6 +302,10 @@ ruleTester({
 
 Throughout this process, pay attention to type checking and linting warnings/errors.
 
+### GitHub Actions
+
+For nontrivial scripting in GitHub Actions workflows, prefer `actions/github-script` over Bash.
+
 ### Test-Driven Development (TDD)
 
 Write tests first.
