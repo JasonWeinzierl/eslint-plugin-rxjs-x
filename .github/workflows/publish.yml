@@ -92,7 +92,7 @@ jobs:
   check-0-9:
     needs: validate
     if: ${{ github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v0.9.') }}
-    uses: JasonWeinzierl/eslint-plugin-rxjs-x/.github/workflows/ci.yml@3740883bfca1a70ba27aede0f46b5894c1850b20 # 0.9.x
+    uses: JasonWeinzierl/eslint-plugin-rxjs-x/.github/workflows/ci.yml@7ebe57df7949572e02739a6bff1c270435927078 # 0.9.x
 
   publish-main:
     name: Publish current release
