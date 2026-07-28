@@ -31,9 +31,9 @@ source.pipe(
 
 <!-- begin auto-generated rule options list -->
 
-| Name             | Description                              | Type  | Default                |
-| :--------------- | :--------------------------------------- | :---- | :--------------------- |
-| `takeUntilAlias` | List of operators to treat as takeUntil. | Array | [`takeUntilDestroyed`] |
+| Name             | Description                              | Type     | Default                |
+| :--------------- | :--------------------------------------- | :------- | :--------------------- |
+| `takeUntilAlias` | List of operators to treat as takeUntil. | String[] | [`takeUntilDestroyed`] |
 
 <!-- end auto-generated rule options list -->
 
