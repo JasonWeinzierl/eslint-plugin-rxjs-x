@@ -1415,22 +1415,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bumpp@npm:^11.1.0":
-  version: 11.1.0
-  resolution: "bumpp@npm:11.1.0"
+"bumpp@npm:^12.0.0":
+  version: 12.0.0
+  resolution: "bumpp@npm:12.0.0"
   dependencies:
     args-tokenizer: "npm:^0.3.0"
     cac: "npm:^7.0.0"
     jsonc-parser: "npm:^3.3.1"
-    package-manager-detector: "npm:^1.6.0"
-    semver: "npm:^7.7.4"
-    tinyexec: "npm:^1.1.2"
-    tinyglobby: "npm:^0.2.16"
+    package-manager-detector: "npm:^1.7.0"
+    tinyexec: "npm:^1.2.4"
+    tinyglobby: "npm:^0.2.17"
     unconfig: "npm:^7.5.0"
-    yaml: "npm:^2.8.4"
+    verkit: "npm:^0.1.2"
+    yaml: "npm:^2.9.0"
   bin:
     bumpp: bin/bumpp.mjs
-  checksum: 10c0/64b7b9b50816bae06e8f33d0d65b01807439e6e3caa8a9e7e1c52b473887bc9d76670cedeac3139861b39c7bce45bdaa6b0b8cd4ddb298d6e4e78336e10b573a
+  checksum: 10c0/f09b23d6bd77a4d73ea16dffc314b72b80b4c9d0341dfbee4be2d4c73fb21e07103ae6bb7fe7fa22b84addbd23c0ffe256e7ad217c7afd9e1c38b9b5454deea5
   languageName: node
   linkType: hard
 
@@ -2139,7 +2139,7 @@ __metadata:
     "@typescript/vfs": "npm:^1.6.4"
     "@vitest/coverage-v8": "npm:^4.1.10"
     "@vitest/eslint-plugin": "npm:^1.6.23"
-    bumpp: "npm:^11.1.0"
+    bumpp: "npm:^12.0.0"
     common-tags: "npm:^1.8.2"
     decamelize: "npm:^6.0.1"
     eslint: "npm:^10.7.0"
@@ -3893,10 +3893,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"package-manager-detector@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "package-manager-detector@npm:1.6.0"
-  checksum: 10c0/6419d0b840be64fd45bcdcb7a19f09b81b65456d5e7f7a3daac305a4c90643052122f6ac0308afe548ffee75e36148532a2002ea9d292754f1e385aa2e1ea03b
+"package-manager-detector@npm:^1.7.0":
+  version: 1.8.0
+  resolution: "package-manager-detector@npm:1.8.0"
+  checksum: 10c0/4c8e2c47fdc874465d3b3b11934401db9d73470ccbdabeb092e46cb94abbc491d5befc8c271b5ea1ae9c6a881f44c2997e011873365bde9fd6c3dc001221ff7a
   languageName: node
   linkType: hard
 
@@ -4571,14 +4571,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tinyexec@npm:^1.0.2, tinyexec@npm:^1.1.2, tinyexec@npm:^1.2.4":
+"tinyexec@npm:^1.0.2, tinyexec@npm:^1.2.4":
   version: 1.2.4
   resolution: "tinyexec@npm:1.2.4"
   checksum: 10c0/153b8db6b080194b558ff145b9cffc36b80a6e07babd644dcfbe49c807eee668c876049d28bdee90b96304476f883352f2dad91b3f86bc23832532f4363e66ff
   languageName: node
   linkType: hard
 
-"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15, tinyglobby@npm:^0.2.16, tinyglobby@npm:^0.2.17":
+"tinyglobby@npm:^0.2.12, tinyglobby@npm:^0.2.14, tinyglobby@npm:^0.2.15, tinyglobby@npm:^0.2.17":
   version: 0.2.17
   resolution: "tinyglobby@npm:0.2.17"
   dependencies:
@@ -4928,6 +4928,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"verkit@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "verkit@npm:0.1.2"
+  checksum: 10c0/84d3978df9007326caf86dde354467189224c2864ae5d03111af7f112ca64a47d50f40a113f853284e4c90475b35dc4ccab47db2a3be7fe02fc1d81eca4361b6
+  languageName: node
+  linkType: hard
+
 "vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
   version: 8.1.4
   resolution: "vite@npm:8.1.4"
@@ -5108,7 +5115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.8.4":
+"yaml@npm:^2.9.0":
   version: 2.9.0
   resolution: "yaml@npm:2.9.0"
   bin:
