@@ -2,6 +2,14 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v0.9.6 (2026-07-28)
+
+### Fixes
+
+- **no-exposed-subjects**: check implicit method return types ([#499](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/499)) ([f386345](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f386345404a504c7108c4613c6c4eeafafe91e21))
+- **no-unnecessary-collection**: do not report spread array literals ([#500](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/500)) ([6c9d478](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/6c9d478c5225d96563a2ddd0fe95f9b21088c0c3))
+- **no-sharereplay-before-takeuntil**: require strings in the `takeUntilAlias` option ([#501](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/501)) ([1d38e7d](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/1d38e7d2b20f1658beff485d909771ff6da6ef50))
+
 ## v0.9.5 (2026-02-16)
 
 No functional changes.
