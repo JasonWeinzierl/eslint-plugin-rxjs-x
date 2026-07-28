@@ -19,7 +19,7 @@ export const noSharereplayBeforeTakeuntilRule = ruleCreator({
     },
     schema: [{
       properties: {
-        takeUntilAlias: { type: 'array', description: 'List of operators to treat as takeUntil.', default: ['takeUntilDestroyed'] },
+        takeUntilAlias: { type: 'array', items: { type: 'string' }, description: 'List of operators to treat as takeUntil.', default: ['takeUntilDestroyed'] },
       },
       type: 'object',
     }],
