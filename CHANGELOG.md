@@ -2,6 +2,12 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## v1.0.4 (2026-07-28)
+
+### Fixes
+
+- **no-sharereplay-before-takeuntil**: require strings in the `takeUntilAlias` option ([#487](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/pull/487)) ([3c9853b](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/3c9853b658b5cace6e4ccaa1105ce2cc6c52fbb0))
+
 ## v1.0.3 (2026-07-21)
 
 ### Fixes
