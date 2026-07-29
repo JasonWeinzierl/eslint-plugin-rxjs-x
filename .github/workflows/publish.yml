@@ -1,0 +1,71 @@
+name: publish
+
+on:
+  release:
+    types:
+      - published
+
+concurrency:
+  group: publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: ./.github/workflows/ci.yml
+
+  publish:
+    name: Publish 0.9.x release
+    needs: check
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write # Required for OIDC
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate release tag
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+
+            const tag = context.payload.release.tag_name;
+            if (!/^v0\.9\.\d+$/.test(tag)) {
+              throw new Error(`Release tag '${tag}' is not a stable 0.9.x version.`);
+            }
+
+            const packagePath = path.join(process.env.GITHUB_WORKSPACE, 'package.json');
+            const { version } = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+            if (tag !== `v${version}`) {
+              throw new Error(`Release tag '${tag}' does not match package version 'v${version}'.`);
+            }
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          check-latest: true
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Setup Yarn
+        run: corepack enable
+
+      - name: Install Packages
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Trusted Publish with Provenance (legacy-0.9 tag)
+        run: npm publish --tag legacy-0.9
