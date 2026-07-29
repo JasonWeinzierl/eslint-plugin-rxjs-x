@@ -1,109 +1,24 @@
 name: publish
 
 on:
-  workflow_dispatch: {}
   release:
     types:
       - published
 
 concurrency:
-  group: publish-${{ github.event.release.tag_name || github.ref }}
+  group: publish-${{ github.event.release.tag_name }}
   cancel-in-progress: false
 
 permissions:
   contents: read
 
 jobs:
-  validate:
-    name: Validate release source
-    runs-on: ubuntu-latest
-    outputs:
-      commit: ${{ steps.validate.outputs.result }}
-    steps:
-      - name: Resolve and validate release source
-        id: validate
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
-        with:
-          result-encoding: string
-          script: |
-            if (context.eventName === 'workflow_dispatch') {
-              if (context.ref !== 'refs/heads/main') {
-                throw new Error('Manual publishes must run from main.');
-              }
-              return context.sha;
-            }
-
-            const tag = context.payload.release.tag_name;
-            const maintenance = tag.startsWith('v0.9.');
-            const branch = maintenance ? '0.9.x' : 'main';
-
-            let { data: { object } } = await github.rest.git.getRef({
-              ...context.repo,
-              ref: `tags/${tag}`,
-            });
-            while (object.type === 'tag') {
-              ({ data: { object } } = await github.rest.git.getTag({
-                ...context.repo,
-                tag_sha: object.sha,
-              }));
-            }
-            if (object.type !== 'commit') {
-              throw new Error(`Release tag ${tag} does not resolve to a commit.`);
-            }
-            if (object.sha !== context.sha) {
-              throw new Error(`Release tag ${tag} moved from ${context.sha} to ${object.sha}.`);
-            }
-
-            const { data: packageFile } = await github.rest.repos.getContent({
-              ...context.repo,
-              path: 'package.json',
-              ref: object.sha,
-            });
-            if (Array.isArray(packageFile) || packageFile.type !== 'file' || !packageFile.content) {
-              throw new Error(`Could not read package.json at ${object.sha}.`);
-            }
-            const { version } = JSON.parse(Buffer.from(packageFile.content, 'base64').toString());
-            if (maintenance && !/^0\.9\.\d+$/.test(version)) {
-              throw new Error(`Maintenance package version ${version} is not a stable 0.9.x version.`);
-            }
-            if (tag !== `v${version}`) {
-              throw new Error(`Release tag ${tag} does not match package version ${version}.`);
-            }
-
-            const { data: comparison } = await github.rest.repos.compareCommitsWithBasehead({
-              ...context.repo,
-              basehead: `${branch}...${object.sha}`,
-            });
-            if (!['behind', 'identical'].includes(comparison.status)) {
-              throw new Error(`Release tag ${tag} is not contained in ${branch}.`);
-            }
-
-            return object.sha;
-
-  check-main:
-    needs: validate
-    if: >-
-      ${{
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v0.9.'))
-      }}
+  check:
     uses: ./.github/workflows/ci.yml
 
-  check-0-9:
-    needs: validate
-    if: ${{ github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v0.9.') }}
-    uses: JasonWeinzierl/eslint-plugin-rxjs-x/.github/workflows/ci.yml@7ebe57df7949572e02739a6bff1c270435927078 # 0.9.x
-
-  publish-main:
+  publish:
     name: Publish current release
-    if: >-
-      ${{
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'release' && !startsWith(github.event.release.tag_name, 'v0.9.'))
-      }}
-    needs:
-      - validate
-      - check-main
+    needs: check
 
     runs-on: ubuntu-latest
 
@@ -116,7 +31,24 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-          ref: ${{ needs.validate.outputs.commit }}
+
+      - name: Validate release tag
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+
+            const tag = context.payload.release.tag_name;
+            if (!/^v[1-9]\d*\.\d+\.\d+$/.test(tag)) {
+              throw new Error(`Release tag '${tag}' is not a stable current version.`);
+            }
+
+            const packagePath = path.join(process.env.GITHUB_WORKSPACE, 'package.json');
+            const { version } = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+            if (tag !== `v${version}`) {
+              throw new Error(`Release tag '${tag}' does not match package version 'v${version}'.`);
+            }
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -136,42 +68,3 @@ jobs:
 
       - name: Trusted Publish with Provenance
         run: npm publish
-
-  publish-0-9:
-    name: Publish 0.9.x release
-    if: ${{ github.event_name == 'release' && startsWith(github.event.release.tag_name, 'v0.9.') }}
-    needs:
-      - validate
-      - check-0-9
-
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      id-token: write # Required for OIDC
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-          ref: ${{ needs.validate.outputs.commit }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 24
-          check-latest: true
-          registry-url: https://registry.npmjs.org
-          package-manager-cache: false
-      - name: Setup Yarn
-        run: corepack enable
-
-      - name: Install Packages
-        run: yarn install
-
-      - name: Build
-        run: yarn build
-
-      - name: Trusted Publish with Provenance (legacy-0.9 tag)
-        run: npm publish --tag legacy-0.9
