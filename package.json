@@ -60,7 +60,7 @@
     "@typescript-eslint/rule-tester": "^8.66.0",
     "@typescript/vfs": "^1.6.4",
     "@vitest/coverage-v8": "^4.1.10",
-    "@vitest/eslint-plugin": "^1.6.23",
+    "@vitest/eslint-plugin": "^1.6.24",
     "bumpp": "^12.1.1",
     "common-tags": "^1.8.2",
     "eslint": "^10.8.1",
