@@ -2070,7 +2070,7 @@ __metadata:
     markdownlint-cli2: "npm:~0.23.2"
     rxjs: "npm:^7.8.2"
     ts-api-utils: "npm:^2.5.0"
-    tsdown: "npm:^0.22.14"
+    tsdown: "npm:0.22.13"
     typescript: "npm:~6.0.3"
     typescript-eslint: "npm:^8.66.0"
     unrun: "npm:~0.3.1"
@@ -3893,7 +3893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rolldown-plugin-dts@npm:^0.27.13":
+"rolldown-plugin-dts@npm:^0.27.12":
   version: 0.27.14
   resolution: "rolldown-plugin-dts@npm:0.27.14"
   dependencies:
@@ -4311,9 +4311,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsdown@npm:^0.22.14":
-  version: 0.22.14
-  resolution: "tsdown@npm:0.22.14"
+"tsdown@npm:0.22.13":
+  version: 0.22.13
+  resolution: "tsdown@npm:0.22.13"
   dependencies:
     ansis: "npm:^4.3.1"
     cac: "npm:^7.0.0"
@@ -4324,16 +4324,16 @@ __metadata:
     obug: "npm:^2.1.4"
     picomatch: "npm:^4.0.5"
     rolldown: "npm:~1.2.0"
-    rolldown-plugin-dts: "npm:^0.27.13"
+    rolldown-plugin-dts: "npm:^0.27.12"
     tinyexec: "npm:^1.2.4"
     tinyglobby: "npm:^0.2.17"
     tree-kill: "npm:^1.2.2"
     unconfig-core: "npm:^7.5.0"
-    verkit: "npm:^0.3.0"
+    verkit: "npm:^0.1.2"
   peerDependencies:
     "@arethetypeswrong/core": ^0.18.1
-    "@tsdown/css": 0.22.14
-    "@tsdown/exe": 0.22.14
+    "@tsdown/css": 0.22.13
+    "@tsdown/exe": 0.22.13
     "@vitejs/devtools": "*"
     publint: ^0.3.8
     tsx: "*"
@@ -4361,7 +4361,7 @@ __metadata:
       optional: true
   bin:
     tsdown: ./dist/run.mjs
-  checksum: 10c0/d29951647247fac54539a5d97278065a9d7877c4011bc9baa976d08e3a15ce48f8f7ff308bbedf507b3a1f3acd6aecfa1b71d3284239eb9b8a5c4b27afbce35a
+  checksum: 10c0/c41cfe1885d3f303c5b07572f9a22c84657594ea52be993edcdb32913418184bee70acbc0dfcf6df3c8e39aea9bc5ca059571573fea599fea0db26c489c03e87
   languageName: node
   linkType: hard
 
@@ -4610,13 +4610,6 @@ __metadata:
   version: 0.1.2
   resolution: "verkit@npm:0.1.2"
   checksum: 10c0/84d3978df9007326caf86dde354467189224c2864ae5d03111af7f112ca64a47d50f40a113f853284e4c90475b35dc4ccab47db2a3be7fe02fc1d81eca4361b6
-  languageName: node
-  linkType: hard
-
-"verkit@npm:^0.3.0":
-  version: 0.3.2
-  resolution: "verkit@npm:0.3.2"
-  checksum: 10c0/2533d9cc4ee6514d7f0d07b035c56a1f3eedd3ec5c3a5b3df38af1f2e9412799476c250f51d034562ddeb36dea72d4530f840e7b80759bd9a527f31cc9aa54e7
   languageName: node
   linkType: hard
 
