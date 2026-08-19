@@ -231,6 +231,8 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
         (function someFunctionExp(someParam$: Observable<any>): Observable<any> { return someParam$; })();
         function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
+        const someArrowFunction = (someParam$: Observable<any>): Observable<any> => someParam$;
+        const someFunctionExpression = function (someParam$: Observable<any>): Observable<any> { return someParam$; };
       `,
       options: [{ functions: false }],
     },

@@ -3,7 +3,9 @@ import {
   findParent,
   getLoc,
   getTypeServices,
+  isArrowFunctionExpression,
   isCallExpression,
+  isFunctionExpression,
   isTSAsExpression,
   isTSSatisfiesExpression,
   isVariableDeclarator,
@@ -342,9 +344,20 @@ export const finnishRule = ruleCreator({
       },
       'VariableDeclarator > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.VariableDeclarator;
-        if (config.variables && node === parent.id) {
-          checkNode(node);
+        if (!config.variables || node !== parent.id) {
+          return;
         }
+
+        if (
+          !config.functions
+          && parent.init
+          && (isArrowFunctionExpression(parent.init)
+            || isFunctionExpression(parent.init))
+        ) {
+          return;
+        }
+
+        checkNode(node);
       },
     };
   },
