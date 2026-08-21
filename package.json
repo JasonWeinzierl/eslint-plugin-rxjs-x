@@ -51,6 +51,8 @@
     "ts-api-utils": "^2.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@eslint/js": "^10.0.1",
     "@fast-check/vitest": "^0.4.1",
     "@stylistic/eslint-plugin": "^5.10.0",
