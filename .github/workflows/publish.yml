@@ -25,6 +25,7 @@ jobs:
     permissions:
       contents: read
       id-token: write # Required for OIDC
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -68,3 +69,52 @@ jobs:
 
       - name: Trusted Publish with Provenance
         run: npm publish
+
+      - name: Update Release PR Label
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            // Find the PR.
+            const { owner, repo } = context.repo;
+            const commit_sha = context.payload.release.target_commitish;
+            const { data: pullRequests } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner,
+              repo,
+              commit_sha,
+            });
+            if (pullRequests.length === 0) {
+              core.info(`No pull request found for '${commit_sha}'.`);
+              return;
+            }
+            const releasePullRequests = pullRequests.filter(pullRequest =>
+              pullRequest.merged_at &&
+              pullRequest.base.ref === context.payload.repository.default_branch &&
+              pullRequest.head.ref.startsWith('release-please--branches--')
+            );
+            if (releasePullRequests.length !== 1) {
+              throw new Error(`Expected one release pull request for '${commit_sha}', found ${releasePullRequests.length}.`);
+            }
+
+            // Swap labels.
+            const issue_number = releasePullRequests[0].number;
+            await github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number,
+              labels: ['autorelease: published'],
+            });
+            await github.rest.issues.removeLabel({
+              owner,
+              repo,
+              issue_number,
+              name: 'autorelease: tagged',
+            });
+
+            // Comment on PR.
+            const releaseTag = context.payload.release.tag_name;
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number,
+              body: `🚀 Release \`${releaseTag}\` has been published!`,
+            });
