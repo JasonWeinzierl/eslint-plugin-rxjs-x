@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- markdownlint-disable MD004 MD012 -->
+
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
 ## v1.0.4 (2026-07-28)
