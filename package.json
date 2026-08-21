@@ -42,7 +42,6 @@
     "lint-docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
     "lint-eslint-docs": "yarn build && eslint-doc-generator --check",
     "lint-js": "eslint",
-    "release": "bumpp && echo \"Create a new release in GitHub to trigger the publish workflow.\"",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
@@ -52,6 +51,8 @@
     "ts-api-utils": "^2.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@eslint/js": "^10.0.1",
     "@fast-check/vitest": "^0.4.1",
     "@stylistic/eslint-plugin": "^5.10.0",
@@ -61,7 +62,6 @@
     "@typescript/vfs": "^1.6.4",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/eslint-plugin": "^1.6.27",
-    "bumpp": "^12.1.1",
     "common-tags": "^1.8.2",
     "eslint": "^10.8.1",
     "eslint-config-flat-gitignore": "^2.3.0",
