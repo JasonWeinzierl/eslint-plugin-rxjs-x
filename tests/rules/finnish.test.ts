@@ -222,7 +222,7 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
       ],
     },
     {
-      name: 'functions without $, but not enforced',
+      name: 'function-valued names without $, but not enforced',
       code: stripIndent`
         import { Observable, of } from "rxjs";
 
@@ -231,10 +231,56 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         function someFunction(someParam$: Observable<any>): Observable<any> { return someParam$; }
         (function someFunctionExp(someParam$: Observable<any>): Observable<any> { return someParam$; })();
         function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
+        type ObservableFactory = () => Observable<any>;
         const someArrowFunction = (someParam$: Observable<any>): Observable<any> => someParam$;
         const someFunctionExpression = function (someParam$: Observable<any>): Observable<any> { return someParam$; };
+        const someFunctionReference = someFunction;
+        const someTypedFunction: ObservableFactory = someFunction;
+
+        function acceptsFunction(someParam: () => Observable<any>): void {}
+        function acceptsOptionalFunction(someParam: ObservableFactory | undefined): void {}
+        const acceptsArrowFunction = (someParam: () => Observable<any>): void => {};
+
+        class SomeClass {
+          someArrowProperty = (): Observable<any> => someObservable$;
+          someFunctionProperty: ObservableFactory = someFunction;
+          get someFunctionGetter(): ObservableFactory { return someFunction; }
+          constructor(public someParameterProperty: () => Observable<any>) {}
+        }
+
+        interface SomeInterface {
+          someFunctionProperty: ObservableFactory;
+        }
+
+        const someObject = {
+          someArrowProperty: (): Observable<any> => someObservable$,
+          someFunctionProperty: someFunction,
+          someFunctionExpressionProperty: function (): Observable<any> { return someObservable$; },
+          someFunction,
+          someObjectMethod(): Observable<any> { return someObservable$; },
+        };
+
+        const { someArrowProperty, someFunctionProperty } = someObject;
+        const [someFunctionElement] = [someFunction];
       `,
       options: [{ functions: false }],
+    },
+    {
+      name: 'function-valued names with $, but not enforced in strict mode',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
+
+        type ObservableFactory = () => Observable<any>;
+        const someFunction$ = (): Observable<any> => of(0);
+        function acceptsFunction(factory$: ObservableFactory): void {}
+
+        class SomeClass {
+          someFunctionProperty$: ObservableFactory = someFunction$;
+        }
+
+        const someObject = { someFunctionProperty$: someFunction$ };
+      `,
+      options: [{ functions: false, strict: true }],
     },
     {
       name: 'methods without $, but not enforced',
@@ -600,6 +646,38 @@ ruleTester({ types: true }).run('finnish', finnishRule, {
         function someImplicitReturnFunction(someParam$: Observable<any>) { return someParam$; }
                  ~~~~~~~~~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
       `,
+    ),
+    fromFixture(
+      'disabling functions still enforces other name categories',
+      stripIndent`
+        import { Observable, of } from "rxjs";
+
+        const observable = of(0);
+              ~~~~~~~~~~ [shouldBeFinnish]
+
+        function acceptsObservable(observable: Observable<any>): void {}
+                                   ~~~~~~~~~~ [shouldBeFinnish]
+
+        class SomeClass {
+          observableProperty: Observable<any>;
+          ~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+          get observableGetter(): Observable<any> { return of(0); }
+              ~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+          observableMethod(): Observable<any> { return of(0); }
+          ~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        interface SomeInterface {
+          observableProperty: Observable<any>;
+          ~~~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+          observableMethod(): Observable<any>;
+          ~~~~~~~~~~~~~~~~ [shouldBeFinnish]
+        }
+
+        const someObject = { observableProperty: of(0) };
+                             ~~~~~~~~~~~~~~~~~~ [shouldBeFinnishProperty]
+      `,
+      { options: [{ functions: false }] },
     ),
     fromFixture(
       'methods without $',

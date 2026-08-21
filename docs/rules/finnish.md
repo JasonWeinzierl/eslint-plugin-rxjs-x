@@ -42,7 +42,7 @@ const answer$ = 'green';
 
 | Name         | Description                                                                | Type    | Default           |
 | :----------- | :------------------------------------------------------------------------- | :------ | :---------------- |
-| `functions`  | Require for functions.                                                     | Boolean | `true`            |
+| `functions`  | Require for function-valued names.                                         | Boolean | `true`            |
 | `methods`    | Require for methods.                                                       | Boolean | `true`            |
 | `names`      | Enforce for specific names. Keys are a RegExp, values are a boolean.       | Object  | `[object Object]` |
 | `objects`    | Require for object literal keys.                                           | Boolean | `true`            |
@@ -58,6 +58,9 @@ This rule accepts a single option which is an object with properties that determ
 
 - `names` and `types` properties that determine whether or not Finnish notation is to be enforced for specific names or types.
 - a `strict` property that, if `true`, allows the `$` suffix to be used _only_ with identifiers that have an `Observable` type.
+
+The `functions` option applies to all function-valued names, including variables, parameters, class and interface properties, and object literal keys.
+Class and interface method declarations remain controlled by the `methods` option.
 
 The default (Angular-friendly) configuration looks like this:
 
