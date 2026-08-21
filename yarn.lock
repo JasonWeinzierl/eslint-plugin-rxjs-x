@@ -2357,7 +2357,7 @@ __metadata:
     eslint-plugin-regexp: "npm:^3.1.1"
     eslint-plugin-unicorn: "npm:^64.0.0"
     fast-check: "npm:^4.9.0"
-    jsonc-eslint-parser: "npm:^3.1.0"
+    jsonc-eslint-parser: "npm:^3.3.0"
     markdownlint-cli2: "npm:~0.23.2"
     rxjs: "npm:^7.8.2"
     ts-api-utils: "npm:^2.5.0"
@@ -3149,14 +3149,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonc-eslint-parser@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "jsonc-eslint-parser@npm:3.1.0"
+"jsonc-eslint-parser@npm:^3.1.0, jsonc-eslint-parser@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "jsonc-eslint-parser@npm:3.3.0"
   dependencies:
     acorn: "npm:^8.5.0"
     eslint-visitor-keys: "npm:^5.0.0"
-    semver: "npm:^7.3.5"
-  checksum: 10c0/9af0aa3abf946f306ce823ccde33ab7d91cf215e1af26d33b2f65e9e230552bfa40aa93859b91aabf96738c66357a598cc7b2275ba99839ef4afd84edda3b11e
+    verkit: "npm:^0.3.2"
+  checksum: 10c0/705c3ddd3deb7e586ce45a26398a815c18a21a13b0d3d21ceb2493d31f7c814ea260594f42eaa72e2c2588ed35999a6dc8406a03b9e4ece60294bba7b5d68db0
   languageName: node
   linkType: hard
 
@@ -4932,6 +4932,13 @@ __metadata:
   version: 0.1.2
   resolution: "verkit@npm:0.1.2"
   checksum: 10c0/84d3978df9007326caf86dde354467189224c2864ae5d03111af7f112ca64a47d50f40a113f853284e4c90475b35dc4ccab47db2a3be7fe02fc1d81eca4361b6
+  languageName: node
+  linkType: hard
+
+"verkit@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "verkit@npm:0.3.2"
+  checksum: 10c0/2533d9cc4ee6514d7f0d07b035c56a1f3eedd3ec5c3a5b3df38af1f2e9412799476c250f51d034562ddeb36dea72d4530f840e7b80759bd9a527f31cc9aa54e7
   languageName: node
   linkType: hard
 
