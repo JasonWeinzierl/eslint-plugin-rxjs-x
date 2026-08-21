@@ -4,6 +4,13 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## [1.0.5](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/compare/v1.0.4...v1.0.5) (2026-08-21)
+
+
+### Fixes
+
+* **finnish:** skip function-valued variables when functions are disabled ([#524](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/524)) ([4492768](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/4492768c1fd55d200baa4b6e116fb4b37a445a4b))
+
 ## v1.0.4 (2026-07-28)
 
 ### Fixes
