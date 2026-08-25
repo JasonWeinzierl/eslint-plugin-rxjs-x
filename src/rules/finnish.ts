@@ -3,9 +3,7 @@ import {
   findParent,
   getLoc,
   getTypeServices,
-  isArrowFunctionExpression,
   isCallExpression,
-  isFunctionExpression,
   isTSAsExpression,
   isTSSatisfiesExpression,
   isVariableDeclarator,
@@ -40,7 +38,7 @@ export const finnishRule = ruleCreator({
     schema: [
       {
         properties: {
-          functions: { type: 'boolean', description: 'Require for functions.' },
+          functions: { type: 'boolean', description: 'Require for function-valued names.' },
           methods: { type: 'boolean', description: 'Require for methods.' },
           names: { type: 'object', description: 'Enforce for specific names. Keys are a RegExp, values are a boolean.' },
           parameters: { type: 'boolean', description: 'Require for parameters.' },
@@ -75,6 +73,7 @@ export const finnishRule = ruleCreator({
     const { esTreeNodeToTSNodeMap } = ESLintUtils.getParserServices(context);
     const {
       couldBeObservable,
+      couldBeFunction,
       couldBeType,
       couldReturnObservable,
       couldReturnType,
@@ -99,8 +98,24 @@ export const finnishRule = ruleCreator({
     function checkNode(
       nameNode: es.Node,
       typeNode?: es.Node,
-      shouldMessage: 'shouldBeFinnish' | 'shouldBeFinnishProperty' = 'shouldBeFinnish',
+      options: {
+        shouldMessage?: 'shouldBeFinnish' | 'shouldBeFinnishProperty';
+        honorFunctionsOption?: boolean;
+      } = {},
     ) {
+      const {
+        shouldMessage = 'shouldBeFinnish',
+        honorFunctionsOption = true,
+      } = options;
+
+      if (
+        honorFunctionsOption
+        && !config.functions
+        && couldBeFunction(nameNode)
+      ) {
+        return;
+      }
+
       const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
       const text = tsNode.getText();
       const hasFinnish = text.endsWith('$');
@@ -231,7 +246,7 @@ export const finnishRule = ruleCreator({
       ) => {
         if (!config.methods) return;
         if (node.override) return;
-        checkNode(node.key, node);
+        checkNode(node.key, node, { honorFunctionsOption: false });
       },
       'MethodDefinition[kind=\'set\'][computed=false]': (
         node: es.MethodDefinition,
@@ -248,7 +263,7 @@ export const finnishRule = ruleCreator({
         }
 
         if (config.methods && node.kind === 'method') {
-          checkNode(node.key, node);
+          checkNode(node.key, node, { honorFunctionsOption: false });
         }
 
         if (config.properties && (node.kind === 'get' || node.kind === 'set')) {
@@ -287,7 +302,7 @@ export const finnishRule = ruleCreator({
 
         const parent = node.parent as es.Property;
         if (node === parent.key) {
-          checkNode(node, undefined, 'shouldBeFinnishProperty');
+          checkNode(node, undefined, { shouldMessage: 'shouldBeFinnishProperty' });
         }
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
@@ -324,7 +339,7 @@ export const finnishRule = ruleCreator({
       },
       'TSMethodSignature[computed=false]': (node: es.TSMethodSignature) => {
         if (config.methods) {
-          checkNode(node.key, node);
+          checkNode(node.key, node, { honorFunctionsOption: false });
         }
         if (config.parameters) {
           for (const param of node.params) {
@@ -345,15 +360,6 @@ export const finnishRule = ruleCreator({
       'VariableDeclarator > Identifier': (node: es.Identifier) => {
         const parent = node.parent as es.VariableDeclarator;
         if (!config.variables || node !== parent.id) {
-          return;
-        }
-
-        if (
-          !config.functions
-          && parent.init
-          && (isArrowFunctionExpression(parent.init)
-            || isFunctionExpression(parent.init))
-        ) {
           return;
         }
 
