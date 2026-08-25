@@ -773,10 +773,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:^1.0.0, @types/estree@npm:^1.0.6, @types/estree@npm:^1.0.8":
-  version: 1.0.8
-  resolution: "@types/estree@npm:1.0.8"
-  checksum: 10c0/39d34d1afaa338ab9763f37ad6066e3f349444f9052b9676a7cc0252ef9485a41c6d81c9c4e0d26e9077993354edf25efc853f3224dd4b447175ef62bdcc86a5
+"@types/estree@npm:^1.0.0, @types/estree@npm:^1.0.6, @types/estree@npm:^1.0.8, @types/estree@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "@types/estree@npm:1.0.9"
+  checksum: 10c0/3ad3286ca2988cd550dafb8f2ad599c8474868e954fa601a36655bdfefd8039f7c714b8c1c7f2ae219ffbd58bd4660e66fa7479a0120fc02d4777057d4865387
   languageName: node
   linkType: hard
 
@@ -2310,20 +2310,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-regexp@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "eslint-plugin-regexp@npm:3.1.1"
+"eslint-plugin-regexp@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "eslint-plugin-regexp@npm:3.2.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.11.0"
     comment-parser: "npm:^1.4.0"
-    jsdoc-type-pratt-parser: "npm:^7.0.0"
+    jsdoc-type-pratt-parser: "npm:^9.0.0"
     refa: "npm:^0.12.1"
     regexp-ast-analysis: "npm:^0.7.1"
     scslre: "npm:^0.3.0"
   peerDependencies:
     eslint: ">=9.38.0"
-  checksum: 10c0/f7617c9daf13ce4ba9d23d6f419cb1c8926df8d178cee3535ade2109df9f7f2fb9df15d3997ba8c634f39067362d897eeba8c8524721eb9ef2f427473461e414
+  checksum: 10c0/f431c98075a7e1132b025dc0a02f7a6fc651f6091e2b00fc5bf8998ac58a6d7217e5a27f6c00da697d970082b2416657fd84c9b54bc676b955d6fd213097585a
   languageName: node
   linkType: hard
 
@@ -2354,7 +2354,7 @@ __metadata:
     eslint-plugin-n: "npm:^18.2.2"
     eslint-plugin-package-json: "npm:~1.3.0"
     eslint-plugin-perfectionist: "npm:^5.10.0"
-    eslint-plugin-regexp: "npm:^3.1.1"
+    eslint-plugin-regexp: "npm:^3.2.0"
     eslint-plugin-unicorn: "npm:^64.0.0"
     fast-check: "npm:^4.9.0"
     jsonc-eslint-parser: "npm:^3.3.0"
@@ -3091,10 +3091,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsdoc-type-pratt-parser@npm:^7.0.0":
-  version: 7.1.1
-  resolution: "jsdoc-type-pratt-parser@npm:7.1.1"
-  checksum: 10c0/5a5216a75962b3a8a3a1e7e09a19b31b5a373c06c726a00b081480daee00196250d4acc8dfbecc0a7846d439a5bcf4a326df6348b879cf95f60c62ce5818dadb
+"jsdoc-type-pratt-parser@npm:^9.0.0":
+  version: 9.1.2
+  resolution: "jsdoc-type-pratt-parser@npm:9.1.2"
+  dependencies:
+    "@types/estree": "npm:^1.0.9"
+  checksum: 10c0/fa9d23c502c7a7139d5b9c87482dabed8ff94ec15819c306f25b48046c4dc90d761a58366c92be9ae2d7b00306b90fd2e89b830dfe5d9b6ee27f1d2c77a9095d
   languageName: node
   linkType: hard
 
