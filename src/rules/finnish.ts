@@ -98,9 +98,16 @@ export const finnishRule = ruleCreator({
     function checkNode(
       nameNode: es.Node,
       typeNode?: es.Node,
-      shouldMessage: 'shouldBeFinnish' | 'shouldBeFinnishProperty' = 'shouldBeFinnish',
-      honorFunctionsOption = true,
+      options: {
+        shouldMessage?: 'shouldBeFinnish' | 'shouldBeFinnishProperty';
+        honorFunctionsOption?: boolean;
+      } = {},
     ) {
+      const {
+        shouldMessage = 'shouldBeFinnish',
+        honorFunctionsOption = true,
+      } = options;
+
       if (
         honorFunctionsOption
         && !config.functions
@@ -239,7 +246,7 @@ export const finnishRule = ruleCreator({
       ) => {
         if (!config.methods) return;
         if (node.override) return;
-        checkNode(node.key, node, 'shouldBeFinnish', false);
+        checkNode(node.key, node, { honorFunctionsOption: false });
       },
       'MethodDefinition[kind=\'set\'][computed=false]': (
         node: es.MethodDefinition,
@@ -256,7 +263,7 @@ export const finnishRule = ruleCreator({
         }
 
         if (config.methods && node.kind === 'method') {
-          checkNode(node.key, node, 'shouldBeFinnish', false);
+          checkNode(node.key, node, { honorFunctionsOption: false });
         }
 
         if (config.properties && (node.kind === 'get' || node.kind === 'set')) {
@@ -295,7 +302,7 @@ export const finnishRule = ruleCreator({
 
         const parent = node.parent as es.Property;
         if (node === parent.key) {
-          checkNode(node, undefined, 'shouldBeFinnishProperty');
+          checkNode(node, undefined, { shouldMessage: 'shouldBeFinnishProperty' });
         }
       },
       'ObjectPattern > Property > Identifier': (node: es.Identifier) => {
@@ -332,7 +339,7 @@ export const finnishRule = ruleCreator({
       },
       'TSMethodSignature[computed=false]': (node: es.TSMethodSignature) => {
         if (config.methods) {
-          checkNode(node.key, node, 'shouldBeFinnish', false);
+          checkNode(node.key, node, { honorFunctionsOption: false });
         }
         if (config.parameters) {
           for (const param of node.params) {
