@@ -60,7 +60,7 @@
     "@types/node": "~20.19.43",
     "@typescript-eslint/rule-tester": "^8.67.0",
     "@typescript/vfs": "^1.6.4",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "@vitest/eslint-plugin": "^1.6.27",
     "common-tags": "^1.8.2",
     "eslint": "^10.8.1",
@@ -82,7 +82,7 @@
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.67.0",
     "unrun": "~0.3.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "dependenciesMeta": {
     "unrs-resolver": {
