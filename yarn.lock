@@ -322,17 +322,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/compat@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@eslint/compat@npm:2.0.3"
+"@eslint/compat@npm:^2.1.0":
+  version: 2.1.1
+  resolution: "@eslint/compat@npm:2.1.1"
   dependencies:
-    "@eslint/core": "npm:^1.1.1"
+    "@eslint/core": "npm:^1.2.1"
   peerDependencies:
     eslint: ^8.40 || 9 || 10
   peerDependenciesMeta:
     eslint:
       optional: true
-  checksum: 10c0/e7b1a1bdf366759f9a7c3f09fe35cdd0f45208a6ca789be1357895869e546d0c3185ec92b29996141fdd1173103c3408a81ba2ecb86219bd15671ae65af6595b
+  checksum: 10c0/c1856c72e09a767b74c930c1dc17155c479f8b9dd73067d634408ab26318335736265d5d0feee0466c31d796846939cbf68707a045f46f3a02b7c3ad3a093fc4
   languageName: node
   linkType: hard
 
@@ -356,7 +356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/core@npm:^1.1.1, @eslint/core@npm:^1.2.1":
+"@eslint/core@npm:^1.2.1":
   version: 1.2.1
   resolution: "@eslint/core@npm:1.2.1"
   dependencies:
@@ -2080,14 +2080,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-flat-gitignore@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "eslint-config-flat-gitignore@npm:2.3.0"
+"eslint-config-flat-gitignore@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "eslint-config-flat-gitignore@npm:2.4.0"
   dependencies:
-    "@eslint/compat": "npm:^2.0.3"
+    "@eslint/compat": "npm:^2.1.0"
   peerDependencies:
     eslint: ^9.5.0 || ^10.0.0
-  checksum: 10c0/31aac4524c2bb9f4fb9532674570f93540f4c24e71a19a07898f9f418d7c5b245284105062faf185dbfd6f54eeddf64ad3b68a66651050d61315a9a17e8a1983
+  checksum: 10c0/d59e94c0d0755372c36aa422a5b3a3e8457496ba5907f00874318be73a9c7288cdb6e73b071f5ccdfea834ab8a5defae2194f859a1bdb4dc0bb9e521943ccf45
   languageName: node
   linkType: hard
 
@@ -2346,7 +2346,7 @@ __metadata:
     common-tags: "npm:^1.8.2"
     decamelize: "npm:^6.0.1"
     eslint: "npm:^10.8.1"
-    eslint-config-flat-gitignore: "npm:^2.3.0"
+    eslint-config-flat-gitignore: "npm:^2.4.0"
     eslint-doc-generator: "npm:^3.7.0"
     eslint-import-resolver-typescript: "npm:^4.4.5"
     eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch"
