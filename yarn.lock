@@ -2091,9 +2091,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-doc-generator@npm:^3.7.0":
-  version: 3.7.0
-  resolution: "eslint-doc-generator@npm:3.7.0"
+"eslint-doc-generator@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "eslint-doc-generator@npm:3.7.1"
   dependencies:
     "@typescript-eslint/utils": "npm:^8.63.0"
     ajv: "npm:^8.11.2"
@@ -2114,7 +2114,7 @@ __metadata:
     eslint: ">= 8.57.1"
   bin:
     eslint-doc-generator: dist/bin/eslint-doc-generator.js
-  checksum: 10c0/c3157be3ffd00bf494737c73bb2c68b91c9651c584a93c931afe7adbc817fddc074167fec6c998db5cea5da5b1b28be77802497d38d4ffee06753fcb4d38cd0c
+  checksum: 10c0/fd0ca1cb9b958d974f6ddcdc7672312144925b3aec5818b0e4fcddeff92c9d708e7c618b2521e6be8af17efb1e77e7ea5bb6ded62ffc2fb07336e688c5f29cef
   languageName: node
   linkType: hard
 
@@ -2347,7 +2347,7 @@ __metadata:
     decamelize: "npm:^6.0.1"
     eslint: "npm:^10.8.1"
     eslint-config-flat-gitignore: "npm:^2.3.0"
-    eslint-doc-generator: "npm:^3.7.0"
+    eslint-doc-generator: "npm:^3.7.1"
     eslint-import-resolver-typescript: "npm:^4.4.5"
     eslint-plugin-eslint-plugin: "patch:eslint-plugin-eslint-plugin@npm%3A7.3.1#~/.yarn/patches/eslint-plugin-eslint-plugin-npm-7.3.1-6b766f9a07.patch"
     eslint-plugin-import-x: "npm:^4.17.1"
