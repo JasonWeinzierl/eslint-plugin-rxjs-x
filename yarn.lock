@@ -394,14 +394,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fast-check/vitest@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@fast-check/vitest@npm:0.4.1"
+"@fast-check/vitest@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@fast-check/vitest@npm:0.5.0"
   dependencies:
     fast-check: "npm:^3.0.0 || ^4.0.0"
   peerDependencies:
-    vitest: ^4.1.0
-  checksum: 10c0/c558f443cbf79cfc18f81372d21129021a13e5d821b57876449d3cac254638ddc5c9736b687fc82dc78f53cf1d948a68787aff7f0d1700704168e1805af088d2
+    vitest: ^4.1.0 || ^5.0.0
+  checksum: 10c0/f7cfe2c67501fb2d3c10421f7297e80c66ed97224aa32c14b7c4739db0c96aded9c744b3e3ab338e13184e69c470bac90f05657862dc37a90ecef58ffda99124
   languageName: node
   linkType: hard
 
@@ -2334,7 +2334,7 @@ __metadata:
     "@commitlint/cli": "npm:^21.2.2"
     "@commitlint/config-conventional": "npm:^21.2.2"
     "@eslint/js": "npm:^10.0.1"
-    "@fast-check/vitest": "npm:^0.4.1"
+    "@fast-check/vitest": "npm:^0.5.0"
     "@stylistic/eslint-plugin": "npm:^5.10.0"
     "@types/common-tags": "npm:^1.8.4"
     "@types/node": "npm:~20.19.43"
