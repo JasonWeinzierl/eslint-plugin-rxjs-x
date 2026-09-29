@@ -25,7 +25,6 @@ jobs:
     permissions:
       contents: read
       id-token: write # Required for OIDC
-      pull-requests: write
 
     steps:
       - name: Checkout
@@ -70,6 +69,13 @@ jobs:
       - name: Trusted Publish with Provenance
         run: npm publish
 
+  update-release-pr:
+    name: Update Release PR
+    needs: publish
+    runs-on: ubuntu-slim
+    permissions:
+      pull-requests: write # for labeling/commenting PRs
+    steps:
       - name: Update Release PR Label
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
