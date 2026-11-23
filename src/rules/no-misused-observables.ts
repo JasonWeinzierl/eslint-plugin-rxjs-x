@@ -155,6 +155,10 @@ export const noMisusedObservablesRule = ruleCreator({
     };
 
     function checkArguments(node: es.CallExpression | es.NewExpression): void {
+      if (node.arguments.length === 0) {
+        return;
+      }
+
       const tsNode = esTreeNodeToTSNodeMap.get(node);
       const voidArgs = voidFunctionArguments(checker, tsNode);
       if (!voidArgs.size) {
