@@ -5,9 +5,6 @@ import ts from 'typescript';
 import {
   getTypeServices,
   isAccessorProperty,
-  isArrowFunctionExpression,
-  isFunctionDeclaration,
-  isFunctionExpression,
   isJSXExpressionContainer,
   isMethodDefinition,
   isPropertyDefinition,
@@ -289,22 +286,21 @@ export const noMisusedObservablesRule = ruleCreator({
       }
 
       // Optimization to avoid touching type info.
-      function getFunctionNode() {
+      const functionNode = (() => {
         let current: es.Node | undefined = node.parent;
-        while (
-          current
-          && !isArrowFunctionExpression(current)
-          && !isFunctionExpression(current)
-          && !isFunctionDeclaration(current)
-        ) {
+        while (current && !isFunction(current)) {
           current = current.parent;
         }
         return current;
+      })();
+
+      // A top-level return in CommonJS has no enclosing function signature.
+      if (!functionNode) {
+        return;
       }
-      const functionNode = getFunctionNode();
 
       if (
-        functionNode?.returnType
+        functionNode.returnType
         && !isPossiblyFunctionType(functionNode.returnType)
       ) {
         return;
