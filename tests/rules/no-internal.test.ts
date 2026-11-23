@@ -186,22 +186,58 @@ ruleTester({ types: false }).run('no-internal', noInternalRule, {
     fromFixture(
       'internal operator',
       stripIndent`
-        import { map } from "rxjs/internal/operators/map";
-                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden suggest]
+        import { map as project } from "rxjs/internal/operators/map";
+                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden suggest]
       `,
       {
         output: stripIndent`
-          import { map } from "rxjs/operators";
+          import { map as project } from "rxjs/operators";
         `,
         suggestions: [
           {
             messageId: 'suggest',
             output: stripIndent`
-              import { map } from "rxjs/operators";
+              import { map as project } from "rxjs/operators";
             `,
           },
         ],
       },
+    ),
+    fromFixture(
+      'private and root-only operator exports',
+      stripIndent`
+        import { OperatorSubscriber } from "rxjs/internal/operators/OperatorSubscriber";
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+        import { TimeoutError } from "rxjs/internal/operators/timeout";
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+        import { onErrorResumeNextWith } from "rxjs/internal/operators/onErrorResumeNextWith";
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      'mixed public and root-only operator exports',
+      stripIndent`
+        import { timeout, TimeoutError } from "rxjs/internal/operators/timeout";
+                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      'public name from an unrelated module',
+      stripIndent`
+        import { map } from "rxjs/internal/operators/filter";
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
+    ),
+    fromFixture(
+      'operator imports without named specifiers',
+      stripIndent`
+        import * as operators from "rxjs/internal/operators/map";
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+        import operator from "rxjs/internal/operators/map";
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+        import "rxjs/internal/operators/map";
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [forbidden]
+      `,
     ),
     fromFixture(
       'internal scheduled',

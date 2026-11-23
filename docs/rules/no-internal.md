@@ -22,6 +22,11 @@ Examples of **correct** code for this rule:
 import { of } from "rxjs";
 ```
 
+For imports under `rxjs/internal/operators/`, an autofix or editor suggestion is
+available only when every named import is a known re-export of that same module
+from `rxjs/operators`. Other imports from these modules are still reported,
+but are left unchanged.
+
 ## When Not To Use It
 
 If you need to import internal modules that are not covered by the public API,
