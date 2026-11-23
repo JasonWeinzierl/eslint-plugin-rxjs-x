@@ -289,6 +289,16 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         }
       `,
     },
+    {
+      name: 'void return return value; no enclosing function in CommonJS',
+      code: stripIndent`
+        import { of } from "rxjs";
+
+        {
+          return () => of(42);
+        }
+      `,
+    },
     // #endregion valid; void return return value
     // #region valid; void return variable
     {
