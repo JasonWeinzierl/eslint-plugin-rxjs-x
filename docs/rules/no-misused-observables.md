@@ -80,6 +80,8 @@ You can disable selective parts of the `checksVoidReturn` option. The following 
 | `returns`          | Disallow returning an Observable-returning function where a function that returns `void` is expected.                                    | Boolean | `true`  |
 | `variables`        | Disallow assigning or declaring an Observable-returning function where a function that returns `void` is expected.                       | Boolean | `true`  |
 
+The `arguments` check also applies to callbacks passed to array and tuple rest parameters.
+
 ## When Not To Use It
 
 Like `@typescript-eslint/no-misused-promises`,

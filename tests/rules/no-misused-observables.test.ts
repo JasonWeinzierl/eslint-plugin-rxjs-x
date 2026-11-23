@@ -61,6 +61,13 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         observableFirst(() => of(42));
       `,
     },
+    {
+      name: 'void return argument; optional rest tuple element omitted',
+      code: stripIndent`
+        declare function tuple(...args: [string, (() => void)?]): void;
+        tuple("label");
+      `,
+    },
     // #endregion valid; void return argument
     // #region valid; void return attribute
     {
@@ -422,6 +429,26 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         }
         new Foo(() => of(42));
                 ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      'void return argument; array rest parameter',
+      stripIndent`
+        import { of } from "rxjs";
+
+        declare function run(label: string, ...callbacks: (() => void)[]): void;
+        run("label", () => 42, () => of(42));
+                               ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      'void return argument; tuple rest parameter',
+      stripIndent`
+        import { of } from "rxjs";
+
+        declare function run(...args: [string, () => void]): void;
+        run("label", () => of(42));
+                     ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
       `,
     ),
     // #endregion invalid; void return argument
