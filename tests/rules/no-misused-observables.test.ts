@@ -298,7 +298,6 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
           return () => of(42);
         }
       `,
-      languageOptions: { sourceType: 'commonjs' },
     },
     // #endregion valid; void return return value
     // #region valid; void return variable
