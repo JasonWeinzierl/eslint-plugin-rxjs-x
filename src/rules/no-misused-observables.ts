@@ -385,9 +385,12 @@ function voidFunctionArguments(
     return new Set<number>();
   }
 
+  const observableReturnIndices = new Set<number>();
   const voidReturnIndices = new Set<number>();
   const type = checker.getTypeAtLocation(tsNode.expression);
 
+  // The resolved signature can prefer a void callback over a later Observable callback.
+  // See https://github.com/microsoft/TypeScript/issues/48077
   for (const subType of tsutils.unionConstituents(type)) {
     const signatures = ts.isCallExpression(tsNode)
       ? subType.getCallSignatures()
@@ -395,14 +398,37 @@ function voidFunctionArguments(
     for (const signature of signatures) {
       for (const [index, parameter] of signature.parameters.entries()) {
         const type = checker.getTypeOfSymbolAtLocation(parameter, tsNode.expression);
-        if (isVoidReturningFunctionType(type)) {
-          voidReturnIndices.add(index);
-        }
+        checkObservableOrVoidArgument(type, index, observableReturnIndices, voidReturnIndices);
       }
     }
   }
 
+  for (const index of observableReturnIndices) {
+    voidReturnIndices.delete(index);
+  }
+
   return voidReturnIndices;
+}
+
+function checkObservableOrVoidArgument(
+  type: ts.Type,
+  index: number,
+  observableReturnIndices: Set<number>,
+  voidReturnIndices: Set<number>,
+): void {
+  if (isObservableReturningFunctionType(type)) {
+    observableReturnIndices.add(index);
+  } else if (isVoidReturningFunctionType(type) && !observableReturnIndices.has(index)) {
+    voidReturnIndices.add(index);
+  }
+}
+
+function isObservableReturningFunctionType(type: ts.Type): boolean {
+  return tsutils.unionConstituents(type).some(subType =>
+    subType.getCallSignatures().some(signature =>
+      tsutilsEtcCouldBeType(signature.getReturnType(), 'Observable'),
+    ),
+  );
 }
 
 function isVoidReturningFunctionType(

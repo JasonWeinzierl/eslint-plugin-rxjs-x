@@ -46,6 +46,21 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         new Foo;
       `,
     },
+    {
+      name: 'void return argument; Observable-returning overload in either order',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
+
+        declare function voidFirst(callback: () => void): void;
+        declare function voidFirst(callback: () => Observable<number>): void;
+
+        declare function observableFirst(callback: () => Observable<number>): void;
+        declare function observableFirst(callback: () => void): void;
+
+        voidFirst(() => of(42));
+        observableFirst(() => of(42));
+      `,
+    },
     // #endregion valid; void return argument
     // #region valid; void return attribute
     {
