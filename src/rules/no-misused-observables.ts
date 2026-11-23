@@ -397,8 +397,27 @@ function voidFunctionArguments(
       : subType.getConstructSignatures();
     for (const signature of signatures) {
       for (const [index, parameter] of signature.parameters.entries()) {
+        const declaration = parameter.valueDeclaration;
         const type = checker.getTypeOfSymbolAtLocation(parameter, tsNode.expression);
-        checkObservableOrVoidArgument(type, index, observableReturnIndices, voidReturnIndices);
+
+        if (declaration && ts.isParameter(declaration) && declaration.dotDotDotToken) {
+          if (!tsutils.isTypeReference(type)) {
+            continue;
+          }
+          if (checker.isArrayType(type)) {
+            const [elementType] = checker.getTypeArguments(type);
+            for (let i = index; i < tsNode.arguments.length; i++) {
+              checkObservableOrVoidArgument(elementType, i, observableReturnIndices, voidReturnIndices);
+            }
+          } else if (checker.isTupleType(type)) {
+            const typeArgs = checker.getTypeArguments(type);
+            for (let i = index; i < tsNode.arguments.length && i - index < typeArgs.length; i++) {
+              checkObservableOrVoidArgument(typeArgs[i - index], i, observableReturnIndices, voidReturnIndices);
+            }
+          }
+        } else {
+          checkObservableOrVoidArgument(type, index, observableReturnIndices, voidReturnIndices);
+        }
       }
     }
   }
