@@ -449,7 +449,8 @@ function checkObservableOrVoidArgument(
     voidReturnIndices.add(index);
   }
 
-  const contextualType = checker.getContextualTypeForArgumentAtIndex(node, index);
+  const argument = node.arguments?.[index];
+  const contextualType = argument && checker.getContextualType(argument);
   if (contextualType != null && contextualType !== type) {
     checkObservableOrVoidArgument(
       checker, node, contextualType, index, observableReturnIndices, voidReturnIndices,
