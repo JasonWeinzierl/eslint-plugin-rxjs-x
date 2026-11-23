@@ -4,6 +4,17 @@
 
 [npm history](https://www.npmjs.com/package/eslint-plugin-rxjs-x?activeTab=versions)
 
+## [1.0.7](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/compare/v1.0.6...v1.0.7) (2026-11-23)
+
+
+### Fixes
+
+* **no-misused-observables:** check contextual type ([#565](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/565)) ([6fe7b58](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/6fe7b58e9fd846ae29b837b07da87cea3aa5f54d))
+* **no-misused-observables:** check rest parameters ([#564](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/564)) ([f90c930](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f90c930a754cb8139acaef292b4cc4e45d6a2269))
+* **no-misused-observables:** factor Observable-returning function overload signatures ([#563](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/563)) ([304c126](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/304c126e6ad9ee4422ac2c908f6d610c1d8bc444))
+* **no-misused-observables:** handle a return outside of any function ([#566](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/566)) ([83eb961](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/83eb961c2df4a42d6393f31f6c230e50339ac54b))
+* **no-misused-observables:** skip argument checks for calls without arguments ([#567](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/issues/567)) ([f6aca34](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/commit/f6aca342c5909287849c36ead3bb4a7fb0649885))
+
 ## [1.0.6](https://github.com/JasonWeinzierl/eslint-plugin-rxjs-x/compare/v1.0.5...v1.0.6) (2026-08-25)
 
 
