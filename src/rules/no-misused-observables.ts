@@ -407,16 +407,22 @@ function voidFunctionArguments(
           if (checker.isArrayType(type)) {
             const [elementType] = checker.getTypeArguments(type);
             for (let i = index; i < tsNode.arguments.length; i++) {
-              checkObservableOrVoidArgument(elementType, i, observableReturnIndices, voidReturnIndices);
+              checkObservableOrVoidArgument(
+                checker, tsNode, elementType, i, observableReturnIndices, voidReturnIndices,
+              );
             }
           } else if (checker.isTupleType(type)) {
             const typeArgs = checker.getTypeArguments(type);
             for (let i = index; i < tsNode.arguments.length && i - index < typeArgs.length; i++) {
-              checkObservableOrVoidArgument(typeArgs[i - index], i, observableReturnIndices, voidReturnIndices);
+              checkObservableOrVoidArgument(
+                checker, tsNode, typeArgs[i - index], i, observableReturnIndices, voidReturnIndices,
+              );
             }
           }
         } else {
-          checkObservableOrVoidArgument(type, index, observableReturnIndices, voidReturnIndices);
+          checkObservableOrVoidArgument(
+            checker, tsNode, type, index, observableReturnIndices, voidReturnIndices,
+          );
         }
       }
     }
@@ -430,6 +436,8 @@ function voidFunctionArguments(
 }
 
 function checkObservableOrVoidArgument(
+  checker: ts.TypeChecker,
+  node: ts.CallExpression | ts.NewExpression,
   type: ts.Type,
   index: number,
   observableReturnIndices: Set<number>,
@@ -439,6 +447,13 @@ function checkObservableOrVoidArgument(
     observableReturnIndices.add(index);
   } else if (isVoidReturningFunctionType(type) && !observableReturnIndices.has(index)) {
     voidReturnIndices.add(index);
+  }
+
+  const contextualType = checker.getContextualTypeForArgumentAtIndex(node, index);
+  if (contextualType != null && contextualType !== type) {
+    checkObservableOrVoidArgument(
+      checker, node, contextualType, index, observableReturnIndices, voidReturnIndices,
+    );
   }
 }
 

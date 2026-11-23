@@ -68,6 +68,15 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         tuple("label");
       `,
     },
+    {
+      name: 'void return argument; contextual type accepts an Observable-returning function',
+      code: stripIndent`
+        import { Observable, of } from "rxjs";
+
+        declare function useCallback<T extends () => unknown>(callback: T): T;
+        useCallback<(() => void) | (() => Observable<number>)>(() => of(42));
+      `,
+    },
     // #endregion valid; void return argument
     // #region valid; void return attribute
     {
@@ -449,6 +458,31 @@ ruleTester({ types: true }).run('no-misused-observables', noMisusedObservablesRu
         declare function run(...args: [string, () => void]): void;
         run("label", () => of(42));
                      ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      'void return argument; contextual type of a generic callback',
+      stripIndent`
+        import { of } from "rxjs";
+
+        declare function useCallback<T extends () => unknown>(callback: T): T;
+        useCallback<() => void>(() => of(42));
+                                ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+      `,
+    ),
+    fromFixture(
+      'void return argument; contextual type of generic rest callbacks',
+      stripIndent`
+        import { of } from "rxjs";
+
+        declare function run<T extends () => unknown>(...callbacks: (T | string)[]): void;
+        run<() => void>(
+          () => of(42),
+          ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+          "label",
+          () => of(42),
+          ~~~~~~~~~~~~ [forbiddenVoidReturnArgument]
+        );
       `,
     ),
     // #endregion invalid; void return argument
