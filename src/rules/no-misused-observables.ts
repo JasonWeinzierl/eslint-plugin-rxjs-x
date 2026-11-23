@@ -401,6 +401,9 @@ function voidFunctionArguments(
         const type = checker.getTypeOfSymbolAtLocation(parameter, tsNode.expression);
 
         if (declaration && ts.isParameter(declaration) && declaration.dotDotDotToken) {
+          if (!tsutils.isTypeReference(type)) {
+            continue;
+          }
           if (checker.isArrayType(type)) {
             const [elementType] = checker.getTypeArguments(type);
             for (let i = index; i < tsNode.arguments.length; i++) {
