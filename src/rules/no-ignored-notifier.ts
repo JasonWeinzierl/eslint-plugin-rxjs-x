@@ -32,8 +32,7 @@ export const noIgnoredNotifierRule = ruleCreator({
     const entries: Entry[] = [];
 
     function getEntry() {
-      const { length, [length - 1]: entry } = entries;
-      return entry;
+      return entries.at(-1);
     }
 
     return {
@@ -43,20 +42,22 @@ export const noIgnoredNotifierRule = ruleCreator({
         if (!couldBeMonoTypeOperatorFunction(node)) return;
 
         const [arg] = node.arguments;
-        if (isArrowFunctionExpression(arg) || isFunctionExpression(arg)) {
-          const [param] = arg.params as es.Identifier[];
-          if (param) {
-            entries.push({
-              node,
-              param,
-              sightings: 0,
-            });
-          } else {
-            context.report({
-              messageId: 'forbidden',
-              node: node.callee,
-            });
-          }
+        if (!isArrowFunctionExpression(arg) && !isFunctionExpression(arg)) {
+          return;
+        }
+
+        const [param] = arg.params as es.Identifier[];
+        if (param) {
+          entries.push({
+            node,
+            param,
+            sightings: 0,
+          });
+        } else {
+          context.report({
+            messageId: 'forbidden',
+            node: node.callee,
+          });
         }
       },
       'CallExpression[callee.name=/^(repeatWhen|retryWhen)$/]:exit': (
@@ -66,15 +67,17 @@ export const noIgnoredNotifierRule = ruleCreator({
         if (!entry) {
           return;
         }
-        if (entry.node === node) {
-          if (entry.sightings < 2) {
-            context.report({
-              messageId: 'forbidden',
-              node: node.callee,
-            });
-          }
-          entries.pop();
+        if (entry.node !== node) {
+          return;
         }
+
+        if (entry.sightings < 2) {
+          context.report({
+            messageId: 'forbidden',
+            node: node.callee,
+          });
+        }
+        entries.pop();
       },
       'Identifier': (node: es.Identifier) => {
         const entry = getEntry();

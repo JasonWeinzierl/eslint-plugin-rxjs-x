@@ -44,10 +44,8 @@ export const noExplicitGenericsRule = ruleCreator({
 
     function checkBehaviorSubjects(node: es.Node) {
       const parent = node.parent as es.NewExpression;
-      const {
-        arguments: [value],
-      } = parent;
 
+      const value = parent.arguments[0];
       const typeArgs = parent.typeArguments?.params[0];
 
       if (isArrayExpression(value) || isObjectExpression(value) || isUnion(typeArgs)) {
@@ -59,10 +57,8 @@ export const noExplicitGenericsRule = ruleCreator({
 
     function checkNotifications(node: es.Node) {
       const parent = node.parent as es.NewExpression;
-      const {
-        arguments: [, value],
-      } = parent;
 
+      const value = parent.arguments[1];
       const typeArgs = parent.typeArguments?.params[0];
 
       if (isArrayExpression(value) || isObjectExpression(value) || isUnion(typeArgs)) {

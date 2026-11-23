@@ -35,14 +35,16 @@ export const noSubjectUnsubscribeRule = ruleCreator({
         node: es.CallExpression,
       ) => {
         const memberExpression = node.callee as es.MemberExpression;
-        if (couldBeSubscription(memberExpression.object)) {
-          const [arg] = node.arguments;
-          if (couldBeSubject(arg)) {
-            context.report({
-              messageId: 'forbidden',
-              node: arg,
-            });
-          }
+        if (!couldBeSubscription(memberExpression.object)) {
+          return;
+        }
+
+        const [arg] = node.arguments;
+        if (couldBeSubject(arg)) {
+          context.report({
+            messageId: 'forbidden',
+            node: arg,
+          });
         }
       },
     };

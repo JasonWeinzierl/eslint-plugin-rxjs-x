@@ -11,11 +11,11 @@ export function findIsLastOperatorOrderValid(pipeCallExpression: es.CallExpressi
   let operatorNode: es.Node | undefined;
 
   for (let i = pipeCallExpression.arguments.length - 1; i >= 0; i--) {
-    const arg = pipeCallExpression.arguments[i];
-
     if (operatorNode) {
       break;
     }
+
+    const arg = pipeCallExpression.arguments[i];
 
     if (!isCallExpression(arg)) {
       isOrderValid = false;
@@ -42,7 +42,6 @@ export function findIsLastOperatorOrderValid(pipeCallExpression: es.CallExpressi
 
     if (!allow.includes(operatorName)) {
       isOrderValid = false;
-      continue;
     }
   }
 

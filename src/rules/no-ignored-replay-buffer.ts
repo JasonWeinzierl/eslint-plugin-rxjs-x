@@ -46,11 +46,12 @@ export const noIgnoredReplayBufferRule = ruleCreator({
         });
       }
 
-      if (node.name === 'shareReplay' && args?.length === 1) {
-        const [arg] = args;
-        if (isObjectExpression(arg)) {
-          checkShareReplayConfig(node, arg);
-        }
+      if (node.name !== 'shareReplay' || args?.length !== 1) {
+        return;
+      }
+      const [arg] = args;
+      if (isObjectExpression(arg)) {
+        checkShareReplayConfig(node, arg);
       }
     }
 
