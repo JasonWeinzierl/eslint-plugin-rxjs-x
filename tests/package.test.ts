@@ -74,11 +74,7 @@ describe('package', () => {
       // Strict configuration always includes all recommended rules.
       // Not allowed to specify non-default options since rule only specifies a configuration name.
       expect(rxjsX.configs.strict.rules).toHaveProperty(fullRuleName, expect.any(String));
-    } else if (typeof ruleRec !== 'object' || !('strict' in ruleRec && Array.isArray(ruleRec.strict))) {
-      // Rule has invalid recommended configuration.
-      expect.assertions(1);
-      expect.fail(`Unexpected type for 'rule.meta.docs.recommended': '${typeof ruleRec}'.`);
-    } else {
+    } else if (typeof ruleRec === 'object' && 'strict' in ruleRec && Array.isArray(ruleRec.strict)) {
       // Rule specifies non-default options for strict.
       expect.assertions(2);
       if ('recommended' in ruleRec) {
@@ -87,6 +83,10 @@ describe('package', () => {
         expect(rxjsX.configs.recommended.rules).not.toHaveProperty(fullRuleName);
       }
       expect(rxjsX.configs.strict.rules).toHaveProperty(fullRuleName, [expect.any(String), ruleRec.strict[0]]);
+    } else {
+      // Rule has invalid recommended configuration.
+      expect.assertions(1);
+      expect.fail(`Unexpected type for 'rule.meta.docs.recommended': '${typeof ruleRec}'.`);
     }
   });
 });

@@ -23,9 +23,9 @@ export const noFinnishRule = ruleCreator({
     const { couldBeObservable, couldReturnObservable }
       = getTypeServices(context);
 
-    function checkNode(nameNode: es.Node, typeNode?: es.Node) {
-      if (!couldBeObservable(typeNode ?? nameNode)
-        && !couldReturnObservable(typeNode ?? nameNode)) {
+    function checkNode(nameNode: es.Node, typeNode: es.Node = nameNode) {
+      if (!couldBeObservable(typeNode)
+        && !couldReturnObservable(typeNode)) {
         return;
       }
 

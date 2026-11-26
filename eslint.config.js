@@ -55,6 +55,8 @@ export default defineConfig(gitignore(), {
     'import-x/no-useless-path-segments': 'warn',
     'import-x/newline-after-import': 'warn',
     'import-x/no-empty-named-blocks': 'warn',
+
+    'unicorn/prefer-ternary': 'off',
   },
 }, {
   files: [

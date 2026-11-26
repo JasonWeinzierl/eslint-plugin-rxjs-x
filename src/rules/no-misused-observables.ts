@@ -391,10 +391,10 @@ function voidFunctionArguments(
 
   // The resolved signature can prefer a void callback over a later Observable callback.
   // See https://github.com/microsoft/TypeScript/issues/48077
-  for (const subType of tsutils.unionConstituents(type)) {
+  for (const subtype of tsutils.unionConstituents(type)) {
     const signatures = ts.isCallExpression(tsNode)
-      ? subType.getCallSignatures()
-      : subType.getConstructSignatures();
+      ? subtype.getCallSignatures()
+      : subtype.getConstructSignatures();
     for (const signature of signatures) {
       for (const [index, parameter] of signature.parameters.entries()) {
         const declaration = parameter.valueDeclaration;
@@ -459,8 +459,8 @@ function checkObservableOrVoidArgument(
 }
 
 function isObservableReturningFunctionType(type: ts.Type): boolean {
-  return tsutils.unionConstituents(type).some(subType =>
-    subType.getCallSignatures().some(signature =>
+  return tsutils.unionConstituents(type).some(subtype =>
+    subtype.getCallSignatures().some(signature =>
       tsutilsEtcCouldBeType(signature.getReturnType(), 'Observable'),
     ),
   );
@@ -471,8 +471,8 @@ function isVoidReturningFunctionType(
 ): boolean {
   let hasVoidReturn = false;
 
-  for (const subType of tsutils.unionConstituents(type)) {
-    for (const signature of subType.getCallSignatures()) {
+  for (const subtype of tsutils.unionConstituents(type)) {
+    for (const signature of subtype.getCallSignatures()) {
       const returnType = signature.getReturnType();
 
       // If a certain positional argument accepts both Observable and void returns,

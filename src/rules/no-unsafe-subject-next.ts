@@ -37,30 +37,32 @@ export const noUnsafeSubjectNext = ruleCreator({
         }
 
         const type = getTypeAtLocation(node.callee.object);
-        if (tsutils.isTypeReference(type) && couldBeType(type, 'Subject')) {
-          const [typeArg] = typeChecker.getTypeArguments(type);
-          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
-            return;
-          }
-          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Unknown)) {
-            return;
-          }
-          if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Void)) {
-            return;
-          }
-          if (
-            tsutils.isUnionType(typeArg)
-            && typeArg.types.some((t) =>
-              tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
-            )
-          ) {
-            return;
-          }
-          context.report({
-            messageId: 'forbidden',
-            node: node.callee.property,
-          });
+        if (!tsutils.isTypeReference(type) || !couldBeType(type, 'Subject')) {
+          return;
         }
+
+        const [typeArg] = typeChecker.getTypeArguments(type);
+        if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Any)) {
+          return;
+        }
+        if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Unknown)) {
+          return;
+        }
+        if (tsutils.isTypeFlagSet(typeArg, ts.TypeFlags.Void)) {
+          return;
+        }
+        if (
+          tsutils.isUnionType(typeArg)
+          && typeArg.types.some((t) =>
+            tsutils.isTypeFlagSet(t, ts.TypeFlags.Void),
+          )
+        ) {
+          return;
+        }
+        context.report({
+          messageId: 'forbidden',
+          node: node.callee.property,
+        });
       },
     };
   },

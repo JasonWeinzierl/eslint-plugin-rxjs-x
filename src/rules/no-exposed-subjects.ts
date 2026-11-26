@@ -107,16 +107,17 @@ export const noExposedSubjectsRule = ruleCreator({
           const functionExpression = node.value;
           const typeAnnotation = functionExpression.returnType?.typeAnnotation;
 
-          if ((typeAnnotation && isSubject(typeAnnotation)) || isReturningSubject(functionExpression)) {
-            const key = node.key as es.Identifier;
-            context.report({
-              messageId,
-              node: key,
-              data: {
-                subject: key.name,
-              },
-            });
+          if (!(typeAnnotation && isSubject(typeAnnotation)) && !isReturningSubject(functionExpression)) {
+            return;
           }
+          const key = node.key as es.Identifier;
+          context.report({
+            messageId,
+            node: key,
+            data: {
+              subject: key.name,
+            },
+          });
         },
     };
   },

@@ -56,17 +56,19 @@ export const noRedundantNotifyRule = ruleCreator({
             return;
           }
           const { expression } = node;
-          if (isCallExpression(expression)) {
-            const { callee } = expression;
-            if (isMemberExpression(callee)) {
-              const { property } = callee;
-              if (isIdentifier(property)) {
-                context.report({
-                  messageId: 'forbidden',
-                  node: property,
-                });
-              }
-            }
+          if (!isCallExpression(expression)) {
+            return;
+          }
+          const { callee } = expression;
+          if (!isMemberExpression(callee)) {
+            return;
+          }
+          const { property } = callee;
+          if (isIdentifier(property)) {
+            context.report({
+              messageId: 'forbidden',
+              node: property,
+            });
           }
         },
     };

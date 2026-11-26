@@ -62,7 +62,7 @@ function getSuggestions<TMessageIds extends string>(
   return {
     suggestions: indices
       .split(/\s+/)
-      .map((index) => suggestions[Number.parseInt(index, 10)]),
+      .map((index) => suggestions[Math.trunc(Number(index))]),
   } as const;
 }
 

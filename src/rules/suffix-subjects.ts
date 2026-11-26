@@ -83,21 +83,23 @@ export const suffixSubjectsRule = ruleCreator({
       const tsNode = esTreeNodeToTSNodeMap.get(nameNode);
       const text = tsNode.getText();
       if (
-        !suffixRegex.test(text)
-        && couldBeType(typeNode ?? nameNode, 'Subject')
+        suffixRegex.test(text)
+        || !couldBeType(typeNode ?? nameNode, 'Subject')
       ) {
-        for (const type of types) {
-          const { regExp, validate } = type;
-          if (couldBeType(typeNode ?? nameNode, regExp) && !validate) {
-            return;
-          }
-        }
-        context.report({
-          data: { suffix },
-          loc: getLoc(tsNode),
-          messageId: shouldMessage,
-        });
+        return;
       }
+
+      for (const type of types) {
+        const { regExp, validate } = type;
+        if (couldBeType(typeNode ?? nameNode, regExp) && !validate) {
+          return;
+        }
+      }
+      context.report({
+        data: { suffix },
+        loc: getLoc(tsNode),
+        messageId: shouldMessage,
+      });
     }
 
     return {
